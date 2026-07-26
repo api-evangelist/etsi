@@ -1,0 +1,104 @@
+components:
+  parameters:
+    Version:
+      name: Version
+      description: >
+        Version of the API requested to use when responding to this request.
+      in: header
+      required: true
+      schema:
+        type: string
+
+    Accept:
+      name: Accept
+      description: >
+        Content-Types that are acceptable for the response. Reference: IETF RFC 7231.
+      in: header
+      required: true
+      schema:
+        type: string
+
+    Authorization:
+      name: Authorization
+      description: >
+        The authorization token for the request. Reference: IETF RFC 7235.
+      in: header
+      required: false
+      schema:
+        type: string
+
+    ContentType:
+      name: Content-Type
+      description: |
+        The MIME type of the body of the request. Reference: IETF RFC 7231
+      in: header
+      required: true
+      schema:
+        type: string
+
+    all_fields_vnfm:
+      name: all_fields
+      description: >
+        Include all complex attributes in the response. See clause 5.3 of ETSI
+        GS NFV-SOL 013 [6] for details. The VNFM shall support this parameter.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    fields_vnfm:
+      name: fields
+      description: >
+        Complex attributes to be included into the response. See clause 5.3 of ETSI
+        GS NFV-SOL 013 [6] for details. The VNFM should support this parameter.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    exclude_fields_vnfm:
+      name: exclude_fields
+      description: >
+        Complex attributes to be excluded from the response. See clause 5.3 of ETSI
+        GS NFV-SOL 013 [6] for details. The VNFM should support this parameter.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    nextpage_opaque_marker_vnfm:
+      name: nextpage_opaque_marker
+      description: >
+        Marker to obtain the next page of a paged response. Shall be supported by the
+        VNFM if the VNFM supports alternative 2 (paging) according to clause 5.4.2.1 of
+        ETSI GS NFV-SOL 013 [6] for this resource.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    If-Unmodified-Since:
+      name: If-Unmodified-Since
+      description: >
+        Used to make the request method   conditional on the selected resource representation's last modification date being
+        earlier than or equal to the date provided in the field-value. If the condition is not met, the request fails with a
+        "412 Precondition Failed" response.
+      required: false
+      in: header
+      schema:
+        type: string
+        format: date-time
+
+    If-Match:
+      name: If-Match
+      description: >
+        Used to make the request method conditional on the recipient origin server either having at least one current representation
+        of the target resource, when the field-value is "*", or having a current representation of the target resource that has an
+        entity-tag matching a member of the list of entity-tags provided in the field-value. If the condition is not met, the request
+        fails with a "412 Precondition Failed" response.
+      required: false
+      in: header
+      schema:
+        type: string
+
+

@@ -1,0 +1,420 @@
+definitions:
+  schemas:
+    Link:
+      description: >
+        This type represents a link to a resource using an absolute URI.
+      type: object
+      required:
+        - href
+      properties:
+        href:
+          description: >
+            URI of another resource referenced from a resource.
+            Shall be an absolute URI (i.e. a UTI that contains {apiRoot}).
+          $ref: "#/definitions/schemas/Uri"
+
+    NotificationLink:
+      description: >
+        This type represents a link to a resource in a notification, using an absolute or relative URI.
+      type: object
+      required:
+        - href
+      properties:
+        href:
+          description: >
+            URI of a resource referenced from a notification.
+            Should be an absolute URI (i.e. a URI that contains
+            {apiRoot}), however, may be a relative URI (i.e. a URI
+            where the {apiRoot} part is omitted) if the {apiRoot}
+            information is not available.
+          $ref: "#/definitions/schemas/Uri"
+    
+    IpAddress:
+      description: >
+        An IPV4 or IPV6 address. Representation: In case of an IPV4 address, string that consists of four decimal
+        integers separated by dots, each integer ranging from 0 to 255. In case of an IPV6 address, string that
+        consists of groups of zero to four hexadecimal digits, separated by colons.
+      type: string
+      format: IP
+
+    KeyValuePairs:
+      description: >
+        This type represents a list of key-value pairs. The order of the pairs in the list is not significant. In JSON,
+        a set of keyvalue pairs is represented as an object. It shall comply with the provisions defined in clause 4
+        of IETF RFC 8259. In the following example, a list of key-value pairs with four keys ("aString", "aNumber",
+        "anArray" and "anObject") is provided to illustrate that the values associated with different keys can be of
+        different type.
+      type: object
+
+    ApiVersionInformation:
+      description: >
+        This type represents API version information.
+      type: object
+      required:
+        - uriPrefix
+        - apiVersions
+      properties:
+        uriPrefix:
+          description: >
+            Specifies the URI prefix for the API, in the following
+            form {apiRoot}/{apiName}/{apiMajorVersion}/.
+          type: string
+        apiVersions:
+          description: >
+            Version(s) supported for the API signaled by the
+            uriPrefix attribute.
+          type: array
+          items:
+            type: object
+            required:
+              - version
+            properties:
+              version:
+                description: >
+                  Identifies a supported version. The value of the
+                  version attribute shall be a version identifier as
+                  specified in clause 9.1 (SOL013).
+                type: string
+              isDeprecated:
+                description: >
+                  If such information is available, this attribute indicates
+                  whether use of the version signaled by the version
+                  attribute is deprecated (true) or not (false).
+
+                  A deprecated version is still supported by the API producer but is recommended
+                  not to be used any longer.
+                  When a version is no longer supported, it does not appear in the response body.
+                type: boolean
+              retirementDate:
+                description: >
+                  The date and time after which the API version will no
+                  longer be supported.
+                  This attribute may be included if the value of the
+                  isDeprecated attribute is set to true and shall be
+                  absent otherwise.
+                $ref: "#/definitions/schemas/DateTime"
+
+    Identifier:
+      description: >
+        An identifier with the intention of being globally unique.
+      type: string
+
+    IdentifierLocal:
+      description: >
+        An identifier that is unique within a limited local scope other than above listed identifiers,
+        such as within a complex data structure or within a request-response pair.
+        Representation: string of variable length.
+      type: string
+
+    DateTime:
+      description: >
+        Date-time stamp.
+        Representation: String formatted according to IETF RFC 3339.
+      type: string
+      format: date-time
+
+    Uri:
+      description: >
+        String formatted according to IETF RFC 3986.
+      type: string
+
+    Boolean:
+      description: >
+        The Boolean is a data type having two values (true and false).
+      type: boolean
+
+    Version:
+      description: >
+        A version.
+      type: string
+
+    String:
+      description: >
+        A string defined in IETF RFC 8259.
+      type: string
+
+    Number:
+      description: >
+        A number defined in IETF RFC 8259.
+      type: number
+
+    UnsignedInt:
+      description: >
+        Unsigned integer
+      type: number
+
+    SubscriptionAuthentication:
+      description: >
+          NOTE 1: The clientId and clientPassword passed in a subscription 
+                  shall not be the same as the clientId and
+                  clientPassword that are used to obtain authorization for API 
+                  requests. Client credentials may differ between
+                  subscriptions. The value of clientPassword should be generated 
+                  by a random process.
+          NOTE 2: As a less secure alternative to OAUTH2_CLIENT_CERT which 
+                  uses mutual authentication based on X.509
+                  certificates, this mode which uses client password to authenticate 
+                  may be used in the access token request
+                  toward the authorization server (as defined by IETF RFC 6749 [7]), 
+                  only to support legacy implementations
+                  (version 3.4.1 or earlier version of the present document). 
+                  See clause 8.1 for more details.
+          NOTE 3: The following values that were included up to version 3.4.1 
+                  of the present document have been removed:
+                  "BASIC" (to signal the use of the basic HTTP authentication) 
+                  has been removed because it is insecure.
+                  "TLS_CERT" to signal an alternative non-token based authorization 
+                  method using TLS certificates has been
+                  removed because the method is no longer supported.
+          NOTE 4: The client certificate is established by means outside the 
+                  scope of the present document.
+      type: object
+      oneOf:
+        - required:
+          - authType
+          - paramsOauth2ClientCredentials
+        - required:
+          - authType
+          - paramsOauth2ClientCert
+      properties:
+        authType:
+          description: >
+            Defines the types of Authentication/Authorization which
+            the API consumer is willing to accept when receiving a
+            notification.
+            Permitted values (see note 3):
+            - OAUTH2_CLIENT_CREDENTIALS: In every
+              HTTP request to the notification endpoint, use
+              an OAuth 2.0 token, obtained using the client
+              credentials grant type after authenticating
+              using client identifier and client password
+              towards the token endpoint.
+            - OAUTH2_CLIENT_CERT: In every HTTP
+              request to the notification endpoint, use an
+              OAuth 2.0 token, obtained using the client
+              credentials grant type after mutually
+              authenticating using client identifier and X.509
+              certificates towards the token endpoint.
+          type: array
+          items:
+            type: string
+            enum:
+              - OAUTH2_CLIENT_CREDENTIALS
+              - OAUTH2_CLIENT_CERT
+        paramsOauth2ClientCert:
+          description: >
+            Parameters for authentication/authorization using
+            OAUTH2_CLIENT_CERT.
+            Shall be present if authType is
+            "OAUTH2_CLIENT_CERT" and the contained
+          type: object
+          required:
+            - clientId
+            - certificateRef
+            - tokenEndpoint
+          properties:
+            clientId:
+              description: >
+                Client identifier to be used in the access token request
+                of the OAuth 2.0 client credentials grant type. The client
+                identifier is unique in the scope of the tokenEndpoint.
+              type: string
+            certificateRef:
+              description: >
+                Fingerprint of the client certificate. The hash function
+                shall use SHA256 or higher. See note 4.
+              type: object
+              required:
+                - type
+                - value
+              properties:
+                type:
+                  description: >
+                    The type of the fingerprint.
+                    Permitted values:
+                    - x5t#S256: The SHA-256 thumbprint of the
+                    X.509 certificate as defined in section 4.1.8 of
+                    IETF RFC 7515 [23].
+                  type: string
+                value:
+                  description: >
+                    The fingerprint value as defined by the type.
+                  type: string
+            tokenEndpoint:
+              description: >
+                The token endpoint from which the access token can be
+                obtained.
+
+        paramsOauth2ClientCredentials:
+          description: >
+            Parameters for authentication/authorization using
+            OAUTH2_CLIENT_CREDENTIALS.
+            Shall be present if authType is
+            "OAUTH2_CLIENT_CREDENTIALS" and the contained
+            information has not been provisioned out of band.
+            Shall be absent otherwise.
+            See note 2.
+          type: object
+          properties:
+            clientId:
+              description: >
+                Client identifier to be used in the access token request
+                of the OAuth 2.0 client credentials grant type. The client
+                identifier is unique in the scope of the tokenEndpoint.
+                Shall be present if it has not been provisioned out of
+                band. See note 1.
+              type: string
+            clientPassword:
+              description: >
+                Client password to be used in the access token request
+                of the OAuth 2.0 client credentials grant type. Shall be
+                present if it has not been provisioned out of band. See
+                note 1.
+              type: string
+            tokenEndpoint:
+              description: >
+                The token endpoint from which the access token can be
+                obtained. Shall be present if it has not been provisioned
+                out of band.
+              $ref: "#/definitions/schemas/Uri"
+
+    ProblemDetails:
+      description: >
+        The definition of the general "ProblemDetails" data structure from
+        IETF RFC 7807 [19] is reproduced inthis structure. Compared to the
+        general framework defined in IETF RFC 7807 [19], the "status" and
+        "detail" attributes are mandated to be included by the present document,
+        to ensure that the response contains additional textual information about
+        an error. IETF RFC 7807 [19] foresees extensibility of the
+        "ProblemDetails" type. It is possible that particular APIs in the present
+        document, or particular implementations, define extensions to define
+        additional attributes that provide more information about the error.
+        The description column only provides some explanation of the meaning to
+        Facilitate understanding of the design. For a full description, see
+        IETF RFC 7807 [19].
+      type: object
+      required:
+        - status
+        - detail
+      properties:
+        type:
+          description: >
+            A URI reference according to IETF RFC 3986 [5] that identifies the
+            problem type. It is encouraged that the URI provides human-readable
+            documentation for the problem (e.g. using HTML) when dereferenced.
+            When this member is not present, its value is assumed to be
+            "about:blank".
+          type: string
+          format: URI
+        title:
+          description: >
+            A short, human-readable summary of the problem type. It should not
+            change from occurrence to occurrence of the problem, except for
+            purposes of localization. If type is given and other than
+            "about:blank", this attribute shall also be provided.
+            A short, human-readable summary of the problem
+            type.  It SHOULD NOT change from occurrence to occurrence of the
+            problem, except for purposes of localization (e.g., using
+            proactive content negotiation; see [RFC7231], Section 3.4).
+          type: string
+        status:
+          description: >
+            The HTTP status code for this occurrence of the problem.
+            The HTTP status code ([RFC7231], Section 6) generated by the origin
+            server for this occurrence of the problem.
+          type: integer
+        detail:
+          description: >
+            A human-readable explanation specific to this occurrence of the
+            problem.
+          type: string
+        instance:
+          description: >
+            A URI reference that identifies the specific occurrence of the
+            problem. It may yield further information if dereferenced.
+          type: string
+          format: URI
+        #TODO: How to express "any additional attributes"?
+
+    ActivationStatus:
+      description: >
+        The enumeration ActivationStatus shall comply with the provisions defined in table 5.6.4.3-1.
+        It indicates the activation status of a policy.
+      type: string
+      enum:
+        - ACTIVATED
+        - DEACTIVATED
+
+    TransferStatus:
+      description: >
+        The enumeration TransferStatus shall comply with the provisions defined in table 5.6.4.4-1.
+        It indicates the transfer status of a policy
+      type: string
+      enum:
+        - CREATED
+        - TRANSFERRED
+
+    PolicyModifications:
+      description: >
+        This type represents the parameters for modifying a policy. It shall comply with the provisions
+        defined in table 5.6.2.4-1.
+        
+        NOTE 1: If "removeAllAssociations" is set to TRUE, neither "addAssociations" nor "removeAssociations" attributes
+                shall be present.
+        NOTE 2: Once all associations have been removed, how the PF determines the scope of applicability of the policy
+                is outside the scope of the present document. 
+      type: object
+      properties:
+        activationStatus:
+          description: >
+            New activation status of the policy.
+          $ref: "#/definitions/schemas/ActivationStatus"
+        selectedVersion:
+          description: >
+            New version of the policy to be selected.
+          $ref: "../definitions/SOL012_def.yaml#/definitions/schemas/Version"
+        addAssociations:
+          description: >
+            Identifiers of entities to be added to the “associations” attribute in the “Policy”
+            data structure which represents the policy.
+            The API producer shall ignore the identifiers that already exist in the "associations"
+            attribute in the “Policy” data structure.
+            Shall be absent when the association feature is not applicable for the PF.
+          type: array
+          items:
+            $ref: "../definitions/SOL012_def.yaml#/definitions/schemas/Identifier"
+        removeAssociations:
+          description: >
+            Identifiers of entities to be removed from the “associations” attribute in the “Policy” data structure
+            which represents the policy.
+            The API producer shall ignore the identifiers that do not exist in the "associations"
+            attribute in the “Policy” data structure.
+            Shall be absent when the association feature is not applicable for the PF.
+          type: array
+          items:
+            $ref: "../definitions/SOL012_def.yaml#/definitions/schemas/Identifier"
+        removeAllAssociations:
+          description: >
+            Shall be set to TRUE if the policy is no longer associated to any specific entities managed by the PF.
+            Shall be absent when the association feature is not applicable for the PF.
+            If "removeAllAssociations" is set to TRUE, neither "addAssociations" nor “removeAssociations” attributes
+            shall be present.
+            Once all associations have been removed, how the PF determines the scope of applicability of
+            the policy is outside the scope of the present document.
+          type: boolean
+
+    PolicyOperationType:
+      description: >
+        The enumeration PolicyOperationType shall comply with the provisions defined in table 5.6.4.4-1. 
+        It indicates the type of the policy change.
+        Permitted values:
+        * CREATE_POLICY:	The policy is created.
+        * TRANSFER_POLICY:	The policy is transferred.
+        * DELETE_POLICY:	The policy is deleted.
+        * MODIFY_POLICY:	The policy is modified.
+      type: string
+      enum:
+        - CREATE_POLICY
+        - TRANSFER_POLICY
+        - DELETE_POLICY
+        - MODIFY_POLICY

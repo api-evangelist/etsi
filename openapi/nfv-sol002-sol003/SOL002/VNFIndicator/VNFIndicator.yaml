@@ -1,0 +1,640 @@
+openapi: 3.0.2
+
+info:
+  title: SOL002 - VNF Indicator interface
+  description: |
+    SOL002 - VNF Indicator interface
+
+    IMPORTANT: Please note that this file might be not aligned to the current
+    version of the ETSI Group Specification it refers to. In case of
+    discrepancies the published ETSI Group Specification takes precedence.
+
+    Please report bugs to https://forge.etsi.org/rep/nfv/SOL002-SOL003/issues
+
+  contact:
+    name: NFV-SOL WG
+  license:
+    name: ETSI Forge copyright notice
+    url: https://forge.etsi.org/etsi-forge-copyright-notice.txt
+  version: 1.4.0-impl:etsi.org:ETSI_NFV_OpenAPI:1
+
+externalDocs:
+  description: ETSI GS NFV-SOL 002 V3.7.1
+  url: https://www.etsi.org/deliver/etsi_gs/NFV-SOL/001_099/002/03.07.01_60/gs_NFV-SOL002v030701p.pdf
+
+servers:
+  - url: http://127.0.0.1/vnfind/v1
+  - url: https://127.0.0.1/vnfind/v1
+
+paths:
+  /api_versions:
+    $ref: ../../endpoints/SOL002SOL003_endpoints.yaml#/endpoints/api-versions
+
+  /indicators:
+    parameters:
+      - $ref: ../../components/SOL002_params.yaml#/components/parameters/Version
+      - $ref: ../../components/SOL002_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The GET method queries multiple VNF indicators. See clause 8.4.2.3.2.
+      parameters:
+        - $ref: '#/components/parameters/filter_indicators'
+        - $ref: ../../components/SOL002_params.yaml#/components/parameters/nextpage_opaque_marker_vnfm
+      responses:
+        "200":
+          $ref: '#/components/responses/Indicators.Get.200'
+        "400":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/406
+        "416":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/416
+        "422":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/422
+        "429":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/429
+        "500":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/504
+
+  /indicators/{vnfInstanceId}:
+    parameters:
+      - $ref: '#/components/parameters/VnfInstanceId'
+      - $ref: ../../components/SOL002_params.yaml#/components/parameters/Version
+      - $ref: ../../components/SOL002_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The GET method queries multiple VNF indicators related to a VNF instance. See clause 8.4.3.3.2.
+      parameters:
+        - $ref: '#/components/parameters/filter_vnf_indicators_related_to_vnf_instance'
+        - $ref: ../../components/SOL002_params.yaml#/components/parameters/nextpage_opaque_marker_vnfm
+      responses:
+        "200":
+          $ref: '#/components/responses/VnfIndicators.Get.200'
+        "400":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/406
+        "416":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/416
+        "422":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/422
+        "429":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/429
+        "500":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/504
+
+  /indicators/{vnfInstanceId}/{indicatorId}:
+    parameters:
+      - $ref: '#/components/parameters/VnfInstanceId'
+      - $ref: '#/components/parameters/IndicatorId'
+      - $ref: ../../components/SOL002_params.yaml#/components/parameters/Version
+      - $ref: ../../components/SOL002_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The GET method reads a VNF indicator. See clause 8.4.4.3.2.
+      responses:
+        "200":
+          $ref: '#/components/responses/VnfIndividualIndicator.Get.200'
+        "400":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/406
+        "416":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/416
+        "422":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/422
+        "429":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/429
+        "500":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/504
+
+  /subscriptions:
+    parameters:
+      - $ref: ../../components/SOL002_params.yaml#/components/parameters/Version
+      - $ref: ../../components/SOL002_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The GET method queries the list of active subscriptions of the functional block that invokes the method.
+        It can be used e.g. for resynchronization after error situations. See clause 8.4.5.3.2.
+      parameters:
+        - $ref: '#/components/parameters/filter_subscriptions'
+        - $ref: ../../components/SOL002_params.yaml#/components/parameters/nextpage_opaque_marker_vnfm
+      responses:
+        "200":
+          $ref: '#/components/responses/VnfIndicatorSubscriptions.Get.200'
+        "400":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/406
+        "416":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/416
+        "422":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/422
+        "429":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/429
+        "500":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/504
+
+    post:
+      description: |
+        The POST method creates a new subscription. See clause 8.4.5.3.1.
+      parameters:
+        - $ref: ../../components/SOL002_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL002_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/VnfIndicatorSubscriptionRequest'
+      responses:
+        "201":
+          $ref: '#/components/responses/VnfIndicatorSubscription.Post.201'
+        "303":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/303
+        "400":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/406
+        "416":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/416
+        "422":
+          $ref: '#/components/responses/VnfIndicatorSubscription.Post.422'
+        "429":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/429
+        "500":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/504
+
+  /subscriptions/{subscriptionId}:
+    parameters:
+      - $ref: '#/components/parameters/SubscriptionId'
+      - $ref: ../../components/SOL002_params.yaml#/components/parameters/Version
+      - $ref: ../../components/SOL002_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The GET method reads an individual subscription. See clause 8.4.6.3.2.
+      responses:
+        "200":
+          $ref: '#/components/responses/VnfIndicatorSubscription.Get.200'
+        "400":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/406
+        "416":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/416
+        "422":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/422
+        "429":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/429
+        "500":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/504
+
+    delete:
+      description: |
+        The DELETE method terminates an individual subscription. See clause 8.4.6.3.5.
+      responses:
+        "204":
+          $ref: '#/components/responses/VnfIndicatorSubscription.Delete.204'
+        "400":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/406
+        "416":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/416
+        "422":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/422
+        "429":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/429
+        "500":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/504
+
+components:
+  parameters:
+    filter_subscriptions:
+      name: filter
+      description: >
+        Attribute-based filtering expression according to clause 5.2 of ETSI
+        GS NFV-SOL 013 [6].
+        The EM shall and the VNF may support receiving this parameter as part of the URI
+        query string. The VNFM may supply this parameter.
+        All attribute names that appear in the VnfIndicatorSubscription data type and in data
+        types referenced from it shall be supported in the filter expression. If receiving, this
+        parameter is not supported, a 400 Bad Request response shall be returned (see
+        table 8.4.5.3.2-2).
+      in: query
+      required: false
+      schema:
+        type: string
+
+    filter_vnf_indicators_related_to_vnf_instance:
+      name: filter
+      description: >
+        Attribute-based filtering expression according to clause 5.2 of ETSI
+        GS NFV-SOL 013 [6].
+        The API producer shall support receiving this parameter as part of the URI query
+        string. The VNFM may supply this parameter.
+        All attribute names that appear in the VnfIndicator data type and in data types
+        referenced from it shall be supported by the API producer in the filter expression.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    filter_indicators:
+      name: filter
+      description: >
+        Attribute-based filtering expression according to clause 5.2 of ETSI
+        GS NFV-SOL 013 [6].
+        The API producer shall support receiving this parameter as part of the URI query
+        string. The VNFM may supply this parameter.
+        All attribute names that appear in the VnfIndicator data type and in data types
+        referenced from it shall be supported by the API producer in the filter expression.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    VnfInstanceId:
+      name: vnfInstanceId
+      in: path
+      description: |
+        Service Unavailable.
+        Identifier of the VNF instance to which the VNF indicators applies.
+        NOTE: This identifier can be retrieved from the resource referenced by the "Location" HTTP header in the
+        response to a POST request creating a new VNF instance resource. It can also be retrieved from the "id"
+        attribute in the message content of that response.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    IndicatorId:
+      name: indicatorId
+      in: path
+      description: |
+        Identifier of the VNF indicator.
+        This identifier can be retrieved from the resource referenced by the message content in the response to a 
+        POST request creating a new "Individual VNF instance" resource.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    SubscriptionId:
+      name: subscriptionId
+      in: path
+      description: |
+        Identifier of this subscription. NOTE:
+        This identifier can be retrieved from the resource referenced by the "Location" HTTP header
+        in the response to a POST request creating a new subscription resource. It can also be retrieved
+        from the "id" attribute in the message content of that response.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+  requestBodies:
+    VnfIndicatorSubscriptionRequest:
+      description: Details of the subscription to be created.
+      content:
+        application/json:
+          schema:
+            $ref: definitions/SOL002VNFIndicator_def.yaml#/definitions/VnfIndicatorSubscriptionRequest
+      required: true
+
+  responses:
+    Indicators.Get.200:
+      description: |
+        200 OK
+        Shall be returned when information about zero or more VNF indicators was  queried successfully.
+        The response body shall contain in an array the  representations of all VNF indicators that match the
+        attribute-based  filtering parameters, i.e. zero or more representations of VNF indicators  as defined
+        in clause 8.5.2.2. If the "filter" URI parameter was supplied in the request, the data in  the response
+        body shall have been transformed according to the rules  specified in clause 5.2.2 of ETSI GS NFV-SOL 013.
+        If the EM/VNF supports alternative 2 (paging) according to clause 5.4.2.1  of ETSI GS NFV-SOL 013for this
+        resource, inclusion of the Link HTTP header  in this response shall follow the provisions in clause 5.4.2.3
+        of  ETSI GS NFV-SOL 013.
+      headers:
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Link:
+          description: |
+            Reference to other resources. Used for paging in the present document, see clause 4.7.2.1.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: definitions/SOL002VNFIndicator_def.yaml#/definitions/VnfIndicator
+
+    VnfIndicators.Get.200:
+      description: |
+        200 OK
+        Shall be returned when information about zero or more VNF indicators  was queried successfully.
+        The response body shall contain in an array the representations of all VNF indicators that are related
+        to the particular VNF instance and that match the attribute filter., i.e. zero or more representations
+        of VNF indicators as defined in clause 8.5.2.2. If the "filter" URI parameter was supplied in the request,
+        the data in  the response body shall have been transformed according to the rules  specified in clause
+        5.2.2 of ETSI GS NFV-SOL 013. If the EM/VMF supports alternative 2 (paging) according to clause 5.4.2.1 of
+        ETSI GS NFV-SOL 013 for this resource, inclusion of the Link HTTP  header in this response shall follow the
+        provisions in clause 5.4.2.3  of ETSI GS NFV-SOL 013.
+      headers:
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Link:
+          description: |
+            Reference to other resources. Used for paging in the present document, see clause 4.7.2.1.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: definitions/SOL002VNFIndicator_def.yaml#/definitions/VnfIndicator
+
+    VnfIndividualIndicator.Get.200:
+      description: |
+        200 OK
+        Shall be returned when the VNF indicator has been read successfully. The response body shall contain the
+        representation of the VNF indicator.
+      headers:
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: definitions/SOL002VNFIndicator_def.yaml#/definitions/VnfIndicator
+
+    VnfIndicatorSubscriptions.Get.200:
+      description: |
+        200 OK
+        Shall be returned when the list of subscriptions was queried successfully.
+        The response body shall contain in an array the representations of all  active subscriptions of the functional
+        block that invokes the method which  match the attribute filter, i.e. zero or more representations of VNF
+        indicators subscriptions as defined in clause 8.5.2.4. If the "filter" URI parameter was supplied in the request,
+        the data in  the response body shall have been transformed according to the rules  specified in clause 5.2.2 of
+        ETSI GS NFV SOL 013. If the EM supports alternative 2 (paging) according to clause 5.4.2.1  of ETSI GS NFV-SOL 013
+        for this resource, inclusion of the Link HTTP  header in this response shall follow the provisions in clause 5.4.2.3
+        of ETSI GS NFV-SOL 013.
+      headers:
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Link:
+          description: |
+            Reference to other resources. Used for paging in the present document, see clause 4.7.2.1.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: definitions/SOL002VNFIndicator_def.yaml#/definitions/VnfIndicatorSubscription
+
+    VnfIndicatorSubscription.Post.201:
+      description: |
+        201 CREATED
+        Shall be returned when the subscription has been created successfully. The response body shall contain a
+        representation of the created  "Individual subscription" resource.
+      headers:
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Location:
+          description: |
+            Pointer to the created subscription resource.
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: URI
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: definitions/SOL002VNFIndicator_def.yaml#/definitions/VnfIndicatorSubscription
+
+    VnfIndicatorSubscription.Post.422:
+      description: |
+        422 Unprocessable Content
+
+        Shall be returned upon the following error: The content type of the message content is supported and 
+        the message content of a request contains syntactically correct data but the data cannot be processed.
+        The general cause for this error and its handling is specified in clause 6.4 of ETSI GS NFV-SOL 013 [6], 
+        including rules for the presence of the response body.
+        Specifically in case of this resource, the response code 422 shall also be returned if the VNFM has tested 
+        the Notification endpoint as described in clause 8.4.7.3.2 and the test has failed.
+        In this case, the "detail" attribute in the "ProblemDetails" structure shall convey more information 
+        about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL002_def.yaml#/definitions/ProblemDetails"
+
+    VnfIndicatorSubscription.Get.200:
+      description: |
+        200 OK
+        Shall be returned when information about an individual subscription has been read successfully.
+        The response body shall contain the representation of the "Individual subscription" resource.
+      headers:
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: definitions/SOL002VNFIndicator_def.yaml#/definitions/VnfIndicatorSubscription
+
+    VnfIndicatorSubscription.Delete.204:
+      description: |
+        204 NO CONTENT
+        Shall be returned when the subscription has been deleted successfully. The response body shall be empty.
+      headers:
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content: {}

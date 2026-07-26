@@ -1,0 +1,39 @@
+components:
+  parameters:
+    Version:
+      name: Version
+      description: >
+        Version of the API requested to use when responding to this request.
+      in: header
+      required: true
+      schema:
+        type: string
+    
+    Accept:
+      name: Accept
+      description: >
+        Content-Types that are acceptable for the response. Reference: IETF RFC 7231.
+      in: header
+      required: true
+      schema:
+        type: string
+    
+    Authorization:
+      name: Authorization
+      description: >
+        The authorization token for the request. Reference: IETF RFC 7235.
+      in: header
+      required: false
+      schema:
+        type: string
+
+    ContentType:
+      name: Content-Type
+      description: |
+        The MIME type of the body of the request. Reference: IETF RFC 7231
+      in: header
+      required: true
+      schema:
+        type: string
+
+

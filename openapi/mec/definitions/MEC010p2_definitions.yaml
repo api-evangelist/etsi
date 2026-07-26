@@ -1,0 +1,555 @@
+  definitions: 
+    ConfigPlatformForAppRequest:
+      type: object
+      properties:
+        appServiceRequired:
+          type: array
+          items:
+            $ref: '#/definitions/ServiceDependency'
+        appServiceOptional:
+          type: array
+          items:
+            $ref: '#/definitions/ServiceDependency'
+        appServiceProduced:
+          type: array
+          items:
+            $ref: '#/definitions/ServiceDescriptor'
+        appFeatureRequired:
+          type: array
+          items:
+            $ref: '#/definitions/FeatureDependency'
+        appFeatureOptional:
+          type: array
+          items:
+            $ref: '#/definitions/FeatureDependency'
+        transportDependencies:
+          type: array
+          items:
+            $ref: '#/definitions/TransportDependency'
+        appTrafficRule:
+          type: array
+          items:
+            $ref: '#/definitions/TrafficRuleDescriptor'
+        appDNSRule:
+          type: array
+          items:
+            $ref: '#/definitions/DNSRuleDescriptor'
+        appLatency:
+          $ref: '#/definitions/LatencyDescriptor'
+        userContextTransferCapability:
+          $ref: '#/definitions/UserContextTransferCapability'
+        appNetworkPolicy:
+          $ref: '#/definitions/AppNetworkPolicy'
+
+    ServiceDependency:
+      title: ServiceDependency
+      required:
+      - serName
+      - version
+      type: object
+      properties:
+        requestedPermissions:
+          type: array
+          items:
+            type: string
+          description: >-
+            Requested permissions regarding the access of the application to the service. See clause 8.2 of ETSI GS MEC 009.
+            The format of this attribute is left for the data model design stage.
+        serCategory:
+          $ref: '#/definitions/CategoryRef'
+        serName:
+          type: string
+          description: The name of the service, for example, RNIS, LocationService, etc.
+        serTransportDependencies:
+          type: array
+          items:
+            $ref: '#/definitions/TransportDependency'
+          description: Indicates transport and serialization format dependencies of consuming the service. Defaults to REST + JSON if absent. See note.
+        version:
+          type: string
+          description: The version of the service.
+    
+    CategoryRef:
+      title: CategoryRef
+      required:
+      - href
+      - id
+      - name
+      - version
+      type: object
+      properties:
+        href:
+          type: string
+          description: Reference of the catalogue.
+        id:
+          type: string
+          description: Unique identifier of the category.
+        name:
+          type: string
+          description: Name of the category.
+        version:
+          type: string
+          description: Category version.
+      description: This type represents the category reference.
+
+    TransportDependency:
+      title: TransportDependency
+      required:
+      - labels
+      - serializers
+      - transport
+      type: object
+      properties:
+        labels:
+          type: array
+          items:
+            type: string
+          description: Set of labels that allow to define groups of transport bindings. The mechanism of the grouping is defined below this table.
+        serializers:
+          type: array
+          items:
+            $ref: '#/definitions/SerializerType'
+          description: Information about the serializers in this transport binding, as defined in the SerializerTypes type in ETSI GS MEC 011 [i.4]. Support for at least one of the entries is required in conjunction with the transport.
+        transport:
+          $ref: '#/definitions/TransportDescriptor'
+
+    SerializerType:
+      title: SerializerType
+      enum:
+      - JSON
+      - XML
+      - PROTOBUF3
+      type: string
+      description: |
+        The enumeration SerializerType represents types of serializers. This enumeration shall be extensible.
+        NOTE: The enumeration values above shall represent the serializers as defined by the referenced specifications. 
+      example:
+      - JSON
+
+    TransportDescriptor:
+      title: TransportDescriptor
+      required:
+      - name
+      - protocol
+      - security
+      - type
+      - version
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of this transport.
+        description:
+          type: string
+          description: Human-readable description of this transport.
+        protocol:
+          type: string
+          description: The name of the protocol used. Shall be set to HTTP for a REST API.
+        security:
+          $ref: '#/definitions/SecurityInfo'
+        type:
+          $ref: '#/definitions/TransportTypes'
+        version:
+          type: string
+          description: The version of the protocol used.
+        implSpecificInfo:
+          type: string
+          description: Additional implementation specific details of the transport.
+
+    TransportTypes:
+      x-etsi-ref: 8.1.6.4
+      type: string
+      enum:
+        - REST_HTTP
+        - MB_TOPIC_BASED
+        - MB_ROUTING
+        - MB_PUBSUB
+        - RPC
+        - RPC_STREAMING
+        - WEBSOCKET
+      description: The enumeration TransportType represents types of transports.
+      x-etsi-mec-extensible: true
+      x-etsi-mec-enumeration-table:
+        - value: REST_HTTP
+          description: RESTful API using HTTP (as defined in IETF RFC 9110 [11]).
+        - value: MB_TOPIC_BASED
+          description: Topic-based message bus which routes messages to receivers based on subscriptions, if a pattern passed on subscription matches the topic of the message. EXAMPLE MQTT (see [i.4]).
+        - value: MB_ROUTING
+          description: Routing-based message bus which routes messages to receivers based on subscriptions, if a key passed on subscription is equal to the key of the message.
+        - value: MB_PUBSUB
+          description: Publish-subscribe based message bus which distributes messages to all subscribers.
+        - value: RPC
+          description: Remote procedure call. EXAMPLE GRPC (see [i.5]).
+        - value: RPC_STREAMING
+          description: Remote procedure call supporting streams of requests and responses. EXAMPLE GRPC (see [i.5]).
+        - value: WEBSOCKET
+          description: Websockets as defined in IETF RFC 6455 [12].
+    
+    SecurityInfo:
+      type: object
+      properties:
+        oAuth2Info:
+          $ref: '#/definitions/OAuth2Info'
+        (extensions):
+          description: >
+            'Extensions for alternative transport mechanisms. These extensions depend on the actual
+            transport, and are out of scope of the present document.
+            For instance, such extensions may be used to signal the necessary parameters for the client
+            to use TLSbased authorization defined for alternative transports (see ETSI GS MEC 009 [5]
+            for more information).'
+          type: array
+          minItems: 0
+          items:
+            type: string
+    
+    OAuth2Info:
+      description: >
+        Parameters related to use of OAuth 2.0. Shall be present in case OAuth 2.0
+        (see IETF RFC 6749 [13]) is supported to secure the provision of the service over the transport.
+      type: object
+      properties:
+        grantTypes:
+          type: array
+          minItems: 0
+          items:
+            type: string
+            enum:
+            - SEE_DESCRIPTION
+          description: >
+            "List of supported OAuth 2.0 grant types.\nEach entry shall be one of the following permitted
+            values:\nOAUTH2_AUTHORIZATION_CODE (Authorization code grant type)\nOAUTH2_IMPLICIT_GRANT\n
+            \t(Implicit grant type)\nOAUTH2_RESOURCE_OWNER\n\t(Resource owner password credentials grant type)
+            \nOAUTH2_CLIENT_CREDENTIALS\n\t(Client credentials grant type)\nOnly the value \"OAUTH2_CLIENT_CREDENTIALS\"
+            is supported in the present document. "
+        tokenEndpoint:
+          description: The token endpoint. Shall be present unless the grant type is OAUTH2_IMPLICIT_GRANT.
+          type: string
+          format: uri
+      required:
+      - grantTypes
+
+    ServiceDescriptor:
+      title: ServiceDescriptor
+      description: "'The ServiceDescriptor data type describes a MEC service produced by a service-providing MEC application.'"
+      required:
+      - serName
+      - version
+      - transport
+      type: object
+      properties:
+        serName:
+          type: string
+          description: The name of the service, for example, RNIS, LocationService, etc.
+        serCategory:
+          type: object
+          $ref: '#/definitions/CategoryRef'
+        version:
+          type: string
+          description: The version of the service.
+        transportsSupported:
+          type: array
+          items:
+              $ref: '#/definitions/TransportsSupported'
+
+    TransportsSupported:
+        title: TransportsSupported
+        type: object
+        required:
+          - serializers
+        properties:
+          transport:
+            $ref: '#/definitions/TransportDescriptor'
+          serializers:
+            type: array
+            items:
+              $ref: '#/definitions/SerializerType'
+            description: "'Information about the serializers in this binding, as defined in the SerializerTypes type in ETSI GS MEC 011 '"
+        description: "'Indicates transports and serialization formats supported made available to the service-consuming application. Defaults to REST + JSON if absent.'"
+
+    FeatureDependency:
+      title: FeatureDependency
+      required:
+      - featureName
+      - version
+      type: object
+      properties:
+        featureName:
+          type: string
+          description: The name of the feature, for example, UserApps, UEIdentity, etc.
+        version:
+          type: string
+          description: The version of the feature.
+
+    TrafficRuleDescriptor:
+      title: TrafficRuleDescriptor
+      required:
+      - action
+      - filterType
+      - priority
+      - trafficFilter
+      - trafficRuleId
+      type: object
+      properties:
+        action:
+          $ref: '#/definitions/Action'
+        dstInterface:
+          maxItems: 2
+          type: array
+          items:
+            $ref: '#/definitions/InterfaceDescriptor'
+          description:  Describes the destination interface information, . Some applications (e.g. inline/tap) _DECAPSULATED, FORWARD_ENCAPSULATED or PASSTHROUGH, one value 
+                        shall be provided. If the action is onDUPLICATE_DECAPSULATED or DUPLICATE_ENCAPSULATED, two values shall be provided. See note 2.
+        filterType:
+          $ref: '#/definitions/FilterType'
+        priority:
+          type: integer
+          description: Priority of this traffic rule within the range 0 to 255. If traffic rule conflicts, the one with higher priority take precedence. See note 1.
+          contentEncoding: int32
+        trafficFilter:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/definitions/TrafficFilter'
+          description: The filter used to identify specific flow/packets that need to be handled by the MEC host.
+        trafficRuleId:
+          type: string
+          description: Identifies the traffic rule.
+      description: |
+        NOTE 1: Value indicates the priority in descending order, i.e. with 0 as the highest priority and 255 as the lowest priority.
+        NOTE 2: Some applications (like inline/tap) require two interfaces. The first interface in the case of inline/tap is on the 
+                client (e.g. UE) side and the second on the core network (e.g. EPC) side
+    Action:
+      title: Action
+      enum:
+      - DROP
+      - FORWARD_DECAPSULATED
+      - FORWARD, ENCAPSULATED
+      - PASSTHROUGH
+      - DUPLICATE_DECAPSULATED
+      - DUPLICATE, .ENCAPSULATED
+      type: string
+      description: "'Identifies the action of the MEC host data plane, when a packet matches the trafficFilter.'"
+      examples:
+      - DROP
+
+    TrafficFilter:
+      title: TrafficFilter
+      type: object
+      properties:
+        dSCP:
+          type: integer
+          description: Used to match all IPv4 packets that have the same DSCP.
+          contentEncoding: int32
+        dstAddress:
+          type: array
+          items:
+            type: string
+          description: A IP address or a range of IP addresses.For IPv4, the IP address could be an IP address plus mask, or an individual IP address, or a range of IP addresses.For IPv6, the IP address could be an IP prefix, or a range of IP prefixes.
+        dstPort:
+          type: array
+          items:
+            type: string
+          description: A port or a range of ports.
+        dstTunnelPort:
+          type: array
+          items:
+            type: string
+          description: Used for GTP tunnel based traffic rule.
+        protocol:
+          type: array
+          items:
+            type: string
+          description: Specify the protocol of the traffic filter.
+        qCI:
+          type: integer
+          description: Used to match all packets that have the same QCI.
+          contentEncoding: int32
+        srcAddress:
+          type: array
+          items:
+            type: string
+          description: An IP address or a range of IP addresses.For IPv4, the IP address could be an IP address plus mask, or an individual IP address, or a range of IP addresses.For IPv6, the IP address could be an IP prefix, or a range of IP prefixes.
+        srcPort:
+          type: array
+          items:
+            type: string
+          description: A port or a range of ports.
+        srcTunnelAddress:
+          type: array
+          items:
+            type: string
+          description: Used for GTP tunnel based traffic rule.
+        srcTunnelPort:
+          type: array
+          items:
+            type: string
+          description: Used for GTP tunnel based traffic rule.
+        tC:
+          type: integer
+          description: Used to match all IPv6 packets that have the same TC.
+          contentEncoding: int32
+        tag:
+          type: array
+          items:
+            type: string
+          description: Used for tag based traffic rule.
+        tgtTunnelAddress:
+          type: array
+          items:
+            type: string
+          description: Used for GTP tunnel based traffic rule.
+        uri:
+          type: array
+          items:
+            type: string
+        packetLabel:
+          type: array
+          items: 
+            type: string
+
+    DNSRuleDescriptor:
+      title: DNSRuleDescriptor
+      required:
+      - dnsRuleId
+      - domainName
+      - ipAddress
+      - ipAddressType
+      type: object
+      properties:
+        dnsRuleId:
+          type: string
+          description: Identifies the DNS Rule
+        domainName:
+          type: string
+          description: FQDN of the DNS rule
+        ipAddress:
+          type: string
+          description: IP address given by the DNS rule
+        ipAddressType:
+          $ref: '#/definitions/IpAddressType'
+        ttl:
+          type: integer
+          description: Time-to-live value
+          contentEncoding: int32
+
+    IpAddressType:
+      title: IpAddressType
+      enum:
+      - IP_V6
+      - IP_V4
+      type: string
+      description: Specifies the IP address type
+      examples:
+      - IP_V6
+
+    LatencyDescriptor:
+      title: LatencyDescriptor
+      required:
+      - maxLatency
+      type: object
+      properties:
+        maxLatency:
+          type: integer
+          description: The value of the maximum latency in nano seconds tolerated by the MEC application. See note.
+          contentEncoding: int32
+  
+    UserContextTransferCapability:
+      title: UserContextTransferCapability
+      required:
+      - statefulApplication
+      type: object
+      properties:
+        statefulApplication:
+          type: boolean
+        userContextTransferSupport:
+          type: boolean
+
+    AppNetworkPolicy:
+      title: AppNetworkPolicy
+      required:
+      - steeredNetwork
+      type: object
+      properties:
+        steeredNetwork:
+          $ref: '#/definitions/AppNetworkPolicy.steeredNetwork'
+
+    AppNetworkPolicy.steeredNetwork:
+      title: AppNetworkPolicy.steeredNetwork
+      type: object
+      properties:
+        cellularNetwork:
+          type: boolean
+        wi-fiNetwork:
+          type: boolean
+        fixedAccessNetwork:
+          type: boolean
+
+    InterfaceDescriptor:
+      title: InterfaceDescriptor
+      required:
+      - interfaceType
+      type: object
+      properties:
+        dstIPAddress:
+          type: string
+          description: If the interface type is IP, the destination address identifies the IP address of the destination. Only used for dstInterface.
+        dstMACAddress:
+          type: string
+          description: If the interface type is MAC, the destination address identifies the MAC address of the destination. Only used for dstInterface.
+        interfaceType:
+          $ref: '#/definitions/InterfaceType'
+        srcMACAddress:
+          type: string
+          description: If the interface type is MAC, the source address identifies the MAC address of the interface.
+        tunnelInfo:
+          $ref: '#/definitions/TunnelInfo'
+
+    InterfaceType:
+      title: InterfaceType
+      enum:
+      - TUNNEL
+      - MAC
+      - IP
+      type: string
+      description: Type of interface.
+      examples:
+      - TUNNEL
+
+    TunnelInfo:
+      title: TunnelInfo
+      required:
+      - tunnelDstAddress
+      - tunnelSrcAddress
+      - tunnelType
+      type: object
+      properties:
+        tunnelDstAddress:
+          type: string
+          description: Destination address of the tunnel.
+        tunnelSpecificData:
+          type: string
+        tunnelSrcAddress:
+          type: string
+          description: Source address of the tunnel.
+        tunnelType:
+          $ref: '#/definitions/TunnelType'
+
+    TunnelType:
+      title: TunnelType
+      enum:
+      - GTP-U
+      - GRE
+      type: string
+      description: Type of tunnel.
+      examples:
+      - GTP-U
+
+    FilterType:
+      title: FilterType
+      enum:
+      - FLOW
+      - PACKET
+      type: string
+      description: If it is per FLOW, the filter matches upstream (e.g. UE->EPC) packets and the downstream (e.g. EPC->UE) packets are handled by the same context.
+      examples:
+      - FLOW

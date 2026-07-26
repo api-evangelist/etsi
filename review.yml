@@ -1,0 +1,556 @@
+aid: etsi
+name: ETSI
+review:
+  question: >-
+    Does ETSI publish a real, self-serve, machine-readable API surface, and what is
+    its CAMARA / Open Gateway / TM Forum / 3GPP posture?
+  answer: true
+  date: '2026-07-25'
+  reviewer: API Evangelist
+  tier: standards-body
+  homeMarket: France
+  headquarters: Sophia Antipolis, France
+  summary: |
+    ETSI is the rare standards body whose specifications are genuinely open AND
+    genuinely machine-readable. There is no product developer portal at
+    developer.etsi.org, developers.etsi.org or docs.etsi.org — none of those hosts
+    resolve — and www.etsi.org is a corporate/standards site, not a developer
+    console. But that is the wrong place to look. ETSI runs TWO public GitLab
+    instances, forge.etsi.org and labs.etsi.org, both of which expose an anonymous
+    GitLab REST API (/api/v4) that lists 62 groups and 284 projects on Forge and 41
+    groups and 160 projects on Labs with no token. All Forge content is BSD-3-Clause
+    licensed. From those two hosts, 87 valid OpenAPI documents totalling 730
+    operations were harvested verbatim, covering ETSI MEC, ETSI NFV SOL, ETSI
+    NGSI-LD, 3GPP CAPIF via OpenCAPIF, and two CAMARA-shaped APIs.
+
+    The membership gate is real but it sits on PARTICIPATION, not PUBLICATION.
+    portal.etsi.org (the member portal, work programme, drafting and voting) is
+    member-facing; the finished deliverables are free. A direct anonymous download of
+    ETSI GS MEC 011 v3.2.1 returned HTTP 200, 4,514,548 bytes of application/pdf with
+    no login. This is the opposite of ISO and it is the single most important thing
+    to record for this tier: at ETSI the standard is public, and so is its OpenAPI.
+findings:
+  developerPortal:
+    verdict: >-
+      No first-party product developer portal. Instead, two open public GitLab
+      instances plus a free-but-sign-in-gated hosted sandbox. Real self-serve for
+      SPEC ACQUISITION; account-gated for the live sandbox; member-gated for
+      standards PARTICIPATION.
+    gated: false
+    gatedNote: >-
+      Spec acquisition is ungated. The MEC Sandbox API is account-gated (HTTP 401).
+      portal.etsi.org is member-gated. Nothing here is a sales-led partner wall.
+    probes:
+      - url: https://www.etsi.org/
+        status: 200
+        note: >-
+          Corporate and standards site. 403 without a browser User-Agent; 200 with
+          one. Not a developer portal.
+      - url: https://developer.etsi.org/
+        status: 000
+        note: Host does not resolve.
+      - url: https://developers.etsi.org/
+        status: 000
+        note: Host does not resolve.
+      - url: https://docs.etsi.org/
+        status: 000
+        note: Host does not resolve.
+      - url: https://api.etsi.org/
+        status: 404
+        note: >-
+          Host resolves and answers but serves 404 at /, /v1, /openapi.json and
+          /api-docs. No public API is served here.
+      - url: https://www.etsi.org/developer
+        status: 200
+        note: Resolves only because the site returns the standard page; no developer content.
+      - url: https://forge.etsi.org/
+        status: 200
+        note: PRIMARY spec surface. Public GitLab, anonymous /api/v4, BSD-3-Clause.
+      - url: https://forge.etsi.org/rep/api/v4/groups?per_page=100
+        status: 200
+        note: 62 public groups returned anonymously (3GPP, mec, nfv, cim, qkd, esi, ITS, li, set...).
+      - url: https://forge.etsi.org/rep/api/v4/projects?per_page=100
+        status: 200
+        note: 284 public projects enumerated anonymously.
+      - url: https://labs.etsi.org/
+        status: 200
+        note: >-
+          SECOND spec surface. ETSI Software Development Groups. 41 groups, 160
+          projects, anonymous /api/v4. Hosts ocf (OpenCAPIF), osl (OpenSlice),
+          oop (Operator Platform), tfs (TeraFlowSDN), mec (MEC Sandbox), saref.
+      - url: https://portal.etsi.org/
+        status: 200
+        note: MEMBER portal — work programme, drafting, voting. Membership-gated.
+      - url: https://www.etsi.org/deliver/
+        status: 200
+        note: Free anonymous download of every ETSI deliverable.
+      - url: https://www.etsi.org/deliver/etsi_gs/MEC/001_099/011/03.02.01_60/gs_MEC011v030201p.pdf
+        status: 200
+        note: >-
+          PROOF the standards are free — 4,514,548 bytes of application/pdf, no
+          login, no paywall, no email capture.
+      - url: https://forge.etsi.org/legal-matters
+        status: 200
+        note: >-
+          "Unless specified otherwise, the content of the repositories in the ETSI
+          Forge is licensed under the terms of the BSD-3-Clause LICENSE."
+      - url: https://try-mec.etsi.org/
+        status: 200
+        note: MEC Sandbox / EdgeNative Connector web front end loads anonymously.
+      - url: https://try-mec.etsi.org/api
+        status: 401
+        note: Sandbox API requires sign-in. Free, but account-gated.
+      - url: https://try-mec.etsi.org/sandboxname/mec_service_mgmt/v1/services
+        status: 401
+        note: Live MEC service API path is behind the sandbox session.
+      - url: https://mecwiki.etsi.org/index.php?title=MEC_Sandbox_Help
+        status: 200
+        note: Full public documentation of the sandbox scenarios and MEC services offered.
+      - url: https://osl.etsi.org/documentation/latest/naas/exposed_apis/
+        status: 200
+        note: Public, complete list of the TM Forum Open APIs OpenSlice exposes.
+      - url: https://ocf.etsi.org/documentation/latest/
+        status: 200
+        note: OpenCAPIF (3GPP CAPIF) documentation, public.
+      - url: https://portal.openslice.eu/tmf-api/serviceCatalogManagement/v4/serviceCatalog
+        status: 200
+        note: >-
+          LIVE, anonymously-callable TM Forum TMF633 endpoint on the public OpenSlice
+          demo linked from the ETSI SDG OSL docs. Returned real JSON service catalog
+          data. Note the demo is hosted on openslice.eu, not on an etsi.org host.
+      - url: https://portal.openslice.eu/tmf-api/productCatalogManagement/v4/catalog
+        status: 200
+        note: LIVE, anonymous TMF620 Product Catalog endpoint on the same demo.
+  downloadableSpecs:
+    harvested: true
+    fullOpenApiDocuments: 87
+    supportingComponentFiles: 72
+    totalFilesSaved: 159
+    totalOperations: 730
+    licence: BSD-3-Clause (ETSI Forge legal-matters)
+    conventionalPathsProbed:
+      - path: /openapi.json
+        note: Not served on etsi.org or api.etsi.org (404).
+      - path: /swagger.json
+        note: Not served.
+      - path: /api-docs
+        note: Not served on api.etsi.org (404).
+      - path: /v1/openapi.json
+        note: Served 401 on try-mec.etsi.org (sandbox, sign-in required); 404 elsewhere.
+    note: >-
+      ETSI does not serve OpenAPI from a documentation host. It serves it from source
+      control. Every spec below was fetched through the anonymous GitLab raw-file API
+      and saved verbatim; each one was re-parsed locally and confirmed to carry an
+      `openapi`/`swagger` key plus `paths`.
+    provenance:
+      - group: ETSI ISG MEC
+        files: 18
+        specs: 17
+        sourceHost: https://forge.etsi.org/rep/api/v4/projects/{id}/repository/files/{path}/raw?ref=HEAD
+        projects:
+          - https://forge.etsi.org/rep/mec/gs010-2-app-pkg-lcm-api
+          - https://forge.etsi.org/rep/mec/gs011-app-enablement-api
+          - https://forge.etsi.org/rep/mec/gs012-rnis-api
+          - https://forge.etsi.org/rep/mec/gs013-location-api
+          - https://forge.etsi.org/rep/mec/gs014-ue-identity-api
+          - https://forge.etsi.org/rep/mec/gs015-bandwith-mgmt-api
+          - https://forge.etsi.org/rep/mec/gs016-dev-app-api
+          - https://forge.etsi.org/rep/mec/gs021-amsi-api
+          - https://forge.etsi.org/rep/mec/gs028-wai-api
+          - https://forge.etsi.org/rep/mec/gs029-fai-api
+          - https://forge.etsi.org/rep/mec/gs030-vis-api
+          - https://forge.etsi.org/rep/mec/gs033-iot-api
+          - https://forge.etsi.org/rep/mec/gs040-fed-enablement-api
+        httpStatus: 200
+        fetched: '2026-07-25'
+        oasVersion: 3.1.0
+      - group: ETSI ISG NFV (SOL002/SOL003)
+        files: 54
+        specs: 25
+        source: https://forge.etsi.org/rep/nfv/SOL002-SOL003
+        httpStatus: 200
+        fetched: '2026-07-25'
+        oasVersion: 3.0.2
+        note: Full src/ tree saved so relative $ref targets still resolve.
+      - group: ETSI ISG NFV (SOL005)
+        files: 33
+        specs: 15
+        source: https://forge.etsi.org/rep/nfv/SOL005
+        httpStatus: 200
+        fetched: '2026-07-25'
+        oasVersion: 3.0.2
+      - group: ETSI ISG NFV (SOL009)
+        files: 21
+        specs: 9
+        source: https://forge.etsi.org/rep/nfv/SOL009
+        httpStatus: 200
+        fetched: '2026-07-25'
+        oasVersion: 3.0.2
+      - group: ETSI ISG NFV (SOL011)
+        files: 16
+        specs: 10
+        source: https://forge.etsi.org/rep/nfv/SOL011
+        httpStatus: 200
+        fetched: '2026-07-25'
+        oasVersion: mixed 3.0.2 and Swagger 2.0
+        note: Six SOL011 documents are still Swagger 2.0, not OpenAPI 3 — recorded as found.
+      - group: ETSI ISG NFV (SOL012)
+        files: 9
+        specs: 3
+        source: https://forge.etsi.org/rep/nfv/SOL012
+        httpStatus: 200
+        fetched: '2026-07-25'
+        oasVersion: 3.0.2
+      - group: ETSI ISG CIM (NGSI-LD)
+        files: 2
+        specs: 2
+        source: https://forge.etsi.org/rep/cim/ngsi-ld-openapi
+        httpStatus: 200
+        fetched: '2026-07-25'
+        oasVersion: 3.0.3 and 3.1.0
+        note: NGSI-LD OAS v1.7.1, 28 paths, externalDocs points to ETSI GS CIM 009 V1.7.1.
+      - group: ETSI SDG OpenCAPIF (3GPP CAPIF TS 29.222)
+        files: 4
+        specs: 4
+        source: https://labs.etsi.org/rep/ocf/capif
+        httpStatus: 200
+        fetched: '2026-07-25'
+        oasVersion: 3.0.0
+        note: >-
+          API Invoker Management 1.4.0-alpha.5, API Provider Management 1.2.0,
+          Access Control Policy 1.4.0-alpha.1, Auditing 1.4.0-alpha.2.
+      - group: CAMARA-shaped APIs published by ETSI
+        files: 2
+        specs: 2
+        sources:
+          - https://labs.etsi.org/rep/osl/code/addons/org.etsi.osl.controllers.camara
+          - https://labs.etsi.org/rep/oop/code/open-exposure-gateway
+        httpStatus: 200
+        fetched: '2026-07-25'
+        oasVersion: 3.0.3
+  camara:
+    posture: >-
+      Liaison partner and open-source implementer, not a CAMARA member operator and
+      not a GSMA Open Gateway participant. ETSI is upstream of CAMARA: CAMARA
+      explicitly defines its Service APIs as an abstraction over 3GPP, Broadband
+      Forum and ETSI MEC APIs, so ETSI supplies raw material rather than consuming
+      it. What makes ETSI unusual for a standards body is that this is NOT merely a
+      press release — two callable CAMARA-shaped OpenAPI documents were harvested
+      from ETSI's own repositories.
+    pressReleaseOnly: false
+    pressReleaseOnlyNote: >-
+      A press release alone would not count. Here there is code and spec behind the
+      announcement, so it is recorded as a real implementation surface — with the
+      caveat that these are reference/demo implementations inside ETSI open-source
+      projects, not a commercial CAMARA channel. ETSI sells nothing.
+    evidence:
+      - type: Specification
+        claim: CAMARA Quality on Demand (QoD) Provisioning API, real OpenAPI 3.0.3
+        detail: >-
+          openapi/camara/openslice-camara-qod-provisioning.yaml — title "QoD
+          Provisioning API" v0.1.0, server {apiRoot}/qod-provisioning/v0.1, paths
+          /device-qos, /device-qos/{provisioningId}, /retrieve-device-qos. Shipped as
+          the OpenSlice "CAMARAaaS" add-on which transforms between the CAMARA API
+          model and the TM Forum API model so an operator can expose a running 5G
+          core or network slice through a standard CAMARA endpoint.
+        source: https://labs.etsi.org/rep/osl/code/addons/org.etsi.osl.controllers.camara
+        status: 200
+      - type: Specification
+        claim: >-
+          CAMARA northbound Edge Cloud Management, Network Exposure (QoD + Traffic
+          Influence) and Federation Management, real OpenAPI 3.0.3
+        detail: >-
+          openapi/camara/operator-platform-edge-cloud-management.yaml — title "Open
+          Exposure Gateway API" v1.0.1-wip. Operations include POST /sessions
+          (create QoD session), GET/DELETE /sessions/{sessionId}, POST
+          /location/retrieve (retrieve the location of a device), /apps and
+          /appinstances application lifecycle, /edge-cloud-zones, and
+          /{federationContextId}/partner federation management. The README states it
+          "implements the Northbound CAMARA APIs for application providers" and
+          implements the Open Exposure Gateway role defined by the GSMA Operator
+          Platform Group.
+        source: https://labs.etsi.org/rep/oop/code/open-exposure-gateway
+        status: 200
+      - type: Publication
+        claim: ETSI White Paper co-authored with CAMARA and TM Forum
+        detail: >-
+          ETSI MEC Phase 4 press release, Sophia Antipolis, 31 October 2025 — "The
+          White Paper clarifies how ETSI MEC service APIs complement open-source
+          implementations like CAMARA Service APIs." Dario Sabella, Chair of ETSI
+          MEC: "Our recent ETSI White Paper, co-authored with CAMARA and TM Forum,
+          demonstrates strong synergy with other organisations." The release adds
+          that the work is "aligned with 3GPP, CAMARA, and GSMA."
+        source: https://www.etsi.org/newsroom/press-releases/2603-etsi-mec-phase-4-specifications-white-paper/
+        status: 200
+      - type: Related capability
+        claim: ETSI MEC 013 Location API is the network-location primitive underneath CAMARA Device Location
+        detail: >-
+          Harvested at openapi/mec/LocationAPI.yaml, 14 paths. Not a CAMARA API and
+          not counted as one — recorded because it is the ETSI-side capability CAMARA
+          abstracts.
+        source: https://forge.etsi.org/rep/mec/gs013-location-api
+        status: 200
+    apisWithRealEvidence:
+      - Quality on Demand (QoD)
+      - Device Location (Location Retrieval)
+      - Edge Cloud / Edge Application Management
+      - Traffic Influence
+      - Federation Management
+    apisExplicitlyNotFound:
+      - Number Verification
+      - SIM Swap
+      - Device Status / Reachability
+      - Carrier Billing
+      - KYC Match
+      - Anti-fraud / Scam Signal
+      - Device Swap
+      - Population Density
+  openGateway:
+    member: false
+    note: >-
+      GSMA Open Gateway is an operator commitment programme; ETSI is a standards
+      body and operates no network, so it is not and cannot be a participant. There
+      IS a real GSMA link in the other direction: the ETSI Operator Platform SDG
+      implements the Open Exposure Gateway role defined by the GSMA Operator Platform
+      Group (OPG), and the ETSI MEC Phase 4 release names GSMA as an alignment
+      target. That is standards alignment, not Open Gateway membership.
+  aduna:
+    reachesMarketThroughAduna: false
+    note: >-
+      Not applicable. ETSI has no commercial API channel at all — it does not sell
+      access, does not operate a gateway, and does not aggregate. Its distribution
+      channel to developers is free specification download plus public source control.
+  tmForum:
+    conformanceCertified: false
+    conformanceNote: >-
+      No TM Forum Open API conformance certification was found for ETSI. What exists
+      is a large, documented, and live IMPLEMENTATION. ETSI SDG OpenSlice publicly
+      lists more than twenty exposed TM Forum Open API endpoints and the public
+      OpenSlice demo answers them anonymously.
+    apisImplemented:
+      - TMF620 Product Catalog Management v4.0.0
+      - TMF622 Product Ordering v4.0.0
+      - TMF629 Customer Management v4.0.0
+      - TMF632 Party v4.0.0
+      - TMF633 Service Catalog Management v4.0.0
+      - TMF634 Resource Catalog Management v4.0.0
+      - TMF638 Service Inventory Management v4.0.0
+      - TMF639 Resource Inventory Management v4.0.0
+      - TMF640 Service Activation and Configuration v3.0.0
+      - TMF641 Service Ordering v4.0.0
+      - TMF642 Alarm Management v4.0.0
+      - TMF651 Agreement Management v2.0.0
+      - TMF652 Resource Order Management v4.0.0
+      - TMF653 Service Test Management v4.0.0
+      - TMF657 Service Quality Management v2.0.0
+      - TMF666 Account Management v4.0.0
+      - TMF669 Party Role Management v4.0.0
+      - TMF685 Resource Pool Management v1.0.0
+      - TMF691 Federated ID v1.0.0
+    source: https://osl.etsi.org/documentation/latest/naas/exposed_apis/
+    liveProof:
+      - url: https://portal.openslice.eu/tmf-api/serviceCatalogManagement/v4/serviceCatalog
+        status: 200
+        note: Anonymous GET returned a real TMF633 ServiceCatalog array.
+      - url: https://portal.openslice.eu/tmf-api/productCatalogManagement/v4/catalog
+        status: 200
+        note: Anonymous GET returned a real TMF620 Catalog array.
+  threeGppExposure:
+    nefScef: >-
+      No NEF or SCEF endpoint is operated by ETSI — it is a standards body. The
+      3GPP-side exposure ETSI actually ships is CAPIF: ETSI SDG OpenCAPIF is an
+      open-source implementation of the 3GPP Common API Framework, TS 29.222, and
+      four of its service APIs were harvested as OpenAPI 3.0.0.
+    capif: true
+    capifApis:
+      - CAPIF_API_Invoker_Management_API v1.4.0-alpha.5
+      - CAPIF_API_Provider_Management_API v1.2.0
+      - CAPIF_Access_Control_Policy_API v1.4.0-alpha.1
+      - CAPIF_Auditing_API v1.4.0-alpha.2
+    networkSlicing: >-
+      Yes. ETSI SDG OpenSlice is an open-source OSS for delivering Network as a
+      Service and 5G network slicing, and the CAMARAaaS add-on explicitly updates 5G
+      Network Slice characteristics through CAMARA endpoints.
+    edgeMec: >-
+      Extensive. ETSI ISG MEC is the origin of the Multi-access Edge Computing
+      standard; 17 MEC service API OpenAPI documents were harvested. MEC Sandbox
+      v1.10 added alignment with 3GPP CAPIF and initial 3GPP EDGEAPP support.
+    hosts3gpp: >-
+      ETSI hosts the 3GPP Mobile Competence Centre, and forge.etsi.org carries a
+      public "3GPP" group.
+  authModel:
+    ciba: false
+    cibaNote: >-
+      No CIBA. A recursive grep for "ciba" and "backchannel" across all 159 harvested
+      files returned nothing. The CAMARA QoD Provisioning API does declare
+      `openIdConnect` (openIdConnectUrl is a placeholder,
+      https://example.com/.well-known/openid-configuration), which is the OIDC half
+      of the CAMARA authorisation model, but the CIBA grant is absent.
+    schemes:
+      - scheme: OpenID Connect
+        where: openapi/camara/openslice-camara-qod-provisioning.yaml (securityScheme `openId`)
+      - scheme: HTTP Bearer
+        where: >-
+          openapi/camara/openslice-camara-qod-provisioning.yaml
+          (`notificationsBearerAuth`, for sink credentials on notifications)
+      - scheme: OAuth 2.0 client credentials
+        where: openapi/capif/capif-api-invoker-management.yaml (`oAuth2ClientCredentials`)
+      - scheme: OAuth 2.0 client credentials
+        where: >-
+          ETSI NFV SOL002/SOL003 define OAUTH2_CLIENT_CREDENTIALS as the notification
+          endpoint authType in SOL002_def.yaml / SOL003_def.yaml, alongside BASIC and
+          TLS_CERT.
+      - scheme: TLS certificate (mTLS)
+        where: NFV SOL002/SOL003 subscription authentication options.
+      - scheme: Session login
+        where: try-mec.etsi.org MEC Sandbox — API paths return 401 until signed in.
+    note: >-
+      The ETSI MEC and NGSI-LD OpenAPI documents declare NO securitySchemes at all,
+      and their `servers` entries are placeholders — 127.0.0.1, localhost:8081,
+      {protocol}://{hostname}:{port}/ngsi-ld/v1. This is the honest and correct
+      shape for a standards body: these are specification-grade contracts to be
+      implemented, not runnable service endpoints. Nothing was invented to fill the
+      gap.
+  webhooksEvents:
+    asyncapi: false
+    note: >-
+      No AsyncAPI document was found anywhere on forge.etsi.org or labs.etsi.org for
+      ETSI's own APIs. Callbacks and notifications ARE extensively specified, but
+      inside the OpenAPI documents as dedicated notification interfaces — SOL002,
+      SOL003, SOL005, SOL009, SOL011 and SOL012 each ship separate
+      *Notification.yaml documents (VNF/NS lifecycle, fault, performance, indicator,
+      package, policy, capacity notifications), and the MEC service APIs carry
+      subscription resources. NGSI-LD has a full subscription and notification model.
+    callbackServers:
+      - http://127.0.0.1/callback/v1
+      - https://127.0.0.1/callback/v1
+      - http://127.0.0.1/callback/v2
+      - https://127.0.0.1/callback/v2
+  sdks:
+    firstPartyPackages: []
+    note: >-
+      No first-party ETSI SDK was found on npm, PyPI, Maven Central or NuGet during
+      this review, and none is advertised. What ETSI ships instead is reference
+      IMPLEMENTATIONS and client helpers in source form on labs.etsi.org: OpenCAPIF
+      example clients (clients-go, invoker-cli, invoker-python, provider-cli,
+      provider-pki-cli, provider-psk-cli) and an OpenCAPIF SDK project, plus ISG ARF
+      World Storage / World Analysis client and server helpers in C, C++, C#, Python
+      and Unity. Not published packages — repositories.
+  graphql:
+    present: false
+    note: No GraphQL endpoint or SDL found on any ETSI host.
+  grpc:
+    present: false
+    note: >-
+      No published .proto was harvested. ETSI TeraFlowSDN (tfs.etsi.org) is a
+      cloud-native SDN controller that does use gRPC internally; no first-party
+      .proto was located through the public GitLab API within this review's scope.
+  postman:
+    publicWorkspace: false
+    note: >-
+      No public ETSI Postman workspace found. There IS a Postman collection
+      repository on Forge for NFV Plugtests —
+      https://forge.etsi.org/rep/nfv/nfv-plu-postman-collections — which is source
+      control, not a hosted workspace.
+  mcp:
+    present: true
+    note: >-
+      ETSI publishes a Model Context Protocol server. `osl/code/org.etsi.osl.mcp.server`
+      on labs.etsi.org is a Spring Boot MCP server exposing OpenSlice service catalog,
+      service ordering, service instance and product catalog operations as MCP tools
+      (getOSLServiceCatalogs, createServiceOrder, getService, updateService and
+      others). Notable for a standards body, and rare in this sector.
+    source: https://labs.etsi.org/rep/osl/code/org.etsi.osl.mcp.server
+  membershipGate:
+    whatIsOpen:
+      - Every ETSI deliverable, free PDF download, no login (etsi.org/deliver)
+      - All OpenAPI/YAML/JSON/ASN.1/TTCN-3 on forge.etsi.org, BSD-3-Clause
+      - All ETSI Software Development Group source on labs.etsi.org
+      - Anonymous GitLab REST API on both hosts
+      - MEC wiki, OpenSlice docs, OpenCAPIF docs
+    whatIsGated:
+      - portal.etsi.org member portal, work programme drafting and voting
+      - ETSI membership itself (900+ member organisations, 60+ countries)
+      - MEC Sandbox live API calls (free account sign-in, HTTP 401 without)
+    verdict: >-
+      Participation is gated; publication is not. For a standards body this is the
+      most open posture available and it is materially different from the
+      pay-per-standard model elsewhere.
+  transports:
+    - protocol: REST
+      scheme: https
+      documented: true
+      note: >-
+        Every harvested ETSI API is HTTP/REST described in OpenAPI. 87 documents,
+        730 operations.
+    - protocol: HTTP callbacks / webhooks
+      scheme: https
+      documented: true
+      note: >-
+        Specified as dedicated notification interfaces inside the OpenAPI documents
+        rather than as AsyncAPI.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket surface documented in any harvested ETSI specification.
+    - protocol: GraphQL
+      documented: false
+    - protocol: gRPC
+      documented: false
+      note: Used internally by TeraFlowSDN; no first-party .proto harvested.
+    - protocol: MCP
+      documented: true
+      note: OpenSlice MCP Server, source-available on labs.etsi.org.
+sources:
+  - url: https://www.etsi.org/
+    type: Website
+    status: 200
+  - url: https://www.etsi.org/standards/get-standards
+    type: Documentation
+    status: 200
+  - url: https://www.etsi.org/deliver/
+    type: Standards
+    status: 200
+  - url: https://forge.etsi.org/rep/
+    type: Repository
+    status: 200
+  - url: https://labs.etsi.org/rep/
+    type: Repository
+    status: 200
+  - url: https://forge.etsi.org/legal-matters
+    type: License
+    status: 200
+  - url: https://try-mec.etsi.org/
+    type: Sandbox
+    status: 200
+  - url: https://mecwiki.etsi.org/index.php?title=MEC_Sandbox_Help
+    type: Documentation
+    status: 200
+  - url: https://osl.etsi.org/documentation/latest/naas/exposed_apis/
+    type: Documentation
+    status: 200
+  - url: https://ocf.etsi.org/documentation/latest/
+    type: Documentation
+    status: 200
+  - url: https://www.etsi.org/newsroom/press-releases/2603-etsi-mec-phase-4-specifications-white-paper/
+    type: PressRelease
+    status: 200
+  - url: https://portal.openslice.eu/tmf-api/serviceCatalogManagement/v4/serviceCatalog
+    type: APIEndpoint
+    status: 200
+actions:
+  apisYmlUpdated: true
+  openapiHarvested: true
+  openapiDirectory: openapi/
+  specsHarvested: 87
+  supportingFiles: 72
+  asyncapiCreated: false
+  graphqlCreated: false
+  reason: >-
+    ETSI is classified as a real, open, machine-readable standards-body API surface.
+    87 valid OpenAPI documents were harvested verbatim from two anonymous public
+    GitLab instances and re-validated locally. The organisation has no commercial API
+    channel and no developer console, so 'gated' is recorded as false for spec
+    acquisition while noting the member portal and the sign-in-gated sandbox. Nothing
+    was fabricated: where the specs declare placeholder servers and no security
+    schemes, that is recorded as the finding rather than filled in.

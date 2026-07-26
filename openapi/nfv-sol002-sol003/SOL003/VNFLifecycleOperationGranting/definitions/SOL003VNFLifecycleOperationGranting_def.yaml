@@ -1,0 +1,898 @@
+# Copyright (c) ETSI 2017.
+# https://forge.etsi.org/etsi-forge-copyright-notice.txt
+
+definitions:
+  GrantRequest:
+    description: >
+      This type represents a grant request.
+
+      NOTE 1:	The VNF LCM operations CreateVnfIdentifier, DeleteVnfIdentifier, QueryVnf and ModifyVnfInformation 
+              can be executed by the VNFM without requesting granting.
+      NOTE 2:	If the granting request is for InstantiateVNF, either instantiationLevel or addResources shall be present.
+      NOTE 3:	The NFVO will assume that the VNFM will be responsible to both allocate and release the temporary resource 
+              during the runtime of the LCM operation. This means, the resource can be allocated and consumed after the 
+              "start" notification for the LCM operation is sent by the VNFM, and the resource will be released before the 
+              "result" notification of the VNF LCM operation is sent by the VNFM.
+      NOTE 4:	For the affinity/anti-affinity rules defined in the VNFD and the placement constraints in the GrantVnfLifecycleOperation 
+              as defined in this clause, the following applies: Assuming unlimited capacity, the combination of all the
+              aforementioned rules shall be satisfiable by at least one possible placement of the new resources, with the
+              exception that some of the rules with fallbackBestEffort may be unsatisfiable due to the actual placement of
+              existing resources. In this case, rules with fallbackBestEffort are allowed to be violated only in relation
+              to the placement of existing resources.
+      NOTE 5:	Passing constraints allows the VNFM or the lifecycle management scripts to influence resource placement decisions 
+              by the NFVO to ensure VNF properties such as performance or fault tolerance.
+      NOTE 6:	If fallbackBestEffort is present and set to "true" in one or more placement constraints and, the NFVO
+              cannot find a resource placement that satisfies all of these due to limited capacity, the NFVO shall process
+              each such affinity/anti-affinity constraint in a best effort manner, in which case, if specified resources
+              cannot be allocated based on the specified placement constraint, the NFVO shall look for an alternate best
+              effort placement for the specified resources to be granted. In the best effort anti-affinity case, the
+              resources are expected to be spread optimally over all available instances of scope (e.g. zones), and in
+              the best effort affinity case, they are expected to be distributed optimally over as few instances of scope as
+              possible. Being able to satisfy a "best-effort" constraint in a best effort manner only, as defined above,
+              shall not lead to rejecting the grant.
+    type: object
+    required:
+      - vnfInstanceId
+      - vnfLcmOpOccId
+      - vnfdId
+      - operation
+      - isAutomaticInvocation
+      - _links
+    properties:
+      vnfInstanceId:
+        description: >
+          Identifier of the VNF instance which this grant request is related
+          to. Shall also be provided for VNFs that not yet exist but are
+          planned to exist in the future, i.e. if the grant is requested for
+          InstantiateVNF.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      vnfLcmOpOccId:
+        description: >
+          The identifier of the VNF lifecycle management operation occurrence
+          associated to the GrantRequest.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      vnfdId:
+        description: >
+          Identifier of the VNFD that defines the VNF for which the LCM
+          operation is to be granted.
+          In case of the "Change current VNF package operation, this identifier
+          refers to the VNFD which defines the VNF before the LCM operation to 
+          be granted.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      dstVnfdId:
+        description: >
+          Identifier of the "destination" VNFD which will define the VNF after 
+          executing the "Change current VNF package" LCM operation to be granted. 
+          Shall be included if the operation changes the current VNF Package and 
+          shall be absent otherwise.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      flavourId:
+        description: >
+          Identifier of the VNF deployment flavour of the VNFD that defines
+          the VNF for which the LCM operation is to be granted.
+          Shall be provided when instantiating the VNF or changing the
+          deployment flavour of the VNF instance.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      operation:
+        description: >
+          The lifecycle management operation for which granting is requested. See note 1. 
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/GrantedLcmOperationType"
+      isAutomaticInvocation:
+        description: >
+          Set to true if this VNF LCM operation occurrence has been triggered
+          by an automated procedure inside the VNFM
+          (i.e. ScaleVnf / ScaleVnfToLevel triggered by auto-scale, or HealVnf
+          triggered by auto-heal).
+          Set to false otherwise.
+        type: boolean
+      instantiationLevelId:
+        description: >
+          If operation=INSTANTIATE, the identifier of the instantiation level may be provided as an 
+          alternative way to define the resources to be added. This attribute shall only be used if 
+          operation=INSTANTIATE. See note 2.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      addResources:
+        description: >
+          List of resource definitions in the VNFD for resources to be added by the LCM operation 
+          which is related to this grant request, with one entry per resource. See note 2.
+        type: array
+        items:
+          $ref: "#/definitions/ResourceDefinition"
+      tempResources:
+        description: >
+          List of resource definitions in the VNFD for resources to be temporarily instantiated during 
+          the runtime of the LCM operation which is related to this grant request, with one entry per 
+          resource. See note 3.
+        type: array
+        items:
+          $ref: "#/definitions/ResourceDefinition"
+      removeResources:
+        description: >
+          Provides the definitions of resources to be removed by the LCM
+          operation which is related to this grant request, with one entry per
+          resource.
+        type: array
+        items:
+          $ref: "#/definitions/ResourceDefinition"
+      updateResources:
+        description: >
+          Provides the definitions of resources to be modified by the LCM
+          operation which is related to this grant request, with one entry per
+          resource.
+        type: array
+        items:
+          $ref: "#/definitions/ResourceDefinition"
+      placementConstraints:
+        description: >
+          Placement constraints that the VNFM may send to the NFVO in order to influence the resource 
+          placement decision. If sent, the NFVO shall take the constraints into consideration when making 
+          resource placement decisions and shall reject the grant if they cannot be honoured. See notes 4, 
+          5 and 6.
+        type: array
+        items:
+          $ref: "#/definitions/PlacementConstraint"
+      vimConstraints:
+        description: >
+          Used by the VNFM to require that multiple resources are managed
+          through the same VIM connection. If sent, the NFVO shall take the
+          constraints into consideration when making VIM selection decisions,
+          and shall reject the grant if they cannot be honoured.
+          This attribute shall be supported if VNF-related Resource Management
+          in direct mode is applicable.
+          The applicability and further details of this attribute for indirect
+          mode are left for future specification.
+        type: array
+        items:
+          $ref: "#/definitions/VimConstraint"
+      additionalParams:
+        description: >
+          Additional parameters passed by the VNFM, specific to the VNF and
+          the LCM operation.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/KeyValuePairs"
+      _links:
+        description: >
+          Links to resources related to this request.
+        type: object
+        required:
+          - vnfLcmOpOcc
+          - vnfInstance
+        properties:
+          vnfLcmOpOcc:
+            description: >
+              Related lifecycle management operation occurrence.
+            $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Link"
+          vnfInstance:
+            description: >
+              Related VNF instance.
+            $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Link"
+
+  Grant:
+    description: >
+      This type represents a grant.
+
+      NOTE 1: This interface allows to signal the use of multiple VIMs per VNF. The specification
+              for managing the VNF internal VL requirements across multiple VIMs is supported via
+              "externally-managed internal VLs" and "multi-site connectivity services".
+      NOTE 2: Void.
+      NOTE 3: The Grant response allows the NFVO to pass to the VNFM VIM assets related to the VNF 
+              package that is identified in the corresponding Grant request. Because only the operations
+              InstantiateVnf, ChangeCurrentVnfPkg and the update of the vnfdId by PATCH can imply changes
+              in the set of VIM assets, the NFVO shall not change this set in any other case. To signal the
+              set of VIM assets, the following applies:
+              a)	If the current LCM operation is InstantiateVnf, the NFVO shall send in the Grant response
+              the full set of VIM assets related to the VNF package defined by the vnfdId in the related
+              Grant request.
+              b)	If the current LCM operation is ChangeCurrentVnfPkg, the NFVO shall send in the
+              Grant response the full set of VIM assets related to the VNF package defined by the destVnfdId
+              in the related Grant request.
+              c)	For any other operation: If the set of VIM assets has changed since the end of the previous
+              granted operation because a PATCH operation has changed the vnfdId between the previous granted
+              operation and the operation to which the current granting exchange relates, the NFVO shall send
+              in the Grant response the full set of VIM assets related to the VNF package defined by the vnfdId
+              in the related Grant request. Otherwise, the NFVO shall either send in the Grant response the full
+              set of VIM assets related to the VNF package defined by the vnfdId in the related Grant request, or
+              shall not send any VIM assets at all.
+              During each LCM operation occurrence other than a "ChangeCurrentVnfPkg" operation,
+              the VIM assets that relate to the VNF package identified by the current value of
+              the vnfdId attribute in the "VnfInstance" structure shall be used by the
+              VNFM for newly created resources and updated resources.
+      NOTE 4: The indication of externally-managed internal VLs is needed in case networks have been
+              pre-configured for use with certain VNFs, for instance to ensure that these networks have
+              certain properties such as security or acceleration features, or to address particular network
+              topologies (e.g., multi-site connectivity). The present document assumes that externally-managed
+              internal VLs are managed by the NFVO and created towards the VIM and WIM.
+      NOTE 5: For any VNF lifecycle management operation request that allows to pass "extVirtualLinks" and/or
+              "extManagedVirtualLinks" parameters, such as InstantiateVnf, ChangeVnfFlavour, ChangeExtVnfConnectivity or
+              ChangeCurrentVnfPackage, the NFVO may provide the "extVirtualLinks" and/or "extManagedVirtualLinks" attributes
+              in the Grant to override the values passed in these parameters previously in the associated VNF lifecycle
+              management request, if the lifecycle management request has originated from the NFVO itself. The NFVO shall
+              not provide the "extVirtualLinks" and/or "extManagedVirtualLinks" attributes in the Grant in case the LCM
+              request did not originate from the NFVO itself or the granted LCM operation request does not allow to pass
+              these parameters.
+      NOTE 6: The NFVO shall set the value of the attribute by copying the value from the associated 
+              GrantRequest.
+      NOTE 7: In case of granting an InstantiateVnf request that has originated from the NFVO and that 
+              did not contain the "extVirtualLinks" attribute, this attribute shall be set by the NFVO. 
+              Further in case of granting an InstantiateVnf request that has originated from the NFVO 
+              and that did not contain the "extManagedVirtualLinks" attribute, this attribute shall be 
+              set by the NFVO if there is the need to provide information about externally-managed virtual 
+              links.
+      NOTE 8: The resulting "extVirtualLinks" or "extManagedVirtualLinks" information is calculated as follows: 
+              In a first step, the information passed in the related LCM operation is applied to the baseline
+              information known from earlier LCM operation executions. In a second step, the information passed
+              in the Grant is applied to the information resulting from the first step.
+    type: object
+    required:
+      - id
+      - vnfInstanceId
+      - vnfLcmOpOccId
+      - _links
+    properties:
+      id:
+        description: >
+          Identifier of the grant.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      vnfInstanceId:
+        description: >
+          Identifier of the related VNF instance. See note 6.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      vnfLcmOpOccId:
+        description: >
+          Identifier of the related VNF lifecycle management operation occurrence. 
+          See note 6.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      vimConnectionInfo:
+        description: >
+          Provides information regarding VIM connections that are approved to be used 
+          by the VNFM to allocate resources and provides parameters of these VIM connections. 
+          
+          The VNFM shall update the "vimConnectionInfo" attribute of the "VnfInstance" structure 
+          by adding unknown entries received in this attribute. 
+          
+          This attribute is not intended for the modification of VimConnectionInfo entries passed 
+          earlier; for that, the VnfInfoModificationRequest structure shall be used.
+          
+          This attribute shall only be supported when VNF-related Resource Management in direct mode 
+          is applicable. In direct mode, this parameter shall be absent if the VIM information was 
+          configured to the VNFM in another way, present otherwise. See note 1.
+        type: object
+        additionalProperties:
+          $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/VimConnectionInfo"
+      zones:
+        description: >
+          Identifies resource zones where the resources are approved to be
+          allocated by the VNFM.
+        type: array
+        items:
+          $ref: "#/definitions/ZoneInfo"
+      zoneGroups:
+        description: >
+          Information about groups of resource zones that are related and that
+          the NFVO has chosen to fulfil a zoneGroup constraint in the
+          GrantVnfLifecycleOperation request.
+          This information confirms that the NFVO has honoured the zoneGroup
+          constraints that were passed as part of "placementConstraints" in the
+          GrantRequest.
+        type: array
+        items:
+          $ref: "#/definitions/ZoneGroupInfo"
+      addResources:
+        description: >
+          List of resources that are approved to be added, with one entry per
+          resource. Shall be set when resources are approved to be added and 
+          shall contain the same set of resources requested to be added in the 
+          related GrantRequest.
+        type: array
+        items:
+          $ref: "#/definitions/GrantInfo"
+      tempResources:
+        description: >
+          List of resources that are approved to be temporarily instantiated
+          during the runtime of the lifecycle operation, with one entry per
+          resource. Shall be set when resources are approved to be temporarily 
+          instantiated and shall contain the same set of resources requested to 
+          be temporarily instantiated in the related GrantRequest.
+        type: array
+        items:
+          $ref: "#/definitions/GrantInfo"
+      removeResources:
+        description: >
+          List of resources that are approved to be removed, with one entry
+          per resource. Shall be set when resources are approved to be removed
+          and shall contain the same set of resources requested to be removed 
+          in the related GrantRequest.
+        type: array
+        items:
+          $ref: "#/definitions/GrantInfo"
+      updateResources:
+        description: >
+          List of resources that are approved to be modified, with one entry
+          per resource. Shall be set when resources are approved to be updated
+          and shall contain the same set of resources requested to be updated 
+          in the related GrantRequest.
+        type: array
+        items:
+          $ref: "#/definitions/GrantInfo"
+      vimAssets:
+        description: >
+          Information about assets for the VNF that are managed by the NFVO in the VIM, 
+          such as software images and virtualised compute resource flavours. See note 3.
+        type: object
+        properties:
+          computeResourceFlavours:
+            description: >
+              Mappings between virtual compute descriptors defined in the VNFD
+              and compute resource flavours managed in the VIM.
+            type: array
+            items:
+              $ref: "#/definitions/VimComputeResourceFlavour"
+          softwareImages:
+            description: >
+              Mappings between software images defined in the VNFD and
+              software images managed in the VIM.
+            type: array
+            items:
+              $ref: "#/definitions/VimSoftwareImage"
+          snapshotResources:
+            description: >
+              Mappings between snapshot resources defined in the VNF snapshot package and resources
+              managed in the VIM.
+            type: array
+            items:
+              $ref: "#/definitions/VimSnapshotResource"
+      extVirtualLinks:
+        description: >
+          Information about external VLs to connect the VNF to. See notes 5, 7 and 8. If this attribute 
+          is present according to note 5 or note 7, it need not contain those entries that are unchanged 
+          compared to the entries that were passed in the LCM operation which is related to this granting exchange.
+        type: array
+        items:
+          $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/ExtVirtualLinkData"
+      extManagedVirtualLinks:
+        description: >
+          Information about internal VLs that are managed by other entities than the VNFM. See notes 4, 5, 7 and 8.
+        type: array
+        items:
+          $ref: "../../VNFLifecycleManagement/definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/ExtManagedVirtualLinkData"
+      additionalParams:
+        description: >
+          Additional parameters passed by the NFVO, specific to the VNF and
+          the LCM operation.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/KeyValuePairs"
+      _links:
+        description: >
+          Links to resources related to this resource.
+        type: object
+        required:
+          - self
+          - vnfLcmOpOcc
+          - vnfInstance
+        properties:
+          self:
+            description: >
+              URI of this resource.
+            $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Link"
+          vnfLcmOpOcc:
+            description: >
+              Related VNF lifecycle management operation occurrence.
+            $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Link"
+          vnfInstance:
+            description: >
+              Related VNF instance.
+            $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Link"
+
+  ResourceDefinition:
+    description: >
+      This type provides information of an existing or proposed resource used by the VNF.
+
+      NOTE 1:	The use cases UC#4 and UC#5 in Annex A.4 of ETSI GS NFV-IFA 007 provide examples
+                for such a configuration.
+      NOTE 2:	In the context of an operation that changes the current VNF package, the following applies: If this
+                ResourceDefinition is related to a resource to be created or modified, the "vnfdId" attribute shall
+                contain the identifier of the destination VNFD. If this ResourceDefinition is related to a resource
+                to be deleted, the "vnfdId" attribute shall contain the identifier of the source VNFD. If this
+                ResourceDefinition is related to a temporary resource, the "vnfdId" attribute shall contain the
+                identifier of either the source VNFD or the destination VNFD.
+    type: object
+    required:
+      - id
+      - type
+      - resourceTemplateId
+    properties:
+      id:
+        description: >
+          Identifier of this "ResourceDefinition" structure, unique at least
+          within the scope of the "GrantRequest" structure.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierLocal"
+      type:
+        description: >
+          Type of the resource definition referenced.
+          Permitted values:
+          * COMPUTE
+          * VL
+          * STORAGE
+          * LINKPORT
+        type: string
+        enum:
+          - COMPUTE
+          - VL
+          - STORAGE
+          - LINKPORT
+      vduId:
+        description: >
+          Reference to the related VDU in the VNFD applicable to this
+          resource.
+          Shall only be present if a VDU is applicable to this resource,
+          i.e. if "type" has the value "COMPUTE".
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierInVnfd"
+      vnfdId:
+        description: >
+          Identifier of the VNFD to which resourceTemplateId and vduId refer. Shall be present 
+          if the operation to be granted changes the current VNF Package. May be absent otherwise. See note 2.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      resourceTemplateId:
+        description: >
+          Reference to the applicable resource template in the VNFD as follows:
+            - if type="VL" : VnfVirtualLinkDesc
+            - if type="COMPUTE": VirtualComputeDesc
+            - if type="LINKPORT" : VnfExtCpd
+            - if type="STORAGE" : VirtualStorageDesc
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierInVnfd"
+      secondaryResourceTemplateId:
+        description: >
+          Reference to a secondary resource template (VnfExtCpd) in the VNFD.
+          Shall be present if type="LINKPORT" and the linkport is shared by two external CP instances, 
+          one exposing a VNFC CP instance (based on a VnfExtCpd referenced by "resourceTemplateId") and 
+          another one exposing a VIP CP instance (based on a VnfExtCpd referenced by this attribute). 
+          Shall be absent otherwise. See note 1.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierInVnfd"
+      resource:
+        description: >
+          Resource information for an existing resource. Shall be present for
+          resources that are planned to be deleted or modified. Shall be
+          absent otherwise.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/ResourceHandle"
+      snapshotResDef:
+        description: >
+          Information to identify a snapshot resource. Shall only be present if the 
+          operation to be granted concerns to creating a VNF snapshot from the VNF
+          or to reverting the VNF to a VNF snapshot.
+        $ref: "#/definitions/SnapshotResourceDefinition"
+
+  GrantInfo:
+    description: >
+      This type contains information about a Compute, storage or network
+      resource whose addition/update/deletion was granted.
+    type: object
+    required:
+      - resourceDefinitionId
+    properties:
+      resourceDefinitionId:
+        description: >
+          Identifier of the related "ResourceDefinition" structure from the
+          related "GrantRequest" structure.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierLocal"
+      reservationId:
+        description: >
+          The reservation identifier applicable to the VNFC/VirtualLink/VirtualStorage/compute 
+          host. It shall be present for new resources when policy is GRANT_RESERVE and an 
+          applicable reservation exists; shall not be present otherwise.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierInVim"
+      vimConnectionId:
+        description: >
+          Identifier of the VIM connection to be used to manage this resource.
+          Shall be present for new resources, and shall be absent for
+          resources that have already been allocated.
+          The applicable "VimConnectionInfo" structure, which is referenced by
+          vimConnectionId, can be obtained from the "vimConnectionInfo"
+          attribute of the "VnfInstance" structure.
+          This attribute shall only be supported when VNF-related Resource
+          Management in direct mode is applicable.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      resourceProviderId:
+        description: >
+          Identifies the entity responsible for the management of the
+          virtualised resource. Shall be present for new resources, and shall
+          be absent for resources that have already been allocated.
+          This attribute shall only be supported when VNF-related Resource
+          Management in indirect mode is applicable. The identification scheme
+          is outside the scope of the present document.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      zoneId:
+        description: >
+          Reference to the identifier of the "ZoneInfo" structure in the
+          "Grant" structure defining the resource zone into which this
+          resource is to be placed. Shall be present for new resources if the
+          zones concept is applicable to them (typically, Compute resources),
+          and shall be absent for resources that have already been allocated.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierLocal"
+      resourceGroupId:
+        description: >
+          Identifier of the "infrastructure resource group", logical grouping
+          of virtual resources assigned to a tenant within an Infrastructure
+          Domain, to be provided when allocating the resource.
+          If the VIM connection referenced by "vimConnectionId" applies to
+          multiple infrastructure resource groups, this attribute shall be
+          present for new resources.
+          If the VIM connection referenced by "vimConnectionId" applies to a
+          single infrastructure resource group, this attribute may be present
+          for new resources.
+          This attribute shall be absent for resources that have already been
+          allocated.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierInVim"
+
+  ZoneInfo:
+    description: >
+      This type provides information regarding a resource zone.
+    type: object
+    required:
+      - id
+      - zoneId
+    properties:
+      id:
+        description: >
+          The identifier of this ZoneInfo instance, for the purpose of
+          referencing it from other structures in the "Grant" structure.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierLocal"
+      zoneId:
+        description: >
+          The identifier of the resource zone, as managed by the resource
+          management layer (typically, the VIM).
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      vimConnectionId:
+        description: >
+          Identifier of the connection to the VIM that manages the resource
+          zone.
+          The applicable "VimConnectionInfo" structure, which is referenced by
+          vimConnectionId, can be obtained from the " vimConnectionInfo"
+          attribute of the "VnfInstance" structure.
+          This attribute shall only be supported and present when VNF-related
+          Resource Management in direct mode is applicable.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      resourceProviderId:
+        description: >
+          Identifies the entity responsible for the management the resource
+          zone.
+          This attribute shall only be supported and present when VNF-related
+          Resource Management in indirect mode is applicable. The
+          identification scheme is outside the scope of the present document.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+
+  ZoneGroupInfo:
+    description: >
+      This type provides information regarding a resource zone group. A
+      resource zone group is a group of one or more related resource zones
+      which can be used in resource placement constraints. To fulfil such
+      constraint, the NFVO may decide to place a resource into any zone that
+      belongs to a particular group.
+      NOTE: A resource zone group can be used to support overflow from one
+      resource zone into another, in case a particular deployment supports
+      only non-elastic resource zones.
+    type: object
+    required:
+      - zoneId
+    properties:
+      zoneId:
+        description: >
+          References of identifiers of "ZoneInfo" structures, each of which
+          provides information about a resource zone that belongs to this
+          group.
+        type: array
+        items:
+          $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierLocal"
+
+  PlacementConstraint:
+    description: >
+      This type provides information regarding a resource placement
+      constraint. A set of such constraints may be sent by the VNFM to the
+      NFVO to influence the resource placement decisions made by the NFVO as
+      part of the granting process.
+      A placement constraint defines a condition to the placement of new
+      resources, considering other new resources as well as existing resources.
+      EXAMPLE:
+      The following rules influence the placement of a set of resources such
+      that they are placed in the same Network Function Virtualisation
+      Infrastructure Point of Presence (NFVI-PoP) but in different resource
+      zones:
+      {type="AFFINITY"; scope="NFVI_POP"; {resource1,resource2}}
+      {type="ANTI_AFFINITY"; scope="ZONE"; {resource1,resource2}}
+    type: object
+    required:
+      - affinityOrAntiAffinity
+      - scope
+      - resource
+    properties:
+      affinityOrAntiAffinity:
+        description: >
+          The type of the constraint.
+          Permitted values:
+          * AFFINITY
+          * ANTI_AFFINITY
+        type: string
+        enum:
+          - AFFINITY
+          - ANTI_AFFINITY
+      scope:
+        description: >
+          The scope of the placement constraint indicating the category of the
+          "place" where the constraint applies.
+          Permitted values:
+          * NFVI_POP
+          * ZONE
+          * ZONE_GROUP
+          * NFVI_NODE
+        type: string
+        enum:
+          - NFVI_POP
+          - ZONE
+          - ZONE_GROUP
+          - NFVI_NODE
+      resource:
+        description: >
+          References to resources in the constraint rule.
+        type: array
+        minItems: 2
+        items:
+          $ref: "#/definitions/ConstraintResourceRef"
+      fallbackBestEffort:
+        description: >
+          Indication if the constraint is handled with fall back best effort. Default value is “false”.
+          If set to true, the Affinity/Anti_Affinity placement constraint need not be fully satisfied
+          due to capacity constraints and/or due to the actual placement of existing resources, i.e.
+          if resource placement cannot honour the placement constraint, the request is processed in a
+          best effort manner.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Boolean"
+
+  VimConstraint:
+    description: >
+      This type provides information regarding a VIM selection constraint. A
+      set of such constraints may be sent by the VNFM to the NFVO to influence
+      the VIM selection decisions made by the NFVO as part of the granting
+      process.
+    type: object
+    required:
+      - resource
+    properties:
+      sameResourceGroup:
+        description: >
+          If present and set to true, this signals that the constraint applies
+          not only to the same VIM connection, but also to the same
+          infrastructure resource group.
+        type: boolean
+      resource:
+        description: >
+          References to resources in the constraint rule.
+          The NFVO shall ensure that all resources in this list are managed
+          through the same VIM connection. If "sameResourceGroup" is set to
+          true, the NFVO shall further ensure that all resources in this list
+          are part of the same infrastructure resource group in that VIM
+          connection.
+        type: array
+        minItems: 2
+        items:
+          $ref: "#/definitions/ConstraintResourceRef"
+
+  ConstraintResourceRef:
+    description: >
+      This type references a resource either by its VIM-level identifier for
+      existing resources, or by the identifier of a "ResourceDefinition"
+      structure in the "GrantRequest" structure for new resources.
+    type: object
+    required:
+      - idType
+      - resourceId
+    properties:
+      idType:
+        description: >
+          The type of the identifier.
+          Permitted values:
+          * RES_MGMT: Resource-management-level identifier; this identifier is
+            managed by the VIM in the direct mode of VNF-related resource
+            management, and is managed by the NFVO in the indirect mode)
+          * GRANT: Reference to the identifier of a "ResourceDefinition"
+          structure in the "GrantRequest" structure.
+        type: string
+        enum:
+          - RES_MGMT
+          - GRANT
+      resourceId:
+        description: >
+          An actual resource-management-level identifier (idType=RES_MGMT),
+          or an identifier that references a "ResourceDefinition" structure in
+          the related "GrantRequest" structure (idType=GRANT).
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierInVim"
+      vimConnectionId:
+        description: >
+          Identifier of the VIM connection for managing the resource. It shall
+          only be present when idType = RES_MGMT.
+          The applicable "VimConnectionInfo" structure, which is referenced by
+          vimConnectionId, can be obtained from the "vimConnectionInfo"
+          attribute of the "VnfInstance" structure.
+          This attribute shall only be supported when VNF-related resource
+          management in direct mode is applicable.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      resourceProviderId:
+        description: >
+          Identifier of the resource provider. It shall only be present when
+          idType = RES_MGMT.
+          This attribute shall only be supported when VNF-related resource
+          management in indirect mode is applicable. The identification scheme
+          is outside the scope of the present document.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+
+  VimComputeResourceFlavour:
+    description: >
+      If the VIM requires the use of virtual compute resource flavours during
+      compute resource instantiation, it is assumed that such flavours are
+      selected or created by the NFVO based on the information in the virtual
+      compute descriptor defined in the VNFD.
+      This type defines the mapping between a virtual compute descriptor in
+      the VNFD and the corresponding compute resource flavour managed by the
+      NFVO in the VIM.
+    type: object
+    required:
+      - vnfdVirtualComputeDescId
+      - vimFlavourId
+    properties:
+      vimConnectionId:
+        description: >
+          Identifier of the VIM connection to access the flavour referenced in
+          this structure.
+          The applicable "VimConnectionInfo" structure, which is referenced by
+          vimConnectionId, can be obtained from the "vimConnectionInfo"
+          attribute of the "VnfInstance" structure.
+          This attribute shall only be supported and present if VNF-related
+          resource management in direct mode is applicable.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      resourceProviderId:
+        description: >
+          Identifies the entity responsible for the management of the
+          virtualised resource.
+          This attribute shall only be supported and present if VNF-related
+          resource management in indirect mode is applicable. The
+          identification scheme is outside the scope of the present document.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      vnfdVirtualComputeDescId:
+        description: >
+          Identifier which references the virtual compute descriptor in the
+          VNFD that maps to this flavour.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierInVnfd"
+      vimFlavourId:
+        description: >
+          Identifier of the compute resource flavour in the resource
+          management layer (i.e. VIM).
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierInVim"
+
+  VimSoftwareImage:
+    description: >
+      This type contains a mapping between a software image definition the
+      VNFD and the corresponding software image managed by the NFVO in the
+      VIM which is needed during compute resource instantiation.
+    type: object
+    required:
+      - vnfdSoftwareImageId
+      - vimSoftwareImageId
+    properties:
+      vimConnectionId:
+        description: >
+          Identifier of the VIM connection to access the software image
+          referenced in this structure.
+          The applicable "VimConnectionInfo" structure, which is referenced by
+          vimConnectionId, can be obtained from the "vimConnectionInfo"
+          attribute of the "VnfInstance" structure.
+          This attribute shall only be supported and present if VNF-related
+          resource management in direct mode is applicable.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      resourceProviderId:
+        description: >
+          Identifies the entity responsible for the management of the
+          virtualised resource.
+          This attribute shall only be supported and present if VNF-related
+          resource management in indirect mode is applicable. The
+          identification scheme is outside the scope of the present document.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      vnfdSoftwareImageId:
+        description: >
+          Identifier which references the software image descriptor in the
+          VNFD.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierInVnfd"
+      vimSoftwareImageId:
+        description: >
+          Identifier of the software image in the resource management layer
+          (i.e. VIM).
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierInVim"
+      
+  SnapshotResourceDefinition:
+    description: >
+      This type represents resource definition information related to a snapshot resource.
+
+      NOTE 1:	If present, the value of the "vduId" (for a related VDU) in the "VnfcResourceInfo" 
+              referred by the "vnfcInfoId" of the "VnfcSnapshotInfo" shall match the value of the 
+              "vduId" in the resource definition that is signalled in the granting request.
+      NOTE 2:	For snapshot resource definitions extracted from a VNF snapshot package, only the 
+              "vnfcSnapshotId" and "storageSnapshotId" (in case of a storage type of resource) 
+              are applicable. If the snapshot resource definition is generated as part of a VNF 
+              snapshot created by the VNFM (that is, not extracted from a VNF snapshot package), 
+              the "snapshotResource" is applicable. This is a similar specification as the one 
+              defined with the "vduId", "resourceTemplateId" and "resource" attributes provided in 
+              the ResourceDefinition, but in this case applicable to resources that are defined from 
+              VNF snapshots instead of VNFD.
+    type: object
+    required:
+    - vnfSnapshotId
+    properties:
+      vnfSnapshotId:
+        description: >
+          Identifier of the VNF snapshot related to the resource change for the VNF instance. 
+          Shall only be present if the operation to be granted concerns to creating a VNF snapshot 
+          from the VNF or to reverting the VNF to a VNF snapshot.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      vnfcSnapshotId:
+        description: >
+          Reference to the information about a specific VNFC snapshot (refer to "VnfcSnapshotInfo") of 
+          the VNF snapshot. The identifier is unique within the scope of a VNF snapshot, identified by 
+          the "vnfSnapshotId" attribute. Shall only be present if the operation to be granted concerns 
+          to reverting the VNF to a VNF snapshot, and the resource is planned to be added based on the 
+          VNFC snapshot, and the type of resource is "COMPUTE" or "STORAGE". See notes 1 and 2.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierLocal"
+      storageSnapshotId:
+        description: >
+          Reference to a snapshotted storage resource associated to the VNFC snapshot. Shall only be present 
+          if the operation to be granted concerns to reverting the VNF to a VNF snapshot, and the storage 
+          resource is planned to be added based on the VNFC snapshot, and the type of resource is "STORAGE". 
+          See note 2.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierInVnf"
+      snapshotResource:
+        description: >
+          Resource information for an existing snapshot resource. Shall only be present if the operation to 
+          be granted concerns to reverting the VNF to a VNF snapshot and the resource is planned to be added 
+          based on an existing VNF snapshot that has been created by the VNFM. Shall be absent otherwise. 
+          See note 2.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/ResourceHandle"
+  
+  VimSnapshotResource:
+    description: >
+      This type contains a mapping between a snapshot resource definition related to a VNF snapshot 
+      and the corresponding resource managed by the NFVO in the VIM which is needed during the revert 
+      to VNF snapshot operation.
+    type: object
+    required:
+    - vnfSnapshotId
+    - vnfcSnapshotId
+    - vimSnapshotResourceId
+    properties:
+      vimConnectionId:
+        description: >
+          Identifier of the VIM connection to access the software image referenced in this structure.
+          The applicable "VimConnectionInfo" structure, which is referenced by vimConnectionId, can be
+          obtained from the "vimConnectionInfo" attribute of the "VnfInstance" structure.
+          This attribute shall only be supported and present if VNF-related resource management in direct 
+          mode is applicable.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      resourceProviderId:
+        description: >
+          Identifies the entity responsible for the management of the virtualised resource.
+          This attribute shall only be supported and present if VNF-related resource management in indirect 
+          mode is applicable. The identification scheme is outside the scope of the present document.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      vnfSnapshotId:
+        description: >
+          Identifier of the VNF snapshot (referring to the "id" attribute in the "VnfSnapshot" data structure) 
+          related to this VIM snapshot resource.  
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      vnfcSnapshotId:
+        description: >
+          Identifier of the information about a specific VNFC snapshot (refer to "VnfcSnapshotInfo") of 
+          the VNF snapshot. The identifier is unique within the scope of a VNF snapshot, identified by 
+          the "vnfSnapshotId" attribute.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierLocal"
+      storageSnapshotId:
+        description: >
+          Identifier of the virtual storage resource that has been snapshotted as referred in the VNFC
+          snapshot information. Shall only be present if the snapshot resource in the VIM is a storage 
+          resource (as indicated by "type=STORAGE" in the parent resource definition).
+          $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierInVnf"
+      vimSnapshotResourceId:
+        description: >
+          Identifier of the snapshot resource in the resource management layer (i.e. VIM).
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierInVim"

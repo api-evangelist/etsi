@@ -1,0 +1,153 @@
+components:
+  parameters:
+    Version:
+      name: Version
+      description: >
+        Version of the API requested to use when responding to this request.
+      in: header
+      required: true
+      schema:
+        type: string
+
+    Accept:
+      name: Accept
+      description: >
+        Content-Types that are acceptable for the response. Reference: IETF RFC 9110.
+      in: header
+      required: true
+      schema:
+        type: string
+
+    Authorization:
+      name: Authorization
+      description: >
+        The authorization token for the request. Reference: IETF RFC 9110.
+      in: header
+      required: false
+      schema:
+        type: string
+
+    ContentType:
+      name: Content-Type
+      description: |
+        The MIME type of the body of the request. Reference: IETF RFC 9110
+      in: header
+      required: true
+      schema:
+        type: string
+
+    Range:
+      name: Range
+      in: header
+      description: |
+        The request may contain a "Range" HTTP header to obtain single range of bytes from the resource file.
+        This can be used to continue an aborted transmission.
+        If the NFVO does not support range requests, it should return the whole file with a 200 OK response instead.
+      required: false
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    all_fields:
+      name: all_fields
+      description: >
+        Include all complex attributes in the response. See clause 5.3 of ETSI GS NFV-SOL 013 for details. 
+        The NFVO shall support this parameter.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    fields:
+      name: fields
+      description: >
+        Complex attributes to be included into the response. See clause 5.3 of ETSI GS NFV-SOL 013 for details. 
+        The NFVO should support this parameter.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    exclude_fields:
+      name: exclude_fields
+      description: >
+        Complex attributes to be excluded from the response. See clause 5.3 of ETSI GS NFV-SOL 013 for details. 
+        The NFVO should support this parameter.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    nextpage_opaque_marker:
+      name: nextpage_opaque_marker
+      description: >
+        Marker to obtain the next page of a paged response. Shall be supported by the NFVO if the NFVO supports alternative 2 
+        (paging) according to clause 5.4.2.1 of ETSI GS NFV-SOL 013 for this resource.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    include_signatures:
+      name: include_signatures
+      description: >
+        If this parameter is provided, the NFVO shall include in the ZIP file the security information as specified above.
+        This URI query parameter is a flag, i.e. it shall have no value.
+        The NFVO shall support this parameter.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    exclude_all_mano_artifacts:
+      name: exclude_all_mano_artifacts
+      in: query
+      description: |
+        Flag (i.e. parameter without value) that instructs the NFVO to exclude the set of additional MANO artifacts
+        (i.e. those that are not images) from the response message content. The NFVO shall support this parameter.
+        The OSS/BSS may supply this parameter.
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: string
+
+    exclude_all_non_mano_artifacts:
+      name: exclude_all_non_mano_artifacts
+      in: query
+      description: |
+        Flag (i.e. parameter without value) that instructs the NFVO to exclude the set of non-MANO artifacts from the
+        response message content. The NFVO shall support this parameter. The OSS/BSS may supply this parameter.
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: string
+
+    select_non_mano_artifact_sets:
+      name: select_non_mano_artifact_sets
+      in: query
+      description: |
+        Comma-separated list of non-MANO artifact set identifiers for which the artifacts are to be included in the
+        response body. The NFVO should support this parameter. If the NFVO does not support this parameter, it shall
+        ignore it, i.e. provide a response as if no parameter was provided. The OSS/BSS may supply this parameter.
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: string
+
+    include_external_artifacts:
+      name: include_external_artifacts
+      in: query
+      description: |
+        Flag (i.e. parameter without value) that instructs the NFVO to include external artifacts in the response
+        message content. It shall not be treated as an error if this flag is provided but there is no external artifact
+        to include in the result. If this parameter is missing, no external artifacts shall be included.
+        The NFVO shall support this parameter. The OSS/BSS may supply this parameter.
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: string

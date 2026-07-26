@@ -1,0 +1,310 @@
+# Copyright (c) ETSI 2017.
+# https://forge.etsi.org/etsi-forge-copyright-notice.txt
+
+definitions:
+  VnfIdentifierCreationNotification:
+    description: >
+      This type represents a VNF identifier creation notification, which
+      informs the receiver of the creation of a new "Individual VNF instance" resource and
+      the associated VNF instance identifier.
+      This notification shall be triggered by the VNFM when it has created an
+      "Individual VNF instance" resource and the associated VNF instance identifier.
+    type: object
+    required:
+      - id
+      - notificationType
+      - subscriptionId
+      - timeStamp
+      - vnfInstanceId
+      - _links
+    properties:
+      id:
+        description: >
+          Identifier of the VNF instance.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      notificationType:
+        description: >
+          Discriminator for the different notification types. Shall be set to
+          "VnfIdentifierCreationNotification" for this notification type.
+        type: string
+        enum:
+          - VnfIdentifierCreationNotification
+      subscriptionId:
+        description: >
+          Identifier of the subscription that this notification relates to.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      timeStamp:
+        description: >
+          Date-time of the generation of the notification.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/DateTime"
+      vnfInstanceId:
+        description: >
+          The created VNF instance identifier.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      _links:
+        description: >
+          Links to resources related to this notification.
+        $ref: "../../VNFLifecycleManagement/definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/LccnLinks"
+
+  VnfIdentifierDeletionNotification:
+    description: >
+      This type represents a VNF identifier deletion notification, which
+      informs the receiver of the deletion of a new "Individual VNF instance" resource and
+      the associated VNF instance identifier.
+      This notification shall be triggered by the VNFM when it has deleted an
+      "Individual VNF instance" resource and the associated VNF instance identifier.
+    type: object
+    required:
+      - id
+      - notificationType
+      - subscriptionId
+      - timeStamp
+      - vnfInstanceId
+      - _links
+    properties:
+      id:
+        description: >
+          Identifier of this notification. If a notification is sent multiple
+          times due to multiple subscriptions, the "id" attribute of all these
+          notifications shall have the same value.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      notificationType:
+        description: >
+          Discriminator for the different notification types. Shall be set to
+          "VnfIdentifierDeletionNotification" for this notification type.
+        type: string
+        enum:
+          - VnfIdentifierDeletionNotification
+      subscriptionId:
+        description: >
+          Identifier of the subscription that this notification relates to.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      timeStamp:
+        description: >
+          Date-time of the generation of the notification.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/DateTime"
+      vnfInstanceId:
+        description: >
+          The deleted VNF instance identifier.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      _links:
+        description: >
+          Links to resources related to this notification.
+        $ref: "../../VNFLifecycleManagement/definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/LccnLinks"
+
+  VnfLcmOperationOccurrenceNotification:
+    description: >
+      This type represents a VNF lifecycle management operation occurrence notification, which 
+      informs the receiver of changes in the VNF lifecycle caused by a VNF LCM operation occurrence. 
+      The support of the notification is mandatory. 
+      
+      This notification shall be triggered by the VNFM when there is a change in the state of a VNF LCM 
+      operation occurrence that changes the VNF lifecycle, which represents an occurrence of one the 
+      following LCM operations:
+      - Instantiation of the VNF
+      - Scaling of the VNF instance (including auto-scaling)
+      - Healing of the VNF instance (including auto-healing)
+      - Change of the state of the VNF instance (i.e. Operate VNF)
+      - Change of the deployment flavour of the VNF instance
+      - Change of the external connectivity of the VNF instance
+      - Change of the current VNF package
+      - Termination of the VNF instance
+      - Modification of VNF instance information and/or VNF configurable properties through the "PATCH" 
+        method on the "Individual VNF instance" resource
+      - Creation of a VNF snapshot
+      - Reversion of the VNF instance to a VNF snapshot
+      
+      Clause 5.6.2 defines the states and state transition of a VNF LCM operation occurrence, and also 
+      specifies details of the notifications to be emitted at each state transition.
+      If this is the initial notification about the start of a VNF LCM operation occurrence, it is assumed 
+      that the notification is sent by the VNFM before any action (including sending the grant request) is 
+      taken as part of the LCM operation. Due to possible race conditions, the "start" notification, the grant 
+      request and the LCM operation acknowledgment (i.e. the "202 Accepted" response) can arrive in any order 
+      at the NFVO, and the NFVO shall be able to handle such a situation.
+      If this is a notification about a final or intermediate result state of a VNF LCM operation occurrence, 
+      the notification shall be sent after all related actions of the LCM operation that led to this state have 
+      been executed. 
+      The new state shall be set in the "Individual VNF LCM operation occurrence" resource before the notification 
+      about the state change is sent.
+      The amount of information provided in the LCM operation occurrence notifications to be issued by the VNFM when 
+      a particular subscription matches can be controlled by the API consumer using the "verbosity" attribute in the 
+      subscription request (see clause 5.5.2.15). The "verbosity" setting in a particular individual subscription shall 
+      only apply to the LCM operation occurrence notifications triggered by that subscription. However, it shall not 
+      affect the amount of information in the "VnfLcmOpOcc" structure (see clause 5.5.2.13) which represents the "Individual 
+      LCM operation occurrence" resource associated with each of the notifications.
+      See clause 5.6.2.2 for further provisions regarding sending this notification, including in cases of handling LCM 
+      operation errors.
+
+      NOTE 1:	Shall be present if the "notificationStatus" is set to "RESULT", the "verbosity" attribute is set to "FULL" 
+              and the operation has performed any resource modification. Shall be absent otherwise. This attribute contains 
+              information about the cumulative changes to virtualised resources that were performed so far by the VNF LCM 
+              operation occurrence and by any of the error handling procedures for that operation occurrence.
+      NOTE 2:	For a particular affected VL, there shall be as many "AffectedVirtualLink" entries as needed for signalling 
+              the different types of changes, i.e. one per virtual link and change type. For instance, in the case of signaling 
+              affected VL instances involving the addition of a particular VL instance with links ports, one "AffectedVirtualLink" 
+              entry signals the addition of the VL by using the "changeType" attribute of "AffectedVirtualLink" structure equal to 
+              "ADDED", and another "AffectedVirtualLink" entry signals the addition of externally visible VNF link ports of the VL 
+              by using the "changeType" equal to "LINK_PORT_ADDED".
+      Note 3: Not more than one of changedInfo and modificationsTriggeredByVnfPkgChange shall be present.
+    type: object
+    required:
+      - id
+      - notificationType
+      - subscriptionId
+      - timeStamp
+      - notificationStatus
+      - operationState
+      - vnfInstanceId
+      - operation
+      - isAutomaticInvocation
+      - vnfLcmOpOccId
+      - _links
+    properties:
+      id:
+        description: >
+          Identifier of this notification. If a notification is sent multiple
+          times due to multiple subscriptions, the "id" attribute of all these
+          notifications shall have the same value.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      notificationType:
+        description: >
+          Discriminator for the different notification types. Shall be set to
+          "VnfLcmOperationOccurrenceNotification" for this notification type.
+        type: string
+        enum:
+          - VnfLcmOperationOccurrenceNotification
+      subscriptionId:
+        description: >
+          Identifier of the subscription that this notification relates to.Shall be set to the value of the "id" attribute
+          of the "LccnSubscription" representing the associated "Individual subscription" resource.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      timeStamp:
+        description: >
+          Date-time of the generation of the notification.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/DateTime"
+      notificationStatus:
+        description: >
+          Indicates whether this notification reports about the start of a
+          lifecycle operation or the result of a lifecycle operation.
+          Permitted values:
+          * START: Informs about the start of the VNF LCM operation
+            occurrence.
+          * RESULT: Informs about the final or intermediate result of the VNF
+            LCM operation occurrence.
+        type: string
+        enum:
+          - START
+          - RESULT
+      operationState:
+        description: >
+          The state of the VNF LCM operation occurrence.
+        $ref: "../../VNFLifecycleManagement/definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/LcmOperationStateType"
+      vnfInstanceId:
+        description: >
+          The identifier of the VNF instance affected.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      operation:
+        description: >
+          The lifecycle management operation.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/LcmOperationType"
+      isAutomaticInvocation:
+        description: >
+          Set to true if this VNF LCM operation occurrence has been triggered
+          by an automated procedure inside the VNFM
+          (i.e. ScaleVnf / ScaleVnfToLevel triggered by auto-scale, or HealVnf
+          triggered by auto-heal).
+          Set to false otherwise.
+        type: boolean
+      verbosity:
+        description: >
+          This attribute signals the verbosity of the notification. If it is not present, it shall default to the value "FULL".
+          If the value is "SHORT", full change details can be obtained by performing a GET request on the "Individual LCM
+          operation occurrence" resource that is signalled by the "vnfLcmOpOcc" child attribute of the "_links" attribute.
+        $ref: '../../VNFLifecycleManagement/definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/LcmOpOccNotificationVerbosityType'
+      vnfLcmOpOccId:
+        description: >
+          The identifier of the VNF lifecycle management operation occurrence associated to the notification. Shall be
+          set to the value of the "id" attribute of the "VnfLcmOpOcc" representing the associate "Individual VNF lifecycle
+          management operation occurrence" resource.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      affectedVnfcs:
+        description: >
+          Information about VNFC instances that were affected during the lifecycle operation. See note 1.
+        type: array
+        items:
+          $ref: "../../VNFLifecycleManagement/definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/AffectedVnfc"
+      affectedVirtualLinks:
+        description: >
+          Information about VL instances that were affected during the lifecycle operation. See note 1 and note 2.
+        type: array
+        items:
+          $ref: "../../VNFLifecycleManagement/definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/AffectedVirtualLink"
+      affectedExtLinkPorts:
+        description: >
+          Information about external VNF link ports that were affected during the lifecycle operation. See note 1.
+        type: array
+        items:
+          $ref: "../../VNFLifecycleManagement/definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/AffectedExtLinkPort"
+      affectedVirtualStorages:
+        description: >
+          Information about virtualised storage instances that were affected during the lifecycle operation. See note 1.
+        type: array
+        items:
+          $ref: "../../VNFLifecycleManagement/definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/AffectedVirtualStorage"
+      changedInfo:
+        description: >
+          Information about the changed VNF instance information, including
+          changed VNF configurable properties.
+          Shall be present if the "notificationStatus" is set to "RESULT",
+          the "operation" attribute is not equal to "CHANGE_VNFPKG", the
+          "verbosity" attribute is set to "FULL" and the operation has performed
+          any changes to VNF instance information, including VNF configurable
+          properties. Shall be absent otherwise. See note 3.
+        $ref: "../../VNFLifecycleManagement/definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/VnfInfoModifications"
+
+      affectedVipCps:
+        description: >
+          Information about virtual IP CP instances that were affected during the execution of the lifecycle management
+          operation, if this notification represents the result of a lifecycle management operation occurrence.
+
+          Shall be present if the "notificationStatus" is set to "RESULT", the "verbosity" attribute is set to "FULL"
+          and the operation has made any changes to the VIP CP instances of the VNF instance. Shall be absent otherwise.
+          Only information about VIP CP instances that have been added, deleted or modified shall be provided.
+        type: array
+        items:
+          $ref: "../../VNFLifecycleManagement/definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/AffectedVipCp"
+
+
+      changedExtConnectivity:
+        description: >
+          Information about changed external connectivity, if this notification
+          represents the result of a lifecycle operation occurrence.
+          Shall be present if the "notificationStatus" is set to "RESULT",
+          the "verbosity" attribute is set to "FULL" and the operation has made
+          any changes to the external connectivity of the VNF instance. Shall be
+          absent otherwise. Only information about external VL instances that
+          have been added or modified shall be provided.
+        type: array
+        items:
+          $ref: "../../VNFLifecycleManagement/definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/ExtVirtualLinkInfo"
+      modificationsTriggeredByVnfPkgChange:
+        description: >
+          Information about performed changes of "VnfInstance" attributes triggered by changing the current VNF package.
+          Shall be present if the "notificationStatus" is set to "RESULT", the "operation" attribute is equal to
+          "CHANGE_VNFPKG", the "verbosity" attribute is set to "FULL" and the operation has performed any changes to
+          "VnfInstance" attributes.  Shall be absent otherwise. See note 3.
+        $ref: "../../VNFLifecycleManagement/definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/ModificationsTriggeredByVnfPkgChange"
+      error:
+        description: >
+          Details of the latest error, if one has occurred during executing
+          the LCM operation (see clause 6.3 of ETSI GS NFV-SOL 013).
+          Shall be present if the "operationState" attribute is "FAILED_TEMP", "FAILED"
+          or "ROLLED_BACK" and shall be absent otherwise.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+      _links:
+        description: >
+          Links to resources related to this notification.
+          The link URIs in this structure shall be set to point to the
+          resources identified by the corresponding identifier attributes
+          in this notification.
+        $ref: "../../VNFLifecycleManagement/definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/LccnLinks"

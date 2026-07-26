@@ -1,0 +1,320 @@
+components:
+  schemas:
+    NfviCapacityInfo:
+      type: object
+      description: |
+        This type defines the format of the NFVI capacity information. The type shall comply with the provisions defined
+        in Table 10.5.2.4-1.
+      required:
+        - id
+        - vimId
+        - capacityInfoPerZone
+      properties:
+        id:
+          description: |
+            Identifier of this NFVI capacity information. Its value shall be the same as vimId.
+          $ref: ../../definitions/SOL005_def.yaml#/definitions/Identifier
+        vimId:
+          description: |
+            Identifies the VIM to which the NFVI capacity information is associated.
+          $ref: ../../definitions/SOL005_def.yaml#/definitions/Identifier
+        capacityInfoPerZone:
+          description: |
+            Capacity information on a per resource zone basis under control by the associated VIM.
+          type: array
+          items:
+            $ref: '#/components/schemas/NfviCapacityInfoPerZone'
+        totalCapacityInfo:
+          description: |
+            Total capacity information associated to the VIM.
+          $ref: '#/components/schemas/NfviCapacityMeasurement'
+        timeInterval:
+          description: |
+            Time interval of the NFVI capacity information.
+          $ref: '#/components/schemas/TimeInterval'
+
+    CapacityThreshold:
+      type: object
+      description: |
+        This type represents a capacity threshold. It shall comply with the provisions defined in table 10.5.2.8-1.
+        NOTE 1:	The "objectInstanceId" aims to identify the "Individual VIM's NFVI capacity information", which is
+        associated to a VIM instance.
+        NOTE 2:	The "subObjectInstanceIds" aim to identify the resource zones in which the available NFVI capacity
+        crosses a threshold value.
+      required:
+        - id
+        - objectInstanceId
+        - criteria
+        - callbackUri
+        - _links
+      properties:
+        id:
+          description: |
+            Identifier of this capacity threshold resource.
+          $ref: ../../definitions/SOL005_def.yaml#/definitions/Identifier
+        objectInstanceId:
+          description: |
+            Identifier of the VIM instance associated with the capacity threshold. See note 1.
+          $ref: ../../definitions/SOL005_def.yaml#/definitions/Identifier
+        subObjectInstanceIds:
+          description: |
+            Identifiers of the sub-object instances of the measured object instance associate with this capacity threshold.
+            If this attribute is absent, measurements are taken for all sub-object instances of the measured object instance.
+            See note 2.
+          type: array
+          items:
+            $ref: ../../definitions/SOL005_def.yaml#/definitions/IdentifierInVim
+        criteria:
+          description: |
+            Criteria that define this capacity threshold.
+          $ref: '#/components/schemas/CapacityThresholdCriteria'
+        callbackUri:
+          description: |
+            The URI of the endpoint to send the notification to.
+          $ref: ../../definitions/SOL005_def.yaml#/definitions/Uri
+        _links:
+          type: object
+          description: |
+            Links for this resource.
+          required:
+            - self
+          properties:
+            self:
+              description: |
+                URI of this resource.
+              $ref: ../../definitions/SOL005_def.yaml#/definitions/Link
+            object:
+              description: |
+                Link to a resource representing the VIM’s NFVI capacity information. Shall be present if the VIM’s NFVI
+                capacity information is accessible as a resource.
+              $ref: ../../definitions/SOL005_def.yaml#/definitions/Link
+
+    CreateCapacityThresholdRequest:
+      type: object
+      description: |
+        This type represents a request to create a capacity threshold. It shall comply with the provisions defined in
+        table 10.5.2.3-1.
+      required:
+        - objectInstanceId
+        - criteria
+      properties:
+        objectInstanceId:
+          description: |
+            Identifier of the VIM instance associated with this capacity threshold.
+          $ref: ../../definitions/SOL005_def.yaml#/definitions/Identifier
+        subObjectInstanceIds:
+          description: |
+            Identifiers of the sub-object instances of the measured object instance associate with this capacity threshold.
+            If this attribute is absent, measurements will be taken for all sub-object instances of the measured object instance.
+          type: array
+          items:
+            $ref: ../../definitions/SOL005_def.yaml#/definitions/IdentifierInVim
+        criteria:
+          description: |
+            Criteria that define this capacity threshold.
+          $ref: '#/components/schemas/CapacityThresholdCriteria'
+        callbackUri:
+          description: |
+            The URI of the endpoint to send the notification to.
+          $ref: ../../definitions/SOL005_def.yaml#/definitions/Uri
+        authentication:
+          description: |
+            Authentication parameters to configure the use of Authorization when sending notifications corresponding to
+            this capacity threshold, as defined in clause 8.3.4 of ETSI GS NFV-SOL 013.
+            This attribute shall only be present if the API consumer requires authorization of notifications.
+          $ref: ../../definitions/SOL005_def.yaml#/definitions/SubscriptionAuthentication
+
+    CapacityThresholdCriteria:
+      type: object
+      description: |
+        This type represents criteria that define a capacity threshold.
+        It shall comply with the provisions defined in table 10.5.3.3-1.
+        NOTE 1:	In the present document, simple thresholds are defined.
+        The definition of additional threshold types is left for future specification.
+        NOTE 2:	The hysteresis is defined to prevent storms of threshold crossing
+        notifications. When processing a request to create a threshold, implementations
+        should enforce a suitable minimum value for this attribute (e.g. override the
+        value or reject the request).
+      required:
+        - capacityMetric
+        - thresholdType
+      properties:
+        capacityMetric:
+          description: |
+            Defines the capacity metric for which the threshold applies.
+          type: object
+          required:
+            - resourceType
+            - capacityMeasurementName
+            - capacityType
+          properties:
+            resourceType:
+              description: |
+                Type of resource.
+              $ref: '#/components/schemas/NfviCapacityResourceTypeEnumeration'
+            capacityMeasurementName:
+              description: |
+                Name of the capacity measurement. Different resource types can have different associated capacity measurements,
+                typically associated to different sub-types of the resource type.
+              type: string
+            capacityType:
+              description: |
+                The type of capacity for the threshold.
+                Permitted values:
+                -	TOTAL: for total capacity.
+                -	ALLOCATED: for allocated/used capacity.
+                -	RESERVED: for reserved capacity.
+                -	AVAILABLE: for available capacity.
+              type: string
+              enum:
+                - TOTAL
+                - ALLOCATED
+                - RESERVED
+                - AVAILABLE
+        thresholdType:
+          description: |
+            Type of capacity threshold. This attribute determines which other attributes are present in the data structure.
+            Permitted values:
+            -	SIMPLE: Single-valued static threshold.
+            See note 1.
+          type: string
+          enum:
+            - SIMPLE
+        simpleThresholdDetails:
+          description: |
+            Details of a simple threshold. Shall be present if thresholdType="SIMPLE".
+          type: array
+          items:
+            type: object
+            required:
+              - thresholdValue
+              - hysteresis
+            properties:
+              thresholdValue:
+                description: |
+                  The threshold value. Shall be represented as a floating point number.
+                type: number
+              hysteresis:
+                description: |
+                  The hysteresis of the threshold.
+                  Shall be represented as a non-negative floating point number.
+                  A notification with crossing direction "UP" will be generated if the measured value reaches or
+                  exceeds "thresholdValue" + "hysteresis". A notification with crossing direction "DOWN" will be
+                  generated if the measured value reaches or undercuts "thresholdValue" - "hysteresis".
+                  See note 2.
+                type: number
+
+    NfviCapacityInfoPerZone:
+      type: object
+      description: |
+        This type defines the format of the NFVI capacity information on a per resource zone basis.
+        The type shall comply with the provisions defined in table 10.5.2.5-1.
+      required:
+        - capacityMeasurements
+      properties:
+        resourceZoneId:
+          description: |
+            Identifies the resource zone of the applicable NFVI capacity information.
+          $ref: ../../definitions/SOL005_def.yaml#/definitions/Identifier
+        capacityMeasurements:
+          description: |
+            Capacity measurement on a per resource type basis.
+          type: array
+          items:
+            $ref: '#/components/schemas/NfviCapacityMeasurement'
+
+    TimeInterval:
+      type: object
+      description: |
+        This type defines the format of a time interval. The type shall comply with the provisions defined in table 10.5.2.7-1.
+        NOTE: When only the aTime is present, there is no time interval being defined, and therefore the provided timing
+        information refers to a specific point in time.
+      required:
+        - aTime
+      properties:
+        aTime:
+          description: |
+            First date and time of the interval. See note.
+          $ref: ../../definitions/SOL005_def.yaml#/definitions/DateTime
+        bTime:
+          description: |
+            Second date and time of the interval. Shall be present when a time interval is provided, and absent otherwise.
+            When provided, the bTime shall be greater than aTime.
+            See note.
+          $ref: ../../definitions/SOL005_def.yaml#/definitions/DateTime
+
+    NfviCapacityMeasurement:
+      type: object
+      description: |
+        This type defines the format of the NFVI capacity information on a per resource type basis.
+        The type shall comply with the provisions defined in table 10.5.2.6-1.
+        NOTE:	The present document and referred documents do not specify the capacity measurements,
+        thus the capacity measurement names are not specified in the present document version.
+      required:
+        - resourceType
+        - capacityMeasurementName
+        - totalCapacity
+        - allocatedCapacity
+        - availableCapacity
+      properties:
+        resourceType:
+          description: |
+            Type of resource.
+          $ref: '#/components/schemas/NfviCapacityResourceTypeEnumeration'
+        capacityMeasurementName:
+          description: |
+            Name of the capacity measurement. Different resource types can have different associated capacity measurements,
+            typically associated to different sub-types of the resource type.
+            See note.
+          type: string
+        totalCapacity:
+          description: |
+            The total capacity.
+          type: object
+        allocatedCapacity:
+          description: |
+            The allocated/used capacity.
+          type: object
+        reservedCapacity:
+          description: |
+            The reserved capacity. Shall be present if the capacity measurement relates to a resource type and
+            (and sub-type) that is reservable.
+          type: object
+        availableCapacity:
+          description: |
+            The available capacity.
+          type: object
+
+    NfviCapacityResourceTypeEnumeration:
+      type: string
+      description: |
+        The enumeration NfviCapacityResourceTypeEnumeration shall comply with the provisions in table 10.5.4.3-1.
+        * VR_COMPUTE: For virtualised compute resource.
+        * VR_NETWORK: For virtualised network resource.
+        * VR_STORAGE: For virtualised storage resource.
+        * HOST_COMPUTE: For host compute resource.
+      enum:
+        - VR_COMPUTE
+        - VR_NETWORK
+        - VR_STORAGE
+        - HOST_COMPUTE
+
+    CapacityThresholdModifications:
+      description: |
+        This type represents modifications to a capacity threshold. It shall comply with the provisions defined in table 10.5.2.8-1.
+        NOTE:	At least one of the attributes defined in this type shall be present in request bodies.
+      type: object
+      properties:
+        callbackUri:
+          description: |
+            New value of the "callbackUri" attribute. The value "null" is not permitted.
+            See note.
+          $ref: ../../definitions/SOL005_def.yaml#/definitions/Uri
+        authentication:
+          description: |
+            New value of the "authentication" attribute, or "null" to remove the attribute. If present in a request body,
+            these modifications shall be applied according to the rules of JSON Merge Patch (see IETF RFC 7396).
+
+            This attribute shall not be present in response bodies.
+            See note.
+          $ref: ../../definitions/SOL005_def.yaml#/definitions/SubscriptionAuthentication

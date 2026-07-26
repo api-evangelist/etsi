@@ -1,0 +1,539 @@
+openapi: 3.0.2
+
+info:
+  title: SOL002 - VNF LCM Coordination interface
+  description: |
+    SOL002 - VNF Lifecycle Coordination Interface
+
+    IMPORTANT: Please note that this file might be not aligned to the current
+    version of the ETSI Group Specification it refers to. In case of
+    discrepancies the published ETSI Group Specification takes precedence.
+
+    Please report bugs to https://forge.etsi.org/rep/nfv/SOL002-SOL003/issues
+
+  contact:
+    name: NFV-SOL WG
+  license:
+    name: ETSI Forge copyright notice
+    url: https://forge.etsi.org/etsi-forge-copyright-notice.txt
+  version: 1.1.0-impl:etsi.org:ETSI_NFV_OpenAPI:1
+
+externalDocs:
+  description: ETSI GS NFV-SOL 002 V3.7.1
+  url: https://www.etsi.org/deliver/etsi_gs/NFV-SOL/001_099/002/03.07.01_60/gs_NFV-SOL002v030701p.pdf
+
+servers:
+  - url: http://127.0.0.1/lcmcoord/v1
+  - url: https://127.0.0.1/lcmcoord/v1
+
+paths:
+  /api_versions:
+    $ref: '../../endpoints/SOL002SOL003_endpoints.yaml#/endpoints/api-versions'
+
+  /coordinations:
+    parameters:
+      - $ref: ../../components/SOL002_params.yaml#/components/parameters/Version
+      - $ref: ../../components/SOL002_params.yaml#/components/parameters/Authorization
+    post:
+      description: |
+        This POST method requests the coordination of an LCM operation occurrence with
+        a management operation executed in the API producer. See clause 10.4.2.3.1.
+      parameters:
+        - $ref: ../../components/SOL002_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL002_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/LcmCoordRequest'
+      responses:
+        "201":
+          $ref: '#/components/responses/Coordination.Post.201'
+        "202":
+          $ref: '#/components/responses/Coordination_async.Post.202'
+        "403":
+          $ref: '#/components/responses/Coordination.Post.403'
+        "409":
+          $ref: '#/components/responses/Coordination.Post.409'
+        "503":
+          $ref: '#/components/responses/Coordination.Post.503'
+        "400":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/401
+        "404":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/406
+        "422":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/422
+        "429":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/429
+        "500":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/500
+        "504":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/504
+
+  /coordinations/{coordinationId}:
+    parameters:
+      - $ref: '#/components/parameters/coordinationId'
+      - $ref: ../../components/SOL002_params.yaml#/components/parameters/Version
+      - $ref: ../../components/SOL002_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The GET method reads a coordination result. See clause 10.4.3.3.2.
+      responses:
+        "200":
+          $ref: '#/components/responses/LcmCoord.Get.200'
+        "202":
+          $ref: '#/components/responses/LcmCoord.Get.202'
+        "400":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/406
+        "416":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/416
+        "422":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/422
+        "429":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/429
+        "500":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/504
+
+  /coordinations/{coordinationId}/cancel:
+    parameters:
+      - $ref: '#/components/parameters/coordinationId'
+      - $ref: ../../components/SOL002_params.yaml#/components/parameters/Version
+      - $ref: ../../components/SOL002_params.yaml#/components/parameters/Authorization
+    post:
+      description: |
+        The POST method initiates the cancellation of an ongoing coordination action.
+        See clause 10.4.4.3.1.
+      responses:
+        "202":
+          $ref: '#/components/responses/CoordinationCancel.Post.202'
+        "409":
+          $ref: '#/components/responses/CoordinationCancel.Post.409'
+        "400":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/406
+        "416":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/416
+        "422":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/422
+        "429":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/429
+        "500":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../../responses/SOL002SOL003_resp.yaml#/components/responses/504
+
+components:
+  parameters:
+    coordinationId:
+      name: coordinationId
+      in: path
+      description: |
+        Identifier of the LCM coordination. This identifier can be retrieved from the
+        resource referenced by the "Location" HTTP header in the response to a
+        POST request to the "Coordinations" resource
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+  requestBodies:
+    LcmCoordRequest:
+      description: |
+        Parameters for the coordination action as defined in clause 10.5.2.2.
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL002VNFLCMCoordination_def.yaml#/definitions/LcmCoordRequest
+      required: true
+
+  responses:
+    Coordination.Post.201:
+      description: |
+        201 CREATED
+        Shall be returned returned to indicate a finished coordination action when the API producer has
+        chosen the synchronous mode, which may be selected for coordination actions that finish within the time
+        frame in which an HTTP response is expected.
+        The response body shall contain an LcmCoord data structure that represents
+        the result of the coordination action.
+        The HTTP response shall include a "Location" HTTP header that indicates the URI
+        of the "Individual coordination action" resource that has been created as the
+        result of the finished coordination procedure.
+      headers:
+        Version:
+          description: |
+            The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Location:
+          description: |
+            URI of the "Individual coordination action" resource
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL002VNFLCMCoordination_def.yaml#/definitions/LcmCoord
+
+    Coordination_async.Post.202:
+      description: |
+        202 ACCEPTED
+        Shall be returned when the API producer has chosen the asynchronous mode and the
+        request has been accepted for processing.
+        The response body shall be empty.
+        The HTTP response shall include a "Location" HTTP header that indicates the URI of
+        the "Individual coordination action" resource that will be created once the
+        coordination operation has finished successfully.
+        Further, the HTTP response may include a "Retry-After" HTTP header that indicates the
+        time to wait before sending the next GET request to the "individual coordination" resource
+        indicated in the "Location" header. If the header is provided, the VNFM shall record the signalled
+        delay value in the "delay" attribute of the applicable entry in the "lcmCoordinations" array in the
+        "VnfLcmOpOcc" structure.
+      headers:
+        Version:
+          description: |
+            The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Location:
+          description: |
+            Used in redirection, or when a new resource has been created. This header field shall be present if the
+            response status code is 201 or 3xx. In the present document this header field is also used if the response
+            status code is 202 and a new resource was created.
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+      content: {}
+
+    Coordination.Post.403:
+      description: >
+        403 FORBIDDEN
+
+        Shall be returned upon the following error: The starting of the coordination operation has been
+        rejected.
+        No "individual coordination action" resource shall be created.
+        A ProblemDetails structure shall be included in the response to provide more details about the rejection
+        in the "details" attribute.
+      headers:
+        Content-Type:
+          description: The MIME type of the body of the response.
+          schema:
+            type: string
+            maximum: 1
+            minimum: 1
+        WWW-Authenticate:
+          description: >
+            Challenge if the corresponding HTTP request has not provided
+            authorization, or error details if the corresponding HTTP
+            request has provided an invalid authorization token.
+          schema:
+            type: string
+            maximum: 1
+            minimum: 0
+        Version:
+          description: >
+            Version of the API used in the response.
+          schema:
+            type: string
+            maximum: 1
+            minimum: 1
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL002_def.yaml#/definitions/ProblemDetails"
+
+    Coordination.Post.409:
+      description: >
+        409 CONFLICT
+
+        Shall be returned upon the following error: The operation cannot be executed currently, due to a
+        conflict with the state of the "Coordinations" resource.
+        Typically, this is due to the fact that no more coordination actions can be executed currently e.g.
+        because too many of them, or conflicting ones, are in progress.
+        The response body shall contain a ProblemDetails structure, in which the "detail" attribute should
+        convey more information about the error.
+      headers:
+        Content-Type:
+          description: The MIME type of the body of the response.
+          schema:
+            type: string
+            maximum: 1
+            minimum: 1
+        WWW-Authenticate:
+          description: >
+            Challenge if the corresponding HTTP request has not provided
+            authorization, or error details if the corresponding HTTP
+            request has provided an invalid authorization token.
+          schema:
+            type: string
+            maximum: 1
+            minimum: 0
+        Version:
+          description: >
+            Version of the API used in the response.
+          schema:
+            type: string
+            maximum: 1
+            minimum: 1
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL002_def.yaml#/definitions/ProblemDetails"
+
+    Coordination.Post.503:
+      description: >
+        503 SERVICE UNAVAILABLE
+
+        Shall be returned upon the following error: The API producer has chosen the synchronous mode and
+        cannot perform the requested coordination currently, but expects to be able to perform it sometime
+        in the future.
+        No "individual coordination action" resource shall be created.
+        A ProblemDetails structure shall be included in the response to provide more details about the
+        rejection in the "details" attribute.
+        The HTTP response shall include a "Retry-After" HTTP header that indicates the delay after
+        which it is suggested to repeat the coordination request with the same set of parameters. The VNFM
+        shall record the signalled delay value in the "delay" attribute of the applicable entry in the
+        "rejectedLcmCoordinations" array in the "VnfLcmOpOcc" structure.
+      headers:
+        Content-Type:
+          description: The MIME type of the body of the response.
+          schema:
+            type: string
+            maximum: 1
+            minimum: 1
+        WWW-Authenticate:
+          description: >
+            Challenge if the corresponding HTTP request has not provided
+            authorization, or error details if the corresponding HTTP
+            request has provided an invalid authorization token.
+          schema:
+            type: string
+            maximum: 1
+            minimum: 0
+        Version:
+          description: >
+            Version of the API used in the response.
+          schema:
+            type: string
+            maximum: 1
+            minimum: 1
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL002_def.yaml#/definitions/ProblemDetails"
+
+    LcmCoord.Get.200:
+      description: |
+        200 OK
+        Shall be returned when the coordination is finished and the coordination result has been read successfully.
+        A representation of the "Individual coordination action" resource shall be returned in the response body.
+      headers:
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL002VNFLCMCoordination_def.yaml#/definitions/LcmCoord
+
+    LcmCoord.Get.202:
+      description: |
+        202 ACCEPTED
+        Shall be returned when the management operation with which coordination is requested is still ongoing or
+        in the process of being cancelled, i.e. no coordination result is available yet.
+        The response shall be empty.
+      headers:
+        Version:
+          description: |
+            The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Location:
+          description: |
+            Used in redirection, or when a new resource has been created. This header field shall be present if the
+            response status code is 201 or 3xx. In the present document this header field is also used if the response
+            status code is 202 and a new resource was created.
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+      content: {}
+
+    CoordinationCancel.Post.202:
+      description: |
+        202 ACCEPTED
+        Shall be returned when the cancellation request has been accepted for processing.
+        The response shall have an empty message content.
+      headers:
+        Version:
+          description: |
+            The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Location:
+          description: |
+            Used in redirection, or when a new resource has been created. This header field shall be present if the
+            response status code is 201 or 3xx. In the present document this header field is also used if the response
+            status code is 202 and a new resource was created.
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+      content: {}
+
+    CoordinationCancel.Post.409:
+      description: >
+        409 CONFLICT
+
+        Shall be returned upon the following error: The operation cannot be executed currently, due to a
+        conflict with the state of the "Individual coordination action" resource.
+        Typically, this is due to the fact that the coordination action has finished processing.
+        The response body shall contain a ProblemDetails structure, in which the "detail" attribute
+        shall convey more information about the error.
+      headers:
+        Content-Type:
+          description: The MIME type of the body of the response.
+          schema:
+            type: string
+            maximum: 1
+            minimum: 1
+        WWW-Authenticate:
+          description: >
+            Challenge if the corresponding HTTP request has not provided
+            authorization, or error details if the corresponding HTTP
+            request has provided an invalid authorization token.
+          schema:
+            type: string
+            maximum: 1
+            minimum: 0
+        Version:
+          description: >
+            Version of the API used in the response.
+          schema:
+            type: string
+            maximum: 1
+            minimum: 1
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL002_def.yaml#/definitions/ProblemDetails"

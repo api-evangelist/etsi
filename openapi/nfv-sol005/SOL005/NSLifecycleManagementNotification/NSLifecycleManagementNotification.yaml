@@ -1,0 +1,577 @@
+openapi: 3.0.2
+
+info:
+  title: SOL005 - NS Lifecycle Management Notification Interface
+  description: |
+    SOL005 - NS Lifecycle Management Notification Interface
+
+    IMPORTANT: Please note that this file might be not aligned to the current
+    version of the ETSI Group Specification it refers to. In case of
+    discrepancies the published ETSI Group Specification takes precedence.
+
+  contact:
+    name: NFV-SOL WG
+  license:
+    name: ETSI Forge copyright notice
+    url: https://forge.etsi.org/etsi-forge-copyright-notice.txt
+  version: 2.3.0-impl:etsi.org:ETSI_NFV_OpenAPI:1
+
+externalDocs:
+  description: ETSI GS NFV-SOL 005 V3.7.1
+  url: https://www.etsi.org/deliver/etsi_gs/NFV-SOL/001_099/005/03.07.01_60/gs_NFV-SOL005v030701p.pdf
+
+servers:
+  - url: http://127.0.0.1/callback/v2
+  - url: https://127.0.0.1/callback/v2
+
+paths:
+  /URI_is_provided_by_the_client_when_creating_the_subscription-NsLcmOperationOccurrenceNotification:
+    parameters:
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The POST method delivers a notification from the API producer to an API consumer. The API consumer shall
+        have previously created an "Individual subscription" resource with a matching filter.
+        See clause 6.4.18.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+      responses:
+        "204":
+          $ref: '#/components/responses/NsLcmOperationOccurrenceNotification.Get.204'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+          
+    post:
+      description: |
+        The GET method allows the API producer to test the notification endpoint that is provided by the API consumer,
+        e.g. during subscription. See clause 6.4.18.3.2.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/NsLcmOperationOccurrenceNotificationRequest'
+      responses:
+        "204":
+          $ref: '#/components/responses/NsLcmOperationOccurrenceNotification.Post.204'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+
+  /URI_is_provided_by_the_client_when_creating_the_subscription-NsIdentifierCreationNotification:
+    parameters:
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The POST method delivers a notification from the API producer to an API consumer. The API consumer shall
+        have previously created an "Individual subscription" resource with a matching filter.
+        See clause 6.4.18.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+      responses:
+        "204":
+          $ref: '#/components/responses/NsIdentifierCreationNotification.Get.204'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+
+    post:
+      description: |
+        The POST method delivers a notification from the API producer to an API consumer. The API consumer shall
+        have previously created an "Individual subscription" resource with a matching filter.
+        See clause 6.4.18.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/NsIdentifierCreationNotificationRequest'
+      responses:
+        "204":
+          $ref: '#/components/responses/NsIdentifierCreationNotification.Post.204'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+
+  /URI_is_provided_by_the_client_when_creating_the_subscription-NsIdentifierDeletionNotification:
+    parameters:
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The POST method delivers a notification from the API producer to an API consumer. The API consumer shall
+        have previously created an "Individual subscription" resource with a matching filter.
+        See clause 6.4.18.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+      responses:
+        "204":
+          $ref: '#/components/responses/NsIdentifierDeletionNotification.Get.204'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+
+    post:
+      description: |
+        The POST method delivers a notification from the API producer to an API consumer. The API consumer shall
+        have previously created an "Individual subscription" resource with a matching filter.
+        See clause 6.4.18.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/NsIdentifierDeletionNotificationRequest'
+      responses:
+        "204":
+          $ref: '#/components/responses/NsIdentifierDeletionNotification.Post.204'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+
+  /URI_is_provided_by_the_client_when_creating_the_subscription-NsChangeNotification:
+    parameters:
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The POST method delivers a notification from the API producer to an API consumer. The API consumer shall
+        have previously created an "Individual subscription" resource with a matching filter.
+        See clause 6.4.18.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+      responses:
+        "204":
+          $ref: '#/components/responses/NsChangeNotification.Get.204'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+
+    post:
+      description: |
+        The POST method delivers a notification from the API producer to an API consumer. The API consumer shall
+        have previously created an "Individual subscription" resource with a matching filter.
+        See clause 6.4.18.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/NsChangeNotificationRequest'
+      responses:
+        "204":
+          $ref: '#/components/responses/NsChangeNotification.Post.204'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+
+  /URI_is_provided_by_the_client_when_creating_the_subscription-NsLcmCapacityShortageNotification:
+    parameters:
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The GET method allows the API producer to test the notification endpoint that is provided by the API
+        consumer, e.g. during subscription. See clause 6.4.18.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+      responses:
+        "204":
+          $ref: '#/components/responses/NsLcmCapacityShortageNotification.Get.204'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+
+    post:
+      description: |
+        The POST method delivers a notification from the API producer to an API consumer. The API consumer shall
+        have previously created an "Individual subscription" resource with a matching filter.
+        See clause 6.4.18.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/NsLcmCapacityShortageNotificationRequest'
+      responses:
+        "204":
+          $ref: '#/components/responses/NsLcmCapacityShortageNotification.Post.204'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+components:
+  requestBodies:
+    NsLcmOperationOccurrenceNotificationRequest:
+      description: |
+        A notification about lifecycle changes triggered by a NS LCM. operation occurrence.
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSLifecycleManagementNotification_def.yaml#/definitions/NsLcmOperationOccurrenceNotification
+      required: true
+
+    NsIdentifierCreationNotificationRequest:
+      description: |
+        A notification about the creation of a NS identifier and the related NS instance resource.
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSLifecycleManagementNotification_def.yaml#/definitions/NsIdentifierCreationNotification
+      required: true
+
+    NsIdentifierDeletionNotificationRequest:
+      description: |
+        A notification about the deletion of a NS identifier and the related NS instance resource.
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSLifecycleManagementNotification_def.yaml#/definitions/NsIdentifierDeletionNotification
+      required: true
+
+    NsChangeNotificationRequest:
+      description: |
+        A notification to inform the receiver of changes on the NS instance caused by the LCM operation occurrence.
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSLifecycleManagementNotification_def.yaml#/definitions/NsChangeNotification
+      required: true
+
+    NsLcmCapacityShortageNotificationRequest:
+      description: |
+        A notification about lifecycle capacity shortage triggered when there is a shortage condition.
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSLifecycleManagementNotification_def.yaml#/definitions/NsLcmCapacityShortageNotification
+      required: true
+
+  responses:
+    NsLcmOperationOccurrenceNotification.Get.204:
+      description: |
+        204 No Content
+        Shall be returned when the notification endpoint has been tested successfully. 
+        The response body shall be empty.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the 
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content: {}
+      
+    NsLcmOperationOccurrenceNotification.Post.204:
+      description: |
+        204 No Content
+        Shall be returned when the notification has been delivered successfully.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the 
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content: {}
+
+    NsIdentifierCreationNotification.Get.204:
+      description: |
+        204 No Content
+        Shall be returned when the notification endpoint has been tested successfully. The response body shall be empty.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content: {}
+
+    NsIdentifierCreationNotification.Post.204:
+      description: |
+        204 No Content
+        Shall be returned when the notification has been delivered successfully.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content: {}
+
+    NsIdentifierDeletionNotification.Get.204:
+      description: |
+        204 No Content
+        Shall be returned when the notification endpoint has been tested successfully. The response body shall be empty.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content: {}
+
+    NsIdentifierDeletionNotification.Post.204:
+      description: |
+        204 No Content
+        Shall be returned when the notification has been delivered successfully.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content: {}
+
+    NsChangeNotification.Get.204:
+      description: |
+        204 No Content
+        Shall be returned when the notification has been delivered successfully.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content: {}
+
+    NsChangeNotification.Post.204:
+      description: |
+        204 No Content
+        Shall be returned when the notification has been delivered successfully.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content: {}
+
+    NsLcmCapacityShortageNotification.Get.204:
+      description: |
+        204 No Content
+        Shall be returned when the notification endpoint has been tested successfully. The response body shall be empty.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content: {}
+
+    NsLcmCapacityShortageNotification.Post.204:
+      description: |
+        204 No Content
+        Shall be returned when the notification has been delivered successfully.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content: {}

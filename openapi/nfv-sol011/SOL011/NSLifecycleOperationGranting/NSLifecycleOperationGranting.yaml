@@ -1,0 +1,205 @@
+openapi: 3.0.2
+info:
+  version: 1.0.0-impl:etsi.org:ETSI_NFV_OpenAPI:1
+  title: SOL011 - NS Lifecycle Operation Granting Interface
+  description: >
+    SOL011 - NS Lifecycle Operation Granting Interface
+
+    IMPORTANT: Please note that this file might be not aligned to the current version of the ETSI Group Specification
+     it refers to. In case of discrepancies the published ETSI Group Specification takes precedence.
+
+    Please report bugs to https://forge.etsi.org/rep/nfv/SOL011/-/issues
+  license:
+    name: ETSI Forge copyright notice
+    url: https://forge.etsi.org/etsi-forge-copyright-notice.txt
+
+externalDocs:
+  description: ETSI GS NFV-SOL 011 V4.5.1
+  url: https://www.etsi.org/deliver/etsi_gs/NFV-SOL/001_099/011/04.05.01_60/gs_NFV-SOL011v040501p.pdf
+
+security:
+  - OauthSecurity:
+      - all
+servers:
+  - url: http://127.0.0.1/nslcog/v1
+  - url: https://127.0.0.1/nslcog/v1
+
+paths:
+  "/api_versions":
+    $ref: '../endpoints/SOL011_endpoints.yaml#/endpoints/api_versions'
+
+  "/grants":
+    description: >-
+      This resource represents grant. The NFVO-N can use this resource to request a grant.
+    post:
+      description: >-
+        The POST method requests a grant for a particular NS lifecycle operation.
+        This method shall follow the provisions specified in the tables 7.5.3.3.1-1 and 7.5.3.3.1-2
+        for URI query parameters, request and response data structures, and response codes.
+      parameters:
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Version"
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Accept"
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/ContentType"
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Authorization"
+      requestBody:
+        $ref: "#/components/requestBodies/GrantNsLifecycleOperationRequest"
+      responses:
+        "201":
+          $ref: '#/components/responses/Grants.Post.201'
+        "400":
+          $ref: ../components/SOL011_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../components/SOL011_resp.yaml#/components/responses/401
+        "403":
+          $ref: '#/components/responses/Grants.Post.403'
+        "404":
+          $ref: ../components/SOL011_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../components/SOL011_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../components/SOL011_resp.yaml#/components/responses/406
+        "422":
+          $ref: ../components/SOL011_resp.yaml#/components/responses/422
+        "500":
+          $ref: ../components/SOL011_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../components/SOL011_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../components/SOL011_resp.yaml#/components/responses/504
+
+  "/grants/{grantId}":
+    description: >-
+      This resource represents an individual grant..
+    get:
+      description: >-
+        The GET method reads a grant.
+        This method shall follow the provisions specified in the tables 7.5.4.3.2-1 and 7.5.4.3.2-2
+        for URI query parameters, request and response data structures, and response codes.
+      parameters:
+        - $ref: "#/components/parameters/grantId"
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Version"
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Accept"
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Authorization"
+      responses:
+        "200":
+          $ref: '#/components/responses/Grant.Get.200'
+        "400":
+          $ref: ../components/SOL011_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../components/SOL011_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../components/SOL011_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../components/SOL011_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../components/SOL011_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../components/SOL011_resp.yaml#/components/responses/406
+        "422":
+          $ref: ../components/SOL011_resp.yaml#/components/responses/422
+        "500":
+          $ref: ../components/SOL011_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../components/SOL011_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../components/SOL011_resp.yaml#/components/responses/504
+
+
+components:
+  parameters:
+    grantId:
+      name: grantId
+      in: path
+      description: >-
+        Identifier of the grant
+      required: true
+      schema:
+        $ref: '../components/SOL011_schemas.yaml#/components/schemas/Identifier'
+  requestBodies:
+    GrantNsLifecycleOperationRequest:
+      description: >-
+        The NS lifecycle operation grant request parameters, as defined in clause 7.6.2.2.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/NSLifecycleOperationGranting_def.yaml#/definitions/schemas/GrantNsLifecycleOperationRequest"
+  responses:
+    Grants.Post.201:
+      description: >-
+        Shall be returned when the grant has been created successfully.
+        A representation of the created "Individual grant" resource shall be returned in the response body.
+        The HTTP response shall include a "Location" HTTP header that indicates the URI of the
+        "Individual grant" resource just created.
+
+      headers:
+        WWW-Authenticate:
+          description: >
+            Challenge if the corresponding HTTP request has not provided
+            authorization, or error details if the corresponding HTTP
+            request has provided an invalid authorization token.
+          schema:
+            type: string
+        Version:
+          description: >
+            Version of the API used in the response.
+          schema:
+            type: string
+        Location:
+          description: >
+            URI of the "Individual grant" resource just created
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: 'definitions/NSLifecycleOperationGranting_def.yaml#/definitions/schemas/Grant'
+
+    Grants.Post.403:
+      description: >-
+        Shall be returned upon the following error: the grant request was rejected.
+        A ProblemDetails structure shall be included in the response to provide more
+        details about the rejection in the "details" attribute.
+      headers:
+        Content-Type:
+          description: The MIME type of the body of the response.
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: >
+            Challenge if the corresponding HTTP request has not provided
+            authorization, or error details if the corresponding HTTP
+            request has provided an invalid authorization token.
+          schema:
+            type: string
+        Version:
+          description: >
+            Version of the API used in the response.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '../components/SOL011_schemas.yaml#/components/schemas/ProblemDetails'
+
+    Grant.Get.200:
+      description: >-
+        Shall be returned when the grant has been read successfully.
+        A representation of the "Individual grant" resource shall be returned in the response body.
+      headers:
+        WWW-Authenticate:
+          description: >
+            Challenge if the corresponding HTTP request has not provided
+            authorization, or error details if the corresponding HTTP
+            request has provided an invalid authorization token.
+          schema:
+            type: string
+        Version:
+          description: >
+            Version of the API used in the response.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: 'definitions/NSLifecycleOperationGranting_def.yaml#/definitions/schemas/Grant'
+

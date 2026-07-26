@@ -1,0 +1,154 @@
+# Copyright (c) ETSI 2017.
+# https://forge.etsi.org/etsi-forge-copyright-notice.txt
+
+definitions:
+  VnfIndicatorValueChangeNotification:
+    description: >
+      This type represents a VNF indicator value change notification.
+      The notification shall be triggered by the VNFM when the value of an indicator has changed.
+
+      NOTE:	ETSI GS NFV-SOL 001 specifies the structure and format of the VNFD based on TOSCA specifications.
+    type: object
+    required:
+      - id
+      - notificationType
+      - subscriptionId
+      - timeStamp
+      - vnfIndicatorId
+      - value
+      - vnfInstanceId
+      - _links
+    properties:
+      id:
+        description: >
+          Identifier of this notification. If a notification is sent multiple
+          times due to multiple subscriptions, the "id" attribute of all these
+          notifications shall have the same value.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      notificationType:
+        description: >
+          Discriminator for the different notification types. Shall be set to
+          "VnfIndicatorValueChangeNotification" for this notification type.
+        type: string
+        enum:
+          - VnfIndicatorValueChangeNotification
+      subscriptionId:
+        description: >
+          Identifier of the subscription that this notification relates to.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      timeStamp:
+        description: >
+          Date-time of the generation of the notification.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/DateTime"
+      vnfIndicatorId:
+        description: >
+          Identifier of the VNF indicator whose value has changed.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierInVnfd"
+      name:
+        description: >
+          Human readable name of the VNF indicator. Shall be present if
+          defined in the VNFD.
+        type: string
+      value:
+        description: >
+          Provides the value of the VNF indicator. The value format is defined in the VNFD. See note.
+        type: object
+      vnfInstanceId:
+        description: >
+          Identifier of the VNF instance which provides the indicator value.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      _links:
+        description: >
+          Links for this resource.
+        type: object
+        required:
+          - vnfInstance
+          - subscription
+        properties:
+          vnfInstance:
+            description: >
+              Link to the related "Individual VNF instance" resource. Shall be present
+              if the VNF instance information is accessible as a resource.
+            $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/NotificationLink"
+          subscription:
+            description: >
+              Link to the related subscription.
+            $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/NotificationLink"
+
+  SupportedIndicatorsChangeNotification:
+    description: >
+      This type represents a notification to inform the receiver that the set of indicators supported 
+      by a VNF instance has changed.
+      
+      The notification shall be triggered by the VNFM when the set of supported VNF indicators has changed 
+      as a side effect of the "Change current VNF package" operation. It may be triggered by the VNFM when 
+      a VNF has been instantiated.
+
+      NOTE:	ETSI GS NFV-SOL 001 specifies the structure and format of the VNFD based on TOSCA specifications.
+    type: object
+    required:
+      - id
+      - notificationType
+      - subscriptionId
+      - timeStamp
+      - vnfInstanceId
+      - _links
+    properties:
+      id:
+        description: >
+          Identifier of this notification. If a notification is sent multiple times 
+          due to multiple subscriptions, the "id" attribute of all these notifications 
+          shall have the same value.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      notificationType:
+        description: >
+          Discriminator for the different notification types. Shall be set to 
+          "SupportedIndicatorsChangeNotification" for this notification type.
+        type: string
+        enum:
+          - VnfIndicatorValueChangeNotification
+      subscriptionId:
+        description: >
+          Identifier of the subscription that this notification relates to.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      timeStamp:
+        description: >
+          Date-time of the generation of the notification.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/DateTime"
+      vnfInstanceId:
+        description: >
+          Identifier of the VNF instance which provides the indicator value.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      supportedIndicators:
+        description: >
+          Set of VNF indicators supported by the VNF instance.
+        type: array
+        items:
+          type: object
+          required:
+            - vnfIndicatorId
+          properties:
+            vnfIndicatorId:
+              description: >
+                Identifier of the VNF indicator whose value has changed.
+              $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierInVnfd" 
+            name:
+              description: >
+                Human readable name of the VNF indicator. Shall be present if defined in the VNFD. See note.
+              type: string
+      _links:
+        description: >
+          Links for this resource.
+        type: object
+        required:
+          - subscription
+        properties:
+          vnfInstance:
+            description: >
+              Link to the related "Individual VNF instance" resource. Shall be present 
+              if the VNF instance information is accessible as a resource.
+            $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/NotificationLink"
+          subscription:
+            description: >
+              Link to the related subscription.
+            $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/NotificationLink"

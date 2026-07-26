@@ -1,0 +1,115 @@
+# Copyright (c) ETSI 2017.
+# https://forge.etsi.org/etsi-forge-copyright-notice.txt
+
+definitions:
+  VrQuotaAvailNotificationsFilter:
+    description: >
+      This type represents a subscription filter related to notifications
+      about the availability of the virtualised resources quotas.
+      At a particular nesting level in the filter structure, the following
+      applies: All attributes shall match in order for the filter to match
+      (logical "and" between different filter attributes). If an attribute is
+      an array, the attribute shall match if at least one of the values in the
+      array matches (logical "or" between the values of one filter attribute).
+    type: object
+    properties:
+      vimIds:
+        description: >
+          Match VIMs that were created the quota for a consumer of the
+          virtualised resources.
+          This attribute shall only be supported when VNF-related Resource
+          Management in direct mode is applicable.
+        type: array
+        items:
+          $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      resourceProviderIds:
+        description: >
+          Match the entities responsible for the management of the virtualised
+          resources that were allocated by the NFVO.
+          This attribute shall only be supported when VNF-related Resource
+          Management in indirect mode is applicable. The identification scheme
+          is outside the scope of the present document.
+        type: array
+        items:
+          $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      resourceTypes:
+        description: >
+          Match particular resource types.
+        type: array
+        items:
+          type: string
+          enum:
+            - COMPUTE
+            - STORAGE
+            - NETWORK
+      resourceGroupIds:
+        description: >
+          Match the "infrastructure resource groups" that are logical
+          groupings of the virtualised resources assigned to a tenant within
+          an infrastructure Domain.
+        type: array
+        items:
+          $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierInVim"
+
+  VrQuotaAvailSubscription:
+    description: >
+      This type represents a subscription related to notifications related to
+      the availability of the virtualised resources quotas.
+    type: object
+    required:
+      - id
+      - callbackUri
+      - _links
+    properties:
+      id:
+        description: >
+          Identifier of this "Individual subscription" resource
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      filter:
+        description: >
+          Input filter for selecting notifications to subscribe to.
+          This filter can contain information about specific attributes of the
+          virtualised resources quota.
+        $ref: "#/definitions/VrQuotaAvailNotificationsFilter"
+      callbackUri:
+        description: >
+          The URI of the endpoint to send the notification to.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Uri"
+      _links:
+        description: >
+          Links for this resource
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            description: >
+              URI of this resource
+            $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Link"
+
+  VrQuotaAvailSubscriptionRequest:
+    description: >
+      This type represents a subscription request related to notifications
+      related to the availability of the virtualised resources quotas.
+    type: object
+    required:
+      - callbackUri
+    properties:
+      filter:
+        description: >
+          Input filter for selecting notifications to subscribe to. This
+          filter can contain information about specific attributes of the
+          virtualised resources quota.
+        $ref: "#/definitions/VrQuotaAvailNotificationsFilter"
+      callbackUri:
+        description: >
+          The URI of the endpoint to send the notification to.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Uri"
+      authentication:
+        description: >
+          Authentication parameters to configure the use of Authorization when sending notifications
+          corresponding to this subscription, as defined in clause 8.3.4 of ETSI GS NFV-SOL 013.
+          This attribute shall only be present if the subscriber requires authorization of notifications.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/SubscriptionAuthentication"
+
+

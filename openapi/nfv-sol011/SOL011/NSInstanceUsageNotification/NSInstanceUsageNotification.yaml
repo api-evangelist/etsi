@@ -1,0 +1,466 @@
+openapi: 3.0.2
+info:
+  version: 1.0.0-impl:etsi.org:ETSI_NFV_OpenAPI:1
+  title: SOL011 - NS Instance Usage Notification Interface
+  description: >
+    SOL011 - NS Instance Usage Notification Interface
+
+    IMPORTANT: Please note that this file might be not aligned to the current version of the ETSI Group Specification
+     it refers to. In case of discrepancies the published ETSI Group Specification takes precedence.
+
+    Please report bugs to https://forge.etsi.org/rep/nfv/SOL011/-/issues
+  license:
+    name: ETSI Forge copyright notice
+    url: https://forge.etsi.org/etsi-forge-copyright-notice.txt
+
+externalDocs:
+  description: ETSI GS NFV-SOL 011 V4.5.1
+  url: https://www.etsi.org/deliver/etsi_gs/NFV-SOL/001_099/011/04.05.01_60/gs_NFV-SOL011v040501p.pdf
+
+security:
+  - OauthSecurity:
+      - all
+servers:
+  - url: http://0.0.0.0/nsiun/v1
+  - url: https://0.0.0.0/nsiun/v1
+
+paths:
+  "/api_versions":
+    $ref: '../endpoints/SOL011_endpoints.yaml#/endpoints/api_versions'
+
+  "/subscriptions":
+    description: >-
+      This resource represents subscriptions. The client can use this resource to subscribe to notifications 
+      related to NS instance usage, and to query its subscriptions.
+    post:
+      description: >-
+        The POST method creates a new subscription.
+      parameters:
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Version"
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Accept"
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/ContentType"
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Authorization"
+      requestBody:
+        $ref: "#/components/requestBodies/NsInstanceUsageSubscriptionRequest"
+      responses:
+        201:
+          $ref: '#/components/responses/Subscriptions.Post.201'
+        303:
+          $ref: '#/components/responses/Subscriptions.Post.303'
+        400:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/400
+        401:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/401
+        403:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/403
+        404:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/404
+        405:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/405
+        406:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/406
+        422:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/422
+        500:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/500
+        503:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/503
+        504:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/504
+    get:
+      description: >-
+        The GET method queries the list of active subscriptions of the functional block that invokes the method.
+        It can be used e.g. for resynchronization after error situations.
+      parameters:
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Version"
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Accept"
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/filter.Subscriptions"
+        - $ref: "#/components/parameters/nextpage_opaque_marker.Subscriptions"
+      responses:
+        200:
+          $ref: "#/components/responses/Subscriptions.Get.200"
+        400:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/400
+        401:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/401
+        403:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/403
+        404:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/404
+        405:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/405
+        406:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/406
+        422:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/422
+        500:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/500
+        503:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/503
+        504:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/504
+
+  "/subscriptions/{subscriptionId}":
+    description: >-
+      This resource represents an individual subscription. The client can use this resource to read and to 
+      terminate a subscription to notifications related to NS instance usage.
+    parameters:
+      - $ref: "#/components/parameters/subscriptionId"
+    get:
+      description: >-
+        The GET method retrieves information about a subscription by reading an "individual subscription" resource.
+      parameters:
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Version"
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Accept"
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/ContentType"
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Authorization"
+      responses:
+        200:
+          $ref: '#/components/responses/Subscription.Get.200'
+        400:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/400
+        401:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/401
+        403:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/403
+        404:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/404
+        405:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/405
+        406:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/406
+        422:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/422
+        500:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/500
+        503:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/503
+        504:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/504
+    delete:
+      description: >-
+        The DELETE method terminates an individual subscription.
+      parameters:
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Version"
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Accept"
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/ContentType"
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Authorization"
+      responses:
+        204:
+          $ref: '#/components/responses/Subscription.Delete.204'
+        400:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/400
+        401:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/401
+        403:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/403
+        404:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/404
+        405:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/405
+        406:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/406
+        422:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/422
+        500:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/500
+        503:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/503
+        504:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/504
+
+  "/URI-is-provided-by-the-client-when-creating-the-subscription-NSInstanceUsageNotification":
+    description: >
+      This resource represents a notification endpoint. The NFVO-C can use this resource to send 
+      notifications related to NS instance usage to a subscribed NFVO-N, which has provided the 
+      URI of this resource during the subscription process
+    post:
+      description: >
+        The POST method delivers a notification from the NFVO-C to the NFVO-N.
+      parameters:
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Version"
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/ContentType"
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Accept"
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Authorization"
+      requestBody:
+        $ref: "#/components/requestBodies/NsInstanceUsageNotification"
+      responses:
+        204: 
+          $ref: "#/components/responses/Notification.Post.204"
+        400:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/400
+        401:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/401
+        403:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/403
+        404:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/404
+        405:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/405
+        406:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/406
+        422:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/422
+        500:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/500
+        503:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/503
+        504:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/504
+    get:
+      description: >
+        The GET method allows the server to test the notification endpoint that is provided 
+        by the client, e.g., during the subscription process.
+      parameters:
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Version"
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Accept"
+        - $ref: "../components/SOL011_params.yaml#/components/parameters/Authorization"
+      responses:
+        204: 
+          $ref: "#/components/responses/Notification.Get.204"
+        400:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/400
+        401:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/401
+        403:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/403
+        404:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/404
+        405:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/405
+        406:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/406
+        422:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/422
+        500:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/500
+        503:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/503
+        504:
+          $ref: ../components/SOL011_resp.yaml#/components/responses/504
+
+components:
+  parameters:
+    subscriptionId:
+      name: subscriptionId
+      in: path
+      description: >-
+        Identifier of the subscription
+      required: true
+      schema:
+        $ref: '../components/SOL011_schemas.yaml#/components/schemas/Identifier'
+
+    filter.Subscriptions:
+      name: filter
+      description: >
+        Attribute-based filtering expression according to clause 5.2 of ETSI
+        GS NFV-SOL 013 [2].
+        The NFVO-C shall support receiving this parameter as part of the URI query
+        string. The NFVO-N may supply this parameter.
+        All attribute names that appear in the NsInstanceUsageSubscription and in
+        data types referenced from it shall be supported by the NFVO-C in the filter
+        expression.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    nextpage_opaque_marker.Subscriptions:
+      name: nextpage_opaque_marker
+      description: >
+        Marker to obtain the next page of a paged response. Shall be supported by
+        the NFVO-C if the NFVO-C supports alternative 2 (paging) according to
+        clause 5.4.2.1 of ETSI GS NFV-SOL 013 [2] for this resource
+      in: query
+      required: false
+      schema:
+        type: string
+
+
+  requestBodies:
+    NsInstanceUsageSubscriptionRequest:
+      description: 
+        Details of the subscription to be created, as defined in clause 8.6.2.2.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/NSInstanceUsageNotification_def.yaml#/definitions/schemas/NsInstanceUsageSubscriptionRequest"
+
+    NsInstanceUsageNotification:
+      description: 
+        A notification about the change of usage of an NS instance as part of 
+        a composite NS managed by the server.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/NSInstanceUsageNotification_def.yaml#/definitions/schemas/NsInstanceUsageNotification"
+
+  responses:
+    Subscriptions.Post.201:
+      description: >-
+        Shall be returned when the subscription has been created successfully.
+        The response body shall contain a representation of the created 
+        "individual subscription" resource.
+        The HTTP response shall include a "Location" HTTP header that points to 
+        the created "individual subscription" resource.
+      headers:
+        WWW-Authenticate:
+          description: >
+            Challenge if the corresponding HTTP request has not provided
+            authorization, or error details if the corresponding HTTP
+            request has provided an invalid authorization token.
+          schema:
+            type: string
+        Version:
+          description: >
+            Version of the API used in the response.
+          schema:
+            type: string
+        Location:
+          description: >
+            URI of the "Individual subscription" resource just created.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: 'definitions/NSInstanceUsageNotification_def.yaml#/definitions/schemas/NsInstanceUsageSubscription'
+    
+    Subscriptions.Post.303:
+      description: >-
+        Shall be returned if a subscription with the same callbackURI and the 
+        same filter already exists and the policy of the NFVO-C is to not create 
+        redundant subscriptions.
+        The HTTP response shall include a "Location" HTTP header that contains 
+        the resource URI of the existing "individual subscription" resource.
+        The response body shall be empty.
+      headers:
+        WWW-Authenticate:
+          description: >
+            Challenge if the corresponding HTTP request has not provided
+            authorization, or error details if the corresponding HTTP
+            request has provided an invalid authorization token.
+          schema:
+            type: string
+        Version:
+          description: >
+            Version of the API used in the response.
+          schema:
+            type: string
+        Location:
+          description: >
+            URI of the "Individual subscription" resource just created.
+          schema:
+            type: string
+
+    Subscriptions.Get.200:
+      description: >-
+        Shall be returned when the list of subscriptions has been queried successfully.
+        The response body shall contain in an array the representations of all active 
+        subscriptions of the functional block that invokes the method, i.e. zero or more 
+        representations of NS instance usage notification subscriptions as defined in 
+        clause 8.6.2.3.
+        If the "filter" URI parameter was supplied in the request, the data in the response 
+        body shall have been transformed according to the rules specified in clause 5.2.2 
+        of ETSI GS NFV-SOL 013.
+        If the NFVO-C supports alternative 2 (paging) according to clause 5.4.2.1 of 
+        ETSI GS NFV-SOL 013 for this resource, inclusion of the Link HTTP header in this 
+        response shall follow the provisions in clause 5.4.2.3 of ETSI GS NFV-SOL 013.
+      headers:
+        WWW-Authenticate:
+          description: >
+            Challenge if the corresponding HTTP request has not provided
+            authorization, or error details if the corresponding HTTP
+            request has provided an invalid authorization token.
+          schema:
+            type: string
+        Version:
+          description: >
+            Version of the API used in the response.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "definitions/NSInstanceUsageNotification_def.yaml#/definitions/schemas/NsInstanceUsageSubscription"
+
+    Subscription.Get.200:
+      description: >-
+        Shall be returned when information about an individual subscription has been 
+        read successfully.
+        The response body shall contain a representation of the "individual subscription" 
+        resource.
+      headers:
+        WWW-Authenticate:
+          description: >
+            Challenge if the corresponding HTTP request has not provided
+            authorization, or error details if the corresponding HTTP
+            request has provided an invalid authorization token.
+          schema:
+            type: string
+        Version:
+          description: >
+            Version of the API used in the response.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: 'definitions/NSInstanceUsageNotification_def.yaml#/definitions/schemas/NsInstanceUsageSubscription'
+
+    Subscription.Delete.204:
+      description: >-
+        Shall be returned when the "individual subscription" resource has been 
+        deleted successfully.
+        The response body shall be empty.
+      headers:
+        WWW-Authenticate:
+          description: >
+            Challenge if the corresponding HTTP request has not provided
+            authorization, or error details if the corresponding HTTP
+            request has provided an invalid authorization token.
+          schema:
+            type: string
+        Version:
+          description: >
+            Version of the API used in the response.
+          schema:
+            type: string
+      
+    Notification.Post.204:
+      description: >-
+        Shall be returned when the notification was delivered successfully.
+      headers:
+        WWW-Authenticate:
+          description: >
+            Challenge if the corresponding HTTP request has not provided
+            authorization, or error details if the corresponding HTTP
+            request has provided an invalid authorization token.
+          schema:
+            type: string
+        Version:
+          description: >
+            Version of the API used in the response.
+          schema:
+            type: string
+
+    Notification.Get.204:
+      description: >-
+        Shall be returned when the notification was tested successfully.
+        The response body shall be empty.
+      headers:
+        WWW-Authenticate:
+          description: >
+            Challenge if the corresponding HTTP request has not provided
+            authorization, or error details if the corresponding HTTP
+            request has provided an invalid authorization token.
+          schema:
+            type: string
+        Version:
+          description: >
+            Version of the API used in the response.
+          schema:
+            type: string

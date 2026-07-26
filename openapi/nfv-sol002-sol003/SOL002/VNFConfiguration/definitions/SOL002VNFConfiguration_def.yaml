@@ -1,0 +1,183 @@
+# Copyright (c) ETSI 2017.
+# https://forge.etsi.org/etsi-forge-copyright-notice.txt
+
+definitions:
+  VnfConfigModifications:
+    description: >
+      This type represents request parameters for the "Set Configuration" operation.
+        * NOTE 1: At least one of "vnfConfigurationData" and "vnfcConfigurationData"
+                  shall be present.
+        * NOTE 2: The VnfcConfiguration data type can only be used to modify the configuration
+                  of existing VNFC instances.
+    type: object
+    anyOf:
+      - required:
+          - vnfConfigurationData
+      - required:
+          - vnfcConfigurationData
+    properties:
+      vnfConfigurationData:
+        description: >
+          Modifications to configuration data for the VNF instance. See NOTE 1.
+          If present, the modifications of the "vnfConfigurationData" attribute shall
+          be applied according to the rules of JSON Merge PATCH (see IETF RFC 7396).
+        $ref: '#/definitions/VnfConfigurationData'
+      vnfcConfigurationData:
+        description: >
+          Modifications to configuration data for certain VNFC instances. See NOTE 1 and NOTE 2.
+          If present, the modifications of the "vnfcConfigurationData" attribute shall follow these
+          provisions:
+            Modifying an attribute that is an array of objects of type "VnfcConfigurationData".
+              Assumptions:
+                1) "oldList" is the "VnfcConfigurationData" array to be modified and "newList"
+                   is the "VnfcConfigurationData" array that contains the changes.
+                2) "oldEntry" is an entry in "oldList" and "newEntry" is an entry in "newList".
+                3) A "newEntry" has a "corresponding entry" if there exists an "oldEntry" that
+                   has the same content of the "vnfcInstanceId" attribute as the "newEntry";
+                   a "newEntry" has no corresponding entry if no such "oldEntry" exists.
+                4) In any array of "VnfcConfigurationData" structures, the content of "vnfcInstanceId"
+                   is unique (i.e. there shall be no two entries with the same content of "vnfcInstanceId").
+              Provisions:
+                1) For each "newEntry" in "newList" that has no corresponding entry in "oldList",
+                   the "oldList" array shall be modified by adding that "newEntry".
+
+                2) For each "newEntry" in "newList" that has a corresponding "oldEntry" in "oldList",
+                   the value of "oldEntry" shall be updated with the value of "newEntry" according to
+                  the rules of JSON Merge PATCH (see IETF RFC 7396 ).
+        type: array
+        items:
+          $ref: '#/definitions/VnfcConfigurationData'
+      vnfcConfigurationDataDeleteIds:
+        description: >
+          List of identifiers entries to be deleted from the 'vnfcConfigurationData" attribute array to be used
+          as "deleteIdList" as defined below this table.
+        type: array
+        items:
+          $ref: "../../General_Definitions/SOL002_def.yaml#/definitions/Identifier"
+
+  VnfConfiguration:
+    description: >
+      This type represents configuration parameters of a VNF instance and its VNFC instances.
+    type: object
+    required:
+      - vnfConfigurationData
+    properties:
+      vnfConfigurationData:
+        description: >
+          Configuration parameters of the VNF instance.
+        $ref: '#/definitions/VnfConfigurationData'
+      vnfcConfigurationData:
+        description: >
+          Configuration parameters of the VNFC instances.
+        type: array
+        items:
+          $ref: '#/definitions/VnfcConfigurationData'
+
+  VnfConfigurationData:
+    description: >
+      This type represents configuration parameters of a VNF instance.
+      *   NOTE:	ETSI GS NFV-SOL 001 specifies the structure and format of
+                the VNFD based on TOSCA specifications.
+    type: object
+    properties:
+      extCpConfig:
+        description: >
+          Configuration parameters for the external CPs of the VNF instance.
+        type: array
+        items:
+          $ref: '#/definitions/CpConfiguration'
+      vnfSpecificData:
+        description: >
+          Additional configurable properties of the VNF instance declared in the
+          VNFD as "VnfConfigurableProperties". see note.
+        $ref: '../../General_Definitions/SOL002_def.yaml#/definitions/KeyValuePairs'
+
+  VnfcConfigurationData:
+    description: >
+      This type represents configuration parameters of a VNFC instance.
+      *   NOTE:	ETSI GS NFV-SOL 001 specifies the structure and format
+                of the VNFD based on TOSCA specifications.
+    type: object
+    required:
+      - vnfcInstanceId
+    properties:
+      vnfcInstanceId:
+        description: >
+          Identifier of a VNFC instance to which this set of configuration data applies.
+          The identifier references the "id" attribute in a "VnfcInfo" structure.
+        $ref: '../../General_Definitions/SOL002_def.yaml#/definitions/IdentifierInVnf'
+      intCpConfig:
+        description: >
+          Configuration parameters for the internal CPs of the VNFC instance.
+        type: array
+        items:
+          $ref: '#/definitions/CpConfiguration'
+      vnfcSpecificData:
+        description: >
+          Additional configurable properties of the VNFC instance declared in the
+          VNFD as "VnfcConfigurableProperties". See note.
+        $ref: '../../General_Definitions/SOL002_def.yaml#/definitions/KeyValuePairs'
+
+  CpConfiguration:
+    description: >
+      This type represents configuration parameters of a CP instance.
+    type: object
+    required:
+      - cpId
+      - cpdId
+      - addresses
+    properties:
+      cpId:
+        description: >
+          Identifier of a CP instance within the namespace of a specific VNF instance or a VNFC instance.
+        $ref: '../../General_Definitions/SOL002_def.yaml#/definitions/IdentifierInVnf'
+      cpdId:
+        description: >
+          Identifier of the CPD in the VNFD.
+        $ref: '../../General_Definitions/SOL002_def.yaml#/definitions/IdentifierInVnfd'
+      addresses:
+        description: >
+          Network address and port assigned to the CP.
+        type: array
+        items:
+          $ref: '#/definitions/CpAddress'
+
+  CpAddress:
+    description: >
+      This type represents configuration parameters of a CP instance address.
+         *  NOTE 1: Either "address" or "useDynamicAddress" shall be present.
+         *  NOTE 2: At least one of "macAddress" and "ipAddress" shall be present.
+    type: object
+    oneOf:
+      - required:
+          - address
+      - required:
+          - useDynamicAddress
+    anyOf:
+      - required:
+          - macAddress
+      - required:
+          - ipAddress
+    properties:
+      address:
+        description: >
+          Network address that has been configured on the CP. See NOTE 1.
+        type: object
+        properties:
+          macAddress:
+            description: >
+              Mac address. See NOTE 2.
+            $ref: '../../General_Definitions/SOL002_def.yaml#/definitions/MacAddress'
+          ipAddress:
+            description: >
+              IP address. See NOTE 2.
+            $ref: '../../General_Definitions/SOL002_def.yaml#/definitions/IpAddress'
+      useDynamicAddress:
+        description: >
+          Set to true if an address shall be assigned dynamically. Otherwise set to false.
+          The default value shall be false. See NOTE 1.
+        type: boolean
+      port:
+        description: >
+          The port assigned to the CP instance (e.g. IP port number, Ethernet port number, etc.).
+        type: integer

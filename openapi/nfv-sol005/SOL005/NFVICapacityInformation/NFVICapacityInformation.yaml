@@ -1,0 +1,729 @@
+openapi: 3.0.2
+
+info:
+  title: SOL005 - NFVI Capacity Information Interface
+  description: |
+    SOL005 - NFVI Capacity Information Interface
+
+    IMPORTANT: Please note that this file might be not aligned to the current
+    version of the ETSI Group Specification it refers to. In case of
+    discrepancies the published ETSI Group Specification takes precedence.
+
+    Please report bugs to https://forge.etsi.org/rep/nfv/SOL005/issues
+
+  contact:
+    name: NFV-SOL WG
+  license:
+    name: ETSI Forge copyright notice
+    url: https://forge.etsi.org/etsi-forge-copyright-notice.txt
+  version: 1.1.0-impl:etsi.org:ETSI_NFV_OpenAPI:1
+
+externalDocs:
+  description: ETSI GS NFV-SOL 005 V3.7.1
+  url: https://www.etsi.org/deliver/etsi_gs/NFV-SOL/001_099/005/03.07.01_60/gs_NFV-SOL005v030701p.pdf
+  
+servers:
+  - url: http://127.0.0.1/nfvici/v1
+  - url: https://127.0.0.1/nfvici/v1
+
+paths:
+  /api_versions:
+    $ref: ../endpoints/SOL005_endpoints.yaml#/endpoints/api-versions
+
+  /nfvi_capacity_infos:
+    parameters:
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The API consumer can use this method to retrieve information about NFVI capacity information. See clause 10.4.2.3.2.
+      parameters:
+        - in: query
+          name: filter
+          description: >
+            Attribute-based filtering expression according to clause 5.2 of ETSI GS NFV SOL 013.
+            The NFVO shall support receiving this parameter as part of the URI query string. 
+            The OSS/BSS may supply this parameter. If the OSS/BSS does not supply a filter value 
+            for the "timeInterval" attribute in the NfviCapacityInfo, a query of the current NFVI 
+            capacity information available by the NFVO is requested. 
+            The following attribute names in the NfviCapacityInfo shall be supported by the NFVO 
+            in the filter expression:
+            -	resourceZoneId
+            -	vimId
+            -	timeInterval
+            -	resourceType
+            -	capacityMeasurementName
+            -	capacity values: {totalCapacity, allocatedCapacity, reservedCapacity, availableCapacity}
+          schema:
+            type: string
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/all_fields
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/fields
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/exclude_fields
+        - in: query
+          name: exclude_default
+          description: >
+            Indicates to exclude the following complex attributes from the response. See clause 5.3 of 
+            ETSI GS NFV-SOL 013 for details. The NFVO shall support this parameter.
+            The following attributes shall be excluded from the NfviCapacityInfo structure in the response 
+            body if this parameter is provided, or none of the parameters "all_fields", "fields", "exclude_fields", 
+            "exclude_default" are provided:
+            -	capacityInfoPerZone 
+            -	totalCapacityInfo
+            -	timeInterval
+          schema:
+            type: string
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/nextpage_opaque_marker
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+      responses:
+        "200":
+          $ref: '#/components/responses/NfviCapacityInfos.Get.200'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+  /nfvi_capacity_infos/{vimId}:
+    parameters:
+      - $ref: '#/components/parameters/VimId'
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The API consumer can use this method for reading an individual VIM's NFVI capacity information. See clause 10.4.3.3.2.
+      parameters:
+        - in: query
+          name: filter
+          description: >
+            Attribute-based filtering expression according to clause 5.2 of ETSI GS NFV SOL 013.
+            The NFVO shall support receiving this parameter as part of the URI query string.
+            The OSS/BSS may supply this parameter. If the OSS/BSS does not supply a filter value 
+            for the timeInterval attribute in the NfviCapacityInfo, a query of the current NFVI 
+            capacity information available by the NFVO is requested.
+            The following attribute names in the NfviCapacityInfo shall be supported by the NFVO 
+            in the filter expression:
+            -	resourceZoneId
+            -	timeInterval 
+            -	resourceType
+            -	capacityMeasurementName
+            -	capacity values: {totalCapacity, allocatedCapacity, reservedCapacity, availableCapacity}
+          schema:
+            type: string
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+      responses:
+        "200":
+          $ref: '#/components/responses/NfviCapacityInfo.Get.200'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+  /capacity_thresholds:
+    parameters:
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The API consumer can use this method to query information about NFVI capacity thresholds. See clause 10.4.4.3.2
+      parameters:
+        - in: query
+          name: filter
+          description: >
+            Attribute-based filtering expression according to clause 5.2 of ETSI GS NFV-SOL 013.
+            The NFVO shall support receiving this parameter as part of the URI query string. 
+            The OSS/BSS may supply this parameter. 
+            All attribute names that appear in the CapacityThreshold data type and in data types 
+            referenced from it shall be supported by the NFVO in the filter expression.
+          schema:
+            type: string
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/nextpage_opaque_marker
+      responses:
+        "200":
+          $ref: '#/components/responses/CapacityThresholds.Get.200'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+    post:
+      description: |
+        The POST method creates a new NFVI capacity threshold. See clause 10.4.4.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/NfviCapacityThresholdRequest'
+      responses:
+        "201":
+          $ref: '#/components/responses/CapacityThresholds.Post.201'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "422":
+          $ref: '#/components/responses/CapacityThresholds.Post.422'
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+  /capacity_thresholds/{capacityThresholdId}:
+    parameters:
+      - $ref: '#/components/parameters/CapacityThresholdId'
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The API consumer can use this method for reading information about an NFVI capacity threshold. See clause 10.4.5.3.2.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+      responses:
+        "200":
+          $ref: '#/components/responses/IndividualCapacityThreshold.Get.200'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+    patch:
+      description: |
+        This method allows to modify an "Individual capacity threshold" resource. See clause 10.4.5.3.4.
+      requestBody:
+        $ref: '#/components/requestBodies/IndividualNfviCapacityThresholdRequest'
+      responses:
+        "200":
+          $ref: '#/components/responses/IndividualCapacityThreshold.Patch.200'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "412":
+          $ref: '#/components/responses/IndividualCapacityThreshold.Patch.412'
+        "422":
+          $ref: '#/components/responses/IndividualCapacityThreshold.Patch.422'
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+    delete:
+      description: |
+        This method allows to delete an NFVI capacity threshold. See clause 10.4.5.3.5.
+      responses:
+        "204":
+          $ref: '#/components/responses/IndividualCapacityThreshold.Delete.204'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+components:
+  parameters:
+    VimId:
+      name: vimId
+      in: path
+      description: |
+        Identifier of the VIM with associated NFVI capacity information.
+        This identifier can be retrieved from the "vimId" attribute in the CapacityShortageNotification.
+        It can also be retrieved from the "vimId" attribute in the message content of the response.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    CapacityThresholdId:
+      name: capacityThresholdId
+      in: path
+      description: |
+        Identifier of the capacity threshold.
+        This identifier can be retrieved from the resource referenced by the "Location" HTTP header in the response to
+        a POST request creating a new "Individual capacity threshold" resource. It can also be retrieved from the "id"
+        attribute in the message content of that response.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+  requestBodies:
+    NfviCapacityThresholdRequest:
+      description: |
+        Request parameters to create a new "Individual capacity threshold" resource.
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/NFVICapacityInformation_def.yaml#/components/schemas/CreateCapacityThresholdRequest
+      required: true
+
+    IndividualNfviCapacityThresholdRequest:
+      description: |
+        Parameters for the capacity threshold modification.
+        The Content-Type header shall be set to "application/merge-patch+json" according to IETF RFC 7396.
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/NFVICapacityInformation_def.yaml#/components/schemas/CapacityThresholdModifications
+      required: true
+
+  responses:
+    NfviCapacityInfos.Get.200:
+      description: |
+        Shall be returned when information about NFVI capacity information has been queried successfully.
+        The response body shall contain NFVI capacity information, as defined in clause 10.5.2.4.
+        If the "filter" URI parameter was supplied in the request, the data in the response body shall have been
+        transformed according to the rules specified in clauses 5.2.2 of ETSI GS NFV-SOL 013.
+        If the NFVO supports alternative 2 (paging) according to clause 5.4.2.1 of ETSI GS NFV-SOL 013 for this resource,
+        inclusion of the Link HTTP header in this response shall follow the provisions in clause 5.4.2.3 of ETSI GS NFV-SOL 013.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ./definitions/NFVICapacityInformation_def.yaml#/components/schemas/NfviCapacityInfo
+
+    NfviCapacityInfo.Get.200:
+      description: |
+        Shall be returned when information of an individual VIM’s NFVI capacity has been read successfully.
+        The response body shall contain a representation of  the NFVI capacity information, as defined in clause 10.5.2.4.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/NFVICapacityInformation_def.yaml#/components/schemas/NfviCapacityInfo
+
+    CapacityThresholds.Get.200:
+      description: |
+        Shall be returned when information about zero or more capacity thresholds has been queried successfully.
+        If the "filter" URI parameter was supplied in the request, the data in the response body shall have been
+        transformed according to the rules specified in clause 5.2.2 of ETSI GS NFV-SOL 013.
+        The response body shall contain in an array the representations of zero or more capacity thresholds, as
+        defined in clause 10.5.2.8.
+        If the NFVO supports alternative 2 (paging) according to clause 5.4.2.1 of ETSI GS NFV-SOL 013 for this resource,
+        inclusion of the Link HTTP header in this response shall follow the provisions in clause 5.4.2.3 of ETSI GS NFV-SOL 013.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ./definitions/NFVICapacityInformation_def.yaml#/components/schemas/CapacityThreshold
+
+    CapacityThresholds.Post.201:
+      description: |
+        Shall be returned when a capacity threshold has been created successfully.
+        The response body shall contain a representation of the created "Individual capacity threshold" resource,
+        as defined in clause 10.5.2.8.
+        The HTTP response shall include a "Location" HTTP header that contains the resource URI of the created resource.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/NFVICapacityInformation_def.yaml#/components/schemas/CapacityThreshold
+
+    CapacityThresholds.Post.422:
+      description: |
+        422 Unprocessable Content
+
+        Shall be returned upon the following error: The content type of the message content is supported and the message
+        content of a request contains syntactically correct data but the data cannot be processed.
+        The general cause for this error and its handling is specified in clause 6.4 of ETSI GS NFV-SOL 013,
+        including rules for the presence of the response body.
+        Specifically in case of this resource, the response code 422 shall also be returned if the NFVO has tested
+        the Notification endpoint as described in clause 10.4.6.3.2 and the test has failed.
+        In this case, the "detail" attribute in the "ProblemDetails" structure shall convey more information about the error.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+
+    IndividualCapacityThreshold.Get.200:
+      description: |
+        Shall be returned when information about an individual capacity threshold has been read successfully.
+        The response body shall contain in a representation of the capacity threshold, as defined in clause 10.5.2.8.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/NFVICapacityInformation_def.yaml#/components/schemas/CapacityThreshold
+
+    IndividualCapacityThreshold.Patch.200:
+      description: |
+        200 OK
+        Shall be returned when the request has been processed successfully.
+        The response body shall contain a data structure of type "CapacityThresholdModifications".
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        ETag:
+          description: |
+            Etag used in the header response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Last-Modified:
+          description: |
+            Last-modified used in the header response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        If-Unmodified-Since:
+          description: |
+            Response header available in case the related "Last-Modified" or "ETag" headers 
+            have been received in previous responses related to the target resource. 
+            The API consumer should provide the "If-Unmodified-Since" or the "If-Match" header fields 
+            as conditions (see sections 3.1 and 3.4 of IETF RFC 9110). 
+          style: simple
+          explode: false
+          schema:
+              type: string
+        If-Match:
+          description: |
+            Response header available in case the related "Last-Modified" or "ETag" headers 
+            have been received in previous responses related to the target resource. 
+            The API consumer should provide the "If-Unmodified-Since" or the "If-Match" header fields 
+            as conditions (see sections 3.1 and 3.4 of IETF RFC 9110). 
+          style: simple
+          explode: false
+          schema:
+              type: string
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/NFVICapacityInformation_def.yaml#/components/schemas/CapacityThresholdModifications
+
+    IndividualCapacityThreshold.Patch.412:
+      description: |
+        412 PRECONDITION FAILED
+
+        A precondition given in an HTTP request header is not fulfilled.
+        Typically, this is due to an ETag mismatch, indicating that the resource was modified by another entity.
+        The response body should contain a ProblemDetails structure, in which the "detail" attribute should convey
+        more information about the error
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    IndividualCapacityThreshold.Patch.422:
+      description: |
+        422 Unprocessable Content
+
+        The content type of the message content is supported and the message content of a request contains syntactically
+        correct data but the data cannot be processed.
+        The general cause for this error and its handling is specified in clause 6.4 of ETSI GS NFV-SOL 013 [16],
+        including rules for the presence of the response body.
+        Specifically in case of this resource, the response code 422 shall also be returned if the NFVO has tested
+        the Notification endpoint as described in clause 10.4.6.3.2 and the test has failed.
+        In this case, the "detail" attribute in the "ProblemDetails" structure shall convey more information about the error.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+
+    IndividualCapacityThreshold.Delete.204:
+      description: |
+        Shall be returned when the NFVI capacity threshold has been deleted successfully.
+        The response body shall be empty.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content: {}

@@ -1,0 +1,169 @@
+components:
+  schemas:
+    AlarmNotification:
+      description: >
+        This type represents an alarm notification about NFV-MANO functional entity faults.
+        It shall comply with the provisions defined in table 7.6.2.5-1.
+        This notification shall be triggered by the NFV-MANO functional entity when:
+        -	An alarm has been created.
+        -	An alarm has been updated, e.g. if the severity of the alarm has changed.
+
+      type: object
+      required:
+        - id
+        - notificationType
+        - subscriptionId
+        - timeStamp
+        - alarm
+        - _links
+      properties:
+        id:
+          description: >
+            Identifier of this notification. If a notification is sent multiple
+            times due to multiple subscriptions, the "id" attribute of all these
+            notifications shall have the same value.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/Identifier"
+        notificationType:
+          description: >
+            Discriminator for the different notification types. Shall be set to
+            "AlarmNotification" for this notification type.
+          type: string
+          enum:
+            - AlarmNotification
+        subscriptionId:
+          description: >
+            Identifier of the subscription that this notification relates to.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/Identifier"
+        timeStamp:
+          description: >
+            Date-time of the generation of the notification.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/DateTime"
+        alarm:
+          description: >
+            Information about an alarm including AlarmId, affected VNF
+            identifier, and FaultDetails.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/Alarm"
+        _links:
+          description: >
+            Links to resources related to this notification.
+          type: object
+          required:
+            - subscription
+          properties:
+            subscription:
+              description: >
+                Link to the related subscription.
+              $ref: "../../components/SOL009_schemas.yaml#/components/schemas/NotificationLink"
+
+    AlarmClearedNotification:
+      description: >
+        This type represents an alarm cleared notification about VNF faults.
+        The notification shall be triggered by the VNFM when an alarm has been
+        cleared.
+      type: object
+      required:
+        - id
+        - notificationType
+        - subscriptionId
+        - timeStamp
+        - alarmId
+        - alarmClearedTime
+        - _links
+      properties:
+        id:
+          description: >
+            Identifier of this notification. If a notification is sent multiple
+            times due to multiple subscriptions, the "id" attribute of all these
+            notifications shall have the same value.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/Identifier"
+        notificationType:
+          description: >
+            Discriminator for the different notification types. Shall be set to
+            "AlarmClearedNotification" for this notification type.
+          type: string
+          enum:
+            - AlarmClearedNotification
+        subscriptionId:
+          description: >
+            Identifier of the subscription that this notification relates to.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/Identifier"
+        timeStamp:
+          description: >
+            Date-time of the generation of the notification.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/DateTime"
+        alarmId:
+          description: >
+            Alarm identifier.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/Identifier"
+        alarmClearedTime:
+          description: >
+            The time stamp indicating when the alarm was cleared.
+        _links:
+          description: >
+            Links to resources related to this notification.
+          type: object
+          required:
+            - subscription
+            - alarm
+          properties:
+            subscription:
+              description: >
+                Link to the related subscription.
+              $ref: "../../components/SOL009_schemas.yaml#/components/schemas/NotificationLink"
+            alarm:
+              description: >
+                Link to the resource that represents the related alarm.
+              $ref: "../../components/SOL009_schemas.yaml#/components/schemas/NotificationLink"
+
+    AlarmListRebuiltNotification:
+      description: >
+        This type represents a notification that the alarm list has been
+        rebuilt, e.g. if the VNFM detects its storage holding the alarm
+        list is corrupted.
+        The notification shall be triggered by the VNFM when the alarm list has
+        been rebuilt.
+      type: object
+      required:
+        - id
+        - notificationType
+        - subscriptionId
+        - timeStamp
+        - _links
+      properties:
+        id:
+          description: >
+            Identifier of this notification. If a notification is sent multiple
+            times due to multiple subscriptions, the "id" attribute of all these
+            notifications shall have the same value.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/Identifier"
+        notificationType:
+          description: >
+            Discriminator for the different notification types. Shall be set to
+            "AlarmListRebuiltNotification" for this notification type.
+          type: string
+          enum:
+            - AlarmListRebuiltNotification
+        subscriptionId:
+          description: >
+            Identifier of the subscription that this notification relates to.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/Identifier"
+        timeStamp:
+          description: >
+            Date-time of the generation of the notification.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/DateTime"
+        _links:
+          description: >
+            Links to resources related to this notification.
+          type: object
+          required:
+            - subscription
+            - alarms
+          properties:
+            subscription:
+              description: >
+                Link to the related subscription.
+              $ref: "../../components/SOL009_schemas.yaml#/components/schemas/NotificationLink"
+            alarms:
+              description: >
+                Link to the alarm list, i.e. the "Alarms" resource.
+              $ref: "../../components/SOL009_schemas.yaml#/components/schemas/NotificationLink"

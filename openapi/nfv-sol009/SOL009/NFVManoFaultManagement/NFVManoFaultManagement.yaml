@@ -1,0 +1,658 @@
+openapi: 3.0.2
+
+info:
+  title: SOL009 - NFV-MANO Fault Management interface
+  description: |
+    SOL009 - NFV-MANO Fault Management interface
+
+    IMPORTANT: Please note that this file might be not aligned to the current
+    version of the ETSI Group Specification it refers to. In case of
+    discrepancies the published ETSI Group Specification takes precedence.
+
+    Please report bugs to https://forge.etsi.org/rep/nfv/SOL009/issues
+
+  contact:
+    name: NFV-SOL WG
+  license:
+    name: ETSI Forge copyright notice
+    url: https://forge.etsi.org/etsi-forge-copyright-notice.txt
+  version: 1.0.1-impl:etsi.org:ETSI_NFV_OpenAPI:1
+
+externalDocs:
+  description: ETSI GS NFV-SOL 009 V3.7.1
+  url: https://www.etsi.org/deliver/etsi_gs/NFV-SOL/001_099/009/03.07.01_60/gs_NFV-SOL009v030701p.pdf
+
+servers:
+  - url: http://127.0.0.1/nfvmanofm/v1
+  - url: https://127.0.0.1/nfvmanofm/v1
+
+paths:
+  /api_versions:
+    $ref: ../endpoints/SOL009_endpoints.yaml#/endpoints/api_versions
+
+  /alarms:
+    get:
+      description: >
+        The client can use this method to retrieve information about the alarm list. See clause 7.5.3.3.2.
+      parameters:
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/Version"
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/Accept"
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/filter.Alarms"
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/nextpage_opaque_marker"
+      responses:
+        "200":
+          $ref: '#/components/responses/Alarms.Get.200'
+        "400":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/406
+        "422":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/422
+        "500":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/504
+  "/alarms/{alarmId}":
+    parameters:
+      - $ref: "#/components/parameters/alarmId"
+    get:
+      description: >
+        The client can use this method to read an individual alarm. See clause 7.5.4.3.2.
+      parameters:
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/Version"
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/Accept"
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/Authorization"
+      responses:
+        "200":
+          $ref: '#/components/responses/Alarm.Get.200'
+        "400":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/406
+        "422":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/422
+        "500":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/504
+    patch:
+      description: >
+        This method modifies an "Individual alarm" resource. See clause 7.5.4.3.4.
+      parameters:
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/Version"
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/Accept"
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/Authorization"
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/ContentType"
+      requestBody:
+        $ref: "#/components/requestBodies/AlarmModifications"
+      responses:
+        "200":
+          $ref: '#/components/responses/Alarm.Patch.200'
+        "400":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/406
+        "409":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/409
+        "412":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/412
+        "422":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/422
+        "500":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/504
+  /subscriptions:
+    post:
+      description: >
+        The POST method creates a new subscription. See clause 7.5.5.3.1.
+      parameters:
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/Version"
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/Accept"
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/Authorization"
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/ContentType"
+      requestBody:
+        $ref: "#/components/requestBodies/FmSubscriptionRequest"
+      responses:
+        "201":
+          $ref: '#/components/responses/Subscriptions.Post.201'
+        "303":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/303
+        "400":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/406
+        "422":
+          $ref: '#/components/responses/Subscriptions.Post.422'
+        "500":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/504
+    get:
+      description: >
+        The client can use this method to retrieve the list of active subscriptions for NFV-MANO functional entity
+        alarms subscribed by the client. It can be used e.g. for resynchronization after error situations.
+        See clause 7.5.5.3.2.
+      parameters:
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/Version"
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/Accept"
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/filter.FmSubscriptions"
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/nextpage_opaque_marker"
+      responses:
+        "200":
+          $ref: '#/components/responses/Subscriptions.Get.200'
+        "400":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/406
+        "422":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/422
+        "500":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/504
+  "/subscriptions/{subscriptionId}":
+    parameters:
+      - $ref: "#/components/parameters/subscriptionId"
+    get:
+      description: >
+        The client can use this method for reading an individual subscription for NFV-MANO functional entity alarms
+        subscribed by the client. See clause 7.5.6.3.2.
+      parameters:
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/Version"
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/Accept"
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/Authorization"
+      responses:
+        "200":
+          $ref: '#/components/responses/Subscription.Get.200'
+        "400":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/406
+        "422":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/422
+        "500":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/504
+    delete:
+      description: >
+        This method terminates an individual subscription. See clause 7.5.6.3.5.
+      parameters:
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/Version"
+        - $ref: "../components/SOL009_params.yaml#/components/parameters/Authorization"
+      responses:
+        "204":
+          $ref: '#/components/responses/Subscription.Delete.204'
+        "400":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/406
+        "422":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/422
+        "500":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../components/SOL009_resp.yaml#/components/responses/504
+
+components:
+  parameters:
+    filter.Alarms:
+      name: filter
+      description: >
+        Attribute-based filtering expression according to clause 5.2 of ETSI GS NFV SOL 013.
+
+        The NFV-MANO functional entity shall support receiving this parameter as part of the URI query string.
+        The API consumer may supply this parameter.
+
+        The following attribute names shall be supported by the NFV-MANO functional entity in the attribute-based
+        filtering expression: id, managedObjectId, eventType, perceivedSeverity, probableCause.
+
+      in: query
+      required: false
+      schema:
+        type: string
+    filter.FmSubscriptions:
+      name: filter
+      description: >
+        Attribute-based filtering expression according to clause 5.2 of ETSI GS NFV-SOL 013.
+
+        The NFV-MANO functional entity shall support receiving this parameter as part of the URI query string.
+        The API consumer may supply this parameter.
+
+        All attribute names that appear in the FmSubscription and in data types referenced from it shall be supported
+        by the NFV-MANO functional entity in the filter expression.
+      in: query
+      required: false
+      schema:
+        type: string
+    alarmId:
+      name: alarmId
+      description: >
+        Identifier of the alarm. This identifier can be retrieved from the
+        "id" attribute of the "alarm" attribute in the AlarmNotification or
+        AlarmClearedNotification. It can also be retrieved from the "id"
+        attribute of the applicable array element in the message content of the
+        response to a GET request to the "Alarms" resource.
+      in: path
+      required: true
+      schema:
+        type: string
+    subscriptionId:
+      name: subscriptionId
+      description: >
+        Identifier of this subscription. This identifier can be retrieved from
+        the resource referenced by the "Location" HTTP header in the response
+        to a POST request creating a new "Individual subscription" resource.
+        It can also be retrieved from the "id" attribute in the message content
+        of that response.
+      in: path
+      required: true
+      schema:
+        type: string
+
+  requestBodies:
+    AlarmModifications:
+      description: >
+        The parameter for the alarm modification, as defined in clause
+        7.6.2.8. The Content-Type header shall be set to
+        "application/merge-patch+json" according to IETF RFC 7396.
+      content:
+        application/json:
+          schema:
+            $ref: "./components/NFVManoFaultManagement_def.yaml#/components/schemas/AlarmModifications"
+      required: true
+
+    FmSubscriptionRequest:
+      description: >
+        Details of the subscription to be created, as defined in clause
+        7.6.2.2.
+      content:
+        application/json:
+          schema:
+            $ref: "./components/NFVManoFaultManagement_def.yaml#/components/schemas/FmSubscriptionRequest"
+      required: true
+
+  responses:
+    Alarms.Get.200:
+      description: >
+        200 OK
+
+        Shall be returned when information about zero or more alarms has been queried successfully.
+        The response body shall contain in an array the representations of zero or more alarms as defined
+        in clause 7.6.2.4. If the "filter" URI parameter was supplied in the request, the data in the response
+        body shall have been transformed according to the rules specified in clause 5.2.2 of ETSI GS NFV-SOL 013.
+        If the NFV-MANO functional entity supports alternative 2 (paging) according to clause 5.4.2.1 of
+        ETSI GS NFV-SOL 013 for this resource, inclusion of the Link HTTP header in this response shall
+        follow the provisions in clause 5.4.2.3 of ETSI GS NFV-SOL 013.
+      headers:
+        Content-Type:
+          description: >
+            The MIME type of the body of the request. Reference: IETF RFC
+            7231
+          schema:
+            type: string
+            minimum: 1
+            maximum: 1
+        Version:
+          description: |
+            Version of the API used in the response.
+          schema:
+            type: string
+            minimum: 1
+            maximum: 1
+        Link:
+          description: >
+            Reference to other resources. Used for paging in the present
+            document.
+          schema:
+            type: string
+            minimum: 0
+            maximum: 1
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../components/SOL009_schemas.yaml#/components/schemas/Alarm"
+
+    Alarm.Get.200:
+      description: >
+        200 OK
+
+        Shall be returned when information about an individual alarm has been read successfully. The response body
+        shall contain a representation of the individual alarm
+      headers:
+        Content-Type:
+          description: >
+            The MIME type of the body of the request. Reference: IETF RFC
+            7231
+          schema:
+            type: string
+            minimum: 1
+            maximum: 1
+      content:
+        application/json:
+          schema:
+            $ref: "../components/SOL009_schemas.yaml#/components/schemas/Alarm"
+
+    Alarm.Patch.200:
+      description: >
+        200 OK
+
+        Shall be returned when the request has been accepted and completed. ì The response body shall contain
+        attribute modifications for an "Individual alarm" resource (see clause 7.6.2.4).
+      headers:
+        Content-Type:
+          description: >
+            The MIME type of the body of the request. Reference: IETF RFC
+            7231
+          schema:
+            type: string
+            minimum: 1
+            maximum: 1
+        WWW-Authenticate:
+          description: >
+            Challenge if the corresponding HTTP request has not provided
+            authorization, or error details if the corresponding HTTP
+            request has provided an invalid authorization token.
+          schema:
+            type: string
+            minimum: 0
+            maximum: 1
+      content:
+        application/json:
+          schema:
+            $ref: "./components/NFVManoFaultManagement_def.yaml#/components/schemas/AlarmModifications"
+
+    Subscriptions.Post.201:
+      description: >
+        201 CREATED
+
+        Shall be returned when the subscription has been created successfully. The response body shall contain a
+        representation of the created "Individual subscription" resource. The HTTP response shall include a
+        "Location:"" HTTP header that points to the created "Individual subscription" resource.
+      headers:
+        Content-Type:
+          description: >
+            The MIME type of the body of the request. Reference: IETF RFC
+            7231
+          schema:
+            type: string
+            minimum: 1
+            maximum: 1
+        Location:
+          description: |
+            The resource URI of the created subscription resource.
+          schema:
+            type: string
+            format: url
+            minimum: 1
+            maximum: 1
+        WWW-Authenticate:
+          description: >
+            Challenge if the corresponding HTTP request has not provided
+            authorization, or error details if the corresponding HTTP
+            request has provided an invalid authorization token.
+          schema:
+            type: string
+            minimum: 0
+            maximum: 1
+      content:
+        application/json:
+          schema:
+            $ref: "./components/NFVManoFaultManagement_def.yaml#/components/schemas/FmSubscription"
+    Subscriptions.Post.303:
+      description: >
+        303 SEE OTHER
+
+        Shall be returned when a subscription with the same
+        callbackURI and the same filter already exists and the
+        policy of NFV-MANO functional entity is to not create
+        redundant subscriptions.
+
+        The HTTP response shall include a "Location" HTTP header
+        that contains the resource URI of the existing "Individual
+        subscription" resource.
+
+        The response body shall be empty.
+      headers:
+        WWW-Authenticate:
+          description: >
+            Challenge if the corresponding HTTP request has not provided
+            authorization, or error details if the corresponding HTTP
+            request has provided an invalid authorization token.
+          schema:
+            type: string
+        Version:
+          description: >
+            Version of the API used in the response.
+          schema:
+            type: string
+        Location:
+          description: >
+            The resource URI of the created "Individual subscription" resource.
+          schema:
+            type: string
+            format: url
+            minimum: 1
+            maximum: 1
+    Subscriptions.Post.422:
+      description: >
+        422 Unprocessable Content
+
+        Shall be returned upon the following error: The content type
+        of the message content is supported and the message content of a request
+        contains syntactically correct data but the data cannot be processed.
+
+        The general cause for this error and its handling is specified in
+        clause 6.4 of ETSI GS NFV-SOL 013, including rules for the presence
+        of the response body.
+
+        Specifically in case of this resource, the response code 422 shall also
+        be returned if the API producer has tested the Notification endpoint as
+        described in clause 7.5.7.3.2 and the test has failed.
+
+        In this case, the "detail" attribute in the "ProblemDetails" structure
+        shall convey more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: >
+            Challenge if the corresponding HTTP request has not provided
+            authorization, or error details if the corresponding HTTP
+            request has provided an invalid authorization token.
+          schema:
+            type: string
+        Version:
+          description: >
+            Version of the API used in the response.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../components/SOL009_schemas.yaml#/components/schemas/ProblemDetails"
+
+    Subscriptions.Get.200:
+      description: >
+        200 OK
+
+        Shall be returned when the list of subscriptions has been queried successfully. The response body shall
+        contain in an array the representations of all active subscriptions of the functional block that invokes
+        the method, i.e. zero or more representations of FM subscriptions as defined in clause 7.6.2.3. If the
+        "filter" URI parameter was supplied in the request, the data in the response body shall have been
+        transformed according to the rules specified in clause 5.2.2 of ETSI GS NFV-SOL 013. If the NFV-MANO
+        functional entity supports alternative 2 (paging) according to clause 5.4.2.1 of ETSI GS NFV-SOL 013
+        for this resource, inclusion of the Link HTTP header in this response shall follow the provisions in
+        clause 5.4.2.3 of ETSI GS NFV-SOL 013.
+      headers:
+        Content-Type:
+          description: >
+            The MIME type of the body of the request. Reference: IETF RFC
+            7231
+          schema:
+            type: string
+            minimum: 1
+            maximum: 1
+        WWW-Authenticate:
+          description: >
+            Challenge if the corresponding HTTP request has not provided
+            authorization, or error details if the corresponding HTTP
+            request has provided an invalid authorization token.
+          schema:
+            type: string
+            minimum: 0
+            maximum: 1
+        Version:
+          description: |
+            Version of the API used in the response.
+          schema:
+            type: string
+            minimum: 1
+            maximum: 1
+        Link:
+          description: >
+            Reference to other resources. Used for paging in the present
+            document, see clause 4.7.2.1.
+          schema:
+            type: string
+            minimum: 0
+            maximum: 1
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "./components/NFVManoFaultManagement_def.yaml#/components/schemas/FmSubscription"
+
+    Subscription.Get.200:
+      description: >
+        200 OK
+
+        The operation has completed successfully. The response body shall contain a representation of the
+        subscription resource.
+      headers:
+        Content-Type:
+          description: >
+            The MIME type of the body of the request. Reference: IETF RFC
+            7231
+          schema:
+            type: string
+            minimum: 1
+            maximum: 1
+        WWW-Authenticate:
+          description: >
+            Challenge if the corresponding HTTP request has not provided
+            authorization, or error details if the corresponding HTTP
+            request has provided an invalid authorization token.
+          schema:
+            type: string
+            minimum: 0
+            maximum: 1
+        Version:
+          description: |
+            Version of the API used in the response.
+          schema:
+            type: string
+            minimum: 1
+            maximum: 1
+      content:
+        application/json:
+          schema:
+            $ref: "./components/NFVManoFaultManagement_def.yaml#/components/schemas/FmSubscription"
+
+    Subscription.Delete.204:
+      description: >
+        204 NO CONTENT
+
+        Shall be returned when the "Individual subscription" resource has been deleted successfully.
+        The response body shall be empty.
+      headers:
+        WWW-Authenticate:
+          description: >
+            Challenge if the corresponding HTTP request has not provided
+            authorization, or error details if the corresponding HTTP
+            request has provided an invalid authorization token.
+          schema:
+            type: string
+            minimum: 0
+            maximum: 1
+        Version:
+          description: |
+            Version of the API used in the response.
+          schema:
+            type: string
+            minimum: 1
+            maximum: 1

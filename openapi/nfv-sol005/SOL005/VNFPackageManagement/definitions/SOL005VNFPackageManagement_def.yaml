@@ -1,0 +1,849 @@
+definitions:
+  VnfPkgInfo:
+    description: >
+      This type represents the information of a VNF package. It shall comply with the provisions defined in table 9.5.2.5-1.
+
+      NOTE 1:	If the value of the onboardingState attribute is not equal to "ONBOARDED", the value of the
+      operationalState attribute shall be equal to "DISABLED".
+      NOTE 2:	If the value of the onboardingState attribute is not equal to "ONBOARDED", the value of the
+      usageState attribute shall be equal to "NOT_IN_USE".
+      NOTE 3:	State changes of a VNF package are illustrated in clause B.2.
+      NOTE 4:	ETSI GS NFV-SOL 001 specifies the structure and format of the VNFD based on TOSCA
+      specifications.
+    type: object
+    required:
+      - id
+      - onboardingState
+      - operationalState
+      - usageState
+      - _links
+    properties:
+      id:
+        description: >
+          Identifier of the VNF package. This identifier is allocated by the NFVO.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      vnfdId:
+        description: >
+          This identifier, which is managed by the
+          VNF provider, identifies the VNF package and the VNFD in a globally unique way.
+          It is copied from the VNFD of the on boarded VNF package. It shall be present
+          after the VNF package content has been on-boarded and absent otherwise.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      vnfProvider:
+        description: >
+          Provider of the VNF package and the VNFD. This information is copied from the VNFD. 
+          It shall be present after the VNF package content has been on-boarded and absent otherwise.
+        type: string
+      vnfProductName:
+        description: >
+          Name to identify the VNF product.Invariant for the VNF product lifetime. 
+          This information is copied from the VNFD. It
+          shall be present after the VNF package content has been on-boarded and absent otherwise.
+        type: string
+      vnfSoftwareVersion:
+        description: >
+          Software version of the VNF. This is
+          changed when there is any change to the
+          software included in the VNF package.
+          This information is copied from the VNFD.
+          It shall be present after the VNF package
+          content has been on-boarded and absent otherwise.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Version"
+      vnfdVersion:
+        description: >
+          The version of the VNFD. This information
+          is copied from the VNFD. It shall be
+          present after the VNF package content
+          has been on-boarded and absent otherwise.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Version"
+      compatibleSpecificationVersions:
+        description: >
+          Indicates which versions of the ETSI
+          GS NFV-SOL 004 [5] specification the
+          package complies to, as defined in the
+          manifest of the package. Each entry shall
+          be formatted as defined in clause 4.3.2 of
+          ETSI GS NFV-SOL 004 [5].
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Version"
+      checksum:
+        description: >
+          Checksum of the on-boarded VNF package.
+          Permitted hash algorithms are defined in ETSI GS NFV-SOL 004.
+          It shall be present after the VNF package content has been on-boarded and absent otherwise.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Checksum"
+      packageSecurityOption:
+        description: >
+          Signals the security option used by the
+          package as defined in clause 5.1 of ETSI
+          GS NFV-SOL 004. It shall be present after 
+          the VNF package content has been on-boarded 
+          and absent otherwise.
+          Valid values: 
+          - OPTION_1
+          - OPTION_2
+        type: string
+        enum:
+          - OPTION_1
+          - OPTION_2
+      signingCertificate:
+        description: >
+          The singleton signing certificate if it is
+          included as a file in the VNF package.
+        type: string
+      softwareImages:
+        description: >
+          Information about VNF package artifacts that are software images.
+          This attribute shall not be present before the VNF package content is on-boarded.
+          Otherwise, this attribute shall be present unless it has been requested to be
+          excluded per attribute selector.
+        type: "array"
+        items:
+          $ref: "#/definitions/VnfPackageSoftwareImageInfo"
+      additionalArtifacts:
+        description: >
+          Information about VNF package artifacts
+          contained in the VNF package that are not software images.
+          This attribute shall not be present before
+          the VNF package content is on-boarded.
+          Otherwise, this attribute shall be present if
+          the VNF package contains additional artifacts.
+        type: "array"
+        items:
+          $ref: "#/definitions/VnfPackageArtifactInfo"
+      onboardingState:
+        description: >
+          On-boarding state of the VNF package. See note 3.
+        $ref: "#/definitions/PackageOnboardingStateType"
+      operationalState:
+        description: >
+          Operational state of the VNF package.
+
+          See note 1 and note 3.
+        $ref: "#/definitions/PackageOperationalStateType"
+      usageState:
+        description: >
+          Usage state of the VNF package.
+
+          See note 2 and note 3.
+        $ref: "#/definitions/PackageUsageStateType"
+      vnfmInfo:
+        description: >
+          Specifies VNFMs compatible with the VNF. This information is
+          copied from the VNFD of the on-boarded VNF package. See note 4.
+          It shall be present after the VNF package content has been on-boarded and absent otherwise.
+        type: array
+        items:
+          type: string
+      userDefinedData:
+        description: >
+          Usage state of the VNF package.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/KeyValuePairs"
+      onboardingFailureDetails:
+        description: >
+          Failure details of current onboarding
+          procedure. See clause 6.3 of ETSI
+          GS NFV-SOL 013 [16] for the details of
+          "ProblemDetails" structure.
+          If "onboardingState" is "ERROR", this
+          attribute shall be present and contain error
+          information (such as failed onboarding or
+          processing operation, affected artifact,
+          etc.), unless it has been requested to be
+          excluded via an attribute selector.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+      _links:
+        type: object
+        description: >
+          Links to resources related to this resource.
+        required:
+          - self
+          - packageContent
+          - vnfd
+        properties:
+          self:
+            description: >
+              URI of this resource.
+            $ref: "../../definitions/SOL005_def.yaml#/definitions/Link"
+          vnfd:
+            description: >
+              Link to the "VNFD in an individual VNF package" resource.
+            $ref: "../../definitions/SOL005_def.yaml#/definitions/Link"
+          packageContent:
+            description: >
+              Link to the "VNF package content" resource.
+            $ref: "../../definitions/SOL005_def.yaml#/definitions/Link"
+
+  VnfPackageArtifactInfo:
+    description: >
+      This type represents an artifact other than a software image which is contained in or external to a VNF package.
+      It shall comply with provisions defined in Table 9.5.3.3-1.
+
+      NOTE: The attribute name "artifactURI" does not comply with the naming convention defined in clause
+      4.3 of ETSI GS NFV-SOL 015. This is to maintain the backward compatibility.
+    required:
+      - isEncrypted
+      - checksum
+    type: object
+    properties:
+      artifactPath:
+        description: >
+          Path which identifies the artifact and also allows to
+          access a copy of the artifact.
+          For an artifact contained as a file in the VNF package,
+          this attribute shall be present, and the value of this
+          attribute shall start with the name of the first segment in
+          the path in the package, i.e. it shall not be prefixed by
+          path separator characters such as "." and "/".
+          EXAMPLE: foo/bar/m@ster.sh
+          For an external artifact represented as a URI in the VNF
+          descriptor, this attribute shall be present if the artifact has
+          been downloaded by the NFVO and shall be absent
+          otherwise. If present, it shall contain the artifactPath
+          under which the artifact can be obtained using the
+          "Individual artifact in a VNF package" resource defined in
+          clause 9.4.7. It is the responsibility of the NFVO to
+          synthesize this path in a manner that avoids any collision
+          of the synthesized artifact path with the paths and names
+          of artifacts included in the package.
+
+          The attribute name "artifactURI" does not comply with the naming 
+          convention defined in clause 4.3 of ETSI GS NFV-SOL 015. 
+          This is to maintain the backward compatibility.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/String"
+      artifactURI:
+        description: >
+          URI of the artifact as defined in the VNF package
+          manifest. Shall be present if the artifact is external to the
+          package and shall be absent otherwise.
+          
+          EXAMPLE:	https://example.com/m%40ster.sh
+          See note.
+
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Uri"
+      checksum:
+        description: >
+          Checksum of the artifact file. Permitted hash algorithms are defined in ETSI GS NFV-SOL 004.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Checksum"
+      isEncrypted:
+        description: >
+          Reflects whether the artifact is encrypted (true) or not (false).
+        type: boolean
+      nonManoArtifactSetId:
+        description: >
+          Non-MANO artifact set identifier of the non-MANO artifact
+          set to which the artifact belongs, as defined in
+          clause 4.3.7 of ETSI GS NFV-SOL 004 [5]. Shall be
+          provided if the artifact is a non-MANO artifact, and shall
+          be omitted otherwise.
+        type: string
+      artifactClassification:
+        description: >
+          Marks specific types of artifacts as defined in the VNF
+          package. If none of the specific classes listed below
+          applies, the attribute shall not be present.
+          Valid values:
+          - HISTORY: a history artifact as per clause 4.3.3
+          in ETSI GS NFV-SOL 004
+          - TESTING: a testing artifact as per clause 4.3.4
+          in ETSI GS NFV-SOL 004
+          - LICENSE: a license artifact as per clause 4.3.5
+          in ETSI GS NFV-SOL 004
+        type: string
+        enum:
+          - HISTORY
+          - TESTING
+          - LICENSE
+      metadata:
+        description: >
+          The metadata of the artifact that are available in the
+          VNF package, such as Content type, size, creation date, etc.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/KeyValuePairs"
+
+  PkgmLinks:
+    description: >
+      This type represents the links to resources that a VNF package management notification can contain.  
+    required:
+      - vnfPackage
+      - subscription
+    type: object
+    properties:
+      vnfPackage:
+        description: >
+          Link to the resource representing the VNF package to
+          which the notified change applies, i.e. the "Individual
+          VNF package" resource that represents the VNF package.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/NotificationLink"
+      subscription:
+        description: >
+          Link to the related subscription.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/NotificationLink"
+
+  VnfPackageSoftwareImageInfo:
+    description: >
+      This type represents an artifact contained in or external to a VNF package which represents a software image.
+      NOTE 1:	The list of permitted values was taken from "Container formats" in OpenStack®: "Disk and container formats for images".
+      NOTE 2:	The list of permitted values was adapted from "Disk formats" in OpenStack®: "Disk and container formats for images".
+    required:
+      - id
+      - name
+      - provider
+      - version
+      - checksum
+      - isEncrypted
+      - containerFormat
+      - diskFormat
+      - createdAt
+      - minDisk
+      - minRam
+      - size
+      - imagePath
+    type: object
+    properties:
+      id:
+        description: >
+          Name of the algorithm used to generate the checksum,
+          as defined in ETSI GS NFV-SOL 004 [5]. For example, SHA-256, SHA-512.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/IdentifierInVnfd"
+      name:
+        description: >
+          Name of the software image.
+        type: string
+      provider:
+        description: >
+          Provider of the software image.
+        type: string
+      version:
+        description: >
+          Version of the software image.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Version"
+      checksum:
+        description: >
+          Checksum of the software image file. Permitted hash algorithms are defined in ETSI GS NFV-SOL 004.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Checksum"
+      isEncrypted:
+        description: >
+          Reflects whether the image is encrypted (true) or not (false).
+        type: boolean
+      containerFormat:
+        description: >
+          Container format indicates whether the software image
+          is in a file format that also contains meta-data about the actual software.
+          Permitted values:
+          - AKI: a kernel image format
+          - AMI: a machine image format
+          - ARI: a ram disk image format
+          - BARE: the image does not have a container or meta-data envelope
+          - DOCKER: docker container format
+          - OVA: OVF package in a tar file
+          - OVF: OVF container format
+
+          See note 1.
+        type: string
+        enum:
+          - AKI
+          - AMI
+          - ARI
+          - BARE
+          - DOCKER
+          - OVA
+          - OVF
+      diskFormat:
+        description: >
+          Disk format of a software image is the format of the
+          underlying disk image.
+          Permitted values:
+          - AKI: a kernel image format
+          - AMI: a machine image format
+          - ARI: a ramdisk image format
+          - ISO: an archive format for the data contents of an
+          optical disc, such as CD-ROM
+          - QCOW2: a common disk image format, which can
+          expand dynamically and supports copy on write
+          - RAW: an unstructured disk image format
+          - VDI: a common disk image format
+          - VHD: a common disk image format
+          - VHDX: enhanced version of VHD format
+          - VMDK: a common disk image format
+
+          See note 2.
+        type: string
+        enum:
+          - AKI
+          - AMI
+          - ARI
+          - ISO
+          - QCOW2
+          - RAW
+          - VDI
+          - VHD
+          - VHDX
+          - VMDK
+      createdAt:
+        description: >
+          Time when this software image was created.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/DateTime"
+      minDisk:
+        description: >
+          The minimal disk for this software image in bytes.
+        type: integer
+        minimum: 0
+      minRam:
+        description: >
+          The minimal RAM for this software image in bytes.
+        type: integer
+        minimum: 0
+      size:
+        description: >
+          Size of this software image in bytes.
+        type: integer
+        minimum: 0
+      userMetadata:
+        description: >
+          User-defined data.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/KeyValuePairs"
+      imagePath:
+        description: >
+          Path, which identifies the image artifact and also allows to access a copy of the image artifact.
+          For a software image contained as a file in the VNF package, this attribute shall be present, and the value of
+          this attribute shall start with the name of the first segment in the path in the package, i.e., it shall not
+          be prefixed by path separator characters such as "." and "/".
+
+          EXAMPLE:	foo/bar/m%40ster.vhd
+
+          For an external software image represented as a URI in the VNF descriptor, this attribute shall be present if
+          the image artifact has been downloaded by the NFVO and shall be absent otherwise. If present, it shall contain
+          the artifactPath under which the image artifact can be obtained using the "Individual artifact in a VNF package"
+          resource defined in clause 9.4.7. It is the responsibility of the NFVO to synthesize this path in a manner that
+          avoids any collision of the synthesized artifact path with the paths and names of image artifacts included in
+          the package.
+        type: string
+      imageUri:
+        description: >
+          URI of the image artifact as defined in the VNF package manifest. Shall be present if the image artifact is
+          external to the VNF package and shall be absent otherwise.
+
+          EXAMPLE:	https://example.com/m%40ster.vhd
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Uri"
+
+  NsdOperationalStateType:
+    type: "string"
+    description: >
+      "The enumeration NsdOperationalStateType shall comply with the provisions
+      defined in Table 5.5.4.3-1 of GS NFV_SOL 005. It indicates the operational
+      state of the resource.ENABLED = The operational state of the resource
+      is enabled. DISABLED = The operational state of the resource is disabled."
+    enum:
+      - "ENABLED"
+      - "DISABLED"
+  PackageOperationalStateType:
+    type: "string"
+    description: >
+      "The enumeration PackageOperationalStateType shall 
+      comply with the provisions defined in Table 9.5.4.4-1."
+      Acceptable values are:
+      - ENABLED - The VNF package is enabled, i.e. it can be used for instantiation of new VNF instances.
+      - DISABLED - The VNF package is disabled, i.e. it cannot be used for further VNF instantiation requests
+                  (unless and until the VNF package is re-enabled).
+    enum:
+      - ENABLED
+      - DISABLED
+  PackageOnboardingStateType:
+    description: >
+      The enumeration PackageOnboardingStateType shall comply with the provisions defined in Table 9.5.4.3-1.
+      Permitted values:
+      - CREATED: The VNF package resource has been created.
+      - UPLOADING: The associated VNF package content is being uploaded.
+      - PROCESSING: The associated VNF package content is being processed, e.g. validation.
+      - ONBOARDED: The associated VNF package content is successfully on-boarded.
+      - ERROR: There was an error during upload of the VNF package content or external artifacts, or during VNF package processing.
+    type: string
+    enum:
+      - CREATED
+      - UPLOADING
+      - PROCESSING
+      - ONBOARDED
+      - ERROR
+
+  PackageUsageStateType:
+    type: string
+    description: >
+      "The enumeration PackageUsageStateType shall comply with the provisions.
+      Acceptable values are:
+      - IN_USE: "Individual VNF instance" resources created from this VNF package exist.
+      - NOT_IN_USE: No "individual VNF instance" resource created from this VNF package exists.
+    enum:
+      - IN_USE
+      - NOT_IN_USE
+
+  CreateVnfPkgInfoRequest:
+    type: "object"
+    properties:
+      userDefinedData:
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/KeyValuePairs"
+    description: >
+      IndividualVNF package resource creation parameters, as defined
+      in clause 9.5.2.2.
+
+  VnfPkgInfoModifications:
+    description: >
+      This type represents modifications to the information of a VNF package. 
+      It shall comply with the provisions defined in Table 9.5.2.3-1.
+      NOTE:	At least one of the two parameters shall be present. If the VNF package
+      is not on-boarded, the operation is used only to update existing or add additional
+      user defined data using the userDefinedData attribute.
+    anyOf:
+      - required:
+          - operationalState
+      - required:
+          - userDefinedData
+    properties:
+      operationalState:
+        description: >
+          New value of the operational state of the on-boarded
+          instance of the VNF package. See note.
+        $ref: "#/definitions/PackageOperationalStateType"
+      userDefinedData:
+        description: >
+          User defined data to be updated. For existing keys, the value is replaced. See note.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/KeyValuePairs"
+
+  UploadVnfPackageFromUriRequest:
+    description: >
+      This type represents the request parameters for uploading the content of a VNF package. The NFVO can obtain the
+      VNF package content through the information provided in the request parameters. It shall comply with the provisions
+      defined in Table 9.5.2.4-1.
+    type: object
+    required:
+      - addressInformation
+    properties:
+      addressInformation:
+        description: >
+          Address information of the VNF package
+          content. The NFVO can use this address to
+          obtain the VNF package
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Uri"
+      authType:
+        description: >
+          Defines the type of authentication/authorization for downloading the VNF package.
+          Permitted values:
+          -	OAUTH2_CLIENT_CREDENTIALS: Only the "paramsOauth2ClientCredentials" attribute shall be present. 
+          This attribute shall not be present if the credentials were provisioned out of band
+        type: string
+        enum:
+          - OAUTH2_CLIENT_CREDENTIALS
+      paramsOauth2ClientCredentials:
+        description: >
+          Parameters for authentication/authorization
+          using OAuth 2.0.
+        type: object
+        required:
+          - clientId
+          - clientPassword
+          - tokenEndpoint
+        properties:
+          clientId:
+            description: >
+              Client identifier to be used in the access
+              token request of the OAuth 2.0 client
+              credentials grant type.
+            type: string
+          clientPassword:
+            description: >
+              Client password to be used in the access
+              token request of the OAuth 2.0 client
+              credentials grant type. Shall not be present
+              in response bodies.
+            type: string
+          tokenEndpoint:
+            description: >
+              Client password to be used in the access
+              token request of the OAuth 2.0 client
+              credentials grant type. Shall not be present
+              in response bodies.
+            $ref: "../../definitions/SOL005_def.yaml#/definitions/Uri"
+
+  PkgmSubscription:
+    description: >
+      This type represents a subscription related to notifications about VNF package management.
+    type: object
+    required:
+      - id
+      - callbackUri
+      - _links
+    properties:
+      id:
+        description: >
+          Identifier of this "Individual subscription" resource.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Uri"
+      filter:
+        description: >
+          Filter settings for this subscription, to define the subset
+          of all notifications this subscription relates to. A
+          particular notification is sent to the subscriber if the filter
+          matches, or if there is no filter.
+        $ref: "#/definitions/PkgmNotificationsFilter"
+      callbackUri:
+        description: >
+          The URI of the endpoint to send the notification to
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Uri"
+      _links:
+        description: >
+          Links to resources related to this resource.
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            description: >
+              URI of this resource.
+            $ref: "../../definitions/SOL005_def.yaml#/definitions/Link"
+
+  PkgmSubscriptionRequest:
+    description: >
+      This type represents a subscription request related to VNF package management 
+      notifications about VNF package on boarding or changes.
+    type: object
+    required:
+      - callbackUri
+    properties:
+      filter:
+        description: >
+          Filter settings for this subscription, to define the subset
+          of all notifications this subscription relates to. A
+          particular notification is sent to the subscriber if the filter
+          matches, or if there is no filter.
+        $ref: "#/definitions/PkgmNotificationsFilter"
+      callbackUri:
+        description: >
+          The URI of the endpoint to send the notification to.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Uri"
+      authentication:
+        description: >
+          Authentication parameters to conFigure the use of
+          authorization when sending notifications corresponding
+          to this subscription, as defined in clause 8.3.4 of ETSI GS NFV SOL 013.
+          This attribute shall only be present if the subscriber
+          requires authorization of notifications.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/SubscriptionAuthentication"
+
+  PkgmNotificationsFilter:
+    description: >
+      This type represents a subscription filter related to notifications related to VNF package management.
+      At a particular nesting level in the filter structure, the following applies: All attributes shall match
+      in order for the filter to match (logical "and" between different filter attributes).
+      If an attribute is an array, the attribute shall match if at least one of the values in the array matches
+      (logical "or" between the values of one filter attribute).
+
+      NOTE 1:	The permitted values of the "notificationTypes" attribute are spelled exactly as the names
+      of the notification types to facilitate automated code generation systems.
+      NOTE 2:	The attributes "vnfProductsFromProviders", "vnfdId", and "vnfPkgId" are alternatives to
+      reference particular VNF packages in a filter. They should not be used both in the same filter instance,
+      but one alternative should be chosen.
+
+    type: object
+    oneOf:
+      - required:
+          - vnfProductsFromProviders
+      - required:
+          - vnfdId
+      - required:
+          - vnfPkgId
+    properties:
+      notificationTypes:
+        description: >
+          Match particular notification types.
+          Permitted values:
+          - VnfPackageOnboardingNotification
+          - VnfPackageChangeNotification
+
+          See note 1.
+        type: string
+        enum:
+          - VnfPackageOnboardingNotification
+          - VnfPackageChangeNotification
+      vnfProductsFromProviders:
+        description: >
+          If present, match VNF packages that contain VNF products from certain providers.
+          See note 2.
+        type: array
+        items:
+          type: object
+          required:
+            - vnfProvider
+          properties:
+            vnfProvider:
+              description: >
+                Name of the VNFprovider to match.
+              type: string
+            vnfProductsFromProviders:
+              description: >
+                If present, match VNF packages that contain
+                VNF products with certain product names, from
+                one particular provider.
+              type: array
+              items:
+                type: object
+                required:
+                  - vnfProductName
+                properties:
+                  vnfProductName:
+                    description: >
+                      Name of the VNF product to match.
+                    type: string
+                  versions:
+                    description: >
+                      If present, match VNF packages that contain
+                      VNF products with certain versions and a
+                      certain product name, from one particular
+                      provider.
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - vnfSoftwareVersion
+                      properties:
+                        vnfSoftwareVersion:
+                          description: >
+                            VNF software version to match
+                          $ref: "../../definitions/SOL005_def.yaml#/definitions/Version"
+                        vnfdVersions:
+                          description: >
+                            If present, match VNF packages that contain
+                            VNF products with certain VNFD versions, a
+                            certain software version and a certain product
+                            name, from one particular provider.
+                          type: array
+                          items:
+                            $ref: "../../definitions/SOL005_def.yaml#/definitions/Version"
+      vnfdId:
+        description: >
+          Match VNF packages with a VNFD identifier
+          listed in the attribute.
+          See note 2.
+        type: array
+        items:
+          $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      vnfPkgId:
+        description: >
+          Match VNF packages with a package identifier
+          listed in the attribute.
+          May be present if the "notificationTypes"
+          attribute contains the value
+          "VnfPackageChangeNotification", and shall be
+          absent otherwise.
+          See note 2.
+        type: array
+        items:
+          $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      operationalState:
+        description: >
+          Match VNF packages with a package identifier
+          listed in the attribute.
+          May be present if the "notificationTypes"
+          attribute contains the value
+          "VnfPackageChangeNotification", and shall be
+          absent otherwise.
+        type: array
+        items:
+          $ref: "#/definitions/PackageOperationalStateType"
+      usageState:
+        description: >
+          Match particular usage state of the on-boarded VNF package.
+          May be present if the "notificationTypes"
+          attribute contains the value
+          "VnfPackageChangeNotification", and shall be
+          absent otherwise.
+        type: array
+        items:
+          $ref: "#/definitions/PackageUsageStateType"
+      vnfmInfo:
+        description: >
+          Match strings that specify VNFMs compatible with the VNF. See Table 9.5.2.5-1.
+        type: array
+        items:
+          type: string
+
+
+  PackageChangeType:
+    type: string
+    description: >
+      The enumeration PackageChangeType shall comply with the provisions defined in Table 9.5.4.6-1.
+      Permitted Values: 
+      - OP_STATE_CHANGE: The "operationalState" attribute has been changed.
+      - PKG_DELETE: The VNF package has been deleted.
+    enum:
+      - OP_STATE_CHANGE
+      - PKG_DELETE
+
+  ExternalArtifactsAccessConfig:
+    description: >
+      This type represents the access configuration information for downloading external VNF package artifacts. The NFVO
+      can obtain the external VNF package artifact file through the information provided in this structure, together with
+      information provided in the manifest / VNFD. The data structure shall comply with the provisions defined in
+      Table 9.5.2.10-1. If the data structure is part of a response body, security-sensitive attributes shall be excluded as
+      specified in Table 9.5.2.10-1.
+    type: object
+    properties:
+      artifact:
+        description: >
+          Access configuration information for an external artifact.
+        type: object
+        required:
+          - artifactUri
+        properties:
+          artifactUri:
+            description: >
+              The artifactUri attribute as defined in the
+              VNF package manifest that identifies the
+              external artifact for which the access
+              configuration information is provided, and
+              that provides the default download location
+              for this artifact.
+            $ref: "../../definitions/SOL005_def.yaml#/definitions/Uri"
+          overrideUri:
+            description: >
+              The Uri from which the external artifact can
+              be downloaded. If this attribute is present,
+              the NFVO shall download from this
+              address. If this attribute is not present, the
+              NFVO shall download from the address
+              provided in "artifactUri"
+            $ref: "../../definitions/SOL005_def.yaml#/definitions/Uri"
+          authType:
+            description: >
+              Defines the type of authentication/authorization for downloading the VNF package.
+              Permitted values:
+              -	OAUTH2_CLIENT_CREDENTIALS: Only the "paramsOauth2ClientCredentials" attribute shall be present.
+              This attribute shall not be present if no credentials are provided for the artifact.type: string
+            enum:
+              - OAUTH2_CLIENT_CREDENTIALS
+          paramsOauth2ClientCredentials:
+            description: >
+              Parameters for authentication/authorization
+              using OAUTH2_CLIENT_CREDENTIALS.
+            type: object
+            required:
+              - clientId
+              - clientPassword
+              - tokenEndpoint
+            properties:
+              clientId:
+                description: >
+                  Client identifier to be used in the access
+                  token request of the OAuth 2.0 client
+                  credentials grant type.
+                type: string
+              clientPassword:
+                description: >
+                  Client password to be used in the access
+                  token request of the OAuth 2.0 client
+                  credentials grant type. Shall not be present
+                  in response bodies.
+                type: string
+              tokenEndpoint:
+                description: >
+                  Client password to be used in the access
+                  token request of the OAuth 2.0 client
+                  credentials grant type. Shall not be present
+                  in response bodies.
+                $ref: "../../definitions/SOL005_def.yaml#/definitions/Uri"

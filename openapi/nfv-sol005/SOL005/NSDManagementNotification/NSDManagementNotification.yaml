@@ -1,0 +1,830 @@
+openapi: 3.0.2
+
+info:
+  title: SOL005 - NSD Management Notification Interface
+  description: |
+    SOL005 - NSD Management Notification Interface
+
+    IMPORTANT: Please note that this file might be not aligned to the current
+    version of the ETSI Group Specification it refers to. In case of
+    discrepancies the published ETSI Group Specification takes precedence.
+
+    Please report bugs to https://forge.etsi.org/rep/nfv/SOL005/issues
+
+  contact:
+    name: NFV-SOL WG
+  license:
+    name: ETSI Forge copyright notice
+    url: https://forge.etsi.org/etsi-forge-copyright-notice.txt
+  version: 2.3.0-impl:etsi.org:ETSI_NFV_OpenAPI:1
+
+externalDocs:
+  description: ETSI GS NFV-SOL 005 V3.7.1
+  url: https://www.etsi.org/deliver/etsi_gs/NFV-SOL/001_099/005/03.07.01_60/gs_NFV-SOL005v030701p.pdf
+
+servers:
+  - url: http://127.0.0.1/callback/v2
+  - url: https://127.0.0.1/callback/v2
+
+paths:
+  ###############################################################################
+  # Notification endpoint NsdOnBoardingNotification                             #
+  ###############################################################################
+  /URI_is_provided_by_the_client_when_creating_the_subscription-NsdOnBoardingNotification:
+    parameters:
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+
+    post:
+      description: |
+        The POST method delivers a notification from the API producer to the API consumer. See clause 5.4.10.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/NsdOnBoardingNotification'
+      responses:
+        204:
+          $ref: '#/components/responses/NsdOnBoardingNotification.Post.204'
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/406"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/503"
+
+    get:
+      description: |
+        The GET method allows the API producer to test the notification endpoint that is provided by the API
+        consumer, e.g. during subscription. See clause 5.4.10.3.2.
+      responses:
+        204:
+          $ref: '#/components/responses/NsdOnBoardingNotification.Get.204'
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/406"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/503"
+
+  ###############################################################################
+  # Notification endpoint NsdOnBoardingFailureNotification                      #
+  ###############################################################################
+  /URI_is_provided_by_the_client_when_creating_the_subscription-NsdOnBoardingFailureNotification:
+    parameters:
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+
+    post:
+      description: |
+        The POST method delivers a notification from the API producer to the API consumer. See clause 5.4.10.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/NsdOnBoardingFailureNotification'
+      responses:
+        204:
+          $ref: '#/components/responses/NsdOnBoardingFailureNotification.Post.204'
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/406"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/503"
+
+    get:
+      description: |
+        The GET method allows the API producer to test the notification endpoint that is provided by the API
+        consumer, e.g. during subscription. See clause 5.4.10.3.2.
+      responses:
+        204:
+          $ref: '#/components/responses/NsdOnBoardingFailureNotification.Get.204'
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/406"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/503"
+
+  ###############################################################################
+  # Notification endpoint NsdChangeNotification                                 #
+  ###############################################################################
+  /URI_is_provided_by_the_client_when_creating_the_subscription-NsdChangeNotification:
+    parameters:
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+
+    post:
+      description: |
+        The POST method delivers a notification from the API producer to the API consumer. See clause 5.4.10.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/NsdChangeNotification'
+      responses:
+        204:
+          $ref: '#/components/responses/NsdChangeNotification.Post.204'
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/406"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/503"
+
+    get:
+      description: |
+        The GET method allows the API producer to test the notification endpoint that is provided by the API
+        consumer, e.g. during subscription. See clause 5.4.10.3.2.
+      responses:
+        204:
+          $ref: '#/components/responses/NsdChangeNotification.Get.204'
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/406"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/503"
+
+  ###############################################################################
+  # Notification endpoint NsdDeletionNotification                               #
+  ###############################################################################
+  /URI_is_provided_by_the_client_when_creating_the_subscription-NsdDeletionNotification:
+    parameters:
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+
+    post:
+      description: |
+        The POST method delivers a notification from the API producer to the API consumer. See clause 5.4.10.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/NsdDeletionNotification'
+      responses:
+        204:
+          $ref: '#/components/responses/NsdDeletionNotification.Post.204'
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/406"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/503"
+
+    get:
+      description: |
+        The GET method allows the API producer to test the notification endpoint that is provided by the API
+        consumer, e.g. during subscription. See clause 5.4.10.3.2.
+      responses:
+        204:
+          $ref: '#/components/responses/NsdDeletionNotification.Get.204'
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/406"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/503"
+
+  ###############################################################################
+  # Notification endpoint PnfdOnBoardingNotification                            #
+  ###############################################################################
+  /URI_is_provided_by_the_client_when_creating_the_subscription-PnfdOnBoardingNotification:
+    parameters:
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+
+    post:
+      description: |
+        The POST method delivers a notification from the API producer to the API consumer. See clause 5.4.10.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/PnfdOnBoardingNotification'
+      responses:
+        204:
+          $ref: '#/components/responses/PnfdOnBoardingNotification.Post.204'
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/406"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/503"
+
+    get:
+      description: |
+        The GET method allows the API producer to test the notification endpoint that is provided by the API
+        consumer, e.g. during subscription. See clause 5.4.10.3.2.
+      responses:
+        204:
+          $ref: '#/components/responses/PnfdOnBoardingNotification.Get.204'
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/406"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/503"
+
+  ###############################################################################
+  # Notification endpoint PnfdOnBoardingFailureNotification                     #
+  ###############################################################################
+  /URI_is_provided_by_the_client_when_creating_the_subscription-PnfdOnBoardingFailureNotification:
+    parameters:
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+
+    post:
+      description: |
+        The POST method delivers a notification from the API producer to the API consumer. See clause 5.4.10.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/PnfdOnBoardingFailureNotification'
+      responses:
+        204:
+          $ref: '#/components/responses/PnfdOnBoardingFailureNotification.Post.204'
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/406"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/503"
+
+    get:
+      description: |
+        The GET method allows the API producer to test the notification endpoint that is provided by the API
+        consumer, e.g. during subscription. See clause 5.4.10.3.2.
+      responses:
+        204:
+          $ref: '#/components/responses/PnfdOnBoardingFailureNotification.Get.204'
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/406"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/503"
+
+  ###############################################################################
+  # Notification endpoint PnfdDeletionNotification                              #
+  ###############################################################################
+  /URI_is_provided_by_the_client_when_creating_the_subscription-PnfdDeletionNotification:
+    parameters:
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+
+    post:
+      description: |
+        The POST method delivers a notification from the API producer to the API consumer. See clause 5.4.10.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/PnfdDeletionNotification'
+      responses:
+        204:
+          $ref: '#/components/responses/PnfdDeletionNotification.Post.204'
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/406"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/503"
+
+    get:
+      description: |
+        The GET method allows the API producer to test the notification endpoint that is provided by the API
+        consumer, e.g. during subscription. See clause 5.4.10.3.2.
+      responses:
+        204:
+          $ref: '#/components/responses/PnfdDeletionNotification.Get.204'
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/406"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/components/responses/503"
+
+components:
+  requestBodies:
+    NsdOnBoardingNotification:
+      description: |
+        A notification about the successful on-boarding of an NSD.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL005NSDescriptorManagementNotification_def.yaml#/definitions/NsdOnBoardingNotification"
+      required: true
+
+    NsdOnBoardingFailureNotification:
+      description: |
+        A notification about the failure of on-boarding an NSD.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL005NSDescriptorManagementNotification_def.yaml#/definitions/NsdOnBoardingFailureNotification"
+      required: true
+
+    NsdChangeNotification:
+      description: |
+        A notification about the state change of an on-boarded NSD.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL005NSDescriptorManagementNotification_def.yaml#/definitions/NsdChangeNotification"
+      required: true
+
+    NsdDeletionNotification:
+      description: |
+        A notification about the deletion of an on-boarded NSD.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL005NSDescriptorManagementNotification_def.yaml#/definitions/NsdDeletionNotification"
+      required: true
+
+    PnfdOnBoardingNotification:
+      description: |
+        A notification about the successful on-boarding of a PNFD.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL005NSDescriptorManagementNotification_def.yaml#/definitions/PnfdOnBoardingNotification"
+      required: true
+
+    PnfdOnBoardingFailureNotification:
+      description: |
+        A notification about the failure of on-boarding a PNFD.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL005NSDescriptorManagementNotification_def.yaml#/definitions/PnfdOnBoardingFailureNotification"
+      required: true
+
+    PnfdDeletionNotification:
+      description: |
+        A notification about the deletion of an on-boarded PNFD.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL005NSDescriptorManagementNotification_def.yaml#/definitions/PnfdDeletionNotification"
+      required: true
+
+  responses:
+    NsdOnBoardingNotification.Post.204:
+      description: |
+        204 NO CONTENT
+
+        Shall be returned when the notification has been delivered successfully.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    NsdOnBoardingNotification.Get.204:
+      description: |
+        204 NO CONTENT
+
+        Shall be returned when the notification endpoint has been tested successfully.
+        The response body shall be empty.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    NsdOnBoardingFailureNotification.Post.204:
+      description: |
+        204 NO CONTENT
+
+        Shall be returned when the notification has been delivered successfully.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    NsdOnBoardingFailureNotification.Get.204:
+      description: |
+        204 NO CONTENT
+
+        Shall be returned when the notification endpoint has been tested successfully.
+        The response body shall be empty.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    NsdChangeNotification.Post.204:
+      description: |
+        204 NO CONTENT
+
+        Shall be returned when the notification has been delivered successfully.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    NsdChangeNotification.Get.204:
+      description: |
+        204 NO CONTENT
+
+        Shall be returned when the notification endpoint has been tested successfully.
+        The response body shall be empty.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    NsdDeletionNotification.Post.204:
+      description: |
+        204 NO CONTENT
+
+        Shall be returned when the notification has been delivered successfully.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    NsdDeletionNotification.Get.204:
+      description: |
+        204 NO CONTENT
+
+        Shall be returned when the notification endpoint has been tested successfully.
+        The response body shall be empty.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    PnfdOnBoardingNotification.Post.204:
+      description: |
+        204 NO CONTENT
+
+        Shall be returned when the notification has been delivered successfully.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    PnfdOnBoardingNotification.Get.204:
+      description: |
+        204 NO CONTENT
+
+        Shall be returned when the notification endpoint has been tested successfully.
+        The response body shall be empty.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    PnfdOnBoardingFailureNotification.Post.204:
+      description: |
+        204 NO CONTENT
+
+        Shall be returned when the notification has been delivered successfully.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+
+    PnfdOnBoardingFailureNotification.Get.204:
+      description: |
+        204 NO CONTENT
+
+        Shall be returned when the notification endpoint has been tested successfully.
+        The response body shall be empty.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    PnfdDeletionNotification.Post.204:
+      description: |
+        204 NO CONTENT
+
+        Shall be returned when the notification has been delivered successfully.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    PnfdDeletionNotification.Get.204:
+      description: |
+        204 NO CONTENT
+
+        Shall be returned when the notification endpoint has been tested successfully.
+        The response body shall be empty.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string

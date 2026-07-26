@@ -1,0 +1,180 @@
+# Copyright (c) ETSI 2017.
+# https://forge.etsi.org/etsi-forge-copyright-notice.txt
+
+definitions:
+  VnfPackageOnboardingNotification:
+    description: >
+      This type represents a VNF package management notification,
+      which informs the receiver that the onboarding process of a VNF package
+      is complete and the package is ready for use.
+      The notification shall be triggered by the NFVO when the
+      "onboardingState" attribute of a new VNF package has changed to
+      "ONBOARDED".
+    type: object
+    required:
+      - id
+      - notificationType
+      - subscriptionId
+      - timeStamp
+      - vnfPkgId
+      - vnfdId
+      - vnfmInfo
+      - _links
+    properties:
+      id:
+        description: >
+          Identifier of this notification. If a notification is sent multiple
+          times due to multiple subscriptions, the "id" attribute of all these
+          notifications shall have the same value.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      notificationType:
+        description: >
+          Discriminator for the different notification types.
+          Shall be set to "VnfPackageOnboardingNotification" for this
+          notification type.
+        type: string
+        enum:
+          - VnfPackageOnboardingNotification
+      subscriptionId:
+        description: >
+          Identifier of the subscription that this notification relates to.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      timeStamp:
+        description: >
+          Date-time of the generation of the notification.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/DateTime"
+      vnfPkgId:
+        description: >
+          Identifier of the VNF package. This identifier is allocated by the NFVO.
+          Its value is the same as the value of the "id" attribute of the
+          related "Individual VNF package" resource.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      vnfdId:
+        description: >
+          This identifier, which is managed by the VNF provider, identifies
+          the VNF package and the VNFD in a globally unique way.
+          It's copied from the VNFD of the on-boarded VNF package.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      vnfmInfo:
+        description: >
+          Specifies VNFMs compatible with the VNF.
+          This information is copied from the VNFD. See table 10.5.2.2-1.
+        type: array
+        items:
+          $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/String"
+      _links:
+        description: >
+          Links to resources related to this notification.
+        $ref: "#/definitions/PkgmLinks"
+
+  VnfPackageChangeNotification:
+    description: >
+      This type represents a VNF package management notification, which
+      informs the receiver of a change of the status in an on-boarded VNF
+      package. Only changes in the "operationalState" attribute of an
+      on-boarded VNF package and the deletion NF package will be reported.
+      Changes in the "usageState" and "onboardingState" attributes are not
+      reported.
+      The notification shall be triggered by the NFVO when there is a change
+      in the status of an onboarded VNF package, as follows:
+      * The "operationalState" attribute of a VNF package has changed, and the
+        "onboardingState" attribute of the package has the value "ONBOARDED"
+        (i.e. the package has been onboarded previously).
+      * The on-boarded VNF package has been deleted, and the "onboardingState"
+        attribute of the deleted package had the value "ONBOARDED".
+    type: object
+    required:
+      - id
+      - notificationType
+      - subscriptionId
+      - timeStamp
+      - vnfPkgId
+      - vnfdId
+      - changeType
+      - _links
+    properties:
+      id:
+        description: >
+          Identifier of this notification. If a notification is sent multiple
+          times due to multiple subscriptions, the "id" attribute of all these
+          notifications shall have the same value.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      notificationType:
+        description: >
+          Discriminator for the different notification types.
+          Shall be set to "VnfPackageChangeNotification" for this notification type.
+        type: string
+        enum:
+          - VnfPackageChangeNotification
+      subscriptionId:
+        description: >
+          Identifier of the subscription that this notification relates to.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      timeStamp:
+        description: >
+          Date-time of the generation of the notification.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/DateTime"
+      vnfPkgId:
+        description: >
+          Identifier of the VNF package. This identifier is allocated by the NFVO.
+          Its value is the same as the value of the "id" attribute of the
+          related "Individual VNF package" resource.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      vnfdId:
+        description: >
+          Identifier of the VNFD contained in the VNF package, which also
+          identifies the VNF package. This identifier is allocated by the VNF
+          provider and copied from the VNFD.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      changeType:
+        description: >
+          The type of change of the VNF package.
+        $ref: "#/definitions/PackageChangeType"
+      operationalState:
+        description: >
+          New operational state of the VNF package.
+          Only present when changeType is OP_STATE_CHANGE.
+        $ref: "../../VNFPackageManagement/definitions/SOL003VNFPackageManagement_def.yaml#/definitions/PackageOperationalStateType"
+      _links:
+        description: >
+          Links to resources related to this notification.
+        $ref: "#/definitions/PkgmLinks"
+
+  PackageChangeType:
+    description: >
+      - OP_STATE_CHANGE: The "operationalState" attribute has been changed.
+      - PKG_DELETE: The VNF package has been deleted.
+    type: string
+    enum:
+      - OP_STATE_CHANGE
+      - PKG_DELETE
+
+  PkgmLinks:
+    description: >
+      This type represents the links to resources that a VNF package
+      management notification can contain.
+    type: object
+    required:
+      - vnfPackage
+      - subscription
+    properties:
+      vnfPackage:
+        description: >
+          Link to the resource representing the VNF package to which the
+          notified change applies, i.e. the "Individual on-boarded VNF package"
+          resource that represents the VNF package, identified by the "vnfPkgId"
+          identifier which is managed by the NFVO. This attribute shall be provided
+          by the NFVO but is deprecated and can be removed in future versions
+          of the present document.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/NotificationLink"
+      vnfPackageByVnfdId:
+        description: >
+          Link to the resource representing the VNF package to which the notified
+          change applies, i.e. the "Individual VNF package resource" that represents
+          the VNF package, identified by the "vnfdId" identifier which is assigned
+          by the VNF vendor.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/NotificationLink"
+      subscription:
+        description: >
+          Link to the related subscription.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/NotificationLink"

@@ -1,0 +1,200 @@
+# Copyright (c) ETSI 2017.
+# https://forge.etsi.org/etsi-forge-copyright-notice.txt
+
+definitions: 
+  CrossingDirectionType:
+    type: string
+    enum:
+      - UP
+      - DOWN
+
+  PerformanceInformationAvailableNotification:
+    description: >
+      This notification informs the receiver that performance information is
+      available.
+      The notification shall be triggered by the VNFM when new performance
+      information collected by a PM job is available.
+      The periodicity of triggering this notification is influenced by the 
+      "reportingPeriod" attribute in the "PmJobCriteria" data structure.
+    type: object
+    required:
+      - id
+      - notificationType
+      - timeStamp
+      - pmJobId
+      - objectType
+      - objectInstanceId
+      - _links
+    properties:
+      id:
+        description: >
+          Identifier of this notification. If a notification is sent multiple
+          times due to multiple subscriptions, the "id" attribute of all these
+          notifications shall have the same value.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      notificationType:
+        description: >
+          Discriminator for the different notification types. Shall be set to
+          "PerformanceInformationAvailableNotification" for this notification
+          type.
+        type: string
+        enum:
+          - PerformanceInformationAvailableNotification
+      timeStamp:
+        description: >
+          Date and time of the generation of the notification.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/DateTime"
+      pmJobId:
+        description: >
+          Identifier of the PM job for which performance information is available.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      objectType:
+        description: >
+          Type of the measured object.
+          The applicable measured object type for a measurement
+          is defined in clause 7.2 of ETSI GS NFV-IFA 027.
+        type: string
+      objectInstanceId:
+        description: >
+          Identifier of the measured object instance. as per clause 6.2 of ETSI GS NFV-IFA 027.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      subObjectInstanceIds:
+        description: >
+          Identifiers of the sub-object instances of the measured
+          object instance for which the measurements have been taken.
+          Shall be present if the related PM job has been set up to
+          measure only a subset of all sub-object instances of the
+          measured object instance and a sub-object is defined in clause
+          6.2 of ETSI GS NFV-IFA 027 for the related measured object type.
+          Shall be absent otherwise.
+        type: array
+        items:
+          $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierInVnf"
+      _links:
+        description: >
+          Links to resources related to this notification.
+        type: object
+        required:
+          - pmJob
+          - performanceReport
+        properties:
+          objectInstance:
+            description: >
+              Link to the resource representing the measured object instance to which the
+              notification applies. Shall be present if the measured object instance
+              information is accessible as a resource.
+            $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/NotificationLink"
+          pmJob:
+            description: >
+              Link to the resource that represents the PM job for which
+              performance information is available.
+            $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/NotificationLink"
+          performanceReport:
+            description: >
+              Link from which the available performance information of data
+              type "PerformanceReport" can be obtained. This link should point
+              to an "Individual performance report" resource.
+            $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/NotificationLink"
+
+  ThresholdCrossedNotification:
+    description: >
+      This type represents a notification that is sent when a threshold has been crossed.
+      
+      NOTE:	The timing of sending this notification is determined by the capability of the 
+            producing entity to evaluate the threshold crossing condition.
+            
+      The notification shall be triggered by the VNFM when a threshold has been crossed.
+
+      NOTE:	The sub-object allows to structure the measured object, but is not to be confused 
+            with sub-counters which allow to structure the measurement.
+    type: object
+    required:
+      - id
+      - notificationType
+      - timeStamp
+      - thresholdId
+      - crossingDirection
+      - objectType
+      - objectInstanceId
+      - performanceMetric
+      - performanceValue
+      - _links
+    properties:
+      id:
+        description: >
+          Identifier of this notification. If a notification is sent multiple
+          times due to multiple subscriptions, the "id" attribute of all these
+          notifications shall have the same value.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      notificationType:
+        description: >
+          Discriminator for the different notification types. Shall be set to
+          "ThresholdCrossedNotification" for this notification type.
+        type: string
+        enum:
+          - ThresholdCrossedNotification
+      timeStamp:
+        description: >
+          Date and time of the generation of the notification.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/DateTime"
+      thresholdId:
+        description: >
+          Identifier of the threshold which has been crossed.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      crossingDirection:
+        description: >
+          An indication of whether the threshold was crossed in upward or
+          downward direction.
+        $ref: "#/definitions/CrossingDirectionType"
+      objectType:
+        description: >
+          Type of the measured object.
+          The applicable measured object type for a measurement is defined in clause 7.2 of ETSI GS NFV-IFA 027.
+        type: string
+      objectInstanceId:
+        description: >
+          Identifier that identifies a VNF instance.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/Identifier"
+      subObjectInstanceId:
+        description: >
+          Identifier of the sub-object of the measured object to which the measurement applies. 
+          Shall be present if this is required in clause 6.2 of ETSI GS NFV-IFA 027 for the related 
+          measured object type.
+          See note.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/IdentifierInVnf"
+      performanceMetric:
+        description: >
+          Performance metric associated with the threshold.
+          This attribute shall contain the related "Measurement Name"
+          value as defined in clause 7.2 of ETSI GS NFV-IFA 027.
+        type: string
+      performanceValue:
+        description: >
+          Value of the metric that resulted in threshold crossing.
+          The type of this attribute shall correspond to the related
+          "Measurement Unit" as defined in clause 7.2 of ETSI GS NFV-IFA 027.
+        type: object
+      context:
+        description: >
+          Measurement context information related to the measured value.
+          The set of applicable keys is defined per measurement in the
+          related "Measurement Context" in clause 7.2 of ETSI GS NFV-IFA 027.
+        $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/KeyValuePairs"
+      _links:
+        description: >
+          Links to resources related to this notification.
+        type: object
+        required:
+          - threshold
+        properties:
+          objectInstance:
+            description: >
+              Link to the resource representing the measured object instance to which the
+              notified change applies. Shall be present if the measured object instance
+              information is accessible as a resource.
+            $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/NotificationLink"
+          threshold:
+            description: >
+              Link to the resource that represents the threshold that was
+              crossed.
+            $ref: "../../General_Definitions/SOL003_def.yaml#/definitions/NotificationLink"

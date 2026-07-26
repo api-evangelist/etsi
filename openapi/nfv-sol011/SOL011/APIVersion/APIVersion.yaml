@@ -1,0 +1,41 @@
+openapi: 3.0.2
+
+info:
+  version: 1.0.0-impl:etsi.org:ETSI_NFV_OpenAPI:1
+
+  title: SOL011 - API version interface
+
+  description: >
+    SOL011 - API version Interface
+
+    IMPORTANT: Please note that this file might
+    be not aligned to the current version of the ETSI Group Specification it
+    refers to and has not been approved by the ETSI NFV ISG. In case of
+    discrepancies the published ETSI Group Specification takes precedence.
+    Please report bugs to
+    https://forge.etsi.org/rep/nfv/SOL011/-/issues
+
+  license:
+    name: ETSI Forge copyright notice
+    url: https://forge.etsi.org/etsi-forge-copyright-notice.txt
+
+  contact:
+    name: NFV-SOL WG
+
+externalDocs:
+  description: ETSI GS NFV-SOL 011 V4.5.1
+  url: https://www.etsi.org/deliver/etsi_gs/NFV-SOL/001_099/011/04.05.01_60/gs_NFV-SOL011v040501p.pdf
+
+paths:
+  /nsd/api_versions:
+    $ref: '../endpoints/SOL011_endpoints.yaml#/endpoints/api_versions'
+  /nslcog/api_versions:
+    $ref: '../endpoints/SOL011_endpoints.yaml#/endpoints/api_versions'
+  /nslcm/api_versions:
+    $ref: '../endpoints/SOL011_endpoints.yaml#/endpoints/api_versions'
+  /nsiun/api_versions:
+    $ref: '../endpoints/SOL011_endpoints.yaml#/endpoints/api_versions'
+  /nspm/api_versions:
+    $ref: '../endpoints/SOL011_endpoints.yaml#/endpoints/api_versions'
+  /nsfm/api_versions:
+    $ref: '../endpoints/SOL011_endpoints.yaml#/endpoints/api_versions'

@@ -1,0 +1,77 @@
+# Copyright (c) ETSI 2017.
+# https://forge.etsi.org/etsi-forge-copyright-notice.txt
+components:
+  schemas:
+    CapacityShortageNotification:
+      type: object
+      description: |
+        This notification informs the receiver that the available NFVI capacity has crossed below a threshold value or
+        has re-covered from a capacity shortage. It shall comply with the provisions defined in Table 10.5.2.10-1.
+        NOTE:	Refer to the definition of the "CapacityThreshold" in clause 10.5.2.7
+      required:
+        - id
+        - notificationType
+        - thresholdId
+        - timeStamp
+        - direction
+        - capacityInformation
+        - objectInstanceId
+      properties:
+        id:
+          description: |
+            Identifier of this notification. If a notification is sent multiple times due to multiple subscriptions,
+            the "id" attribute of all these notifications shall have the same value.
+          $ref: ../../definitions/SOL005_def.yaml#/definitions/Identifier
+        notificationType:
+          description: |
+            Discriminator for the different notification types.
+            Shall be set to "CapacityShortageNotification" for this notification type.
+          type: string
+        thresholdId:
+          description: |
+            Identifier of the threshold which has been crossed
+          $ref: ../../definitions/SOL005_def.yaml#/definitions/Identifier
+        timeStamp:
+          description: |
+            Date and time of the generation of the notification.
+          $ref: ../../definitions/SOL005_def.yaml#/definitions/DateTime
+        objectInstanceId:
+          description: |
+            Identifies the VIM’s NFVI capacity information instance (measured object instance) in which the available
+            NFVI capacity has crossed a threshold value. See note.
+          $ref: ../../definitions/SOL005_def.yaml#/definitions/Identifier
+        subObjectInstanceId:
+          description: |
+            Identifier of the sub-object of the measured object to which the measurement applies.
+            Refer to the definition of the "CapacityThreshold" in clause 10.5.2.7.
+          $ref: ../../definitions/SOL005_def.yaml#/definitions/IdentifierInVim
+        direction:
+          description: |
+            Specifies if the threshold has been crossed in UP or DOWN direction.
+          type: string
+          enum:
+            - UP
+            - DOWN
+        capacityInformation:
+          description: |
+            Information about the available, reserved, allocated/used, and total capacity of the NFVI.
+            If the threshold creation process  does specify a resource zone and/or vimId, the information is provided
+            for the resource zone/vimId where the NFVI capacity has crossed the thresholdas indicated by the
+            "subObjectInstanceId" and "objectInstanceId" attributes.
+          $ref: ../../NFVICapacityInformation/definitions/NFVICapacityInformation_def.yaml#/components/schemas/NfviCapacityMeasurement
+        _links:
+          description: |
+            Links to resources related to this notification.
+          type: object
+          required:
+            - threshold
+          properties:
+            objectInstance:
+              description: |
+                Link to the resource representing the measured object instance to which the notified change applies.
+                Shall be present if the measured object instance information is accessible as a resource.
+              $ref: ../../definitions/SOL005_def.yaml#/definitions/NotificationLink
+            threshold:
+              description: |
+                Link to the resource that represents the threshold that was crossed.
+              $ref: ../../definitions/SOL005_def.yaml#/definitions/NotificationLink

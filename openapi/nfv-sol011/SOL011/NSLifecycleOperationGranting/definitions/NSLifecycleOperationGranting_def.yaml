@@ -1,0 +1,95 @@
+definitions:
+  schemas:
+    GrantNsLifecycleOperationRequest:
+      description: >-
+        This type represents request parameters for the "grant NS lifecycle" operation.
+        It shall comply with the provisions defined in table 7.6.2.2-1.
+      type: object
+      required:
+        - nsInstanceId
+        - nsdId
+        - nsLcmOpOccId
+        - lifecycleOperation
+      properties:
+        nsInstanceId:
+          description: >-
+            Identifier of the NS instance which this grant request relates to.
+            Each NFVO-N instance manages its own namespace for NS instance identifiers.
+          $ref: "../../components/SOL011_schemas.yaml#/components/schemas/Identifier"
+        nsdId:
+          description: >-
+            Identifier of the NSD that defines the NS for which the lifecycle management operation is to be granted.
+          $ref: "../../components/SOL011_schemas.yaml#/components/schemas/Identifier"
+        nsLcmOpOccId:
+          description: >-
+            The identifier of the NS lifecycle management operation occurrence associated to the GrantRequest..
+          $ref: "../../components/SOL011_schemas.yaml#/components/schemas/Identifier"
+        lifecycleOperation:
+          description: >-
+            Type of the lifecycle management operation for which the granting is requested.
+            The NS LCM operations InstantiateNS, CreateNsIdentifier, DeleteNsIdentifier and
+            QueryNs can be executed by NFVO-N without requesting granting.
+          $ref: "#/definitions/schemas/NsLcmOperation"
+        additionalParams:
+          description: >-
+            Additional parameters passed by NFVO-N, specific to the NS and the lifecycle management operation.
+          $ref: "../../components/SOL011_schemas.yaml#/components/schemas/KeyValuePairs"
+
+    NsLcmOperation:
+      description: >-
+        The enumeration NsLcmOperation shall comply with the provisions defined in table 7.6.4.3-1.
+        It indicates the type of the NS lifecycle management operation for which the granting is requested.
+      type: string
+      enum:
+        - SCALE
+        - TERMINATE
+        - HEAL
+
+    Grant:
+      description: >-
+        This type represents a grant. It shall comply with the provisions defined in table 7.6.2.3-1.
+      type: object
+      required:
+        - id
+        - nsInstanceId
+        - nsLcmOpOccId
+        - _links
+      properties:
+        id:
+          description: >-
+            Identifier of the grant.
+          $ref: "../../components/SOL011_schemas.yaml#/components/schemas/Identifier"
+        nsInstanceId:
+          description: >-
+            Identifier of the NS instance which this grant request relates to.
+          $ref: "../../components/SOL011_schemas.yaml#/components/schemas/Identifier"
+        nsLcmOpOccId:
+          description: >-
+            Identifier of the NS lifecycle management operation occurrence associated to the GrantRequest.
+          $ref: "../../components/SOL011_schemas.yaml#/components/schemas/Identifier"
+        additionalParams:
+          description: >-
+            Additional parameters passed by NFVO-N, specific to the NS and the lifecycle management operation.
+          $ref: "../../components/SOL011_schemas.yaml#/components/schemas/KeyValuePairs"
+        _links:
+          description: >-
+            Links to resources related to this resource.
+          type: object
+          required:
+            - self
+            - nsLcmOpOcc
+            - nsInstance
+          properties:
+            self:
+              description: >-
+                URI of this resource
+              $ref: "../../components/SOL011_schemas.yaml#/components/schemas/Link"
+            nsLcmOpOcc:
+              description: >-
+                Related NS lifecycle management operation occurrence
+              $ref: "../../components/SOL011_schemas.yaml#/components/schemas/Link"
+            nsInstance:
+              description: >-
+                Related NS instance.
+              $ref: "../../components/SOL011_schemas.yaml#/components/schemas/Link"
+

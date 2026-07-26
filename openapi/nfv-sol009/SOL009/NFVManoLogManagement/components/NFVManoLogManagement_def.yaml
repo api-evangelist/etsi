@@ -1,0 +1,770 @@
+components:
+  schemas:
+    LogmSubscription:
+      description: >-
+        This type represents a subscription. It shall comply with the provisions defined in table 8.6.2.3-1.
+      type: object
+      required:
+        - id
+        - callbackUri
+        - _links
+      properties:
+        id:
+          description: >-
+            Identifier that identifies the subscription.
+          $ref: '../../components/SOL009_schemas.yaml#/components/schemas/Identifier'
+        filter:
+          description: >-
+            Filter settings for this subscription, to define the subset of all notifications this subscription
+            relates to. A particular notification is sent to the subscriber if the filter matches,
+            or if there is no filter
+          $ref: "#/components/schemas/LogmNotificationsFilter"
+        callbackUri:
+          description: >-
+            The URI of the endpoint to send the notification to.
+          $ref: '../../components/SOL009_schemas.yaml#/components/schemas/Uri'
+        _links:
+          description: >-
+            Links to resources related to this resource.
+          type: object
+          required:
+            - self
+          properties:
+            self:
+              description: >-
+                URI of this resource.
+              $ref: '../../components/SOL009_schemas.yaml#/components/schemas/Link'
+
+    LogmNotificationsFilter:
+      description: >-
+        This type represents a filter that can be used to subscribe for notifications related to log
+        management events.
+        * NOTE:	The permitted values of the "notificationTypes" attribute are spelled exactly as the names
+                of the notification types to facilitate automated code generation systems.
+      type: object
+      properties:
+        objectInstanceFilter:
+          description: >-
+            Filter criteria to select object instance about which to notify.
+          $ref: "#/components/schemas/ManoEntitySubscriptionFilter"
+        notificationTypes:
+          description: >-
+            Match particular notification types.
+            Permitted values:
+            - LogReportAvailableNotification
+            See note.
+          type: string
+          enum: [LogReportAvailableNotification]
+
+    ManoEntitySubscriptionFilter:
+      description: >-
+        This type represents subscription filter criteria to match NFV-MANO functional entities and their
+        associated managed objects. It shall comply with the provisions defined in Table 4.3.2.2-1.
+      type: object
+      anyOf:
+        - oneOf:
+            - required:
+                - manoServiceIds
+            - required:
+                - manoServiceNames
+        - oneOf:
+            - required:
+                - manoServiceInterfaceIds
+            - required:
+                - manoServiceInterfaceNames
+        - oneOf:
+            - required:
+                - consumedManoInterfaceIds
+            - required:
+                - consumedManoInterfaceNames
+      properties:
+        manoEntityId:
+          description: >-
+            If present, match the NFV-MANO functional entity with an instance identifier listed in this attribute.
+          $ref: '../../components/SOL009_schemas.yaml#/components/schemas/Identifier'
+        manoServiceIds:
+          description: >-
+            If present, match NFV-MANO services with an instance identifier listed in this attribute.
+          type: array
+          items:
+            $ref: '../../components/SOL009_schemas.yaml#/components/schemas/IdentifierInManoEntity'
+        manoServiceNames:
+          description: >-
+            If present, match NFV-MANO services with an NFV-MANO service name listed in this attribute.
+          type: array
+          items:
+            type: string
+        manoServiceInterfaceIds:
+          description: >-
+            If present, match NFV-MANO functional entity produced interfaces with an instance
+            identifier listed in this attribute.
+          type: array
+          items:
+            $ref: '../../components/SOL009_schemas.yaml#/components/schemas/IdentifierInManoEntity'
+        manoServiceInterfaceNames:
+          description: >-
+            If present, match NFV-MANO functional entity produced interfaces with an instance Name listed in
+            this attribute.
+          type: array
+          items:
+            type: string
+        consumedManoInterfaceIds:
+          description: >-
+            If present, match NFV-MANO functional entity consumed interfaces with an instance identifier
+            listed in this attribute.
+          type: array
+          items:
+            $ref: '../../components/SOL009_schemas.yaml#/components/schemas/Identifier'
+        consumedManoInterfaceNames:
+          description: >-
+            If present, match NFV-MANO functional entity consumed interfaces with an instance Name
+            listed in this attribute.
+          type: array
+          items:
+            type: string
+
+    CompileLogRequest:
+      description: >
+        This type represents a request to compile the logged data associated to an object instance.
+        It shall comply with the provisions defined in table 8.6.2.8-1.
+      type: object
+      properties:
+        objectInstanceId:
+          description: >
+            Identifier of the object instance for which logging information is requested to be compiled. The provided
+            value shall correspond to an object instance for which log data is being collected as specified in the
+            corresponding "LoggingJob". If not present, the compile log request is requested for all managed object
+            instances associated to the logging job.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/ManoManagedObjectReference"
+    LogReport:
+      description: >
+        This type represents a log report, which provides information about a compiled log and how to obtain it.
+        * NOTE:	It is not specified in the present document how the NFV-MANO functional entity's private
+                key is provided to the NFV-MANO functional entity.
+      type: object
+      required:
+        - id
+        - objectInstanceId
+        - compilationTrigger
+        - readyTime
+        - fileFormat
+        - fileLocationInfo
+        - securityAndIntegrityInfo
+        - _links
+      properties:
+        id:
+          description: >-
+            Identifier of this log report.
+          $ref: '../../components/SOL009_schemas.yaml#/components/schemas/Identifier'
+        objectInstanceId:
+          description: >-
+            Identifiers of the object instance for which logging information is collected.
+            This attribute shall contain the identifier of the instance of the object that is
+            logged according to their type.
+          $ref: '../../components/SOL009_schemas.yaml#/components/schemas/ManoManagedObjectReference'
+        compilationTrigger:
+          description: >-
+            The trigger for the compilation of the log file.
+
+            Permitted values:
+            - ON_DEMAND: created based on explicit request by a client.
+            - AUTOMATIC: created according to the logging job compilation configuration.
+          type: string
+          enum: [ON_DEMAND, AUTOMATIC]
+        readyTime:
+          description: >-
+            The time when the report and log file was made available.
+          $ref: '../../components/SOL009_schemas.yaml#/components/schemas/DateTime'
+        expiryTime:
+          description: >-
+            The time when the report and log file will expire.
+          $ref: '../../components/SOL009_schemas.yaml#/components/schemas/DateTime'
+        fileSize:
+          description: >-
+            The size of the compiled log file in bytes, if known.
+          type: integer
+          format: int32
+        fileFormat:
+          description: >-
+            The encoding used by the file.
+          type: string
+        fileLocationInfo:
+          description: >-
+            Location and address information of the compiled log file. The consumer can use this information
+            to obtain the compiled log file.
+          type: object
+          required:
+            - protocol
+            - fileEndpoint
+          properties:
+            protocol:
+              description: >-
+                Protocol over which the compiled log file can be retrieved.
+
+                Permitted values:
+                - HTTPS: transmission over HTTP Secure (HTTPS).
+                - SFTP: transmission over SSH file transfer protocol (SFTP).
+                - SCP: transmission over secure copy protocol (SCP).
+                - FTPS: transmission over file transfer protocol secure (FTPS), as specified in IETF RFC 2228,
+                     using explicit mode as specified in IETF RFC 4217. If FTPS is supported, "private" protection level shall be used.
+
+                HTTPS shall be supported, and other protocols may be supported.
+              type: string
+              enum: [HTTPS, SFTP, SCP, FTPS]
+            fileEndpoint:
+              description: >-
+                The host name (or IP address), optionally a port number (if the host with the compile log file uses a
+                non-standard port number as per the supported transmission protocol), a valid file directory path,
+                and the file name of the compiled log file, or a valid URL.
+              type: string
+              format: URI
+        securityAndIntegrityInfo:
+          description: >-
+            Security and integrity information for the compilation of the log files.
+          type: object
+          required:
+            - algorithm
+            - hash
+            - logFileSignature
+            - signingCertificate
+          properties:
+            algorithm:
+              description: >-
+                Algorithm used to generate the hash of the compiled log file. Only SHA-256 and SHA-512 shall be used
+              type: string
+            hash:
+              description: >-
+                The hexadecimal value of the hash of the compiled log file. The hash shall be computed
+                from the encrypted compiled log file, in case the encryption applies.
+              type: string
+            encryptionPublicKey:
+              description: >-
+                Public key used for the encryption of the compiled log file. Shall be present if the
+                compiled log file is encrypted.
+              type: string
+            cipherAlgorithm:
+              description: >-
+                The cryptographic algorithm used for the encryption. Shall be present if the compiled log file is
+                encrypted. Valid values are: "AES-CBC-128", "AES-GCM-128", "AES-CBC-256", and "AES-GCM-256",
+                as specified in clause 6.5 of ETSI GS NFV-SEC 012.
+              type: string
+            logFileSignature:
+              description: >-
+                Signature to the compiled log file generated with the NFV-MANO functional entity’s private key,
+                which is used to ensure the authenticity of the compiled log file. The signature shall be applied
+                according to the "encryptAndSignOrder" of the "LoggingJobConfig". See note.
+              type: string
+            signingCertificate:
+              description: >-
+                X.509 certificate with the NFV-MANO functional entity’s public key used for verifying the
+                log report and compiled log file signatures.
+              type: string
+        _links:
+          description: >-
+            Links for this resource.
+          type: object
+          required:
+            - self
+          properties:
+            self:
+              description: >-
+                URI of this resource.
+              $ref: '../../components/SOL009_schemas.yaml#/components/schemas/Link'
+            objects:
+              description: >-
+                Links to resources representing the object instances that are logged. Shall be present
+                if the logged object instance information is accessible as a resource.
+              type: array
+              items:
+                $ref: '../../components/SOL009_schemas.yaml#/components/schemas/Link'
+
+    LogmSubscriptionRequest:
+      description: >-
+        Information on application context created by the MEC system
+        type: object
+      required:
+        - callbackUri
+      type: object
+      properties:
+        filter:
+          description: >-
+            Filter settings for this subscription, to define the subset of all notifications this subscription
+            relates to. A particular notification is sent to the subscriber if the filter matches,
+            or if there is no filter.
+          $ref: "#/components/schemas/LogmNotificationsFilter"
+        callbackUri:
+          description: >
+            The URI of the endpoint to send the notification to.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/Uri"
+        authentication:
+          description: >
+            Authentication parameters to configure the use of Authorization when sending notifications
+            corresponding to this subscription, as defined in clause 8.3.4 of ETSI GS NFV-SOL 013.
+            This attribute shall only be present if the subscriber requires authorization of notifications.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/SubscriptionAuthentication"
+
+    CreateLoggingJobRequest:
+      description: >-
+        Information on application context created by the MEC system
+      type: object
+      required:
+        - objectInstanceIds
+        - jobCriteria
+        - jobConfig
+      properties:
+        objectInstanceIds:
+          description: >-
+            Identifiers of the object instance for which logging information is requested to be collected.
+            This attribute shall contain the identifier of the instance of the object to be logged according to their type.
+            If more than one identifier is provided, values shall all refer to object instances of the same type,
+            for which the same criteria is then applicable.
+          type: array
+          minItems: 1
+          items:
+            $ref: "../../components/SOL009_schemas.yaml#/components/schemas/ManoManagedObjectReference"
+        jobCriteria:
+          description: >-
+            Criteria of the collection of logging information.
+          $ref: "#/components/schemas/LoggingJobCriteria"
+        jobConfig:
+          description: >-
+            Configuration about the logging job.
+          $ref: "#/components/schemas/LoggingJobConfig"
+
+    LoggingJob:
+      description: >-
+        This type represents a logging job. It shall comply with the provisions defined in table 8.6.2.6-1.
+      type: object
+      required:
+        - id
+        - objectInstanceIds
+        - jobCriteria
+        - jobConfig
+        - _links
+      properties:
+        id:
+          description: >-
+            Identifier of this logging job.
+          $ref: '../../components/SOL009_schemas.yaml#/components/schemas/Identifier'
+        objectInstanceIds:
+          description: >-
+            Identifiers of the object instance for which logging information is collected. This attribute shall
+            contain the identifier of the instance of the object that is logged according to their type.
+          type: array
+          items:
+            $ref: "../../components/SOL009_schemas.yaml#/components/schemas/ManoManagedObjectReference"
+        jobCriteria:
+          description: >-
+            Criteria of the collection of logging information.
+          $ref: "#/components/schemas/LoggingJobCriteria"
+        jobConfig:
+          description: >-
+            Configuration about the logging job.
+          $ref: "#/components/schemas/LoggingJobConfig"
+        logReports:
+          description: >-
+            Information about available log reports created by the logging job.
+          type: array
+          items:
+            type: object
+            required:
+              - logReportId
+              - logReportLoc
+            properties:
+              logReportId:
+                description: >-
+                  Identifier of the available log report.
+                $ref: '../../components/SOL009_schemas.yaml#/components/schemas/Identifier'
+              logReportLoc:
+                description: >-
+                  Link to the available log report.
+                $ref: '../../components/SOL009_schemas.yaml#/components/schemas/Link'
+        _links:
+          description: >-
+            Links for this resource.
+          type: object
+          required:
+            - self
+          properties:
+            self:
+              description: >-
+                URI of this resource.
+              $ref: '../../components/SOL009_schemas.yaml#/components/schemas/Link'
+            objects:
+              description: >-
+                Links to resources representing the object instances that are logged. Shall be present
+                if the logged object instance information is accessible as a resource.
+              type: array
+              items:
+                $ref: '../../components/SOL009_schemas.yaml#/components/schemas/Link'
+
+    LoggingJobCriteria:
+      description: >-
+        This type represents collection criteria for logging jobs.
+        * NOTE:	The value of the loggingType has dependency on the object that is requested to be logged
+                (refer to the CreateLoggingJobRequest): a) the logging of messages is only applicable to
+                ManoServiceInterface and ConsumedManoInterface objects.
+      type: object
+      required:
+        - loggingType
+      properties:
+        loggingType:
+          description: >-
+            Type of logging. This defines the types of logged information to collect.
+
+            Permitted values:
+            - MESSAGES: logged NFV-MANO service interface messages.
+            - SERVICES: logged messages about processes pertaining to NFV-MANO services.
+            - SYSTEM: logged messages about the NFV-MANO functional entity’s system enabled by the provider.
+
+            See note.
+          type: string
+          enum: [MESSAGES, SERVICES, SYSTEM]
+        messagesLogDetail:
+          description: >-
+            Values for the collection of logged NFV-MANO service interface messages. Shall be
+            present if loggingType="MESSAGES".
+          type: object
+          $ref: "#/components/schemas/LoggingJobMessagesCriteria"
+        servicesLogDetail:
+          description: >-
+            Values for the collection of logged NFV-MANO service messages. Shall be present if loggingType="SERVICES".
+          type: object
+          $ref: "#/components/schemas/LoggingJobServicesCriteria"
+        systemLogDetail:
+          description: >-
+            Values for the collection of logged messages about the NFV-MANO functional entity’s system.
+            Shall be present if loggingType="SYSTEM".
+          type: object
+          $ref: "#/components/schemas/LoggingJobSystemCriteria"
+
+    LoggingJobMessagesCriteria:
+      description: >-
+        This type represents criteria for logging jobs to collect logged messages on NFV-MANO service interfaces.
+        * NOTE:	If a matching pattern is present, at least one of the "srcIpAddress", "dstIpAddress", "requestMethod",
+                "requestUriPattern" or "responseCodes" shall be provided.
+      type: object
+      required:
+        - direction
+      properties:
+        direction:
+          description: >-
+            The direction of the interface messages to match.
+
+            Permitted values:
+            - IN: input messages into the interface.
+            - OUT: output messages from the interface.
+            - ALL: both input and output messages into/from the interface.
+          type: string
+          enum: [IN, OUT,ALL]
+        matchingPatterns:
+          description: >-
+            Patterns to be matched in the interface message. If provided, only messages that match all the
+            values provided in the sub-attributes shall be logged. An API consumer can provide more than one
+            "matchingPattern" if combinations of patterns are to be considered to match diverse sets of interface
+            messages.
+            See note.
+          type: array
+          items:
+            type: object
+            anyOf:
+              - required:
+                  - srcIpAddress
+              - required:
+                  - dstIpAddress
+              - required:
+                  - requestMethod
+              - required:
+                  - requestUriPattern
+              - required:
+                  - responseCodes
+            properties:
+              srcIpAddress:
+                description: >-
+                  IP address to match the source IP address of request messages to log. The API producer
+                  shall support this attribute.
+                $ref: '../../components/SOL009_schemas.yaml#/components/schemas/IpAddress'
+              requestMethod:
+                description: >-
+                  HTTP request method to be matched. To match, the HTTP request method of the message shall be the
+                  same as the value of this attribute. Valid values are specified in IETF RFC 9110 and IETF RFC 5789. 
+                  The API producer shall support this attribute.
+                type: string
+              requestUriPattern:
+                description: >-
+                  Substring to be matched in the request URI. To match, the request URI shall include the value of
+                   this attribute as a substring. This is typically used to match messages which associate to RESTful
+                   resources, or to a specific API (e.g., by using the "apiName" of the API). The API producer shall
+                   support this attribute.
+                type: string
+              dstIpAddress:
+                description: >-
+                  IP address to match the destination IP address of response messages to log. The API
+                  producer shall support this attribute
+                $ref: '../../components/SOL009_schemas.yaml#/components/schemas/IpAddress'
+              responseCodes:
+                description: >-
+                  HTTP response codes or patterns to match. A list of all valid HTTP response codes and their
+                  specification documents can be obtained from the HTTP status code registry. In addition,
+                  if supported, the following patterns may be used (case-insensitive):
+                  - "1XX": for matching any kind of informational response.
+                  - "2XX": for matching any kind of success response.
+                  - "3XX": for matching any kind redirection response.
+                  - "4XX": for matching any kind of client error response.
+                  - "5XX": for matching any kind of server error response.
+
+                  The API producer shall support this attribute
+                type: array
+                items:
+                  type: string
+              headerField:
+                description: >-
+                  Name of the header field to be matched. The header field name shall be one of the supported fields
+                  in a request message as defined in clause 4.2.2 of ETSI GS NFV-SOL 013 or in a response message
+                  as defined in clause 4.2.3 of ETSI GS NFV-SOL 013, in accordance with the "direction" criteria
+                  input.
+                  The API producer may support this attribute.
+                type: string
+              headerValue:
+                description: >-
+                  Value in the header to be matched. To match, the value in the header field indicated by
+                  "headerField" shall be the same as in this attribute. Shall be provided if a "headerField"
+                  is provided. The API producer may support this attribute.
+                type: string
+              bodyValues:
+                description: >-
+                  A list of strings to be matched in the body part of the interface message (e.g., the body of an
+                  HTTP message). If provided, only messages with text in the body part containing all the values from
+                  the list shall match the filter. In addition to a matching filter for the body of the message, a
+                  corresponding "headerField" filter shall also be provided, with "headerField" set to "Content-Type",
+                  to restrict matching to appropriate textual payloads such as "application/json" or "text/plain".
+                  The API producer may support this attribute
+                type: string
+
+    LoggingJobServicesCriteria:
+      description: >-
+        This type represents criteria for logging jobs to collect logged messages about processes pertaining
+        to NFV-MANO services.
+        * NOTE:	In the present version of the present document, only one attribute, i.e.
+                "logGarbageCollection", is available.
+      type: object
+      properties:
+        logGarbageCollection:
+          description: >-
+            Indicates to collect logged information about garbage collection processes associated to NFV-MANO services.
+            See note.
+          type: boolean
+
+    LoggingJobSystemCriteria:
+      description: >-
+        This type represents criteria for logging jobs to collect logged system events of the NFV-MANO functional
+        entity.
+        * NOTE:	The set of properties and values for this attribute are assumed to be known to the consumer
+                by means defined outside of the present document.
+      type: object
+      required:
+        - systemLogs
+        - severityLevel
+      properties:
+        systemLogs:
+          description: >-
+            Values for the provider enabled system logs. See note.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/KeyValuePairs"
+        severityLevelScheme:
+          description: >-
+            Identifies a severity level scheme.
+            The default value is "rfc5424", which represents the set of values specified in the clause 6.2.1,
+            table 2 of IETF RFC 5424. Other values may be used to signal different schemes.
+          type: string
+        severityLevel:
+          description: >-
+            The severity level, which determines the severity of the system messages to collect. The NFV-MANO
+            functional entity shall collect system log messages, as indicated by the "systemLogs" attribute,
+            with severity levels lower (i.e., more severe) or equal to the value provided by this present attribute.
+          type: number
+
+    LoggingJobConfig:
+      description: >-
+        This type represents configuration data for a logging job. It shall comply with the provisions
+        defined in table 8.6.3.6-1.
+        NOTE: The present document version does not specify the support for "log compilation and reporting based
+        on events" as specified in clause 6.6.2.2 of ETSI GS NFV-IFA 031.
+
+        * NOTE 1:	The minimumReportingPeriod is used to throttle possible flooding of reports by providing a lower
+                    limit on the gap between two log availability notification to be emitted by the same logging job.
+          NOTE 2:	More than one logCompilingCondition is possible to provide a combination of different conditions
+                    for the compilation. This covers use cases when the compilation of the log can be based on, e.g.
+                    a timer value and a size value, whichever first condition is met first. For instance, compile a
+                    log every 3 600 seconds, or whenever during the 3 600 seconds period the log grows in
+                    size to 1 000 000 bytes.
+          NOTE 3:	The value is indicative, as the actual size of the compiled log files might not match the provided
+                    compileBySizeValue due to possible deviations in the tracking of the size of the log data by the
+                    API producer, and the size of individual logged data entries when these are collected.
+      type: object
+      required:
+        - reportingCondition
+        - securityConf
+      properties:
+        startTime:
+          description: >-
+            Specifies the time for the logging job to be started. If not provided, the logging job is
+            requested to start immediately.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/DateTime"
+        endTime:
+          description: >-
+            Specifies the time after which the logging job will stop. Shall only be provided if the
+            logging job is requested to stop at a specific time.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/DateTime"
+        reportingCondition:
+          description: >-
+            Specifies the condition under which the producer will report to the consumer about the compiled log data.
+          required:
+            - reportingType
+          properties:
+            reportingType:
+              description: >-
+                Specifies the type of reporting condition.
+                Permitted values:
+                - REPORTING_ON_COMPILATION: the producer shall notify the consumer once the compilation of the
+                                collected logging data into a file is completed and a new log report is available.
+                - NO_REPORTING: no reporting is requested (the consumer can query the logging jobs to know about the
+                                availability of new log reports).
+
+              type: string
+              enum: [REPORTING_ON_COMPILATION, NO_REPORTING]
+            minimumReportingPeriod:
+              description: >-
+                Specifies the minimum periodicity at which the producer will report to the consumer about the
+                collected log information, in seconds. See note 1.
+              type: integer
+              format: int32
+        compileBySizeValue:
+          description: >-
+            An indicative size threshold for compiling the collected log data, in bytes. It is used when the
+            compilation is based on the size of the collected log data. If not present, a default value as
+            specified with the "defaultLogCompileBySizeValue" configuration in the "ManoEntityConfigurableParams"
+            shall be used. See note 2 and note 3.
+          type: integer
+          format: int32
+        compileByTimerValue:
+          description: >-
+            The periodicity threshold for compiling the filtered log, in seconds. It is used when the compilation
+            is based on a timer (e.g., every 24 hours). If not present, a default value as specified with the
+            "defaultLogCompileByTimerValue" configuration in the "ManoEntityConfigurableParams" shall be used.
+            See note 2.
+          type: integer
+          format: int32
+        securityConf:
+          description: >-
+            Configuration about the security aspects of the logging job.
+          type: object
+          properties:
+            logFileEncryption:
+              description: >-
+                Information about the encryption of the compiled log files. Shall be present if the log
+                file is requested to be encrypted.
+              required:
+                - encryptionCertificate
+                - cipherAlgorithm
+              type: object
+              properties:
+                encryptionCertificate:
+                  description: >-
+                    X.509 certificate with the public key to use for the encryption of the compiled log file.
+                  type: string
+                cipherAlgorithm:
+                  description: >-
+                    Cryptographic algorithm to be used for the encryption of the compiled log file. More than
+                    one algorithm can be provided from higher (lower array index) to lower (higher array index)
+                    precedence. Valid values are: "AES-CBC-128", "AES-GCM-128", "AES-CBC-256", and "AES-GCM-256",
+                    as specified in clause 6.5 of ETSI GS NFV-SEC 012
+                  type: array
+                  items:
+                    type: string
+                    minItems: 1
+                encryptAndSignOrder:
+                  description: >-
+                    Indication about the order in signing and encrypting the compiled log file. Valid values are:
+                    "encryptFirst", to apply the order "first encrypt, then sign", and "signFirst" for the order
+                    "first sign, then encrypt". Default value is "encryptFirst".
+                  type: string
+            logTransferSecurity:
+              description: >-
+                Information about the security measures for retrieving/accessing the compiled log files.
+              type: object
+              properties:
+                publicKey:
+                  description: >-
+                    The public key of the API consumer used for the client authentication with the file server.
+                    Shall be provided if required by the type of transfer protocol. May be omitted if the key has
+                    been provided to the API producer by other means, or if it has already been provided in some
+                    previous CreateLoggingJobRequest issued by the same API consumer, whose public key has not changed.
+                  type: string
+
+    LogReportAvailableNotification:
+      description: >-
+        This notification informs the receiver that the log report of the NFV-MANO functional entity is available.
+        It shall comply with the provisions defined in table 8.6.2.4-1.
+        The notification shall be triggered by the NFV-MANO functional entity when log information has been collected
+        by the logging job and the log report is available.
+      type: object
+      required:
+        - id
+        - notificationType
+        - subscriptionId
+        - timeStamp
+        - objectInstanceId
+        - _links
+      properties:
+        id:
+          description: >-
+            Identifier of this notification. If a notification is sent multiple times due to multiple subscriptions,
+            the "id" attribute of all these notifications shall have the same value.
+          $ref: '../../components/SOL009_schemas.yaml#/components/schemas/Identifier'
+        notificationType:
+          description: >-
+            Discriminator for the different notification types.
+            Shall be set to "LogReportAvailableNotification" for this notification type.
+          type: string
+        subscriptionId:
+          description: >-
+            Identifier of the subscription that this notification relates to.
+          $ref: '../../components/SOL009_schemas.yaml#/components/schemas/Identifier'
+        timeStamp:
+          description: >-
+            Date and time of the generation of the notification.
+          $ref: '../../components/SOL009_schemas.yaml#/components/schemas/DateTime'
+        objectInstanceId:
+          description: >-
+            Identifier that identifies the object instance for which the log report is available.
+            This attribute shall contain the identifier of the logged object according to their type.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/ManoManagedObjectReference"
+        _links:
+          description: >-
+            Links to resources related to this notification.
+          type: object
+          required:
+            - subscription
+            - logReports
+          properties:
+            subscription:
+              description: >-
+                Link to the related subscription.
+              $ref: '../../components/SOL009_schemas.yaml#/components/schemas/NotificationLink'
+            objectInstance:
+              description: >-
+                Link to the resource representing the measured object instance to which the notified change applies.
+                Shall be present if the measured object instance information is accessible as a resource.
+              $ref: '../../components/SOL009_schemas.yaml#/components/schemas/NotificationLink'
+            LoggingJob:
+              description: >-
+                Link to the resource that represents the logging job for which the log report is available.
+              $ref: '../../components/SOL009_schemas.yaml#/components/schemas/NotificationLink'
+            logReports:
+              description: >-
+                Link from which the available log report can be obtained. Due to the relationship of the logging
+                job compilation and the logging information availability reporting, more than one logReport
+                notification link can be provided.
+              type: array
+              items:
+                $ref: '../../components/SOL009_schemas.yaml#/components/schemas/NotificationLink'

@@ -1,0 +1,176 @@
+components:
+  schemas:
+    ThresholdCrossedNotification:
+      description: >
+        This type represents a notification that is sent when a threshold has been crossed.
+
+        NOTE:	The timing of sending this notification is determined by the capability of
+        the producing entity to evaluate the threshold crossing condition.
+
+        The notification shall be triggered by the NFV-MANO functional entity when
+        a threshold has been crossed.
+      type: object
+      required:
+        - id
+        - notificationType
+        - timeStamp
+        - thresholdId
+        - crossingDirection
+        - objectType
+        - objectInstanceId
+        - performanceMetric
+        - performanceValue
+        - _links
+      properties:
+        id:
+          description: >
+            Identifier of this notification. If a notification is sent multiple times due
+            to multiple subscriptions, the "id" attribute of all these notifications shall
+            have the same value.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/Identifier"
+        notificationType:
+          description: >
+            Discriminator for the different notification types. Shall be set to
+            "ThresholdCrossedNotification" for this notification type.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/String"
+        timeStamp:
+          description: >
+            Date and time of the generation of the notification.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/DateTime"
+        thresholdId:
+          description: >
+            Identifier of the threshold which has been crossed.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/Identifier"
+        crossingDirection:
+          description: >
+            An indication of whether the threshold was crossed in upward or downward direction.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/CrossingDirectionType"
+        objectType:
+          description: >
+            Type of measured object.The applicable measured object type for a measurement
+            is defined in clause 8.2 of ETSI GS NFV-IFA 031.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/String"
+        objectInstanceId:
+          description: >
+            Identifier of the measured object instance. This attribute shall contain the
+            identifier of the instance of the measure object according to their type.
+            See also definitions in clause 8.2 of ETSI GS NFV-IFA 031
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/Identifier"
+        subObjectInstanceId:
+          description: >
+            Identifier of the sub-object of the measured object to which the measurement
+            applies. Shall be present if this is required in clause 8.2 of ETSI GS NFV-IFA 031
+            for the related measured object type. Shall be absent otherwise.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/IdentifierInManoEntity"
+        performanceMetric:
+          description: >
+            Performance metric associated with the threshold.
+            This attribute shall contain the related "Measurement Name" value as defined
+            in clause 8.4 of ETSI GS NFV-IFA 031
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/String"
+        performanceValue:
+          description: >
+            Value of the metric that resulted in threshold crossing.
+            The type of this attribute shall correspond to the related "Measurement Unit"
+            as defined in clause 8.4 of ETSI GS NFV-IFA 031.
+        context:
+          description: >-
+            Measurement context information related to the measured value. The set of applicable keys is defined per
+            measurement in clause 8.4 of ETSI GS NFV-IFA 031.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/KeyValuePairs"
+        _links:
+          description: >
+            Links to resources related to this notification.
+          type: object
+          properties:
+            objectInstance:
+              description: >
+                Link to the resource representing the measured object instance to which
+                the notified change applies. Shall be present if the measured object
+                instance information is accessible as a resource.
+              $ref: "../../components/SOL009_schemas.yaml#/components/schemas/NotificationLink"
+            threshold:
+              description: >
+                Link to the resource that represents the threshold that was crossed.
+              $ref: "../../components/SOL009_schemas.yaml#/components/schemas/NotificationLink"
+          required:
+            - objectInstance
+
+    PerformanceInformationAvailableNotification:
+      description: >
+        This notification informs the receiver that performance information is available.
+      type: object
+      required:
+        - id
+        - notificationType
+        - pmJobId
+        - timeStamp
+        - objectType
+        - objectInstanceId
+        - _links
+      properties:
+        id:
+          description: >
+            Identifier of this notification. If a notification is sent multiple times due
+            to multiple subscriptions, the "id" attribute of all these notifications shall
+            have the same value.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/Identifier"
+        notificationType:
+          description: >
+            Discriminator for the different notification types.
+            Shall be set to "PerformanceInformationAvailableNotification" for this
+            notification type.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/String"
+        timeStamp:
+          description: >
+            Date and time of the generation of the notification.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/DateTime"
+        pmJobId:
+          description: >
+            Identifier of the PM job for which performance information is available.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/Identifier"
+        objectType:
+          description: >
+            Type of measured object.
+            The applicable measured object type for a measurement is defined in clause 8.2
+            of ETSI GS NFV-IFA 031.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/String"
+        objectInstanceId:
+          description: >
+            Type of measured object.
+            The applicable measured object type for a measurement is defined in clause 8.2
+            of ETSI GS NFV-IFA 031
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/Identifier"
+        subObjectInstanceId:
+          description: >
+            Identifier of the sub-object of the measured object instance for which the
+            measurements have been taken. Shall be present if the related PM job has been
+            set up to measure a sub-object instance of the measured object instance and a
+            sub-object is defined in clause 8.2 of ETSI GS NFV-IFA 031 for the related
+            measured object type. Shall be absent otherwise.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/IdentifierInManoEntity"
+        _links:
+          description: >
+            Links to resources related to this notification.
+          type: object
+          properties:
+            objectInstance:
+              description: >
+                Link to the resource representing the measured object instance to which the
+                notification applies. Shall be present if the measured object instance
+                information is accessible as a resource.
+              $ref: "../../components/SOL009_schemas.yaml#/components/schemas/NotificationLink"
+            pmJob:
+              description: >
+                Link to the resource that represents the PM job for which performance
+                information is available.
+              $ref: "../../components/SOL009_schemas.yaml#/components/schemas/NotificationLink"
+            PerformanceReport:
+              description: >
+                Link from which the available performance information of data type
+                "PerformanceReport" can be obtained.
+                This link should point to an "Individual performance report" resource.
+              $ref: "../../components/SOL009_schemas.yaml#/components/schemas/NotificationLink"
+          required:
+            - pmJob
+            - performanceReport

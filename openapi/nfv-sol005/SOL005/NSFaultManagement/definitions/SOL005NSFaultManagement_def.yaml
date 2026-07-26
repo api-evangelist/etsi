@@ -1,0 +1,382 @@
+# Copyright (c) ETSI 2017.
+# https://forge.etsi.org/etsi-forge-copyright-notice.txt
+definitions:
+  Alarm:
+    description: >
+      The alarm data type encapsulates information about an alarm.
+      It shall comply with the provisions defined in Table 8.5.2.4-1
+    type: object
+    required:
+      - id
+      - managedObjectId
+      - alarmRaisedTime
+      - ackState
+      - perceivedSeverity
+      - eventTime
+      - eventType
+      - probableCause
+      - isRootCause
+      - _links
+    properties:
+      id:
+        description: >
+          Identifier of this Alarm structure.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      managedObjectId:
+        description: >
+          Identifier of the affected NS instance.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      rootCauseFaultyComponent:
+        description: >
+          The NS components that are causing the NS fault.
+        $ref: "#/definitions/FaultyComponentInfo"
+      rootCauseFaultyResource:
+        description: >
+          The virtualised resources that are causing the NS
+          fault. It shall be present when the faulty component
+          is "NS Virtual Link" (see clause 8.5.3.4).
+        $ref: "#/definitions/FaultyResourceInfo"
+      alarmRaisedTime:
+        description: >
+          Time stamp indicating when the alarm is raised by the managed object.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/DateTime"
+      alarmChangedTime:
+        description: >
+          Time stamp indicating when the alarm was last
+          changed. It shall be present if the alarm has been updated.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/DateTime"
+      alarmClearedTime:
+        description: >
+          Time stamp indicating when the alarm was cleared.
+          It shall be present if the alarm has been cleared.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/DateTime"
+      alarmAcknowledgedTime:
+        description: >
+          Time stamp indicating when the alarm was
+          acknowledged. It shall be present if the alarm has
+          been acknowledged.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/DateTime"
+      ackState:
+        description: >
+          Acknowledgment state of the alarm.
+          Permitted values:
+          UNACKNOWLEDGED
+          ACKNOWLEDGED
+        type: string
+        enum:
+          - UNACKNOWLEDGED
+          - ACKNOWLEDGED
+      perceivedSeverity:
+        description: >
+          Perceived severity of the managed object failure.
+        $ref: "#/definitions/PerceivedSeverityType"
+      eventTime:
+        description: >
+          Time stamp indicating when the fault was observed.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/DateTime"
+      eventType:
+        description: >
+          Type of event.
+        $ref: "#/definitions/EventType"
+      faultType:
+        description: >
+          Additional information to clarify the type of the fault.
+        type: string
+      probableCause:
+        description: >
+          Information about the probable cause of the fault.
+        type: string
+      isRootCause:
+        description: >
+          Attribute indicating if this fault is the root for other
+          correlated alarms. If TRUE, then the alarms listed in
+          the attribute CorrelatedAlarmId are caused by this fault.
+        type: boolean
+      correlatedAlarmIds:
+        description: >
+          List of identifiers of other alarms correlated to this fault.
+        type: array
+        items:
+          $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      faultDetails:
+        description: >
+          Provides additional information about the fault..
+        type: array
+        items:
+          type: string
+      _links:
+        description: >
+          Links for this resource.
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            description: >
+              URI of this resource.
+            $ref: "../../definitions/SOL005_def.yaml#/definitions/Link"
+            objectInstance:
+              description: >
+                Link to the resource representing the NS instance to
+                which the notified alarm is correlated. Shall be
+                present if the NS instance information is accessible
+                as a resource.
+              $ref: "../../definitions/SOL005_def.yaml#/definitions/Link"
+
+  AlarmModifications:
+    description: >
+      This type represents attribute modifications for an "Individual alarm" resource, i.e. modifications to a resource
+      representation based on the "Alarm" data type. The attributes of "Alarm" that can be modified according to the
+      provisions in clause 8.5.2.4 are included in the "AlarmModifications" data type.
+      The "AlarmModifications" data type shall comply with the provisions defined in Table 8.5.2.8-1.
+    type: object
+    required:
+      - ackState
+    properties:
+      ackState:
+        description: >
+          New value of the "ackState" attribute in "Alarm".
+          Permitted values:
+          - ACKNOWLEDGED
+          - UNACKNOWLEDGED
+        type: string
+        enum:
+          - ACKNOWLEDGED
+          - UNACKNOWLEDGED
+  EventType:
+    description: >
+      The enumeration EventType represents those types of events that trigger
+      an alarm.
+      - COMMUNICATIONS_ALARM: An alarm of this type is associated with the
+        procedure and/or process required conveying information from one point
+        to another (ITU-T Recommendation X.733).
+      - PROCESSING_ERROR_ALARM: An alarm of this type is associated with a
+        software or processing fault (ITU-T Recommendation X.733).
+      - ENVIRONMENTAL_ALARM: An alarm of this type is associated with a
+        condition related to an enclosure in which the equipment resides
+        (ITU-T Recommendation X.733).
+      - QOS_ALARM: An alarm of this type is associated with degradation in the
+        quality of a service (ITU-T Recommendation X.733).
+      - EQUIPMENT_ALARM: An alarm of this type is associated with an equipment
+        fault (ITU-T Recommendation X.733).
+    type: string
+    enum:
+      - COMMUNICATIONS_ALARM
+      - PROCESSING_ERROR_ALARM
+      - ENVIRONMENTAL_ALARM
+      - QOS_ALARM
+      - EQUIPMENT_ALARM
+
+  FaultyResourceInfo:
+    description: >
+      This type represents the faulty virtual resources that have a negative impact on a NS.
+    type: object
+    required:
+      - faultyResource
+      - faultyResourceType
+    properties:
+      faultyResource:
+        description: >
+          Information that identifies the faulty resource instance and
+          its managing entity.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/ResourceHandle"
+      faultyResourceType:
+        description: >
+          Type of the faulty resource.
+        $ref: "#/definitions/FaultyResourceType"
+
+  FaultyResourceType:
+    description: >
+      The enumeration FaultyResourceType represents those types of faulty
+      resource.
+      Acceptable values are:
+      - COMPUTE - Virtual compute resource.
+      - STORAGE - Virtual storage resource.
+      - NETWORK - Virtual network resource.
+    type: string
+    enum:
+      - COMPUTE
+      - STORAGE
+      - NETWORK
+
+  FmNotificationsFilter:
+    description: >
+      This type represents a subscription filter related to notifications about NS faults. 
+      It shall comply with the provisions
+      defined in Table 8.5.3.2-1.
+      At a particular nesting level in the filter structure, the following applies: 
+      All attributes shall match in order for the filter
+      to match (logical "and" between different filter attributes). 
+      If an attribute is an array, the attribute shall match if at least
+      one of the values in the array matches (logical "or" between the values of one filter attribute).
+      NOTE:	The permitted values of the "notificationTypes" attribute are spelled exactly as the names
+      of the notification types to facilitate automated code generation systems.
+    type: object
+    properties:
+      nsInstanceSubscriptionFilter:
+        description: >
+          Filter criteria to select NS instances about which to notify.    
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/NsInstanceSubscriptionFilter"
+      notificationTypes:
+        description: >
+          Match particular notification types.
+          Permitted values:
+          - AlarmNotification
+          - AlarmClearedNotification
+          - AlarmListRebuiltNotification.
+          See note.
+        type: array
+        items:
+          type: string
+          enum:
+            - AlarmNotification
+            - AlarmClearedNotification
+            - AlarmListRebuiltNotification
+      faultyResourceTypes:
+        description: >
+          Match alarms related to NSs with a faulty resource type listed in this attribute.
+        type: array
+        items:
+          $ref: "#/definitions/FaultyResourceType"
+      perceivedSeverities:
+        description: >
+          Match VNF alarms with a perceived severity listed in this attribute.
+        type: array
+        items:
+          $ref: "#/definitions/PerceivedSeverityType"
+      eventTypes:
+        description: >
+          Match VNF alarms related to NSs with an event type listed 
+          in this attribute.
+        type: array
+        items:
+          $ref: "#/definitions/EventType"
+      probableCauses:
+        description: >
+          Match VNF alarms with a probable cause listed in this attribute.
+        type: array
+        items:
+          type: string
+
+  FmSubscription:
+    description: >
+      This type represents a subscription related to notifications about VNF
+      faults.
+    type: object
+    required:
+      - id
+      - callbackUri
+      - _links
+    properties:
+      id:
+        description: >
+          Identifier of this subscription resource.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      filter:
+        description: >
+          Filter settings for this subscription, to define the subset of all
+          notifications this subscription relates to. A particular
+          notification is sent to the subscriber if the filter matches, or if
+          there is no filter.
+        $ref: "#/definitions/FmNotificationsFilter"
+      callbackUri:
+        description: >
+          The URI of the endpoint to send the notification to.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Uri"
+      _links:
+        description: >
+          Links for this resource.
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            description: >
+              URI of this resource.
+            $ref: "../../definitions/SOL005_def.yaml#/definitions/Link"
+
+  FmSubscriptionRequest:
+    description: >
+      This type represents a subscription request related to notifications
+      about VNF faults.
+    type: object
+    required:
+      - callbackUri
+    properties:
+      filter:
+        description: >
+          Filter settings for this subscription, to define the subset of all
+          notifications this subscription relates to. A particular
+          notification is sent to the subscriber if the filter matches, or if
+          there is no filter.
+        $ref: "#/definitions/FmNotificationsFilter"
+      callbackUri:
+        description: >
+          The URI of the endpoint to send the notification to.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Uri"
+      authentication:
+        description: >
+          Authentication parameters to configure the use of Authorization when sending notifications
+          corresponding to this subscription, as defined in clause 4.5.3.4.8.3.4 of ETSI GS NFV SOL 013.
+          This attribute shall only be present if the subscriber requires authorization of notifications.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/SubscriptionAuthentication"
+
+  PerceivedSeverityType:
+    description: >
+      Indicates the relative level of urgency for operator attention.
+      * CRITICAL: The Critical severity level indicates that a service
+        affecting condition has occurred and an immediate corrective action
+        is required. Such a severity can be reported, for example, when a
+        managed object becomes totally out of service and its capability needs
+        to be restored (ITU-T Recommendation X.733).
+      * MAJOR: The Major severity level indicates that a service affecting
+        condition has developed and an urgent corrective action is required.
+        Such a severity can be reported, for example, when there is a severe
+        degradation in the capability of the managed object and its full
+        capability needs to be restored (ITU-T Recommendation X.733).
+      * MINOR: The Minor severity level indicates the existence of a
+        non-service affecting fault condition and that corrective action
+        should be taken in order to prevent a more serious (for example,
+        service affecting) fault. Such a severity can be reported, for
+        example, when the detected alarm condition is not currently degrading
+        the capacity of the managed object (ITU-T Recommendation X.733).
+      * WARNING: The Warning severity level indicates the detection of a
+        potential or impending service affecting fault, before any significant
+        effects have been felt. Action should be taken to further diagnose (if
+        necessary) and correct the problem in order to prevent it from
+        becoming a more serious service affecting fault (ITU-T Recommendation
+        X.733).
+      * INDETERMINATE: The Indeterminate severity level indicates that the
+        severity level cannot be determined (ITU-T Recommendation X.733).
+      * CLEARED: The Cleared severity level indicates the clearing of one or
+        more previously reported alarms. This alarm clears all alarms for this
+        managed object that have the same Alarm type, Probable cause and
+        Specific problems (if given) (ITU-T Recommendation X.733).
+    type: string
+    enum:
+      - CRITICAL
+      - MAJOR
+      - MINOR
+      - WARNING
+      - INDETERMINATE
+      - CLEARED
+
+  FaultyComponentInfo:
+    description: >
+      This type represents the faulty component that has a negative impact on an NS. 
+      It shall comply with the provisions defined in Table 8.5.3.4-1.
+      NOTE:	At least one of the attributes shall be present.
+    type: object
+    properties:
+      faultyNestedNsInstanceId:
+        description: >
+          Identifier of the faulty nested NS instance. See note.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      faultyResourceType:
+        description: >
+          Identifier of the faulty NS virtual link instance. See note.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      faultyNsVirtualLinkInstanceId:
+        description: >
+          Identifier of the faulty VNF instance. See note.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"

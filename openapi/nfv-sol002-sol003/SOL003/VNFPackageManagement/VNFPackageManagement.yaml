@@ -1,0 +1,2566 @@
+openapi: 3.0.2
+
+info:
+  title: SOL003 - VNF Package Management interface
+  description: |
+    SOL003 - VNF Package Management interface
+
+    IMPORTANT: Please note that this file might be not aligned to the current
+    version of the ETSI Group Specification it refers to. In case of
+    discrepancies the published ETSI Group Specification takes precedence.
+
+    Please report bugs to https://forge.etsi.org/rep/nfv/SOL002-SOL003/issues
+
+  contact:
+    name: NFV-SOL WG
+  license:
+    name: ETSI Forge copyright notice
+    url: https://forge.etsi.org/etsi-forge-copyright-notice.txt
+  version: "2.4.0-impl:etsi.org:ETSI_NFV_OpenAPI:1"
+
+externalDocs:
+  description: ETSI GS NFV-SOL 003 V3.7.1
+  url: https://www.etsi.org/deliver/etsi_gs/NFV-SOL/001_099/003/03.07.01_60/gs_NFV-SOL003v030701p.pdf
+
+servers:
+  - url: http://127.0.0.1/vnfpkgm/v2
+  - url: https://127.0.0.1/vnfpkgm/v2
+
+paths:
+  ###############################################################################
+  # API Versions                                                                #
+  ###############################################################################
+  /api_versions:
+    $ref: '../../endpoints/SOL002SOL003_endpoints.yaml#/endpoints/api-versions'
+
+  ###############################################################################
+  # VNF packages                                                                #
+  ###############################################################################
+  /onboarded_vnf_packages:
+    #SOL003 location: 10.4.2
+    get:
+      description: |
+        The GET method queries the information of the VNF packages matching the filter. See clause 10.4.2.3.2.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: '#/components/parameters/filter_vnf_packages'
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/all_fields_nfvo
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/fields_nfvo
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/exclude_fields_nfvo
+        - $ref: '#/components/parameters/exclude_default_vnf_packages'
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/nextpage_opaque_marker_nfvo
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      responses:
+        200:
+          $ref: '#/components/responses/OnboardedVnfPackages.Get.200'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        422:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/422"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  /vnf_packages:
+    $ref: '#/paths/~1onboarded_vnf_packages'
+
+  ###############################################################################
+  # Individual VNF package                                                      #
+  ###############################################################################
+  /vnf_packages/{vnfPkgId}:
+    parameters:
+      - $ref: '#/components/parameters/VnfPkgId'
+    get:
+      description: |
+        The GET method reads the information of an individual VNF package. Clause 10.4.3.3.2.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      responses:
+        200:
+          $ref: '#/components/responses/IndividualVnfPackage.Get.200'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        416:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/416"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  /onboarded_vnf_packages/{vnfdId}:
+    parameters:
+      - $ref: '#/components/parameters/VnfdId'
+    get:
+      description: |
+        The GET method reads the information of an individual VNF package. Clause 10.4.3.3.2.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      responses:
+        200:
+          $ref: '#/components/responses/IndividualOnboardedVnfPackage.Get.200'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        416:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/416"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # VNFD in an individual VNF package                                           #
+  ###############################################################################
+  /vnf_packages/{vnfPkgId}/vnfd:
+    parameters:
+      - $ref: '#/components/parameters/VnfPkgId'
+    get:
+      description: |
+        The GET method reads the content of the VNFD within a VNF package. See clause 10.4.4.3.2.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+        - $ref: '#/components/parameters/include_signatures_content_of_vnfd'
+      responses:
+        200:
+          $ref: '#/components/responses/VnfdInIndividualVnfPackage.Get.200'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        409:
+          $ref: '#/components/responses/VnfdInIndividualVnfPackage.Get.409'
+        416:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/416"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  /onboarded_vnf_packages/{vnfdId}/vnfd:
+    parameters:
+      - $ref: '#/components/parameters/VnfdId'
+    get:
+      description: |
+        The GET method reads the content of the VNFD within a VNF package. See clause 10.4.4.3.2.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+        - $ref: '#/components/parameters/include_signatures_content_of_vnfd'
+      responses:
+        200:
+          $ref: '#/components/responses/VnfdInIndividualOnboardedVnfPackage.Get.200'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        409:
+          $ref: '#/components/responses/VnfdInIndividualOnboardedVnfPackage.Get.409'
+        416:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/416"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Manifest in an individual VNF package                                       #
+  ###############################################################################
+  /vnf_packages/{vnfPkgId}/manifest:
+    parameters:
+      - $ref: '#/components/parameters/VnfPkgId'
+    get:
+      description: |
+        The GET method reads the content of the manifest within a VNF package. See clause 10.4.4a.3.1.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+        - $ref: '#/components/parameters/include_signatures_content_of_manifest'
+      responses:
+        200:
+          $ref: '#/components/responses/ManifestInIndividualVnfPackage.Get.200'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: '#/components/responses/ManifestInIndividualVnfPackage.Get.406'
+        409:
+          $ref: '#/components/responses/ManifestInIndividualVnfPackage.Get.409'
+        416:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/416"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  /onboarded_vnf_packages/{vnfdId}/manifest:
+    parameters:
+      - $ref: '#/components/parameters/VnfdId'
+    get:
+      description: |
+        The GET method reads the content of the manifest within a VNF package. See clause 10.4.4a.3.1.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+        - $ref: '#/components/parameters/include_signatures_content_of_manifest'
+      responses:
+        200:
+          $ref: '#/components/responses/ManifestInIndividualOnboardedVnfPackage.Get.200'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: '#/components/responses/ManifestInIndividualOnboardedVnfPackage.Get.406'
+        409:
+          $ref: '#/components/responses/ManifestInIndividualOnboardedVnfPackage.Get.409'
+        416:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/416"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # VNF package content                                                         #
+  ###############################################################################
+  /vnf_packages/{vnfPkgId}/package_content:
+    parameters:
+      - $ref: '#/components/parameters/VnfPkgId'
+    get:
+      description: |
+        The GET method fetches the content of a VNF package identified by the VNF package identifier allocated by the NFVO.
+        See clause 10.4.5.3.2.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: '#/components/parameters/Range'
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      responses:
+        200:
+          $ref: '#/components/responses/IndividualVnfPackageContent.Get.200'
+        206:
+          $ref: '#/components/responses/IndividualVnfPackageContent.Get.206'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/IndividualVnfPackageContent.Get.409'
+        416:
+          $ref: '#/components/responses/IndividualVnfPackageContent.Get.416'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  /onboarded_vnf_packages/{vnfdId}/package_content:
+    parameters:
+      - $ref: '#/components/parameters/VnfdId'
+    get:
+      description: |
+        The GET method fetches the content of a VNF package identified by the VNF package identifier allocated by the NFVO.
+        See clause 10.4.5.3.2.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: '#/components/parameters/Range'
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      responses:
+        200:
+          $ref: '#/components/responses/IndividualOnboardedVnfPackageContent.Get.200'
+        206:
+          $ref: '#/components/responses/IndividualOnboardedVnfPackageContent.Get.206'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/IndividualOnboardedVnfPackageContent.Get.409'
+        416:
+          $ref: '#/components/responses/IndividualOnboardedVnfPackageContent.Get.416'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # VNF package artifacts                                                       #
+  ###############################################################################
+  /vnf_packages/{vnfPkgId}/artifacts:
+    parameters:
+      - $ref: '#/components/parameters/VnfPkgId'
+    get:
+      description: |
+        The GET method shall return an archive that contains a set of artifacts according to the provisions for
+        inclusion/exclusion defined below, embedded in a directory structure being the same as in the VNF package.
+        See clause 10.4.5a.3.2.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: '#/components/parameters/Range'
+        - $ref: '#/components/parameters/exclude_all_mano_artifacts'
+        - $ref: '#/components/parameters/exclude_all_non_mano_artifacts'
+        - $ref: '#/components/parameters/include_external_artifacts'
+        - $ref: '#/components/parameters/select_non_mano_artifact_sets'
+        - $ref: '#/components/parameters/include_signatures_artifacts'
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      responses:
+        200:
+          $ref: '#/components/responses/IndividualVnfPackageArtifacts.Get.200'
+        206:
+          $ref: '#/components/responses/IndividualVnfPackageArtifacts.Get.206'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/IndividualVnfPackageArtifacts.Get.409'
+        416:
+          $ref: '#/components/responses/IndividualVnfPackageArtifacts.Get.416'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  /onboarded_vnf_packages/{vnfdId}/artifacts:
+    parameters:
+      - $ref: '#/components/parameters/VnfdId'
+    get:
+      description: |
+        The GET method shall return an archive that contains a set of artifacts according to the provisions for
+        inclusion/exclusion defined below, embedded in a directory structure being the same as in the VNF package.
+        See clause 10.4.5a.3.2.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: '#/components/parameters/Range'
+        - $ref: '#/components/parameters/exclude_all_mano_artifacts'
+        - $ref: '#/components/parameters/exclude_all_non_mano_artifacts'
+        - $ref: '#/components/parameters/include_external_artifacts'
+        - $ref: '#/components/parameters/select_non_mano_artifact_sets'
+        - $ref: '#/components/parameters/include_signatures_artifacts'
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      responses:
+        200:
+          $ref: '#/components/responses/IndividualOnboardedVnfPackageArtifacts.Get.200'
+        206:
+          $ref: '#/components/responses/IndividualOnboardedVnfPackageArtifacts.Get.206'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/IndividualOnboardedVnfPackageArtifacts.Get.409'
+        416:
+          $ref: '#/components/responses/IndividualOnboardedVnfPackageArtifacts.Get.416'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Individual VNF package artifact                                             #
+  ###############################################################################
+  /vnf_packages/{vnfPkgId}/artifacts/{artifactPath}:
+    parameters:
+      - $ref: '#/components/parameters/ArtifactPath'
+      - $ref: '#/components/parameters/VnfPkgId'
+    get:
+      description: |
+        The GET method fetches the content of an artifact within a VNF package. See clause 10.4.6.3.2.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: '#/components/parameters/Range'
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+        - $ref: '#/components/parameters/include_signatures_content_of_artifact'
+      responses:
+        200:
+          $ref: '#/components/responses/IndividualVnfPackageArtifact.Get.200'
+        206:
+          $ref: '#/components/responses/IndividualVnfPackageArtifact.Get.206'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/IndividualVnfPackageArtifact.Get.409'
+        416:
+          $ref: '#/components/responses/IndividualVnfPackageArtifact.Get.416'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  /onboarded_vnf_packages/{vnfdId}/artifacts/{artifactPath}:
+    parameters:
+      - $ref: '#/components/parameters/ArtifactPath'
+      - $ref: '#/components/parameters/VnfdId'
+    get:
+      description: |
+        The GET method fetches the content of an artifact within a VNF package. See clause 10.4.6.3.2.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: '#/components/parameters/Range'
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+        - $ref: '#/components/parameters/include_signatures_content_of_artifact'
+      responses:
+        200:
+          $ref: '#/components/responses/IndividualOnboardedVnfPackageArtifact.Get.200'
+        206:
+          $ref: '#/components/responses/IndividualOnboardedVnfPackageArtifact.Get.206'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/IndividualOnboardedVnfPackageArtifact.Get.409'
+        416:
+          $ref: '#/components/responses/IndividualOnboardedVnfPackageArtifact.Get.416'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Subscriptions                                                               #
+  ###############################################################################
+  /subscriptions:
+    parameters:
+      - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+      - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+      - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+    post:
+      description: |
+        The POST method creates a new subscription. See clause 10.4.7.3.1.
+      requestBody:
+        $ref: '#/components/requestBodies/PkgmSubscriptionRequest'
+      responses:
+        201:
+          $ref: '#/components/responses/Subscriptions.Post.201'
+        303:
+          $ref: '#/components/responses/Subscriptions.Post.303'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        422:
+          $ref: '#/components/responses/Subscriptions.Post.422'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+    get:
+      description: |
+        The GET method queries the list of active subscriptions of the functional block that invokes the method.
+        It can be used e.g. for resynchronization after error situations. See clause 10.4.7.3.2.
+      parameters:
+        - $ref: '#/components/parameters/filter_subscriptions'
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/nextpage_opaque_marker_nfvo
+      responses:
+        200:
+          $ref: '#/components/responses/Subscriptions.Get.200'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        422:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/422"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Individual subscription                                                     #
+  ###############################################################################
+  /subscriptions/{subscriptionId}:
+    #SOL003 location: 10.4.8
+    parameters:
+      - $ref: '#/components/parameters/SubscriptionId'
+      - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+      - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+    get:
+      description: |
+        The GET method reads an individual subscription. See clause 10.4.8.3.2.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+      responses:
+        200:
+          $ref: '#/components/responses/IndividualSubscription.Get.200'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        422:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/422"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+    delete:
+      description: |
+        The DELETE method terminates an individual subscription. See clause 10.4.8.3.5.
+      responses:
+        204:
+          $ref: '#/components/responses/IndividualSubscription.Delete.204'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        422:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/422"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+components:
+  parameters:
+    filter_vnf_packages:
+      name: filter
+      description: >
+        Attribute-based filtering expression according to clause 5.2 of ETSI GS NFV-SOL 013 [8].
+        The NFVO shall support receiving this parameter as part of the URI query string. The
+        VNFM may supply this parameter.
+        All attribute names that appear in the VnfPkgInfo and in data types referenced from it
+        shall be supported by the NFVO in the filter expression.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    exclude_default_vnf_packages:
+      name: exclude_default
+      in: query
+      description: >-
+        Indicates to exclude the following complex attributes from the response. See clause 5.3
+        of ETSI GS NFV-SOL 013 [8] for details.
+        The NFVO shall support this parameter.
+        The following attributes shall be excluded from the VnfPkgInfo structure in the response
+        body if this parameter is provided, or none of the parameters "all_fields," "fields",
+        "exclude_fields", "exclude_default" are provided:
+          - softwareImages
+          - additionalArtifacts
+          - userDefinedData
+          - checksum
+          - onboardingFailureDetails.
+      required: false
+      schema:
+        type: string
+
+    exclude_all_mano_artifacts:
+      name: exclude_all_mano_artifacts
+      description: >
+        Flag (i.e. parameter without value) that instructs the NFVO to exclude
+        the set of additional MANO artifacts (i.e. those that are not images)
+        from the response message content.
+        The NFVO shall support this parameter. The VNFM may supply this
+        parameter.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    exclude_all_non_mano_artifacts:
+      name: exclude_all_non_mano_artifacts 
+      description: >
+        Flag (i.e. parameter without value) that instructs the NFVO to exclude
+        the set of non-MANO artifacts from the response message content.
+        The NFVO shall support this parameter. The VNFM may supply this
+        parameter.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    include_external_artifacts:
+      name: include_external_artifacts 
+      description: >
+        Flag (i.e. parameter without value) that instructs the NFVO to include
+        external artifacts in the response message content. It shall not be treated
+        as an error if this flag is provided but there is no external artifact to
+        include in the result. If this parameter is missing, no external artifacts
+        shall be included.
+        The NFVO shall support this parameter. The VNFM may supply this
+        parameter.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    select_non_mano_artifact_sets:
+      name: select_non_mano_artifact_sets
+      description: >
+        Comma-separated list of non-MANO artifact set identifiers for which
+        the artifacts are to be included in the response body.
+        The NFVO should support this parameter. If the NFVO does not
+        support this parameter, it shall ignore it, i.e. provide a response as if
+        no parameter was provided. The VNFM may supply this parameter.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    include_signatures_artifacts:
+      name: include_signatures
+      description: >
+        If this parameter is provided, the NFVO shall include in the ZIP
+        archive the individual signatures and, if provided, related certificates
+        for the included artifacts, in the format in which they are provided in
+        the VNF package.
+        If this parameter is not given, the NFVO shall only provide copies of
+        the artifact files.
+        This URI query parameter is a flag, i.e. it shall have no value.
+        The NFVO shall support this parameter.
+      in: query
+      required: false
+      schema:
+        type: string
+ 
+    include_signatures_content_of_artifact:
+      name: include_signatures
+      description: >
+        If this parameter is provided, the NFVO shall return the artifact and related security
+        information (such as signature and optional certificate) in a ZIP archive.
+        If this parameter is not given, the NFVO shall provide only a copy of the artifact file.
+        This URI query parameter is a flag, i.e. it shall have no value.
+        The NFVO shall support this parameter.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    filter_subscriptions:
+      name: filter
+      description: >
+        Attribute-based filtering expression according to clause 5.2 of ETSI
+        GS NFV-SOL 013 [8].
+        The NFVO shall support receiving this parameter as part of the URI query string.
+        The VNFM may supply this parameter.
+        All attribute names that appear in the PkgmSubscription and in data types
+        referenced from it shall be supported by the NFVO in the filter expression.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    VnfPkgId:
+      name: vnfPkgId
+      in: path
+      description: |
+        Identifier of the VNF package. The identifier is allocated by the
+        NFVO.
+        This identifier can be retrieved from the "vnfPkgId" attribute in
+        the VnfPackageOnboardingNotification or
+        VnfPackageChangeNotification.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    VnfdId:
+      name: vnfdId
+      in: path
+      description: |
+        Identifier of the VNFD and the VNF package.
+        The identifier is allocated by the VNF provider.
+        This identifier can be retrieved from the "vnfdId" attribute
+        in the VnfPackageOnboardingNotification or VnfPackageChangeNotification.
+        This identifier can be retrieved from the "vnfdId" attribute in the 
+        VnfPackageOnboardingNotification or VnfPackageChangeNotification.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    ArtifactPath:
+      name: artifactPath
+      in: path
+      description: |
+        SequenceFor an artifact contained as a file in the VNF package,
+        this variable shall contain a sequence of one or more path segments
+        representing the path of the artifact within the VNF package,
+        relative to the root of the package.
+
+        EXAMPLE: foo/bar/m%40ster.sh
+
+        For an external artifact represented as a URI in the VNF package
+        manifest, this variable shall contain a sequence of one or more path
+        segments as synthesized by the NFVO (see clause 10.5.3.3),
+        representing this artifact.
+
+        Since multiple path segments are allowed to be contained in this variable,
+        the "/" character that separates these segments is not percent-encoded.
+        Each individual segment is percent-encoded if necessary as defined in clause
+        4.1 of ETSI GS NFV-SOL 013.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    SubscriptionId:
+      name: subscriptionId
+      in: path
+      description: |
+        Identifier of this subscription.
+        This identifier can be retrieved from the resource referenced by
+        the "Location" HTTP header in the response to a POST request
+        creating a new "Individual subscription" resource. It can also be retrieved from
+        the "id" attribute in the message content of that response.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    include_signatures_content_of_vnfd:
+      name: include_signatures
+      in: query
+      description: |
+        If this parameter is provided, the NFVO shall include in the ZIP archive the security
+        information as specified above.
+        This URI query parameter is a flag, i.e. it shall have no value.
+        The NFVO shall support this parameter.    
+      required: false
+      schema:
+        type: string
+
+    include_signatures_content_of_manifest:
+      name: include_signatures
+      in: query
+      description: |
+        If this parameter is provided, the NFVO shall return the manifest and related
+        security information (such as certificate) in a ZIP archive.
+        If this parameter is not given, the NFVO shall provide only a copy of the manifest
+        file.
+        This URI query parameter is a flag, i.e. it shall have no value.
+        The NFVO shall support this parameter.  
+      required: false
+      schema:
+        type: string
+
+    Range:
+      name: Range
+      in: header
+      description: |
+        The request may contain a "Range" HTTP header to obtain single
+        range of bytes from the VNF package file. This can be used to
+        continue an aborted transmission.
+
+        If the "Range" header is present in the request and the NFVO
+        does not support responding to range requests with a 206 response,
+        it shall return a 200 OK response instead.
+      required: false
+      schema:
+        type: string
+
+  requestBodies:
+    PkgmSubscriptionRequest:
+      description: |
+        Representation of the created subscription resource.
+        The HTTP response shall include a "Location" HTTP header that
+        points to the created subscription resource.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL003VNFPackageManagement_def.yaml#/definitions/PkgmSubscriptionRequest"
+      required: true
+
+  responses:
+    OnboardedVnfPackages.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when information about zero or more VNF packages has been queried successfully.
+        The response body shall contain in an array the VNF package info representations that match the
+        attribute filter, i.e. zero or more VNF package info representations as defined in clause 10.5.2.2.
+        If the "filter" URI parameter or one of the "all_fields", "fields" (if supported), "exclude_fields"
+        (if supported) or "exclude_default" URI parameters was supplied in the request, the data in the
+        response body shall have been transformed according to the rules specified in clauses 5.2.2 and
+        5.3.2 of ETSI GS NFV-SOL 013, respectively.
+        If the VNFM supports alternative 2 (paging) according to clause 5.4.2.1 of ETSI GS NFV-SOL 013
+        for this resource, inclusion of the Link HTTP header in this response shall follow the provisions
+        in clause 5.4.2.3 of ETSI GS NFV-SOL 013.
+      headers:
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Link:
+          description: |
+            Reference to other resources. Used for paging in the present document, see clause 4.7.2.1.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "definitions/SOL003VNFPackageManagement_def.yaml#/definitions/VnfPkgInfo"
+
+    IndividualVnfPackage.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when information of the VNF package has been read successfully.
+        The response body shall contain the VNF package info representation defined in clause 10.5.2.2.
+      headers:
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL003VNFPackageManagement_def.yaml#/definitions/VnfPkgInfo"
+
+    IndividualOnboardedVnfPackage.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when information of the VNF package has been read successfully.
+        The response body shall contain the VNF package info representation defined in clause 10.5.2.2.
+      headers:
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL003VNFPackageManagement_def.yaml#/definitions/VnfPkgInfo"
+
+    VnfdInIndividualVnfPackage.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when the content of the VNFD has been read successfully.
+        The message content shall contain a copy of the file representing the VNFD or
+        a ZIP file that contains the file or multiple files representing the VNFD,
+        as specified above.
+        The "Content-Type" HTTP header shall be set according to the format of the
+        returned file, i.e. to "text/plain" for a YAML file or to "application/zip"
+        for a ZIP file.
+      headers:
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          required: true
+          schema:
+            type: string
+            enum:
+              - text/plain
+              - application/zip
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    VnfdInIndividualVnfPackage.Get.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a conflict
+        with the state of the resource.
+        Typically, this is due to the fact that "onboardingState"
+        of the VNF package has a value different from
+        "ONBOARDED".
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    VnfdInIndividualOnboardedVnfPackage.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when the content of the VNFD has been read successfully.
+        The message content shall contain a ZIP archive that contains the files representing the VNFD,
+        as specified above.
+        The "Content-Type" HTTP header shall be set to "application/zip".
+      headers:
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          required: true
+          schema:
+            type: string
+            enum:
+              - text/plain
+              - application/zip
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    VnfdInIndividualOnboardedVnfPackage.Get.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a conflict
+        with the state of the resource.
+        Typically, this is due to the fact that "onboardingState"
+        of the VNF package has a value different from
+        "ONBOARDED".
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    ManifestInIndividualVnfPackage.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when the content of the manifest has been read successfully.
+        If the "include_signatures" URI query parameter was absent in the request,
+        or if the manifest file has all security-related information embedded
+        (i.e. there is no separate certificate file), the message content shall contain
+        a copy of the manifest file of the VNF package and the "Content-Type" HTTP
+        header shall be set to "text/plain".
+
+        If the "include_signatures" URI query parameter was present in the related
+        request and the manifest file does not have all the security-related
+        information embedded (i.e. there is a separate certificate file),
+        the "Content-Type" HTTP header shall be set to "application/zip and the
+        message content shall contain a ZIP archive which includes:
+        •	a copy of the manifest file of the VNF package;
+        •	a copy of the related individual certificate file.
+      headers:
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          required: true
+          schema:
+            type: string
+            enum:
+              - text/plain
+              - application/zip
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    ManifestInIndividualVnfPackage.Get.406:
+      description: |
+        406 Not Acceptable
+
+        If the related request contained an "Accept" header
+        not compatible with the Content type "application/zip"
+        but the "include_signatures" flag was provided, the
+        NFVO shall respond with this response code.
+        The "ProblemDetails" structure may be included with
+        the "detail" attribute providing more information about
+        the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    ManifestInIndividualVnfPackage.Get.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that "onboardingState"
+        of the VNF package has a value different from
+        "ONBOARDED".
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    ManifestInIndividualOnboardedVnfPackage.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when the content of the manifest has been read successfully.
+        If the "include_signatures" URI query parameter was absent in the request,
+        or if the manifest file has all security-related information embedded
+        (i.e. there is no separate certificate file), the messgae content shall contain
+        a copy of the manifest file of the VNF package and the "Content-Type" HTTP
+        header shall be set to "text/plain".
+
+        If the "include_signatures" URI query parameter was present in the related
+        request and the manifest file does not have all the security-related
+        information embedded (i.e. there is a separate certificate file),
+        the "Content-Type" HTTP header shall be set to "application/zip and the
+        message content shall contain a ZIP archive which includes:
+        •	a copy of the manifest file of the VNF package;
+        •	a copy of the related individual certificate file.
+      headers:
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          required: true
+          schema:
+            type: string
+            enum:
+              - text/plain
+              - application/zip
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    ManifestInIndividualOnboardedVnfPackage.Get.406:
+      description: |
+        406 Not Acceptable
+
+        If the related request contained an "Accept" header
+        not compatible with the Content type "application/zip"
+        but the "include_signatures" flag was provided, the
+        NFVO shall respond with this response code.
+        The "ProblemDetails" structure may be included with
+        the "detail" attribute providing more information about
+        the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    ManifestInIndividualOnboardedVnfPackage.Get.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that "onboardingState"
+        of the VNF package has a value different from
+        "ONBOARDED".
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    IndividualVnfPackageContent.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when the whole content of the VNF package file has been read successfully.
+        The response body shall include a copy of the VNF package file.
+        The "Content-Type HTTP" header shall be set according to the type of the file,
+        i.e. to "application/zip" for a VNF Package as defined in ETSI GS  NFV SOL  004.
+      headers:
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    IndividualVnfPackageContent.Get.206:
+      description: |
+        206 PARTIAL CONTENT
+
+        If the NFVO supports range requests, this response shall be returned when
+        a single consecutive byte range from the content of the VNF package file
+        has been read successfully according to the request.
+        The response body shall contain the requested part of the VNF package file.
+        The "Content-Range" HTTP header shall be provided according to IETF RFC 9110.
+        The "Content-Type" HTTP header shall be set as defined above for the "200 OK" response.
+      headers:
+        Content-Range:
+          required : true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    IndividualVnfPackageContent.Get.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that
+        "onboardingState" of the VNF package has a value
+        different from "ONBOARDED".
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    IndividualVnfPackageContent.Get.416:
+      description: |
+        416 Range Not Satisfiable
+
+        Shall be returned upon the following error: The byte
+        range passed in the "Range" header did not match
+        any available byte range in the VNF package file
+        (e.g. "access after end of file").
+        The response body may contain a ProblemDetails
+        structure
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    IndividualOnboardedVnfPackageContent.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when the whole content of the VNF package file has been read successfully.
+        The response body shall include a copy of the VNF package file.
+        The "Content-Type HTTP" header shall be set according to the type of the file,
+        i.e. to "application/zip" for a VNF Package as defined in ETSI GS  NFV SOL  004.
+      headers:
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    IndividualOnboardedVnfPackageContent.Get.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that
+        "onboardingState" of the VNF package has a value
+        different from "ONBOARDED".
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    IndividualOnboardedVnfPackageContent.Get.416:
+      description: |
+        416 Range Not Satisfiable
+
+        Shall be returned upon the following error: The byte
+        range passed in the "Range" header did not match
+        any available byte range in the VNF package file
+        (e.g. "access after end of file").
+        The response body may contain a ProblemDetails
+        structure
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    IndividualVnfPackageArtifact.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when the whole content of the artifact file has
+        been read successfully.
+
+        If the "include_signatures" request URI parameter was not provided in
+        the related request, the message content shall contain a copy of the artifact
+        file from the VNF package, as defined by ETSI GS NFV-SOL 004 and the "Content-Type"
+        HTTP header shall be set according to the content type of the artifact file.
+        If the artifact is encrypted, the header shall be set to the value "application/cms"
+        (IETF RFC 7193). If the content type cannot be determined, the header shall be set
+        to the value "application/octet-stream".
+
+        If the "include_signatures" request URI parameter was provided in the related request,
+        the "Content-Type" HTTP header shall be set to "application/zip and the message content
+        shall contain a ZIP archive which includes:
+        •	a copy of the artifact file from the VNF package, as defined by ETSI GS NFV SOL 004;
+        •	the related security information (individual signature file and optional related
+            individual certificate file).
+      headers:
+        Content-Type:
+          description: |
+            The MIME type of the body of the response.
+            The "Content-Type" HTTP header shall be set according to the
+            content type of the artifact file. If the content type cannot
+            be determined, the header shall be set to the value
+            "application/octet-stream".
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    IndividualVnfPackageArtifact.Get.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that
+        "onboardingState" of the VNF package has a value
+        different from "ONBOARDED".
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    IndividualVnfPackageArtifact.Get.416:
+      description: |
+        416 Range Not Satisfiable
+
+        Shall be returned upon the following error: The byte
+        range passed in the "Range" header did not match
+        any available byte range in the artifact file
+        (e.g. "access after end of file").
+        The response body may contain a ProblemDetails
+        structure
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    IndividualOnboardedVnfPackageArtifact.Get.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that
+        "onboardingState" of the VNF package has a value
+        different from "ONBOARDED".
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    IndividualOnboardedVnfPackageArtifact.Get.416:
+      description: |
+        416 Range Not Satisfiable
+
+        Shall be returned upon the following error: The byte
+        range passed in the "Range" header did not match
+        any available byte range in the artifact file
+        (e.g. "access after end of file").
+        The response body may contain a ProblemDetails
+        structure
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    IndividualVnfPackageArtifacts.Get.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that
+        "onboardingState" of the VNF package has a value
+        different from "ONBOARDED".
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    IndividualVnfPackageArtifacts.Get.416:
+      description: |
+        416 Range Not Satisfiable
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that
+        "onboardingState" of the VNF package has a value
+        different from "ONBOARDED".
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    IndividualOnboardedVnfPackageArtifacts.Get.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that
+        "onboardingState" of the VNF package has a value
+        different from "ONBOARDED".
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    IndividualOnboardedVnfPackageArtifacts.Get.416:
+      description: |
+        416 Range Not Satisfiable
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that
+        "onboardingState" of the VNF package has a value
+        different from "ONBOARDED".
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    IndividualOnboardedVnfPackageContent.Get.206:
+      description: |
+        206 PARTIAL CONTENT
+
+        If the NFVO supports range requests, this response shall be returned when
+        a single consecutive byte range from the content of the VNF package file
+        has been read successfully according to the request.
+        The response body shall contain the requested part of the VNF package file.
+        The "Content-Range" HTTP header shall be provided according to IETF RFC 9110.
+        The "Content-Type" HTTP header shall be set as defined above for the "200 OK" response.
+      headers:
+        Content-Range:
+          required : true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          required: true
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+
+    IndividualVnfPackageArtifacts.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when the whole content of the archive containing
+        the artifact files has been read successfully.
+        The message content shall be a ZIP archive containing the requested
+        set of artifacts selected according to the provisions specified above
+        in this clause, and, if the flag "include_signatures" was provided in
+        the related request, the applicable signature files and, if available,
+        the separate certificate files from the VNF package.
+        The "Content-Type" HTTP header shall be set to "application/zip".
+      headers:
+        Content-Type:
+          description: |
+            The MIME type of the body of the response.
+            The "Content-Type" HTTP header shall be set according to the
+            content type of the artifact file. If the content type cannot
+            be determined, the header shall be set to the value
+            "application/octet-stream".
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    IndividualVnfPackageArtifact.Get.206:
+      description: |
+        206 PARTIAL CONTENT
+
+        If the NFVO supports range requests and the "include_signatures" request URI parameter was not
+        present in the related request, this response shall be returned when a single consecutive byte range from
+        the content of the artifact file has been read successfully according to the request.
+        The response body shall contain the requested part of the artifact file from the VNF package, as defined
+        by ETSI GS NFV-SOL 004.
+        The "Content-Type" HTTP header shall be set according to the content type of the artifact file. If the
+        content type cannot be determined, the header shall be set to the value "application/octet-stream".
+        The "Content-Range" HTTP header shall be provided according to IETF RFC 9110.
+      headers:
+        Content-Range:
+          required : true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          required: true
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    IndividualVnfPackageArtifacts.Get.206:
+      description: |
+        206 PARTIAL CONTENT
+
+        If the NFVO supports range requests, this response shall be returned
+        when a single consecutive byte range from the content of the archive
+        that would have been returned in a "200 OK" response has been read
+        successfully according to the request.
+        The response body shall contain the requested part of the archive.
+        The "Content-Type" HTTP header shall be set to "application/zip".
+        The "Content-Range" HTTP header shall be provided according to IETF RFC 9110.
+      headers:
+        Content-Range:
+          required : true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response.
+            The "Content-Type" HTTP header shall be set according to the
+            content type of the artifact file. If the content type cannot
+            be determined, the header shall be set to the value
+            "application/octet-stream".
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    IndividualOnboardedVnfPackageArtifacts.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when the whole content of the archive containing
+        the artifact files has been read successfully.
+        The message content shall be a ZIP archive containing the requested
+        set of artifacts selected according to the provisions specified above
+        in this clause, and, if the flag "include_signatures" was provided in
+        the related request, the applicable signature files and, if available,
+        the separate certificate files from the VNF package.
+        The "Content-Type" HTTP header shall be set to "application/zip".
+      headers:
+        Content-Type:
+          description: |
+            The MIME type of the body of the response.
+            The "Content-Type" HTTP header shall be set according to the
+            content type of the artifact file. If the content type cannot
+            be determined, the header shall be set to the value
+            "application/octet-stream".
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    IndividualOnboardedVnfPackageArtifacts.Get.206:
+      description: |
+        206 PARTIAL CONTENT
+
+        If the NFVO supports range requests, this response shall be returned
+        when a single consecutive byte range from the content of the archive
+        that would have been returned in a "200 OK" response has been read
+        successfully according to the request.
+        The response body shall contain the requested part of the archive.
+        The "Content-Type" HTTP header shall be set to "application/zip".
+        The "Content-Range" HTTP header shall be provided according to IETF RFC 9110.
+      headers:
+        Content-Range:
+          required : true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response.
+            The "Content-Type" HTTP header shall be set according to the
+            content type of the artifact file. If the content type cannot
+            be determined, the header shall be set to the value
+            "application/octet-stream".
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    IndividualOnboardedVnfPackageArtifact.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when the whole content of the artifact file has
+        been read successfully.
+
+        If the "include_signatures" request URI parameter was not provided in
+        the related request, the message content shall contain a copy of the artifact
+        file from the VNF package, as defined by ETSI GS NFV-SOL 004 and the "Content-Type"
+        HTTP header shall be set according to the content type of the artifact file.
+        If the artifact is encrypted, the header shall be set to the value "application/cms"
+        (IETF RFC 7193). If the content type cannot be determined, the header shall be set
+        to the value "application/octet-stream".
+
+        If the "include_signatures" request URI parameter was provided in the related request,
+        the "Content-Type" HTTP header shall be set to "application/zip and the messgae content
+        shall contain a ZIP archive which includes:
+        •	a copy of the artifact file from the VNF package, as defined by ETSI GS NFV SOL 004;
+        •	the related security information (individual signature file and optional related
+            individual certificate file).
+      headers:
+        Content-Type:
+          description: |
+            The MIME type of the body of the response.
+            The "Content-Type" HTTP header shall be set according to the
+            content type of the artifact file. If the content type cannot
+            be determined, the header shall be set to the value
+            "application/octet-stream".
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    IndividualOnboardedVnfPackageArtifact.Get.206:
+      description: |
+        206 PARTIAL CONTENT
+
+        If the NFVO supports range requests and the "include_signatures" request URI parameter was not present 
+        in the related request, this response shall be returned when a single consecutive byte range from the 
+        content of the artifact file has been read successfully according to the request.
+        The response body shall contain the requested part of the artifact file from the VNF package, as defined 
+        by ETSI GS NFV-SOL 004.
+        The "Content-Type" HTTP header shall be set according to the content type of the artifact file. If the 
+        content type cannot be determined, the header shall be set to the value "application/octet-stream".
+        The "Content-Range" HTTP header shall be provided according to IETF RFC 9110.
+      headers:
+        Content-Range:
+          required : true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    Subscriptions.Post.201:
+      description: |
+        201 CREATED
+
+        Shall be returned when the subscription has been created successfully.
+        The response body shall contain a representation of the created "Individual subscription" resource.
+        The HTTP response shall include a "Location" HTTP header that points to the created resource.
+      headers:
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Location:
+          description: The resource URI of the created PM Job
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "definitions/SOL003VNFPackageManagement_def.yaml#/definitions/PkgmSubscription"
+
+    Subscriptions.Post.303:
+      description: |
+        303 See Other
+
+        Shall be returned when a subscription with the
+        same callback URI and the same filter already
+        exists and the policy of the NFVO is to not create
+        redundant subscriptions.
+        The HTTP response shall include a "Location"
+        HTTP header that contains the resource URI of
+        the existing "Individual subscription" resource.
+        The response body shall be empty.
+      headers:
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Location:
+          description: The resource URI of the created PM Job
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    Subscriptions.Post.422:
+      description: |
+        422 Unprocessable Content
+
+        Shall be returned upon the following error: The content type of the message content
+        is supported and the  message content of a request contains syntactically correct
+        data but the data cannot be processed.
+        The general cause for this error and its handling is specified in clause 6.4 of ETSI
+        GS NFV-SOL 013, including rules for the presence of the response body.
+        Specifically in case of this resource, the response code 422 shall also be returned if the NFVO has
+        tested the Notification endpoint as described in clause 10.4.9.3.2 and the test has failed.
+        In this case, the "detail" attribute in the "ProblemDetails" structure shall convey more
+        information about the error.
+      headers:
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    Subscriptions.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when the list of subscriptions has been queried successfully.
+        The response body shall contain in an array the representations of all active
+        subscriptions of the functional block that invokes the method, i.e. zero or more
+        representations of VNF package management subscriptions as defined in clause 10.5.2.4.
+        If the "filter" URI parameter was supplied in the request, the data in the response
+        body shall have been transformed according to the rules specified in clause 5.2.2
+        of ETSI GS NFV-SOL 013
+        If the VNFM supports alternative 2 (paging) according to clause 5.4.2.1 of ETSI GS NFV-SOL 013
+        for this resource, inclusion of the Link HTTP header in this response shall follow the provisions
+        in clause 5.4.2.3 of ETSI GS NFV-SOL 013.
+      headers:
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Link:
+          description: |
+            Reference to other resources. Used for paging in the present document, see clause 4.7.2.1.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "definitions/SOL003VNFPackageManagement_def.yaml#/definitions/PkgmSubscription"
+
+    IndividualSubscription.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when information about an individual subscription has been read successfully.
+        The response body shall contain a representation of the "Individual subscription" resource.
+      headers:
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL003VNFPackageManagement_def.yaml#/definitions/PkgmSubscription"
+
+    IndividualSubscription.Delete.204:
+      description: |
+        204 NO CONTENT
+
+        Shall be returned when the "Individual subscription" resource has been deleted successfully.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string

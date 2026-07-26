@@ -1,0 +1,671 @@
+# Copyright (c) ETSI 2017.
+# https://forge.etsi.org/etsi-forge-copyright-notice.txt
+definitions:
+  NsdInfoModifications:
+    type: object
+    description: >
+      This type represents attribute modifications for an individual NS
+      descriptor resource based on the NsdInfo data type. The attributes of
+      NsdInfo that can be modified are included in the NsdInfoModifications
+      data type.
+      NOTE: At least one of the attributes - nsdOperationalState and
+      userDefinedData - shall be present.
+    oneOf:
+      - required:
+        - nsdOperationalState
+      - required:
+        - userDefinedData
+    properties:
+      nsdOperationalState:
+        $ref: "#/definitions/NsdOperationalStateType"
+      userDefinedData:
+        description: >
+          Modifications of the userDefinedData attribute in NsdInfo
+          data type. See note. If present, these modifications shall be applied
+          according to the rules of JSON Merge Patch (see IETF RFC 7396).
+        type: array
+        items:
+          $ref: "../../definitions/SOL005_def.yaml#/definitions/KeyValuePairs"
+
+  NsdInfo:
+    type: object
+    anyOf:
+      - required:
+        - vnfPkgIds
+      - required:
+        - nestedNsdInfoIds
+    required:
+      - id
+      - nsdOnboardingState
+      - nsdOperationalState
+      - nsdUsageState
+      - _links
+    properties:
+      id:
+        description: >
+          Identifier of the on boarded individual NS descriptor
+          resource. This identifier is allocated by the NFVO.
+          NOTE 1:	At least one of the attributes - vnfPkgId and nestedNsdInfoId shall be present,
+          after the NSD is on-boarded.
+          NOTE 2:	If the value of the nsdOnboardingState attribute is not equal to "ONBOARDED",
+          the value of the nsdOperationalState attribute shall be equal to "DISABLED".
+          NOTE 3:	If the value of the nsdOnboardingState attribute is not equal to "ONBOARDED",
+          the value of the nsdUsageState attribute shall be equal to "NOT_IN_USE".
+          NOTE 4:	State changes of an NSD are illustrated in clause B.2.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      nsdId:
+        description: >
+          This identifier, which is allocated by the NSD
+          designer, identifies the NSD in a globally unique
+          way. It is copied from the NSD content and shall be
+          present after the NSD content is on-boarded.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      nsdName:
+        type: string
+        description: >
+          Name of the on boarded NSD. This information is copied from the
+          NSD content and shall be present after the NSD content is on-boarded.
+      nsdVersion:
+        description: >
+          Version of the on-boarded NSD. This information is
+          copied from the NSD content and shall be present
+          after the NSD content is on-boarded.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Version"
+      nsdDesigner:
+        type: string
+        description: >
+          Designer of the on-boarded NSD. This information is copied
+          from the NSD content and shall be present after the NSD content is on-boarded.
+      nsdInvariantId:
+        description: >
+          This identifier, which is allocated by the NSD
+          designer, identifies an NSD in a version independent
+          manner. This information is copied from the NSD
+          content and shall be present after the NSD content is
+          on-boarded.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      vnfPkgIds:
+        description: >
+          Identifies the VNF package for the VNFD referenced
+          by the on-boarded NS descriptor resource.
+          See note 1.
+        type: array
+        items:
+          $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      pnfdInfoIds:
+        description: >
+          Identifies the PnfdInfo element for the PNFD
+          referenced by the on-boarded NS descriptor
+          resource.
+        type: array
+        items:
+          $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      nestedNsdInfoIds:
+        description: >
+          Identifies the NsdInfo element for the nested NSD
+          referenced by the on-boarded NS descriptor
+          resource.
+          See note 1.
+        type: array
+        items:
+          $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      archiveSecurityOption:
+        description: >
+          Signals the security option used by the NSD archive as defined
+          in clause 5.1 of ETSI GS NFV SOL 007. It shall be present after the
+          VNF package content has been on-boarded and absent otherwise.
+          Valid values:
+          - OPTION_1
+          - OPTION_2
+        type: string
+        enum:
+          - OPTION_1
+          - OPTION_2
+      signingCertificate:
+        description: >
+          The singleton signing certificate if it is included as a file in the NSD archive.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/String"
+      artifacts:
+        description: >
+          Information about NSD archive artifacts contained in the NSD archive.
+          This attribute shall not be present before the NSD archive content
+          is on-boarded. Otherwise, this attribute shall be present if the NSD
+          archive contains artifacts.
+        type: array
+        items:
+          $ref: "#/definitions/NsdArchiveArtifactInfo"
+      nsdOnboardingState:
+        description: >
+          On boarding state of the individual NS descriptor resource.
+          See note 4.
+        $ref: "#/definitions/NsdOnboardingStateType"
+      onboardingFailureDetails:
+        description: >
+          Failure details of current on boarding procedure. See
+          clause 6.3 of ETSI GS NFV-SOL 013 for the details of "ProblemDetails"
+          structure.
+          It shall be present when the "nsdOnboardingState"
+          attribute is "ERROR", i.e. the uploading or processing has failed in NFVO,
+          unless it has been requested to be excluded via an attribute selector.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+      nsdOperationalState:
+        description: >
+          Operational state of the individual NS descriptor
+          resource. This attribute can be modified with the
+          PATCH method. See note 2 and 4.
+        $ref: "#/definitions/NsdOperationalStateType"
+      nsdUsageState:
+        description: >
+          Usage state of the individual NS descriptor resource.
+          See note 3 and note 4.
+        $ref: "#/definitions/NsdUsageStateType"
+      userDefinedData:
+        description: >
+          User defined data for the individual NS descriptor
+          resource. This attribute can be modified with the
+          PATCH method.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/KeyValuePairs"
+      _links:
+        type: object
+        required:
+          - self
+          - nsd_content
+        description: >
+          Links to resources related to this resource.
+        properties:
+          self:
+            description: >
+              URI of this resource.
+            $ref: "../../definitions/SOL005_def.yaml#/definitions/Link"
+          nsd_content:
+            description: >
+              Link to the NSD content resource.
+            $ref: "../../definitions/SOL005_def.yaml#/definitions/Link"
+    description: >
+      This type represents a response for the query NSD operation.
+
+  CreateNsdInfoRequest:
+    type: object
+    properties:
+      userDefinedData:
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/KeyValuePairs"
+    description: >
+      This type creates a completely new NS descriptor resource.
+
+  PnfdInfoModifications:
+    type: object
+    required:
+      - userDefinedData
+    properties:
+      userDefinedData:
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/KeyValuePairs"
+    description: >
+      This type represents attribute modifications for an individual PNF
+      descriptor resource based on the "PnfdInfo" data type. The attributes of
+      "PnfdInfo" that can be modified are included in the "PnfdInfoModifications"
+      data type.
+
+  PnfdInfo:
+    type: object
+    required:
+      - id
+      - pnfdOnboardingState
+      - pnfdUsageState
+      - _links
+    properties:
+      id:
+        description: >
+          Identifier of the on-boarded individual PNF
+          descriptor resource. This identifier is allocated by
+          the NFVO.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      pnfdId:
+        description: >
+          This identifier, which is managed by the PNFD
+          designer, identifies the PNFD in a globally unique way.
+          It is copied from the PNFD content and shall
+          be present after the PNFD content is on-boarded.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      pnfdName:
+        description: >
+          Name of the on-boarded PNFD. This information
+          is copied from the PNFD content and shall be
+          present after the PNFD content is on-boarded.
+        type: string
+      pnfdersion:
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Version"
+      pnfdProvider:
+        description: >
+          Provider of the on-boarded PNFD. This information is copied from
+          the PNFD content and shall be present after the PNFD content is on-boarded.
+        type: string
+      pnfdInvariantId:
+        description: >
+          Identifies a PNFD in a version independent
+          manner. This attribute is invariant across versions
+          of PNFD.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      archiveSecurityOption:
+        description: >
+          Signals the security option used by the PNFD archive as defined
+          in clause 5.1 of ETSI GS NFV SOL 004.
+          Valid values: OPTION_1, OPTION_2
+        type: string
+        enum:
+          - OPTION_1
+          - OPTION_2
+      signingCertificate:
+        description: >
+          The singleton signing certificate if it is included as a file in the PNFD archive.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/String"
+      artifacts:
+        description: >
+          Information about PNFD archive artifacts contained in the PNFD archive.
+          This attribute shall not be present before the PNFD archive content is
+          on-boarded. Otherwise, this attribute shall be present if the PNFD archive
+          contains artifacts.
+        type: array
+        items:
+          $ref: "#/definitions/PnfdArchiveArtifactInfo"
+      pnfdOnboardingState:
+        description: >
+          On-boarding state of the individual PNF descriptor resource.
+        $ref: "#/definitions/PnfdOnboardingStateType"
+      onboardingFailureDetails:
+        description: >
+          Failure details of current on-boarding procedure.
+          See clause 6.3 of ETSI GS NFV-SOL 013 for the details of "ProblemDetails" structure.
+          It shall be present when the
+          pnfdOnboardingState attribute is "ERROR", i.e. the uploading or processing has failed
+          in the NFVO, unless it has been requested to be excluded via an attribute selector.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+      pnfdUsageState:
+        description: >
+          Usage state of the individual PNF descriptor resource.
+        $ref: "#/definitions/PnfdUsageStateType"
+      userDefinedData:
+        description: >
+          User defined data for the individual PNF descriptor resource.
+          This attribute can be modified with the Patch method.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/KeyValuePairs"
+      _links:
+        required:
+          - pnfd_content
+          - self
+        type: object
+        description: >
+          Links to resources related to this resource.
+        properties:
+          self:
+            $ref: "../../definitions/SOL005_def.yaml#/definitions/Link"
+          pnfd_content:
+            $ref: "../../definitions/SOL005_def.yaml#/definitions/Link"
+    description: >
+      This type represents a response for the query PNFD operation.
+
+  CreatePnfdInfoRequest:
+    type: object
+    properties:
+      userDefinedData:
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/KeyValuePairs"
+    description: >
+      User-defined data for the PNF descriptor resource to be created.
+      It shall be present when the user defined data is set for
+      the individual PNF descriptor resource to be created.
+
+  NsdmSubscriptionRequest:
+    type: object
+    required:
+      - callbackUri
+    properties:
+      filter:
+        $ref: "#/definitions/NsdmNotificationsFilter"
+      callbackUri:
+        type: string
+        description: >
+          The URI of the endpoint to send the notification to.
+      authentication:
+        description: >
+          Authentication parameters to configure the use of Authorization when sending
+          notifications corresponding to this subscription, as defined in clause 8.3.4 of ETSI GS NFV-SOL 013.
+          This attribute shall only be present if the subscriber requires authorization of notifications.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/SubscriptionAuthentication"
+    description: >
+      This type represents a subscription request related to notifications
+      about NSD management.
+
+  NsdmSubscription:
+    type: object
+    required:
+      - id
+      - callbackUri
+      - _links
+    properties:
+      id:
+        description: >
+          Identifier of this subscription resource.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      filter:
+        description: >
+          Filter settings for this subscription, to define the subset
+          of all notifications this subscription relates to.
+          A particular notification is sent to the subscriber if the filter
+          matches, or if there is no filter.
+        $ref: "#/definitions/NsdmNotificationsFilter"
+      callbackUri:
+        description: >
+          The URI of the endpoint to send the notification to.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Uri"
+      _links:
+        type: object
+        description: >
+          Links to resources related to this resource.
+        properties:
+          self:
+            $ref: "../../definitions/SOL005_def.yaml#/definitions/Link"
+    description: >
+      This type represents a subscription related to notifications about NSD management.
+
+  NsdmNotificationsFilter:
+    type: object
+    description: >
+      This type represents a subscription filter related to notifications
+      about NSD management. It shall comply with the provisions defined in Table
+      5.5.3.2-1 of GS NFV-SOL 005. At a particular nesting level in the filter structure,
+      the following applies: All attributes shall match in order for the filter
+      to match (logical "and" between different filter attributes). If an attribute
+      is an array, the attribute shall match if at least one of the values in the
+      array matches (logical "or" between the values of one filter attribute).
+
+      NOTE 1:	The permitted values of the "notificationTypes" attribute are spelled exactly
+      as the names of the notification types to facilitate automated code generation systems.
+
+      NOTE 2:	The attributes "nsdId" and "nsdInfoId" are alternatives to reference to a
+      particular NSD in a filter. They should not be used both in the same filter instance,
+      but one alternative should be chosen.
+
+      NOTE 3:	The attributes "pnfdId" and "pnfdInfoId" are alternatives to reference to a particular
+      PNFD in a filter. They should not be used both in the same filter instance, but one alternative should be chosen.
+    anyOf:
+      - oneOf:
+        - required:
+          - nsdId
+        - required:
+          - nsdInfoId
+      - oneOf:
+        - required:
+          - pnfdId
+        - required:
+          - pnfdInfoIds
+    properties:
+      notificationTypes:
+        description: >
+          Match particular notification types.
+
+          Permitted values:
+          -	NsdOnBoardingNotification
+          -	NsdOnboardingFailureNotification
+          -	NsdChangeNotification
+          -	NsdDeletionNotification
+          -	PnfdOnBoardingNotification
+          -	PnfdOnBoardingFailureNotification
+          -	PnfdDeletionNotification
+
+          See note 1.
+        type: array
+        items:
+          type: string
+          enum:
+            - NsdOnBoardingNotification
+            - NsdOnboardingFailureNotification
+            - NsdChangeNotification
+            - NsdDeletionNotification
+            - PnfdOnBoardingNotification
+            - PnfdOnBoardingFailureNotification
+            - PnfdDeletionNotification
+      nsdInfoId:
+        description: >
+          Match the NsdInfo identifier which is allocated by the NFVO. See note 2.
+        type: array
+        items:
+          $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      nsdId:
+        description: >
+          Match the NSD identifier, which is allocated by the NSD designer. See note 2.
+        type: array
+        items:
+          $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      nsdName:
+        description: >
+          Match the name of the on boarded NSD.
+        type: array
+        items:
+          $ref: "../../definitions/SOL005_def.yaml#/definitions/String"
+      nsdVersion:
+        description: >
+          Match the NSD version listed as part of this attribute.
+        type: array
+        items:
+          $ref: "../../definitions/SOL005_def.yaml#/definitions/Version"
+      nsdDesigner:
+        description: >
+          Match the NSD designer of the on-boarded NSD.
+        type: array
+        items:
+          $ref: "../../definitions/SOL005_def.yaml#/definitions/String"
+      nsdInvariantId:
+        description: >
+          Match the NSD invariant identifier which is allocated
+          by the NSD designer and identifies an NSD in a
+          version independent manner.
+        type: array
+        items:
+          $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      vnfPkgIds:
+        description: >
+          Match VNF packages with a package identifier listed
+          in the attribute.
+        type: array
+        items:
+          $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      pnfdInfoIds:
+        description: >
+          Match the PnfdInfo identifier for the PNFD
+          referenced by the on-boarded NSD. See note 3.
+        type: array
+        items:
+          $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      nestedNsdInfoIds:
+        description: >
+          Match the NsdInfo identifier for the nested NSD
+          referenced by the on-boarded NSD.
+        type: array
+        items:
+          $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      nsdOnboardingState:
+        description: >
+          Match particular on-boarding state of the NSD.
+        type: array
+        items:
+          $ref: "#/definitions/NsdOnboardingStateType"
+      nsdOperationalState:
+        description: >
+          Match particular operational state of the on-boarded NSD.
+        type: array
+        items:
+          $ref: "#/definitions/NsdOperationalStateType"
+      nsdUsageState:
+        description: >
+          Match particular usage state of the on-boarded NSD.
+        type: array
+        items:
+          $ref: "#/definitions/NsdUsageStateType"
+      pnfdId:
+        description: >
+          Match the PNFD identifier which is copied from the PNFD content.
+        type: array
+        items:
+          $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      pnfdName:
+        description: >
+          Match the name of the on-boarded PNFD.
+        type: array
+        items:
+          $ref: "../../definitions/SOL005_def.yaml#/definitions/String"
+      pnfdVersion:
+        description: >
+          Match the PNFD designer of the on-boarded PNFD.
+        type: array
+        items:
+          $ref: "../../definitions/SOL005_def.yaml#/definitions/Version"
+      pnfdProvider:
+        description: >
+          Match the provider of the on-boarded PNFD.
+        type: array
+        items:
+          $ref: "../../definitions/SOL005_def.yaml#/definitions/String"
+      pnfdInvariantId:
+        description: >
+          Match the PNFD in a version independent manner.
+        type: array
+        items:
+          $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      pnfdOnboardingState:
+        description: >
+          Match particular on-boarding state of the PNFD.
+        type: array
+        items:
+          $ref: "#/definitions/PnfdOnboardingStateType"
+      pnfdUsageState:
+        description: >
+          Match the usage state of the individual PNF descriptor resource.
+        type: array
+        items:
+          $ref: "#/definitions/PnfdUsageStateType"
+
+  NsdArchiveArtifactInfo:
+    type: object
+    description: >
+      This type represents an artifact contained in an NSD archive.
+      It shall comply with provisions defined in Table 5.5.3.5-1.
+    required:
+      - artifactPath
+      - checksum
+    properties:
+      artifactPath:
+        description: >
+          Path in the NSD archive, which identifies the artifact and
+          also allows to access a copy of the artifact.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/String"
+      checksum:
+        description: >
+          Checksum of the artifact file. Permitted hash algorithms are 
+          defined in ETSI GS NFV-SOL 007.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Checksum"
+      metadata:
+        description: >
+          The metadata of the artifact that are available in the NSD Archive,
+          such as Content type, size, creation date, etc.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/KeyValuePairs"
+
+  PnfdArchiveArtifactInfo:
+    type: object
+    description: >
+      This type represents an artifact contained in a PNFD archive.
+      It shall comply with provisions defined in Table 5.5.3.6-1.
+    required:
+      - artifactPath
+      - checksum
+    properties:
+      artifactPath:
+        description: >
+          Path in the PNFD archive, which identifies the artifact and
+          also allows to access a copy of the artifact.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/String"
+      checksum:
+        description: >
+          Checksum of the artifact file. Permitted hash algorithms are 
+          defined in ETSI GS NFV-SOL 004.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Checksum"
+      nonManoArtifactSetId:
+        description: >
+          Non-MANO artifact set identifier of the non-MANO artifact set
+          to which the artifact belongs, as defined in clause 4.3.7 of
+          ETSI GS NFV-SOL 004. Shall be provided if the artifact is
+          a non-MANO artifact, and shall be omitted otherwise.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/String"
+      metadata:
+        description: >
+          The metadata of the artifact that are available in the PNFD Archive,
+          such as Content type, size, creation date, etc.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/KeyValuePairs"
+
+  NsdOperationalStateType:
+    type: string
+    description: >
+      The enumeration NsdOperationalStateType shall comply with the provisions
+      defined in Table 5.5.4.3-1 of GS NFV_SOL 005. It indicates the operational
+      state of the resource.
+      ENABLED = The operational state of the resource is enabled.
+      DISABLED = The operational state of the resource is disabled.
+    enum:
+      - ENABLED
+      - DISABLED
+
+  NsdUsageStateType:
+    type: string
+    description: >
+      The enumeration NsdUsageStateType shall comply with the provisions
+      defined in Table 5.5.4.4-1 of GS NFV-SOL 005. It indicates the usage state
+      of the resource.IN_USE = The resource is in use.NOT_IN_USE = The resource
+      is not-in-use.
+    enum:
+      - IN_USE
+      - NOT_IN_USE
+
+  NsdOnboardingStateType:
+    type: string
+    description: >
+      The enumeration NsdOnboardingStateType shall comply with the provisions
+      defined in Table 5.5.4.5-1 of GS NFV-SOL 005. It indicates the on-boarding
+      state of the NSD.
+      CREATED = The NSD information object has been created.
+      UPLOADING = The associated NSD content is being uploaded.
+      PROCESSING = The associated NSD content is being processed, e.g. validation.
+      ONBOARDED = The associated NSD content has been on-boarded.
+      ERROR = There was an error during upload or processing of the NSD content.
+    enum:
+      - CREATED
+      - UPLOADING
+      - PROCESSING
+      - ONBOARDED
+      - ERROR
+
+  PnfdOnboardingStateType:
+    type: string
+    description: >
+      The enumeration PnfdOnboardingStateType shall comply with the provisions
+      defined in Table 5.5.4.6-1 of GS-NFV SOL005. It indicates the on-boarding state
+      of the individual PNF descriptor resource.
+      CREATED = The PNF descriptor resource has been created.
+      UPLOADING = The associated PNFD content is being uploaded.
+      PROCESSING = The associated PNFD content is being processed, e.g. validation.
+      ONBOARDED = The associated PNFD content has been on-boarded.
+      ERROR = There was an error during upload or processing of the associated PNFD content.
+    enum:
+      - CREATED
+      - UPLOADING
+      - PROCESSING
+      - ONBOARDING
+      - ERROR
+
+  PnfdUsageStateType:
+    type: string
+    description: >
+      The enumeration PnfdUsageStateType shall comply with the provisions
+      defined in Table 5.5.4.7-1 of GS NFV-SOL005. It indicates the usage state
+      of the resource.IN-USE = The resource is in use.NOT_IN_USE = The resource
+      is not-in-use.
+    enum:
+      - IN_USE
+      - NOT_IN_USE

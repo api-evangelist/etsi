@@ -1,0 +1,129 @@
+components:
+  schemas:
+    FmSubscriptionRequest:
+      description: >
+        This type represents a subscription request related to notifications
+        about NFV-MANO faults.
+      type: object
+      required:
+        - callbackUri
+      properties:
+        filter:
+          description: >
+            Filter settings for this subscription, to define the subset of all
+            notifications this subscription relates to. A particular
+            notification is sent to the subscriber if the filter matches, or if
+            there is no filter.
+          $ref: "#/components/schemas/FmNotificationsFilter"
+        callbackUri:
+          description: >
+            The URI of the endpoint to send the notification to.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/Uri"
+        authentication:
+          description: >
+            Authentication parameters to configure the use of Authorization when sending notifications
+            corresponding to this subscription, as defined in clause 8.3.4 of ETSI GS NFV-SOL 013.
+            This attribute shall only be present if the subscriber requires authorization of notifications.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/SubscriptionAuthentication"
+
+    FmSubscription:
+      description: >
+        This type represents a subscription related to notifications about VNF
+        faults.
+      type: object
+      required:
+        - id
+        - callbackUri
+        - _links
+      properties:
+        id:
+          description: >
+            Identifier of this "Individual subscription" resource.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/Identifier"
+        filter:
+          description: >
+            Filter settings for this subscription, to define the subset of all
+            notifications this subscription relates to. A particular
+            notification is sent to the subscriber if the filter matches, or if
+            there is no filter.
+          $ref: "#/components/schemas/FmNotificationsFilter"
+        callbackUri:
+          description: >
+            The URI of the endpoint to send the notification to.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/Uri"
+        _links:
+          description: >
+            Links for this resource.
+          type: object
+          required:
+            - self
+          properties:
+            self:
+              description: >
+                URI of this resource.
+              $ref: "../../components/SOL009_schemas.yaml#/components/schemas/Link"
+
+    AlarmModifications:
+      description: >
+        This type represents attribute modifications for an "Individual alarm"
+        resource, i.e. modifications to a resource representation based on the
+        "Alarm" data type. The attributes of "Alarm" that can be modified
+        are included in the "AlarmModifications" data type.
+      type: object
+      required:
+        - ackState
+      properties:
+        ackState:
+          description: >
+            New value of the "ackState" attribute in "Alarm".
+            Permitted values:
+            * ACKNOWLEDGED
+          type: string
+          enum:
+            - ACKNOWLEDGED
+
+    FmNotificationsFilter:
+      description: >
+        This type represents a subscription filter related to notifications about NFV-MANO functional entity faults.
+        It shall comply with the provisions defined in table 7.6.3.2-1. At a particular nesting level in the filter
+        structure, the following applies: All attributes shall match in order for the filter to match (logical "and"
+        between different filter attributes). If an attribute is an array, the attribute shall match if at least one
+        of the values in the array matches (logical "or" between the values of one filter attribute).
+        * NOTE:	The permitted values of the "notificationTypes" attribute are spelled exactly as the names
+                of the notification types to facilitate automated code generation systems.
+      type: object
+      properties:
+        notificationTypes:
+          description: >
+            Match particular notification types.
+            Permitted values:
+            * AlarmNotification
+            * AlarmClearedNotification
+            * AlarmListRebuiltNotification
+
+            See note.
+          type: array
+          items:
+            type: string
+            enum:
+              - AlarmNotification
+              - AlarmClearedNotification
+              - AlarmListRebuiltNotification
+        perceivedSeverities:
+          description: >
+            Match VNF alarms with a perceived severity listed in this attribute.
+          type: array
+          items:
+            $ref: "../../components/SOL009_schemas.yaml#/components/schemas/PerceivedSeverityType"
+        eventTypes:
+          description: >
+            Match VNF alarms with an event type listed in this attribute.
+          type: array
+          items:
+            $ref: "../../components/SOL009_schemas.yaml#/components/schemas/EventType"
+        probableCauses:
+          description: >
+            Match VNF alarms with a probable cause listed in this attribute.
+          type: array
+          items:
+            type: string

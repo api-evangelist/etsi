@@ -1,0 +1,144 @@
+# Copyright (c) ETSI 2017.
+# https://forge.etsi.org/etsi-forge-copyright-notice.txt
+
+definitions:
+  LcmCoord:
+    description: >
+      This type represents an LCM coordination result.
+    type: object
+    required:
+      - id
+      - coordinationResult
+      - vnfInstanceId
+      - vnfLcmOpOccId
+      - lcmOperationType
+      - coordinationActionName
+      - _links
+    properties:
+      id:
+        description: >
+          Identifier of this coordination result.
+        $ref: "../../General_Definitions/SOL002_def.yaml#/definitions/Identifier"
+      coordinationResult:
+        description: >
+          The result of executing the coordination action which also implies
+          the action to be performed by the VNFM as the result of this coordination.
+        $ref: "../../General_Definitions/SOL002_def.yaml#/definitions/LcmCoordResultType"
+      vnfInstanceId:
+        description: >
+          Identifier of the VNF instance which this coordination request is related to.
+        $ref: "../../General_Definitions/SOL002_def.yaml#/definitions/Identifier"
+      vnfLcmOpOccId:
+        description: >
+          The identifier of the VNF lifecycle management operation occurrence related to the coordination.
+        $ref: "../../General_Definitions/SOL002_def.yaml#/definitions/Identifier"
+      lcmOperationType:
+        description: >
+          Indicates the type of the LCM operation with which coordination is requested.
+          Shall be the same as the value of the "operation" attribute in the LcmOpOcc
+          structure that is referenced by the "vnfLcmOpOccId".
+        $ref: "../../General_Definitions/SOL002_def.yaml#/definitions/LcmOperationForCoordType"
+      coordinationActionName:
+        description: >
+          Indicates the actual LCM coordination action.
+          The coordination actions that a VNF supports are declared in the VNFD.
+        type: string
+      outputParams:
+        description: >
+          Additional parameters returned by the coordination action,
+          e.g. on the reason for the indicated coordinationResult.
+        $ref: "../../General_Definitions/SOL002_def.yaml#/definitions/KeyValuePairs"
+      warnings:
+        description: >
+          Warning messages that were generated while the operation was executing.
+        type: string
+      error:
+        description: >
+          Error information related to the coordination.
+
+          This attribute shall be present if "coordinationResult" is "ABORT" and may be
+          present if "coordinationResult" is "CANCELLED".
+
+          If provided, the error information should be represented in the "error" attribute
+          of the related VnfLcmOpOcc data structure.
+        $ref: "../../General_Definitions/SOL002_def.yaml#/definitions/ProblemDetails"
+      _links:
+        description: >
+          Links to resources related to this resource.
+        type: object
+        required:
+          - self
+          - vnfLcmOpOcc
+          - vnfInstance
+        properties:
+          self:
+            description: >
+              URI of this resource
+            $ref: "../../General_Definitions/SOL002_def.yaml#/definitions/Link"
+          vnfLcmOpOcc:
+            description: >
+              Related lifecycle management operation occurrence.
+            $ref: "../../General_Definitions/SOL002_def.yaml#/definitions/Link"
+          vnfInstance:
+            description: >
+              Related VNF instance.
+            $ref: "../../General_Definitions/SOL002_def.yaml#/definitions/Link"
+
+  LcmCoordRequest:
+    type: object
+    required:
+      - vnfInstanceId
+      - vnfLcmOpOccId
+      - lcmOperationType
+      - coordinationActionName
+      - _links
+    properties:
+      vnfInstanceId:
+        description: >
+          Identifier of the VNF instance which this coordination request is related to.
+        $ref: "../../General_Definitions/SOL002_def.yaml#/definitions/Identifier"
+      vnfLcmOpOccId:
+        description: >
+          The identifier of the VNF lifecycle management operation occurrence related to the coordination.
+        $ref: "../../General_Definitions/SOL002_def.yaml#/definitions/Identifier"
+      lcmOperationType:
+        description: >
+          Indicates the type of the LCM operation with which coordination is requested.
+          Shall be the same as the value of the "operation" attribute in the LcmOpOcc
+          structure that is referenced by the "vnfLcmOpOccId".
+        $ref: "../../General_Definitions/SOL002_def.yaml#/definitions/LcmOperationForCoordType"
+      coordinationActionName:
+        description: >
+          Indicates the LCM coordination action.
+          The coordination actions that a VNF supports are declared in the VNFD.
+        $ref: "../../General_Definitions/SOL002_def.yaml#/definitions/IdentifierInVnfd"
+      inputParams:
+        description: >
+          Additional parameters passed as input to the coordination action.
+        $ref: "../../General_Definitions/SOL002_def.yaml#/definitions/KeyValuePairs"
+      _links:
+        description: >
+          Links to resources related to this request.
+        type: object
+        required:
+          - vnfLcmOpOcc
+          - vnfInstance
+        properties:
+          vnfLcmOpOcc:
+            description: >
+              Related lifecycle management operation occurrence.
+            $ref: "../../General_Definitions/SOL002_def.yaml#/definitions/Link"
+          vnfInstance:
+            description: >
+              Related VNF instance.
+            $ref: "../../General_Definitions/SOL002_def.yaml#/definitions/Link"
+
+  inputParams:
+    type: object
+    required:
+      - vnfcInstanceIds
+    properties:
+      vnfcInstanceIds:
+        description: >
+          Identifier of the VNF instance which this coordination request is related to.
+        $ref: "../../General_Definitions/SOL002_def.yaml#/definitions/Identifier"

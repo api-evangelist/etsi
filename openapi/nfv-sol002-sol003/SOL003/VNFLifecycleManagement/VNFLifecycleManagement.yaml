@@ -1,0 +1,4384 @@
+openapi: 3.0.2
+
+info:
+  title: SOL003 - VNF Lifecycle Management interface
+  description: |
+    SOL003 - VNF Lifecycle Management interface
+
+    IMPORTANT: Please note that this file might be not aligned to the current
+    version of the ETSI Group Specification it refers to. In case of
+    discrepancies the published ETSI Group Specification takes precedence.
+
+    Please report bugs to https://forge.etsi.org/rep/nfv/SOL002-SOL003/issues
+
+  contact:
+    name: NFV-SOL WG
+  license:
+    name: ETSI Forge copyright notice
+    url: https://forge.etsi.org/etsi-forge-copyright-notice.txt
+  version: "2.3.0-impl:etsi.org:ETSI_NFV_OpenAPI:1"
+
+externalDocs:
+  description: ETSI GS NFV-SOL 003 V3.7.1
+  url: https://www.etsi.org/deliver/etsi_gs/NFV-SOL/001_099/003/03.07.01_60/gs_NFV-SOL003v030701p.pdf
+
+servers:
+  - url: http://127.0.0.1/vnflcm/v2
+  - url: https://127.0.0.1/vnflcm/v2
+
+paths:
+  ###############################################################################
+  # API Versions                                                                #
+  ###############################################################################
+  /api_versions:
+    $ref: ../../endpoints/SOL002SOL003_endpoints.yaml#/endpoints/api-versions
+
+  ###############################################################################
+  # VNF instances                                                               #
+  ###############################################################################
+  /vnf_instances:
+    #SOL003 location: 5.4.2
+    parameters:
+      - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+      - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+      - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+    post:
+      description: |
+        The POST method creates a new VNF instance resource based on a VNF package that is onboarded
+        and in "ENABLED" state. See clause 5.4.2.3.1.
+      requestBody:
+        $ref: '#/components/requestBodies/CreateVnfRequest'
+      responses:
+        201:
+          $ref: '#/components/responses/VNFInstances.Post.201'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        422:
+          $ref: '#/components/responses/VNFInstances.Post.422'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+    get:
+      description: |
+        The GET method queries information about multiple VNF instances. See clause 5.4.2.3.2.
+      parameters:
+        - $ref: '#/components/parameters/filter_vnf_instances'
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/all_fields_vnfm
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/fields_vnfm
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/exclude_fields_vnfm
+        - $ref: '#/components/parameters/exclude_default_vnf_instances'
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/nextpage_opaque_marker_vnfm
+      responses:
+        200:
+          $ref: '#/components/responses/VNFInstances.Get.200'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        416:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/416"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Individual VNF instance                                                     #
+  ###############################################################################
+  /vnf_instances/{vnfInstanceId}:
+    #SOL003 location: 5.4.3.2
+    parameters:
+      - $ref: '#/components/parameters/VnfInstanceId'
+      - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+      - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+    get:
+      description: |
+        The GET method retrieves information about a VNF instance by reading an "Individual VNF instance" resource.
+        See clause 5.4.3.3.2.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+      responses:
+        200:
+          $ref: '#/components/responses/IndividualVnfInstance.Get.200'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        416:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/416"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+    patch:
+      #SOL003 location: 5.4.3.3.4
+      description: |
+        This method modifies an "Individual VNF instance" resource. See clause 5.4.3.3.4.
+      parameters: 
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/If-Unmodified-Since
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/If-Match
+      requestBody:
+        $ref: '#/components/requestBodies/VnfInfoModificationRequest'
+      responses:
+        202:
+          $ref: '#/components/responses/IndividualVnfInstance.Patch.202'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/IndividualVnfInstance.Patch.409'
+        412:
+          $ref: '#/components/responses/IndividualVnfInstance.Patch.412'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+
+    delete:
+      #SOL003 location: 5.4.3.3.5
+      description: |
+        This method deletes an "Individual VNF instance" resource. See clause 5.4.3.3.5.
+      responses:
+        204:
+          $ref: '#/components/responses/IndividualVnfInstance.Delete.204'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/IndividualVnfInstance.Delete.409'
+        412:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/412"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+
+  ###############################################################################
+  # Instantiate VNF task                                                        #
+  ###############################################################################
+  /vnf_instances/{vnfInstanceId}/instantiate:
+    #SOL003 location: 5.4.4.2
+    parameters:
+      - $ref: '#/components/parameters/VnfInstanceId'
+    post:
+      #SOL003 location: 5.4.4.3.1
+      description: |
+        The POST method instantiates a VNF instance. See clause 5.4.4.3.1.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      requestBody:
+        $ref: '#/components/requestBodies/InstantiateVnfRequest'
+      responses:
+        202:
+          $ref: '#/components/responses/InstantiateVnfInstance.Post.202'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/InstantiateVnfInstance.Post.409'
+        416:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/416"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Scale VNF task                                                              #
+  ###############################################################################
+  /vnf_instances/{vnfInstanceId}/scale:
+    #SOL003 location: 5.4.5.2
+    parameters:
+      - $ref: '#/components/parameters/VnfInstanceId'
+    post:
+      #SOL003 location: 5.4.5.3.1
+      description: |
+        The POST method requests to scale a VNF instance resource incrementally. See clause 5.4.5.3.1.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      requestBody:
+        $ref: '#/components/requestBodies/ScaleVnfRequest'
+      responses:
+        202:
+          $ref: '#/components/responses/ScaleVnfInstance.Post.202'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: '#/components/responses/ScaleVnfInstance.Post.404'
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/ScaleVnfInstance.Post.409'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Scale VNF to Level task                                                     #
+  ###############################################################################
+  /vnf_instances/{vnfInstanceId}/scale_to_level:
+    #SOL003 location: 5.4.6.2
+    parameters:
+      - $ref: '#/components/parameters/VnfInstanceId'
+    post:
+      #SOL003 location: 5.4.6.3.1
+      description: |
+        The POST method requests to scale a VNF instance resource to a target level. See clause 5.4.6.3.1.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      requestBody:
+        $ref: '#/components/requestBodies/ScaleVnfToLevelRequest'
+      responses:
+        202:
+          $ref: '#/components/responses/ScaleToLevelVnfInstance.Post.202'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: '#/components/responses/ScaleToLevelVnfInstance.Post.404'
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/ScaleToLevelVnfInstance.Post.409'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Change VNF Flavour task                                                     #
+  ###############################################################################
+  /vnf_instances/{vnfInstanceId}/change_flavour:
+    #SOL003 location: 5.4.7.2
+    parameters:
+      - $ref: '#/components/parameters/VnfInstanceId'
+    post:
+      description: |
+        The POST method changes the deployment flavour of a VNF instance. See clause 5.4.7.3.1.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      requestBody:
+        $ref: '#/components/requestBodies/ChangeVnfFlavourRequest'
+      responses:
+        202:
+          $ref: '#/components/responses/ChangeFlavourVnfInstance.Post.202'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: '#/components/responses/ChangeFlavourVnfInstance.Post.404'
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/ChangeFlavourVnfInstance.Post.409'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Terminate VNF task                                                         #
+  ###############################################################################
+  /vnf_instances/{vnfInstanceId}/terminate:
+    #SOL003 location: 5.4.8.2
+    parameters:
+      - $ref: '#/components/parameters/VnfInstanceId'
+    post:
+      description: |
+        The POST method triggers the VNFM to terminate a VNF instance and to request to the VIM the
+        release of its used virtualised resources. See clause 5.4.8.3.1.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      requestBody:
+        $ref: '#/components/requestBodies/TerminateVnfRequest'
+      responses:
+        202:
+          $ref: '#/components/responses/TerminateVnfInstance.Post.202'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/TerminateVnfInstance.Post.409'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Heal VNF task                                                               #
+  ###############################################################################
+  /vnf_instances/{vnfInstanceId}/heal:
+    #SOL003 location: 5.4.9.2
+    parameters:
+      - $ref: '#/components/parameters/VnfInstanceId'
+    post:
+      description: |
+        The POST method requests to heal a VNF instance. See clause 5.4.9.3.1.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      requestBody:
+        $ref: '#/components/requestBodies/HealVnfRequest'
+      responses:
+        202:
+          $ref: '#/components/responses/HealVnfInstance.Post.202'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: '#/components/responses/HealVnfInstance.Post.404'
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/HealVnfInstance.Post.409'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Operate VNF task                                                            #
+  ###############################################################################
+  /vnf_instances/{vnfInstanceId}/operate:
+    #SOL003 location: 5.4.10.2
+    parameters:
+      - $ref: '#/components/parameters/VnfInstanceId'
+    post:
+      description: |
+        The POST method changes the operational state of a VNF instance. See clause 5.4.10.3.1.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      requestBody:
+        $ref: '#/components/requestBodies/OperateVnfRequest'
+      responses:
+        202:
+          $ref: '#/components/responses/OperateVnfInstance.Post.202'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: '#/components/responses/OperateVnfInstance.Post.404'
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/OperateVnfInstance.Post.409'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Change external VNF connectivity task                                       #
+  ###############################################################################
+  /vnf_instances/{vnfInstanceId}/change_ext_conn:
+    #SOL003 location: 5.4.11.2
+    parameters:
+      - $ref: '#/components/parameters/VnfInstanceId'
+    post:
+      description: |
+        The POST method changes the external connectivity of a VNF instance. See clause 5.4.11.3.1.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      requestBody:
+        $ref: '#/components/requestBodies/ChangeExtVnfConnectivityRequest'
+      responses:
+        202:
+          $ref: '#/components/responses/ChangeExtConnVnfInstance.Post.202'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/ChangeExtConnVnfInstance.Post.409'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Change current VNF package task                                             #
+  ###############################################################################
+  /vnf_instances/{vnfInstanceId}/change_vnfpkg:
+    #SOL003 location: 5.4.11a.2
+    parameters:
+      - $ref: '#/components/parameters/VnfInstanceId'
+    post:
+      description: |
+        The POST method changes the current VNF package on which the VNF instance is based. See clause 5.4.11a.3.1.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      requestBody:
+        $ref: '#/components/requestBodies/ChangeCurrentVnfPkgRequest'
+      responses:
+        202:
+          $ref: '#/components/responses/ChangeVnfpkgVnfInstance.Post.202'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/ChangeVnfpkgVnfInstance.Post.409'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # VNF LCM operation occurrences                                               #
+  ###############################################################################
+  /vnf_lcm_op_occs:
+    #SOL003 location: 5.4.12
+    get:
+      description: |
+        The API consumer can use this method to query status information about multiple VNF lifecycle management
+        operation occurrences. See clause 5.4.12.3.2.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: '#/components/parameters/filter_vnf_lcm_op_occs'
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/all_fields_vnfm
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/fields_vnfm
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/exclude_fields_vnfm
+        - $ref: '#/components/parameters/exclude_default_vnf_lcm_op_occs'
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/nextpage_opaque_marker_vnfm
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      responses:
+        200:
+          $ref: '#/components/responses/VnfLcmOpOccs.Get.200'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+
+  ###############################################################################
+  # Individual VNF LCM operation occurrence                                     #
+  ###############################################################################
+  /vnf_lcm_op_occs/{vnfLcmOpOccId}:
+    #SOL003 location: 5.4.13
+    parameters:
+      - $ref: '#/components/parameters/VnfLcmOpOccId'
+    get:
+      description: |
+        The API consumer can use this method to retrieve status information about a VNF lifecycle management operation
+        occurrence by reading an "Individual VNF LCM operation occurrence" resource. See clause 5.4.13.3.2.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      responses:
+        200:
+          $ref: '#/components/responses/IndividualVnfLcmOpOcc.Get.200'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Retry operation task                                                        #
+  ###############################################################################
+  /vnf_lcm_op_occs/{vnfLcmOpOccId}/retry:
+    #SOL003 location: 5.4.14
+    parameters:
+      - $ref: '#/components/parameters/VnfLcmOpOccId'
+    post:
+      description: |
+        The POST method initiates retrying a VNF lifecycle operation if that operation has experienced a temporary
+        failure, i.e. the related "Individual VNF LCM operation occurrence" resource is in "FAILED_TEMP" state.
+        See clause 5.4.14.3.1.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      responses:
+        202:
+          $ref: '#/components/responses/RetryVnfLcmOpOcc.Post.202'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: '#/components/responses/RetryVnfLcmOpOcc.Post.404'
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/RetryVnfLcmOpOcc.Post.409'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Rollback operation task                                                     #
+  ###############################################################################
+  /vnf_lcm_op_occs/{vnfLcmOpOccId}/rollback:
+    #SOL003 location: 5.4.15  
+    parameters:
+      - $ref: '#/components/parameters/VnfLcmOpOccId'
+    post:
+      description: |
+        The POST method initiates rolling back a VNF lifecycle operation if that operation has experienced a temporary
+        failure, i.e. the related "Individual VNF LCM operation occurrence" resource is in "FAILED_TEMP" state.
+        See clause 5.4.15.3.1.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      responses:
+        202:
+          $ref: '#/components/responses/RollbackVnfLcmOpOcc.Post.202'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: '#/components/responses/RollbackVnfLcmOpOcc.Post.404'
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/RollbackVnfLcmOpOcc.Post.409'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Fail operation task                                                         #
+  ###############################################################################
+  /vnf_lcm_op_occs/{vnfLcmOpOccId}/fail:
+    #SOL003 location: 5.4.16  
+    parameters:
+      - $ref: '#/components/parameters/VnfLcmOpOccId'
+    post:
+      description: |
+        The POST method marks a VNF lifecycle management operation occurrence as "finally failed" if that operation
+        occurrence is in "FAILED_TEMP" state. See clause 5.4.16.3.1.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      responses:
+        200:
+          $ref: '#/components/responses/FailVnfLcmOpOcc.Post.200'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: '#/components/responses/FailVnfLcmOpOcc.Post.404'
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/FailVnfLcmOpOcc.Post.409'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Cancel operation task                                                       #
+  ###############################################################################
+  /vnf_lcm_op_occs/{vnfLcmOpOccId}/cancel:
+    #SOL003 location: 5.4.17
+    parameters:
+      - $ref: '#/components/parameters/VnfLcmOpOccId'
+    post:
+      description: |
+        The POST method initiates cancelling an ongoing VNF lifecycle operation while it is being executed or rolled
+        back, i.e. the related "Individual VNF LCM operation occurrence" resource is either in "STARTING" or
+        "PROCESSING" or "ROLLING_BACK" state. See clause 5.4.17.3.1.
+      requestBody:
+          $ref: '#/components/requestBodies/CancelModeRequest'
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      responses:
+        202:
+          $ref: '#/components/responses/CancelVnfLcmOpOcc.Post.202'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: '#/components/responses/CancelVnfLcmOpOcc.Post.404'
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/CancelVnfLcmOpOcc.Post.409'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Subscriptions                                                               #
+  ###############################################################################
+  /subscriptions:
+    #SOL003 location: 5.4.18
+    parameters:
+      - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+      - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+      - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+    post:
+      description: |
+        The POST method creates a new subscription. See clause 5.4.18.3.1.
+      requestBody:
+        $ref: '#/components/requestBodies/LccnSubscriptionRequest'
+      responses:
+        201:
+          $ref: '#/components/responses/Subscriptions.Post.201'
+        303:
+          $ref: '#/components/responses/Subscriptions.Post.303'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        422:
+          $ref: '#/components/responses/Subscriptions.Post.422'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+    get:
+      description: |
+        The GET method queries the list of active subscriptions of the functional block that invokes the method.
+        It can be used e.g. for resynchronization after error situations. See clause 5.4.18.3.2.
+      parameters:
+        - $ref: '#/components/parameters/filter_subscriptions'
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/nextpage_opaque_marker_vnfm
+      responses:
+        200:
+          $ref: '#/components/responses/Subscriptions.Get.200'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Individual subscription                                                     #
+  ###############################################################################
+  /subscriptions/{subscriptionId}:
+    #SOL003 location: 5.4.19
+    parameters:
+      - $ref: '#/components/parameters/SubscriptionId'
+      - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+      - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+    get:
+      description: |
+        The GET method retrieves information about a subscription by reading an "Individual subscription" resource.
+        See clause 5.4.19.3.2.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+      responses:
+        200:
+          $ref: '#/components/responses/IndividualSubscription.Get.200'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+    delete:
+      description: |
+        The DELETE method terminates an individual subscription. See clause 5.4.19.3.5.
+      responses:
+        204:
+          $ref: '#/components/responses/IndividualSubscription.Delete.204'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Create VNF snapshot task                                                    #
+  ###############################################################################
+  /vnf_instances/{vnfInstanceId}/create_snapshot:
+    #SOL003 location: 5.4.21.2
+    parameters:
+      - $ref: '#/components/parameters/VnfInstanceId'
+    post:
+      description: |
+        The POST method requests taking a snapshot a VNF instance and populating a previously created VNF snapshot
+        resource (refer to clause 5.4.23.3.1) with the snapshot content. See clause 5.4.21.3.1.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      requestBody:
+        $ref: '#/components/requestBodies/CreateVnfSnapshotRequest'
+      responses:
+        202:
+          $ref: '#/components/responses/CreateVnfSnapshotTask.Post.202'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: '#/components/responses/CreateVnfSnapshotTask.Post.404'
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/CreateVnfSnapshotTask.Post.409'
+        422:
+          $ref: '#/components/responses/CreateVnfSnapshotTask.Post.422'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Revert to VNF snapshot task                                                 #
+  ###############################################################################
+  /vnf_instances/{vnfInstanceId}/revert_to_snapshot:
+    #SOL003 location: 5.4.22.2
+    parameters:
+      - $ref: '#/components/parameters/VnfInstanceId'
+    post:
+      description: |
+        The POST method requests reverting a VNF instance to a VNF snapshot. See clause 5.4.22.3.1.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      requestBody:
+        $ref: '#/components/requestBodies/RevertToVnfSnapshotRequest'
+      responses:
+        202:
+          $ref: '#/components/responses/RevertToVnfSnapshotTask.Post.202'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: '#/components/responses/RevertToVnfSnapshotTask.Post.404'
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/RevertToVnfSnapshotTask.Post.409'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # VNF snapshots                                                               #
+  ###############################################################################
+  /vnf_snapshots:
+    #SOL003 location: 5.4.23.2
+    parameters: 
+      - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+      - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+      - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+    post:
+      description: |
+        The POST method creates a new "Individual VNF snapshot" resource. See clause 5.4.23.3.1.
+      requestBody:
+        $ref: '#/components/requestBodies/CreateVnfSnapshotInfoRequest'
+      responses:
+        201:
+          $ref: '#/components/responses/VnfSnapshots.Post.201'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+    get:
+      description:  >
+        The GET method queries information about multiple VNF snapshots.
+        This method shall follow the provisions specified in the tables 5.4.23.3.2-1 
+        and 5.4.23.3.2-2 for URI query parameters, request and response data structures, 
+        and response codes.
+      parameters:
+        - $ref: '#/components/parameters/filter_vnf_snapshots'
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/all_fields_vnfm
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/fields_vnfm
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/exclude_fields_vnfm
+        - $ref: '#/components/parameters/exclude_default_vnf_snapshots'
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/nextpage_opaque_marker_vnfm
+      responses:
+        200:
+          $ref: '#/components/responses/VnfSnapshots.Get.200'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        416:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/416"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Individual VNF snapshot                                                     #
+  ###############################################################################
+  /vnf_snapshots/{vnfSnapshotInfoId}:
+    #SOL003 location: 5.4.24.2
+    parameters:
+      - $ref: '#/components/parameters/VnfSnapshotInfoId'
+      - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+      - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+    get:
+      #SOL003 location: 5.4.24.3.2
+      description: |
+        The GET method retrieves information about a VNF snapshot by reading an "Individual VNF snapshot" resource.
+        See clause 5.4.24.3.2.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+      responses:
+        200:
+          $ref: '#/components/responses/IndividualVnfSnapshot.Get.200'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        416:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/416"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+    patch:
+      #SOL003 location: 5.4.24.3.4
+      description: |
+        This method modifies an "Individual VNF snapshot" resource. See clause 5.4.24.3.4.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/ContentType
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/If-Unmodified-Since
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/If-Match
+      requestBody:
+        $ref: '#/components/requestBodies/VnfSnapshotInfoModificationRequest'
+      responses:
+        200:
+          $ref: '#/components/responses/IndividualVnfSnapshot.Patch.200'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/IndividualVnfSnapshot.Patch.409'
+        412:
+          $ref: '#/components/responses/IndividualVnfSnapshot.Patch.412'
+        416:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/416"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+    delete:
+      #SOL003 location: 5.4.24.3.5
+      description: |
+        This method deletes an "Individual VNF snapshot" resource and the associated VNF snapshot information
+        managed by the VNFM, and any resource associated to the VNF snapshot managed by the VIM. See clause 5.4.24.3.5.
+      responses:
+        204:
+          $ref: '#/components/responses/IndividualVnfSnapshot.Delete.204'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/IndividualVnfSnapshot.Delete.409'
+        412:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/412"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+
+  /vnf_snapshots/{vnfSnapshotInfoId}/vnf_state_snapshot:
+  #SOL003 location: 5.4.25.2
+    parameters:
+      - $ref: '#/components/parameters/VnfSnapshotInfoId'
+      - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+      - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+
+    get:
+      #SOL003 location: 5.4.25.3.2
+      description: |
+        The GET method fetches the content of the VNF state snapshot. 
+        This method shall follow the provisions specified in the tables 5.4.25.3.2-1 and 5.4.25.3.2-2 
+        for URI query parameters, request and response data structures, and response codes.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: '#/components/parameters/Range'
+      responses:
+        200:
+          $ref: '#/components/responses/IndividualVnfSnapshotState.Get.200'
+        206:
+          $ref: '#/components/responses/IndividualVnfSnapshotState.Get.206'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/403"
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        409:
+          $ref: '#/components/responses/IndividualVnfSnapshotState.Get.409'
+        416:
+          $ref: '#/components/responses/IndividualVnfSnapshotState.Get.416'
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+components:
+  parameters:
+    filter_vnf_instances:
+      name: filter
+      description: >
+        Attribute-based filtering expression according to clause 5.2 of ETSI
+        GS NFV-SOL 013 [8].
+        The VNFM shall support receiving this parameter as part of the URI query string. The
+        NFVO may supply this parameter.
+        All attribute names that appear in the VnfInstance and in data types referenced from it
+        shall be supported by the VNFM in the filter expression.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    exclude_default_vnf_instances:
+      name: exclude_default
+      in: query
+      description: >-
+        Indicates to exclude the following complex attributes from the response. See clause 5.3
+        of ETSI GS NFV-SOL 013 [8] for details. The VNFM shall support this parameter.
+        The following attributes shall be excluded from the VnfInstance structure in the
+        response body if this parameter is provided, or none of the parameters "all_fields",
+        "fields", "exclude_fields", "exclude_default" are provided:
+          - vnfConfigurableProperties
+          - vimConnectionInfo
+          - instantiatedVnfInfo
+          - metadata
+          - extensions
+      required: false
+      schema:
+        type: string
+    
+    filter_vnf_lcm_op_occs:
+      name: filter
+      description: >
+        Attribute-based filtering expression according to clause 5.2 of ETSI
+        GS NFV-SOL 013 [8].
+        The VNFM shall support receiving this parameter as part of the URI query
+        string. The NFVO may supply this parameter.
+        All attribute names that appear in the VnfLcmOpOcc and in data types
+        referenced from it shall be supported by the VNFM in the filter expression.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    exclude_default_vnf_lcm_op_occs:
+      name: exclude_default
+      in: query
+      description: >-
+        Indicates to exclude the following complex attributes from the response. See 
+        clause 5.3 of ETSI GS NFV-SOL 013 [8] for details. The VNFM shall support
+        this parameter.
+        The following attributes shall be excluded from the VnfLcmOpOcc structure in
+        the response body if this parameter is provided, or none of the parameters
+        "all_fields," "fields", "exclude_fields", "exclude_default" are provided:
+          - operationParams
+          - error
+          - resourceChanges
+          - changedInfo
+          - changedExtConnectivity
+          - lcmCoordinations
+          - modificationsTriggeredByVnfPkgChange
+          - warnings
+      required: false
+      schema:
+        type: string
+    
+    filter_subscriptions:
+      name: filter
+      description: >
+        Attribute-based filtering expression according to clause 5.2 of ETSI
+        GS NFV-SOL 013 [8].
+        The VNFM shall support receiving this parameter as part of the URI query
+        string. The NFVO may supply this parameter.
+        All attribute names that appear in the LccnSubscription and in data types
+        referenced from it shall be supported by the VNFM in the filter expression.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    filter_vnf_snapshots:
+      name: filter
+      description: >
+        Attribute-based filtering expression according to clause 5.2 of ETSI
+        GS NFV-SOL 013 [8].
+        The VNFM shall support receiving this parameter as part of the URI query
+        string. The NFVO may supply this parameter.
+        All attribute names that appear in the VnfSnapshot and in data types
+        referenced from it shall be supported by the VNFM in the filter expression.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    exclude_default_vnf_snapshots:
+      name: exclude_default
+      in: query
+      description: >-
+        Indicates to exclude the following complex attributes from the response.
+        See clause 5.3 of ETSI GS NFV-SOL 013 [8] for details. The VNFM shall
+        support this parameter.
+        The following attributes shall be excluded from the VnfSnapshot structure
+        in the response body if this parameter is provided, or none of the
+        parameters "all_fields," "fields", "exclude_fields", "exclude_default" are
+        provided:
+          - vnfInstance
+          - vnfcSnapshots
+      required: false
+      schema:
+        type: string
+
+    VnfInstanceId:
+      name: vnfInstanceId
+      in: path
+      description: |
+        Identifier of the VNF instance for the VNF snapshot to be reverted to. This identifier can be retrieved from the resource 
+        referenced by the "Location" HTTP header in the response to a POST request creating a new "Individual VNF instance" resource. 
+        It can also be retrieved from the "id" attribute in the message content of that response.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    VnfLcmOpOccId:
+      name: vnfLcmOpOccId
+      in: path
+      description: |
+        Identifier of a VNF lifecycle management operation occurrence. This identifier can be retrieved from the resource
+        referenced by the "Location" HTTP header in the response to a PATCH or POST request triggering a VNF LCM operation.
+        It can also be retrieved from the "vnfLcmOpOccId" attribute in the VnfLcmOperationOccurrenceNotification.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    SubscriptionId:
+      name: subscriptionId
+      in: path
+      description: |
+        Identifier of this subscription. This identifier can be retrieved from the resource referenced by the "Location"
+        HTTP header in the response to a POST request creating a new subscription resource. It can also be retrieved from
+        the "id" attribute in the message content of that response.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    VnfSnapshotInfoId:
+      name: vnfSnapshotInfoId
+      in: path
+      description: |
+        Identifier of the "Individual VNF snapshot" resource. This identifier can be retrieved 
+        from the resource referenced by the "Location" HTTP header in the response to a POST request 
+        creating a new VNF snapshot resource. It can also be retrieved from the "id" attribute in
+        the message content of that response.        
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    Range:
+      name: Range
+      in: header
+      description: |
+        The request may contain a "Range" HTTP header to obtain single
+        range of bytes from a VNF state snapshot file. This can be used to
+        continue an aborted transmission.
+        If the "Range" header is present in the request and the VNFM
+        does not support responding to range requests with a 206
+        response, it shall return a 200 OK response instead.
+      schema:
+        type: string
+
+  requestBodies:
+    CreateVnfRequest:
+      description: The VNF creation parameters
+      content:
+        application/json:
+          schema:
+            $ref: "./definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/CreateVnfRequest"
+      required: true
+
+    CancelModeRequest:
+      description:
+        The POST request to this resource shall include a CancelMode structure in the message content to choose between
+        "graceful" and "forceful" cancellation.
+      content:
+        application/json:
+          schema:
+            $ref: "./definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/CancelMode"
+
+    VnfInfoModificationRequest:
+      description: |
+        Parameters for the VNF modification, as defined in clause 5.5.2.12.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/VnfInfoModificationRequest"
+      required: true
+
+    InstantiateVnfRequest:
+      description: Parameters for the VNF instantiation.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/InstantiateVnfRequest"
+      required: true
+
+    ScaleVnfRequest:
+      description: Parameters for the scale VNF operation.
+      content:
+        application/json:
+          schema:
+            $ref: "./definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/ScaleVnfRequest"
+      required: true
+
+    ScaleVnfToLevelRequest:
+      description: Parameters for the scale VNF to Level operation.
+      content:
+        application/json:
+          schema:
+            $ref: "./definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/ScaleVnfToLevelRequest"
+      required: true
+
+    ChangeVnfFlavourRequest:
+      description: Parameters for the Change VNF Flavour operation.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/ChangeVnfFlavourRequest"
+      required: true
+
+    TerminateVnfRequest:
+      description: Parameters for the VNF termination.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/TerminateVnfRequest"
+      required: true
+
+    HealVnfRequest:
+      description: Parameters for the Heal VNF operation.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/HealVnfRequest"
+      required: true
+
+    OperateVnfRequest:
+      description: Parameters for the Operate VNF operation.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/OperateVnfRequest"
+      required: true
+
+    ChangeExtVnfConnectivityRequest:
+      description: |
+        Parameters for the Change external VNF connectivity operation.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/ChangeExtVnfConnectivityRequest"
+      required: true
+
+    ChangeCurrentVnfPkgRequest:
+      description: |
+        Parameters for the Change current VNF package operation, as defined in clause 5.5.2.11a.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/ChangeCurrentVnfPkgRequest"
+      required: true
+
+    LccnSubscriptionRequest:
+      description: |
+        Details of the subscription to be created.
+      content:
+        application/json:
+          schema:
+            $ref: "./definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/LccnSubscriptionRequest"
+      required: true
+
+    CreateVnfSnapshotRequest:
+      description: |
+        Parameters for the "Create VNF Snapshot" operation, as defined in clause 5.5.2.21.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/CreateVnfSnapshotRequest"
+      required: true
+
+    RevertToVnfSnapshotRequest:
+      description: |
+        Parameters for the Revert to VNF snapshot operation, as defined in clause 5.5.2.26.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/RevertToVnfSnapshotRequest"
+      required: true
+
+    CreateVnfSnapshotInfoRequest:
+      description: |
+        The VNF snapshot resource creation parameters, as defined in clause 5.5.2.20.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/CreateVnfSnapshotInfoRequest"
+      required: true
+
+    VnfSnapshotInfoModificationRequest:
+      description: |
+        Parameters for the VNF snapshot information modification, as defined in clause 5.5.2.24.
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/VnfSnapshotInfoModificationRequest"
+      required: true
+
+  responses:
+    VNFInstances.Post.201:
+      description: |
+        201 CREATED
+
+        Shall be returned when a new "Individual VNF instance" resource and
+        the associated VNF instance identifier washas been created successfully.
+        The response body shall contain a representation of the created VNF instance,
+        as defined in clause 5.5.2.2.
+        The HTTP response shall include a "Location" HTTP header that contains the resource
+        URI of the created VNF instance.
+      headers:
+        Location:
+          description: |
+            The resource URI of the created subscription resource.
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "./definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/VnfInstance"
+
+    VNFInstances.Post.422:
+      description: |
+        422 Unprocessable Content
+
+        Shall be returned upon the following error: The content type of the message content is supported and the 
+        message content of a request contains syntactically correct data but the data cannot be processed.
+        The general cause for this error and its handling is specified in clause 6.4 of ETSI GS NFV-SOL 013 [8],
+        including rules for the presence of the response body.
+        Specifically in case of this resource, the response code 422 shall also be returned if the VNF package
+        referenced by the "vnfdId" attribute in the "CreateVnfRequest" structure is not in the "ENABLED" state or 
+        does not exist. In this case, the "detail" attribute in the "ProblemDetails" structure shall convey more 
+        information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    VNFInstances.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when information about zero or more VNF instances has been queried successfully.
+        The response body shall contain in an array the representations of zero or more VNF instances,
+        as defined in clause 5.5.2.2.
+        If the "filter" URI parameter or one of the "all_fields", "fields" (if supported), "exclude_fields"
+        (if supported) or "exclude_default" URI parameters was supplied in the request, the data in the response
+        body shall have been transformed according to the rules specified in clauses 5.2.2 and 5.3.2 of
+        ETSI GS NFV-SOL 013, respectively.
+        If the VNFM supports alternative 2 (paging) according to clause 5.4.7.2.1 of ETSI GS NFV-SOL 013
+        for this resource, inclusion of the Link HTTP header in this response shall follow the provisions
+        in clause 4.7.2.3.5.4.2.3 of ETSI GS NFV-SOL 013.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Link:
+          description: |
+            Reference to other resources. Used for paging in the present document, see clause 4.7.2.1.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "./definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/VnfInstance"
+
+    IndividualVnfInstance.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when information about an individual VNF instance has been read successfully.
+        The response body shall contain a representation of the VNF instance, as defined in clause 5.5.2.2.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+        ETag:
+          description: >
+            Used to provide the current entity-tag for the selected resource representation. It can be sent in
+            "200 OK", "201 Created" and "204 No Content" responses.
+          style: simple
+          schema:
+            type: string
+        Last-Modified:
+          description: >
+            Used to provide a timestamp indicating the date and time at which the server believes the selected resource
+            representation was last modified. It can be sent in "200 OK", "201 Created" and "204 No Content" responses.
+          style: simple
+          schema:
+            type: string
+            format: date-time
+      content:
+        application/json:
+          schema:
+            $ref: "./definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/VnfInstance"
+            
+    IndividualVnfInstance.Patch.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request has been accepted for processing.
+        On success, the HTTP response shall include a "Location" HTTP header that
+        contains the URI of the newly-created "Individual VNF LCM operation occurrence"
+        resource corresponding to the operation.
+        The response body shall be empty.
+      headers:
+        Location:
+          description: |
+            The resource URI of the created subscription resource.
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "./definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/VnfInstance"
+
+    IndividualVnfInstance.Patch.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the "Individual VNF
+        instance" resource.
+        Typically, this is due to the fact that another LCM
+        operation is ongoing.
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute should
+        convey more information about the error
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    IndividualVnfInstance.Patch.412:
+      description: |
+        412 Precondition Failed
+
+        Shall be returned upon the following error: A
+        precondition given in an HTTP request header is
+        not fulfilled.
+        Typically, this is due to an ETag mismatch,
+        indicating that the resource was modified by
+        another entity.
+        The response body should contain a
+        ProblemDetails structure, in which the "detail"
+        attribute should convey more information about the
+        error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    IndividualVnfInstance.Delete.204:
+      description: |
+        204 NO CONTENT
+
+        Shall be returned when the "Individual VNF instance" resource and the associated
+        VNF identifier were deleted successfully.
+        The response body shall be empty.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    IndividualVnfInstance.Delete.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that the "Individual
+        VNF instance" resource is in INSTANTIATED state.
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    InstantiateVnfInstance.Post.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request has been accepted for processing
+        The response body shall be empty.
+        The HTTP response shall include a "Location" HTTP header that
+        contains the URI of the newly-created "Individual VNF LCM operation
+        occurrence" resource corresponding to the operation.
+      headers:
+        Location:
+          description: |
+            The resource URI of the created subscription resource.
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    InstantiateVnfInstance.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that the "Individual
+        VNF instance" resource is in INSTANTIATED state,
+        or that a required (see note) child attribute of the
+        "extensions" attribute has not been set.
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    ScaleVnfInstance.Post.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request has been accepted for processing.
+        The response body shall be empty.
+        The HTTP response shall include a "Location" HTTP header that
+        contains the URI of the newly-created "VNF LCM operation
+        occurrence" resource corresponding to the operation.
+      headers:
+        Location:
+          description: |
+            The resource URI of the created subscription resource.
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    ScaleVnfInstance.Post.404:
+      description: |
+        404 NOT FOUND
+
+        Shall be returned upon the following error: The API
+        producer did not find a current representation for the
+        target resource or is not willing to disclose that one
+        exists.
+        The general cause for this error and its handling is
+        specified in clause 6.4 of ETSI GS NFV-SOL 013 [8],
+        including rules for the presence of the response body.
+        Specifically in case of this task resource, the
+        response code 404 shall also be returned if the task
+        is not supported for the VNF instance represented by
+        the parent resource, which means that the task
+        resource consequently does not exist.
+        In this case, the response body shall be present, and
+        shall contain a ProblemDetails structure, in which the
+        "detail" attribute shall convey more information about
+        the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    ScaleVnfInstance.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that the "Individual
+        VNF instance" resource is in NOT_INSTANTIATED
+        state, that another lifecycle management operation is
+        ongoing, or that a required (see note) child attribute
+        of the "extensions" attribute has not been set.
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    ScaleToLevelVnfInstance.Post.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request has been accepted for processing.
+        The response body shall be empty.
+        The HTTP response shall include a "Location" HTTP header that
+        contains the URI of the newly-created "VNF LCM operation
+        occurrence" resource corresponding to the operation.
+      headers:
+        Location:
+          description: |
+            The resource URI of the created subscription resource.
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    ScaleToLevelVnfInstance.Post.404:
+      description: |
+        404 NOT FOUND
+
+        Shall be returned upon the following error: The API
+        producer did not find a current representation for the
+        target resource or is not willing to disclose that one
+        exists.
+        The general cause for this error and its handling is
+        specified in clause 6.4 of ETSI
+        GS NFV-SOL 013 [8], including rules for the
+        presence of the response body.
+        Specifically in case of this task resource, the
+        response code 404 shall also be returned if the task
+        is not supported for the VNF instance represented
+        by the parent resource, which means that the task
+        resource consequently does not exist.
+        In this case, the response body shall be present,
+        and shall contain a ProblemDetails structure, in
+        which the "detail" attribute shall convey more
+        information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+    ScaleToLevelVnfInstance.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that the VNF
+        instance resource is in NOT_INSTANTIATED state,
+        that another lifecycle management operation is
+        ongoing, or that a required (see note) child attribute
+        of the "extensions" attribute has not been set.
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    ChangeFlavourVnfInstance.Post.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request has been accepted for processing.
+        The response body shall be empty.
+        The HTTP response shall include a "Location" HTTP header that
+        contains the URI of the newly-created "VNF LCM operation
+        occurrence" resource corresponding to the operation.
+      headers:
+        Location:
+          description: |
+            The resource URI of the created subscription resource.
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    ChangeFlavourVnfInstance.Post.404:
+      description: |
+        404 NOT FOUND
+
+        Shall be returned upon the following error: The API
+        producer did not find a current representation for the
+        target resource or is not willing to disclose that one
+        exists.
+        The general cause for this error and its handling is
+        specified in clause 6.4 of ETSI
+        GS NFV-SOL 013 [8], including rules for the
+        presence of the response body.
+        Specifically in case of this task resource, the
+        response code 404 shall also be returned if the task
+        is not supported for the VNF instance represented
+        by the parent resource, which means that the task
+        resource consequently does not exist.
+        In this case, the response body shall be present,
+        and shall contain a ProblemDetails structure, in
+        which the "detail" attribute shall convey more
+        information about the error
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    ChangeFlavourVnfInstance.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that the "Individual
+        VNF instance" resource is in NOT_INSTANTIATED
+        state, that another lifecycle management operation
+        is ongoing, or that a required (see note) child
+        attribute of the "extensions" attribute has not been
+        set.
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    TerminateVnfInstance.Post.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request has been accepted for processing.
+        The response body shall be empty.
+        The HTTP response shall include a "Location" HTTP header that
+        contains the URI of the newly-created "VNF LCM operation
+        occurrence" resource corresponding to the operation.
+      headers:
+        Location:
+          description: |
+            The resource URI of the created subscription resource.
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    TerminateVnfInstance.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that the "Individual
+        VNF instance" resource is in NOT_INSTANTIATED
+        state, that another lifecycle management operation is
+        ongoing, or that a required (see note) child attribute
+        of the "extensions" attribute has not been set.
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    HealVnfInstance.Post.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request has been accepted for processing.
+        The response body shall be empty.
+        The HTTP response shall include a "Location" HTTP header that
+        contains the URI of the newly-created "VNF LCM operation
+        occurrence" resource corresponding to the operation.
+      headers:
+        Location:
+          description: |
+            The resource URI of the created subscription resource.
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    HealVnfInstance.Post.404:
+      description: |
+        404 NOT FOUND
+
+        Shall be returned upon the following error: The API
+        producer did not find a current representation for the
+        target resource or is not willing to disclose that one
+        exists.
+        The general cause for this error and its handling is
+        specified in clause 6.4 of ETSI GS NFV-SOL 013 [8],
+        including rules for the presence of the response body.
+        Specifically in case of this task resource, the
+        response code 404 shall also be returned if the task
+        is not supported for the VNF instance represented by
+        the parent resource, which means that the task
+        resource consequently does not exist.
+        In this case, the response body shall be present, and
+        shall contain a ProblemDetails structure, in which the
+        "detail" attribute shall convey more information about
+        the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    HealVnfInstance.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that the "Individual
+        VNF instance" resource is in NOT_INSTANTIATED
+        state, that another lifecycle management operation is
+        ongoing, or that a required (see note) child attribute
+        of the "extensions" attribute has not been set.
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    OperateVnfInstance.Post.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request has been accepted for processing.
+        The response body shall be empty.
+        The HTTP response shall include a "Location" HTTP header that
+        contains the URI of the newly-created "VNF LCM operation
+        occurrence" resource corresponding to the operation.
+      headers:
+        Location:
+          description: |
+            The resource URI of the created subscription resource.
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    OperateVnfInstance.Post.404:
+      description: |
+        404 NOT FOUND
+
+        Shall be returned upon the following error: The API
+        producer did not find a current representation for
+        the target resource or is not willing to disclose that
+        one exists.
+        The general cause for this error and its handling is
+        specified in clause 6.4 of ETSI
+        GS NFV-SOL 013 [8], including rules for the
+        presence of the response body.
+        Specifically in case of this task resource, the
+        response code 404 shall also be returned if the
+        task is not supported for the VNF instance
+        represented by the parent resource, which means
+        that the task resource consequently does not exist.
+        In this case, the response body shall be present,
+        and shall contain a ProblemDetails structure, in
+        which the "detail" attribute shall convey more
+        information about the error
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    OperateVnfInstance.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that the VNF
+        instance resource is in NOT_INSTANTIATED
+        state, that another lifecycle management operation
+        is ongoing, or that a required (see note) child
+        attribute of the "extensions" attribute has not been
+        set.
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    ChangeExtConnVnfInstance.Post.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request has been accepted for processing.
+        The response body shall be empty.
+        The HTTP response shall include a "Location" HTTP header that
+        contains the URI of the newly-created "VNF LCM operation
+        occurrence" resource corresponding to the operation.
+      headers:
+        Location:
+          description: |
+            The resource URI of the created subscription resource.
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    ChangeExtConnVnfInstance.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error:
+        The operation cannot be executed
+        currently, due to a conflict with the state of
+        the resource.
+        Typically, this is due to the fact that
+        another lifecycle management operation is
+        ongoing, or that a required (see note) child
+        attribute of the "extensions" attribute has
+        not been set.
+        The response body shall contain a
+        ProblemDetails structure, in which the
+        "detail" attribute shall convey more
+        information about the error
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    ChangeVnfpkgVnfInstance.Post.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request has been accepted for processing.
+        The response body shall be empty.
+        The HTTP response shall include a "Location" HTTP header that contains the URI of 
+        the newly-created "VNF LCM operation occurrence" resource corresponding to the operation.
+      headers:
+        Location:
+          description: |
+            The resource URI of the created subscription resource.
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    ChangeVnfpkgVnfInstance.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error:
+        The operation cannot be executed
+        currently, due to a conflict with the state of
+        the resource.
+        Typically, this is due to the fact that
+        another lifecycle management operation is
+        ongoing.
+        The response body shall contain a
+        ProblemDetails structure, in which the
+        "detail" attribute shall convey more
+        information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    VnfLcmOpOccs.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when status information for zero or more VNF lifecycle management
+        operation occurrences has been queried successfully.
+        The response body shall contain in an array the status information about zero or more
+        VNF lifecycle operation occurrences, as defined in clause 5.5.2.13.
+        If the "filter" URI parameter or one of the "all_fields", "fields" (if supported),
+        "exclude_fields" (if supported) or "exclude_default" URI parameters was supplied in the request,
+        the data in the response body shall have been transformed according to the rules specified
+        in clauses 5.2.2 and 5.3.2 of ETSI GS NFV-SOL 013, respectively.
+        If the VNFM supports alternative 2 (paging) according to clause 5.4.2.1 of ETSI GS NFV-SOL 013
+        for this resource, inclusion of the Link HTTP header in this response shall follow the provisions
+        in clause 5.4.2.3 of ETSI GS NFV-SOL 013.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Link:
+          description: |
+            Reference to other resources. Used for paging in the present document, see clause 4.7.2.1.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "./definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/VnfLcmOpOcc"
+
+    IndividualVnfLcmOpOcc.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when information about a VNF LCM operation occurrence washas been read successfully.
+        The response body shall contain status information about a VNF lifecycle management operation occurrence
+        (see clause 5.5.2.13).
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "./definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/VnfLcmOpOcc"
+
+    RollbackVnfLcmOpOcc.Post.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request has been accepted for processing.
+        The response shall have an empty message content.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    RollbackVnfLcmOpOcc.Post.404:
+      description: |
+        404 NOT FOUND
+
+        Shall be returned upon the following error: The API
+        producer did not find a current representation for the
+        target resource or is not willing to disclose that one
+        exists.
+        The general cause for this error and its handling is
+        specified in clause 6.4 of ETSI GS NFV-SOL 013 [8],
+        including rules for the presence of the response body.
+        Specifically in case of this task resource, the response
+        code 404 shall also be returned if the task is not
+        supported for the VNF LCM operation occurrence
+        represented by the parent resource, which means that
+        the task resource consequently does not exist.
+        In this case, the response body shall be present, and
+        shall contain a ProblemDetails structure, in which the
+        "detail" attribute shall convey more information about
+        the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    RollbackVnfLcmOpOcc.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the VNF LCM operation
+        occurrence.
+        Typically, this is due to the fact that the VNF LCM
+        operation occurrence is not in FAILED_TEMP state, or
+        another error handling action is starting, such as retry
+        or fail.
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    RetryVnfLcmOpOcc.Post.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request has been accepted for processing.
+        The response shall have an empty message content.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    RetryVnfLcmOpOcc.Post.404:
+      description: |
+        404 NOT FOUND
+
+        Shall be returned upon the following error: The API
+        producer did not find a current representation for the
+        target resource or is not willing to disclose that one
+        exists.
+        The general cause for this error and its handling is
+        specified in clause 6.4 of ETSI GS NFV-SOL 013 [8],
+        including rules for the presence of the response body.
+        Specifically in case of this task resource, the response
+        code 404 shall also be returned if the task is not
+        supported for the VNF LCM operation occurrence
+        represented by the parent resource, which means that
+        the task resource consequently does not exist.
+        In this case, the response body shall be present, and
+        shall contain a ProblemDetails structure, in which the
+        "detail" attribute shall convey more information about
+        the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    RetryVnfLcmOpOcc.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the VNF LCM operation
+        occurrence.
+        Typically, this is due to the fact that the VNF LCM
+        operation occurrence is not in FAILED_TEMP state, or
+        another error handling action is starting, such as
+        rollback or fail.
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    FailVnfLcmOpOcc.Post.200:
+      description: |
+        200 OK
+
+        Shall be returned when the state of the VNF lifecycle management operation occurrence
+        has been changed successfully.
+        The response bofyshall include a representation of the "Individual VNF lifecycle operation occurrence" 
+        resource.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "./definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/VnfLcmOpOcc"
+
+    FailVnfLcmOpOcc.Post.404:
+      description: |
+        404 NOT FOUND
+
+        Shall be returned upon the following error: The API
+        producer did not find a current representation for the
+        target resource or is not willing to disclose that one
+        exists.
+        The general cause for this error and its handling is
+        specified in clause 6.4 of ETSI GS NFV-SOL 013 [8],
+        including rules for the presence of the response
+        body.
+        Specifically in case of this task resource, the
+        response code 404 shall also be returned if the task
+        is not supported for the VNF LCM operation
+        occurrence represented by the parent resource,
+        which means that the task resource consequently
+        does not exist.
+        In this case, the response body shall be present, and
+        shall contain a ProblemDetails structure, in which the
+        "detail" attribute shall convey more information about
+        the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    FailVnfLcmOpOcc.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the VNF LCM operation
+        occurrence.
+        Typically, this is due to the fact that the VNF LCM
+        operation occurrence is not in FAILED_TEMP state,
+        or another error handling action is starting, such as
+        retry or rollback.
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    CancelVnfLcmOpOcc.Post.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request has been accepted for processing.
+        The response shall have an empty message content.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    CancelVnfLcmOpOcc.Post.404:
+      description: |
+        404 NOT FOUND
+
+        Shall be returned upon the following error: The API
+        producer did not find a current representation for the
+        target resource or is not willing to disclose that one
+        exists.
+        The general cause for this error and its handling is
+        specified in clause 6.4 of ETSI GS NFV-SOL 013 [8],
+        including rules for the presence of the response
+        body.
+        Specifically in case of this task resource, the
+        response code 404 shall also be returned if the task
+        is not supported for the VNF LCM operation
+        occurrence represented by the parent resource,
+        which means that the task resource consequently
+        does not exist.
+        In this case, the response body shall be present, and
+        shall contain a ProblemDetails structure, in which the
+        "detail" attribute shall convey more information about
+        the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    CancelVnfLcmOpOcc.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the VNF LCM operation
+        occurrence.
+        Typically, this is due to the fact that the operation
+        occurrence is not in STARTING, PROCESSING or
+        ROLLING_BACK state.
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    Subscriptions.Post.201:
+      description: |
+        201 CREATED
+
+        Shall be returned when the subscription has been created successfully.
+        The response body shall contain a representation of the created "Individual subscription" resource.
+        The HTTP response shall include a "Location" HTTP header that points to the created
+        "Individual subscription" resource.
+      headers:
+        Location:
+          description: |
+            The resource URI of the created subscription resource.
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "./definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/LccnSubscription"
+
+    Subscriptions.Post.303:
+      description: |
+        303 See Other
+
+        Shall be returned if a subscription with the same
+        callback URI and the same filter already exists
+        and the policy of the VNFM is to not create
+        redundant subscriptions.
+        The HTTP response shall include a "Location"
+        HTTP header that contains the resource URI of
+        the existing "Individual subscription" resource.
+        The response body shall be empty.
+      headers:
+        Location:
+          description: |
+            The resource URI of the created subscription resource.
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    Subscriptions.Post.422:
+      description: |
+        422 Unprocessable Content
+
+        Shall be returned upon the following error: The content type of the message content is supported
+        and the message content of a request contains syntactically correct data but the data cannot be
+        processed.
+        The general cause for this error and its handling is specified in clause 6.4 of ETSI GS NFV-SOL 013 [8], 
+        including rules for the presence of the response body.
+        Specifically in case of this resource, the response code 422 shall also be returned if the VNFM has
+        tested the Notification endpoint as described in clause 5.4.20.3.2 and the test has failed.
+        In this case, the "detail" attribute in the "ProblemDetails" structure shall convey more information 
+        about the error
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    Subscriptions.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when the list of subscriptions has been queried successfully.
+        The response body shall contain in an array the representations of all active subscriptions of
+        the functional block that invokes the method, i.e. zero or more representations of lifecycle change
+        notification subscriptions as defined in clause 5.5.2.16.
+        If the "filter" URI parameter was supplied in the request, the data in the response body shall have been
+        transformed according to the rules specified in clause 5.2.2 of ETSI GS NFV-SOL 013.
+        If the VNFM supports alternative 2 (paging) according to clause 5.4.7.2.1 of ETSI GS NFV-SOL 013
+        for this resource, inclusion of the Link HTTP header in this response shall follow the provisions
+        in clause 4.7.2.3.5.4.2.3 of ETSI GS NFV-SOL 013.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Link:
+          description: |
+            Reference to other resources. Used for paging in the present document, see clause 4.7.2.1.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "./definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/LccnSubscription"
+
+    IndividualSubscription.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when information about an individual subscription has been read successfully.
+        The response body shall contain a representation of the "Individual subscription" resource.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "./definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/LccnSubscription"
+
+    IndividualSubscription.Delete.204:
+      description: |
+        204 NO CONTENT
+
+        Shall be returned when the "Individual subscription" resource has been deleted successfully.
+        The response body shall be empty.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    CreateVnfSnapshotTask.Post.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request was accepted for processing, but the processing 
+        has not been completed.
+        The response body shall be empty.
+        The HTTP response shall include a "Location" HTTP header that contains the URI of 
+        the newly-created "VNF LCM operation occurrence" resource corresponding to the operation.
+      headers:
+        Location:
+          description: |
+            The resource URI of the created subscription resource.
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    CreateVnfSnapshotTask.Post.404:
+      description: |
+        404 NOT FOUND
+
+        Shall be returned upon the following error: The API producer did not find a current representation for
+        the target resource or is not willing to disclose that one exists.
+        The general cause for this error and its handling is specified in clause 6.4 of ETSI GS NFV-SOL 013 [8], including rules for the
+        presence of the response body.
+        Specifically in case of this task resource, the response code 404 shall also be returned if the task
+        is not supported for the VNF instance represented by the parent resource, which means that the task
+        resource consequently does not exist.
+        In this case, the response body shall be present, and shall contain a ProblemDetails structure, in
+        which the "detail" attribute shall convey more information about the error
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    CreateVnfSnapshotTask.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that the VNF
+        instance resource is in NOT_INSTANTIATED state,
+        or that another lifecycle management operation is
+        ongoing.
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    CreateVnfSnapshotTask.Post.422:
+      description: |
+        422 Unprocessable Content
+
+        Shall be returned upon the following error: The content type of the message content is supported and
+        the message content of a request contains syntactically correct data but the data cannot be processed.
+        The general cause for this error and its handling is specified in clause 6.4 of ETSI GS NFV-SOL 013 [8], 
+        including rules for the presence of the response body.
+        Specifically in case of this resource, the response code 422 shall also be returned if the provided identifier 
+        of the target "Individual VNF snapshot" resource for the VNF snapshot is invalid.
+        In this case, the "detail" attribute in the "ProblemDetails" structure shall convey more information 
+        about the error
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    RevertToVnfSnapshotTask.Post.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request was accepted for processing, but the processing has 
+        not been completed.
+        The response body shall be empty.
+        The HTTP response shall include a "Location" HTTP header that contains the URI of 
+        the newly-created "VNF LCM operation occurrence" resource corresponding to the operation.
+      headers:
+        Location:
+          description: |
+            The resource URI of the created subscription resource.
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    RevertToVnfSnapshotTask.Post.404:
+      description: |
+        404 NOT FOUND
+
+        Shall be returned upon the following error: The API
+        producer did not find a current representation for the
+        target resource or is not willing to disclose that one
+        exists.
+        The general cause for this error and its handling is
+        specified in clause 6.4 of ETSI
+        GS NFV-SOL 013 [8], including rules for the
+        presence of the response body.
+        Specifically in case of this task resource, the
+        response code 404 shall also be returned if the task
+        is not supported for the VNF instance represented
+        by the parent resource, which means that the task
+        resource consequently does not exist.
+        In this case, the response body shall be present,
+        and shall contain a ProblemDetails structure, in
+        which the "detail" attribute shall convey more
+        information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    RevertToVnfSnapshotTask.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that the VNF
+        instance resource is in NOT_INSTANTIATED state,
+        or that another lifecycle management operation is
+        ongoing.
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    VnfSnapshots.Post.201:
+      description: |
+        201 CREATED
+
+        Shall be returned when an "Individual VNF snapshot" resource has been created 
+        successfully.
+        The response body shall contain a representation of the new "Individual VNF snapshot" 
+        resource, as defined in clause 5.5.2.22.
+        The HTTP response shall include a "Location" HTTP header that contains the resource URI 
+        of the "Individual VNF snapshot" resource.
+      headers:
+        Location:
+          description: |
+            The resource URI of the created subscription resource.
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "./definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/VnfSnapshotInfo"
+
+    VnfSnapshots.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when information about zero or more VNF snapshots was queried successfully.
+        The response body shall contain in an array the representations of zero or more 
+        "Individual VNF snapshot" resources, as defined in clause 5.5.2.22.
+        If the VNFM supports alternative 2 (paging) according to clause 5.4.2.1 of ETSI GS NFV-SOL 013
+        for this resource, inclusion of the Link HTTP header in this response shall follow the provisions 
+        in clause 5.4.2.3 of ETSI GS NFV-SOL 013.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Link:
+          description: |
+            Reference to other resources. Used for paging in the present document, see clause 4.7.2.1.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "./definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/VnfSnapshotInfo"
+
+    IndividualVnfSnapshot.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when information about an individual VNF snapshot was read successfully.
+        The response body shall contain a representation of the "Individual VNF snapshot" resource, 
+        as defined in clause 5.5.2.22.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+        ETag:
+          description: >
+            Used to provide the current entity-tag for the selected resource representation. It can be sent in
+            "200 OK", "201 Created" and "204 No Content" responses.
+          style: simple
+          schema:
+            type: string
+        Last-Modified:
+          description: >
+            Used to provide a timestamp indicating the date and time at which the server believes the selected resource
+            representation was last modified. It can be sent in "200 OK", "201 Created" and "204 No Content" responses.
+          style: simple
+          schema:
+            type: string
+            format: date-time
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "./definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/VnfSnapshotInfo"
+
+    IndividualVnfSnapshot.Patch.200:
+      description: |
+        200 OK
+
+        Shall be returned when the modification of VNF snapshot information has been accepted and completed.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+        ETag:
+          description: >
+            Used to provide the current entity-tag for the selected resource representation. It can be sent in
+            "200 OK", "201 Created" and "204 No Content" responses.
+          style: simple
+          schema:
+            type: string
+        Last-Modified:
+          description: >
+            Used to provide a timestamp indicating the date and time at which the server believes the selected resource
+            representation was last modified. It can be sent in "200 OK", "201 Created" and "204 No Content" responses.
+          style: simple
+          schema:
+            type: string
+            format: date-time
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL003VNFLifecycleManagement_def.yaml#/definitions/VnfSnapshotInfoModifications"
+
+    IndividualVnfSnapshot.Patch.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the "Individual VNF
+        snapshot" resource.
+        Typically, this is due to the fact another
+        modification is ongoing or that the "Individual VNF
+        snapshot" resource information is not empty due to
+        a previously successful modification or currently
+        being modified due to an underlying VNF snapshot
+        operation.
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute should
+        convey more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    IndividualVnfSnapshot.Patch.412:
+      description: |
+        412 Precondition Failed
+
+        Shall be returned upon the following error: A
+        precondition given in an HTTP request header is
+        not fulfilled.
+        Typically, this is due to an ETag mismatch,
+        indicating that the resource was modified by
+        another entity.
+        The response body should contain a
+        ProblemDetails structure, in which the "detail"
+        attribute should convey more information about the
+        error
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    IndividualVnfSnapshot.Delete.204:
+      description: |
+        204 NO CONTENT
+
+        Shall be returned when the VNF snapshot resource and the associated VNF snapshot were 
+        deleted successfully.
+        The response body shall be empty.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    IndividualVnfSnapshot.Delete.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that the VNF snapshot
+        is in use by some operation such as reverting a VNF
+        instance to a VNF snapshot or creating a VNF
+        snapshot package.
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    IndividualVnfSnapshotState.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when the whole content of the VNF state snapshot file has been read successfully.
+
+        The message content shall contain a copy of the VNF state snapshot file and the "Content-Type" HTTP
+        header shall be set according to the content type of the VNF state snapshot file. If the VNF state 
+        snapshot content is encrypted, the header shall be set to the value "application/cms" (IETF RFC 7193). 
+        
+        If the content type cannot be determined, the header shall be set to the value "application/octet-stream".
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/*:
+          schema:
+            type: string
+            format: binary
+
+    IndividualVnfSnapshotState.Get.206:
+      description: |
+        206 PARTIAL CONTENT
+
+        If the VNFM supports range requests, this response shall be returned when a single consecutive byte
+        range from the content of the VNF state snapshot file has been read successfully according to the request.
+
+        The response body shall contain the requested part of the VNF state snapshot file. The "Content-Type" HTTP 
+        header shall be set according to the content type of the VNF state snapshot file. If the content type cannot 
+        be determined, the header shall be set to the value "application/octet-stream".
+
+        The "Content-Range" HTTP header shall be provided according to IETF RFC 9110.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Range:
+          required : true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/*:
+          schema:
+            type: string
+            format: binary
+
+    IndividualVnfSnapshotState.Get.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The
+        operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that the VNF
+        snapshot creation process is not completed.
+        The response body shall contain a ProblemDetails
+        structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    IndividualVnfSnapshotState.Get.416:
+      description: |
+        416 RANGE NOT SATISFIABLE
+
+        Shall be returned upon the following error: The byte
+        range passed in the "Range" header did not match
+        any available byte range in the VNF state snapshot
+        file (e.g. "access after end of file").
+        The response body may contain a ProblemDetails
+        structure
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string

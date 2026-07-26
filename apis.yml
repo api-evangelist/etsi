@@ -1,0 +1,717 @@
+aid: etsi
+url: https://raw.githubusercontent.com/api-evangelist/etsi/refs/heads/main/apis.yml
+name: ETSI
+kind: company
+description: 'ETSI, the European Telecommunications Standards Institute, is a not-for-profit standards
+  development organisation headquartered in Sophia Antipolis, France, and one of only three bodies officially
+  recognised by the European Union as a European Standards Organisation. With over 900 member organisations
+  from more than 60 countries it standardises ICT across mobile, fixed, broadcast, IoT, security and emerging
+  technologies, and it hosts the 3GPP Mobile Competence Centre. In the telecom value chain ETSI sits upstream
+  of every operator and vendor: it does not run a network or sell connectivity, it writes the specifications
+  that the network is built from. Its API posture is unusually open for a standards body. Every ETSI deliverable
+  is downloadable free of charge without login from etsi.org/deliver, and the machine-readable API artefacts
+  are published as BSD-3-Clause OpenAPI on two public GitLab instances, forge.etsi.org and labs.etsi.org,
+  both of which serve an anonymous REST API. From those ETSI publishes the ISG MEC edge service APIs,
+  the NFV SOL lifecycle and orchestration APIs, the ISG CIM NGSI-LD context information API, and open-source
+  implementations including OpenCAPIF for 3GPP CAPIF, OpenSlice for TM Forum Open APIs, and an Operator
+  Platform Open Exposure Gateway that exposes northbound CAMARA APIs. What is member-gated is participation,
+  not publication: portal.etsi.org, working documents, drafting and voting sit behind ETSI membership,
+  while the finished standards and their OpenAPI are open to anyone. ETSI itself is not a GSMA Open Gateway
+  operator and not a CAMARA member organisation; it reaches CAMARA through liaison and through its own
+  open-source code.'
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Telecommunications
+- France
+- Standards
+- Standards Body
+- Network APIs
+- Edge Computing
+- MEC
+- NFV
+- 5G
+- CAMARA
+- TM Forum
+- 3GPP
+- CAPIF
+- NGSI-LD
+- IoT
+- Open Source
+- Europe
+- OpenAPI
+- Network Slicing
+- Broadband
+created: '2026-07-25'
+modified: '2026-07-25'
+specificationVersion: '0.19'
+apis:
+- aid: etsi:mec-011-edge-platform-application-enablement
+  name: ETSI MEC 011 Edge Platform Application Enablement API
+  description: The Mp1 reference point between MEC applications and the MEC platform, standardised in
+    ETSI GS MEC 011. Covers MEC service registration, deregistration, discovery and event notification
+    (MecServiceMgmtApi) plus application start-up, traffic rules, DNS rules, time-of-day and termination
+    support (MecAppSupportApi). Published as OpenAPI 3.1.0 under BSD-3-Clause on the public ETSI Forge
+    GitLab.
+  humanURL: https://forge.etsi.org/rep/mec/gs011-app-enablement-api
+  tags:
+  - Edge Computing
+  - MEC
+  - Service Discovery
+  - 5G
+  properties:
+  - type: Documentation
+    url: https://www.etsi.org/technologies/multi-access-edge-computing
+  - type: APIReference
+    url: https://forge.etsi.org/rep/mec/gs011-app-enablement-api
+  - type: Repository
+    url: https://forge.etsi.org/rep/mec/gs011-app-enablement-api
+  - type: OpenAPI
+    url: openapi/mec/MecServiceMgmtApi.yaml
+  - type: OpenAPI
+    url: openapi/mec/MecAppSupportApi.yaml
+- aid: etsi:mec-012-radio-network-information
+  name: ETSI MEC 012 Radio Network Information API
+  description: The Radio Network Information Service (RNIS) defined in ETSI GS MEC 012, exposing up-to-date
+    radio network conditions, measurement reports, cell change and carrier aggregation information from
+    the RAN to authorised MEC applications so edge software can adapt to real network state.
+  humanURL: https://forge.etsi.org/rep/mec/gs012-rnis-api
+  tags:
+  - Edge Computing
+  - MEC
+  - Radio Network
+  - 5G
+  properties:
+  - type: Documentation
+    url: https://www.etsi.org/technologies/multi-access-edge-computing
+  - type: APIReference
+    url: https://forge.etsi.org/rep/mec/gs012-rnis-api
+  - type: Repository
+    url: https://forge.etsi.org/rep/mec/gs012-rnis-api
+  - type: OpenAPI
+    url: openapi/mec/RniAPI.yaml
+- aid: etsi:mec-013-location
+  name: ETSI MEC 013 Location API
+  description: The MEC Location Service defined in ETSI GS MEC 013, providing network-derived location
+    of user equipment and of radio nodes, zone and access-point occupancy, distance calculation, area
+    and periodic location subscriptions. It is the ETSI edge-side analogue of the network location capability
+    that CAMARA exposes commercially as Device Location.
+  humanURL: https://forge.etsi.org/rep/mec/gs013-location-api
+  tags:
+  - Edge Computing
+  - MEC
+  - Location
+  - Geolocation
+  properties:
+  - type: Documentation
+    url: https://www.etsi.org/technologies/multi-access-edge-computing
+  - type: APIReference
+    url: https://forge.etsi.org/rep/mec/gs013-location-api
+  - type: Repository
+    url: https://forge.etsi.org/rep/mec/gs013-location-api
+  - type: OpenAPI
+    url: openapi/mec/LocationAPI.yaml
+- aid: etsi:mec-014-ue-identity
+  name: ETSI MEC 014 UE Identity API
+  description: The UE Identity API from ETSI GS MEC 014, which lets a MEC application register a UE identity
+    tag with the MEC platform so that traffic filtering rules can be applied to a specific device.
+  humanURL: https://forge.etsi.org/rep/mec/gs014-ue-identity-api
+  tags:
+  - Edge Computing
+  - MEC
+  - Identity
+  properties:
+  - type: Documentation
+    url: https://www.etsi.org/technologies/multi-access-edge-computing
+  - type: APIReference
+    url: https://forge.etsi.org/rep/mec/gs014-ue-identity-api
+  - type: Repository
+    url: https://forge.etsi.org/rep/mec/gs014-ue-identity-api
+  - type: OpenAPI
+    url: openapi/mec/UEidentityAPI.yaml
+- aid: etsi:mec-015-traffic-management
+  name: ETSI MEC 015 Traffic Management APIs
+  description: 'The two traffic-management APIs of ETSI GS MEC 015: Bandwidth Management, which lets applications
+    register bandwidth requirements and priorities with the MEC platform, and Multi-access Traffic Steering,
+    which configures how sessions are steered across multiple access networks.'
+  humanURL: https://forge.etsi.org/rep/mec/gs015-bandwith-mgmt-api
+  tags:
+  - Edge Computing
+  - MEC
+  - Traffic Management
+  - Bandwidth
+  properties:
+  - type: Documentation
+    url: https://www.etsi.org/technologies/multi-access-edge-computing
+  - type: APIReference
+    url: https://forge.etsi.org/rep/mec/gs015-bandwith-mgmt-api
+  - type: Repository
+    url: https://forge.etsi.org/rep/mec/gs015-bandwith-mgmt-api
+  - type: OpenAPI
+    url: openapi/mec/BwManagementApi.yaml
+  - type: OpenAPI
+    url: openapi/mec/TrafficSteeringApi.yaml
+- aid: etsi:mec-016-ue-application-interface
+  name: ETSI MEC 016 UE Application Interface API
+  description: The Mx2 reference point from ETSI GS MEC 016, used by a device-side application to discover
+    which MEC applications are available in the system and to request instantiation or termination of
+    a user application in the edge cloud.
+  humanURL: https://forge.etsi.org/rep/mec/gs016-dev-app-api
+  tags:
+  - Edge Computing
+  - MEC
+  - Application Lifecycle
+  properties:
+  - type: Documentation
+    url: https://www.etsi.org/technologies/multi-access-edge-computing
+  - type: APIReference
+    url: https://forge.etsi.org/rep/mec/gs016-dev-app-api
+  - type: Repository
+    url: https://forge.etsi.org/rep/mec/gs016-dev-app-api
+  - type: OpenAPI
+    url: openapi/mec/UEAppInterfaceApi.yaml
+- aid: etsi:mec-010-2-application-lifecycle-management
+  name: ETSI MEC 010-2 Application Package and Lifecycle Management APIs
+  description: ETSI GS MEC 010-2 Part 2 application package management, application lifecycle management
+    and application grant APIs, used by an operations support system to onboard, instantiate, operate
+    and terminate MEC application packages in a MEC system.
+  humanURL: https://forge.etsi.org/rep/mec/gs010-2-app-pkg-lcm-api
+  tags:
+  - Edge Computing
+  - MEC
+  - Application Lifecycle
+  - Orchestration
+  properties:
+  - type: Documentation
+    url: https://www.etsi.org/technologies/multi-access-edge-computing
+  - type: APIReference
+    url: https://forge.etsi.org/rep/mec/gs010-2-app-pkg-lcm-api
+  - type: Repository
+    url: https://forge.etsi.org/rep/mec/gs010-2-app-pkg-lcm-api
+  - type: OpenAPI
+    url: openapi/mec/MEC01002_AppPkgMgmt.yaml
+  - type: OpenAPI
+    url: openapi/mec/MEC01002_AppLcm.yaml
+  - type: OpenAPI
+    url: openapi/mec/MEC01002_AppGrant.yaml
+- aid: etsi:mec-021-application-mobility
+  name: ETSI MEC 021 Application Mobility Service API
+  description: The Application Mobility Service defined in ETSI GS MEC 021, which coordinates the relocation
+    of a running application instance and its user context between MEC hosts as a device moves across
+    the network.
+  humanURL: https://forge.etsi.org/rep/mec/gs021-amsi-api
+  tags:
+  - Edge Computing
+  - MEC
+  - Mobility
+  properties:
+  - type: Documentation
+    url: https://www.etsi.org/technologies/multi-access-edge-computing
+  - type: APIReference
+    url: https://forge.etsi.org/rep/mec/gs021-amsi-api
+  - type: Repository
+    url: https://forge.etsi.org/rep/mec/gs021-amsi-api
+  - type: OpenAPI
+    url: openapi/mec/MEC021_AppMobilityService.yaml
+- aid: etsi:mec-028-wlan-information
+  name: ETSI MEC 028 WLAN Information API
+  description: The WLAN Access Information Service from ETSI GS MEC 028, exposing access-point, station
+    and measurement information from Wi-Fi networks to edge applications alongside the cellular information
+    services.
+  humanURL: https://forge.etsi.org/rep/mec/gs028-wai-api
+  tags:
+  - Edge Computing
+  - MEC
+  - WLAN
+  - Wi-Fi
+  properties:
+  - type: Documentation
+    url: https://www.etsi.org/technologies/multi-access-edge-computing
+  - type: APIReference
+    url: https://forge.etsi.org/rep/mec/gs028-wai-api
+  - type: Repository
+    url: https://forge.etsi.org/rep/mec/gs028-wai-api
+  - type: OpenAPI
+    url: openapi/mec/WlanInformationApi.yaml
+- aid: etsi:mec-029-fixed-access-information
+  name: ETSI MEC 029 Fixed Access Information API
+  description: The Fixed Access Information Service from ETSI GS MEC 029, extending MEC information exposure
+    beyond mobile to fixed broadband access networks including PON and cable, so edge applications can
+    read fixed-line network conditions.
+  humanURL: https://forge.etsi.org/rep/mec/gs029-fai-api
+  tags:
+  - Edge Computing
+  - MEC
+  - Broadband
+  - Fixed Access
+  properties:
+  - type: Documentation
+    url: https://www.etsi.org/technologies/multi-access-edge-computing
+  - type: APIReference
+    url: https://forge.etsi.org/rep/mec/gs029-fai-api
+  - type: Repository
+    url: https://forge.etsi.org/rep/mec/gs029-fai-api
+  - type: OpenAPI
+    url: openapi/mec/MEC029_FAI.yaml
+- aid: etsi:mec-030-v2x-information-services
+  name: ETSI MEC 030 V2X Information Services API
+  description: The V2X Information Service defined in ETSI GS MEC 030, providing predicted quality of
+    service, provisioning information and multi-operator V2X message distribution for connected-vehicle
+    applications running at the edge.
+  humanURL: https://forge.etsi.org/rep/mec/gs030-vis-api
+  tags:
+  - Edge Computing
+  - MEC
+  - V2X
+  - Automotive
+  properties:
+  - type: Documentation
+    url: https://www.etsi.org/technologies/multi-access-edge-computing
+  - type: APIReference
+    url: https://forge.etsi.org/rep/mec/gs030-vis-api
+  - type: Repository
+    url: https://forge.etsi.org/rep/mec/gs030-vis-api
+  - type: OpenAPI
+    url: openapi/mec/MEC030_V2XInformationServices.yaml
+- aid: etsi:mec-033-iot
+  name: ETSI MEC 033 IoT API
+  description: The IoT API from ETSI GS MEC 033, defining how IoT device registration, IoT platform selection
+    and device-to-platform association are managed by a MEC system so that IoT traffic can be terminated
+    and processed at the edge.
+  humanURL: https://forge.etsi.org/rep/mec/gs033-iot-api
+  tags:
+  - Edge Computing
+  - MEC
+  - IoT
+  properties:
+  - type: Documentation
+    url: https://www.etsi.org/technologies/multi-access-edge-computing
+  - type: APIReference
+    url: https://forge.etsi.org/rep/mec/gs033-iot-api
+  - type: Repository
+    url: https://forge.etsi.org/rep/mec/gs033-iot-api
+  - type: OpenAPI
+    url: openapi/mec/MEC033_IoT.yaml
+- aid: etsi:mec-040-federation-enablement
+  name: ETSI MEC 040 MEC Federation Enablement API
+  description: The MEC Federation enablement API from ETSI GS MEC 040, which lets edge systems operated
+    by different providers discover one another, exchange availability zone and system information, and
+    federate so an application can run across operator boundaries.
+  humanURL: https://forge.etsi.org/rep/mec/gs040-fed-enablement-api
+  tags:
+  - Edge Computing
+  - MEC
+  - Federation
+  properties:
+  - type: Documentation
+    url: https://www.etsi.org/technologies/multi-access-edge-computing
+  - type: APIReference
+    url: https://forge.etsi.org/rep/mec/gs040-fed-enablement-api
+  - type: Repository
+    url: https://forge.etsi.org/rep/mec/gs040-fed-enablement-api
+  - type: OpenAPI
+    url: openapi/mec/MEC040_fedEnablement.yaml
+- aid: etsi:nfv-sol002-sol003
+  name: ETSI NFV SOL002 / SOL003 VNF Lifecycle, Fault, Performance and Package Management APIs
+  description: The RESTful protocols and data models of ETSI GS NFV-SOL 002 (Ve-Vnfm reference point,
+    between a VNF and its VNF manager) and ETSI GS NFV-SOL 003 (Or-Vnfm reference point, between an NFV
+    orchestrator and a VNF manager). Covers VNF lifecycle management, lifecycle operation granting, LCM
+    coordination, fault management, performance management, indicators, configuration, VNF package management,
+    snapshot packages and their notification interfaces.
+  humanURL: https://forge.etsi.org/rep/nfv/SOL002-SOL003
+  tags:
+  - NFV
+  - Orchestration
+  - Lifecycle Management
+  - Virtualisation
+  properties:
+  - type: Documentation
+    url: https://www.etsi.org/technologies/nfv
+  - type: APIReference
+    url: https://forge.etsi.org/rep/nfv/SOL002-SOL003
+  - type: Repository
+    url: https://forge.etsi.org/rep/nfv/SOL002-SOL003
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL002/APIVersion/APIVersion.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL002/VNFConfiguration/VNFConfiguration.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL002/VNFFaultManagement/VNFFaultManagement.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL002/VNFFaultManagementNotification/VNFFaultManagementNotification.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL002/VNFIndicator/VNFIndicator.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL002/VNFIndicatorNotification/VNFIndicatorNotification.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL002/VNFLCMCoordination/VNFLCMCoordination.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL002/VNFLifecycleManagement/VNFLifecycleManagement.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL002/VNFLifecycleManagementNotification/VNFLifecycleManagementNotification.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL002/VNFPerformanceManagement/VNFPerformanceManagement.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL002/VNFPerformanceManagementNotification/VNFPerformanceManagementNotification.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL003/APIVersion/APIVersion.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL003/VNFFaultManagement/VNFFaultManagement.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL003/VNFFaultManagementNotification/VNFFaultManagementNotification.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL003/VNFIndicator/VNFIndicator.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL003/VNFIndicatorNotification/VNFIndicatorNotification.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL003/VNFLifecycleManagement/VNFLifecycleManagement.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL003/VNFLifecycleManagementNotification/VNFLifecycleManagementNotification.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL003/VNFLifecycleOperationGranting/VNFLifecycleOperationGranting.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL003/VNFPackageManagement/VNFPackageManagement.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL003/VNFPackageManagementNotification/VNFPackageManagementNotification.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL003/VNFPerformanceManagement/VNFPerformanceManagement.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL003/VNFPerformanceManagementNotification/VNFPerformanceManagementNotification.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL003/VNFSnapshotPackageManagement/VNFSnapshotPackageManagement.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol002-sol003/SOL003/VirtualisedResourcesQuotaAvailableNotification/VirtualisedResourcesQuotaAvailableNotification.yaml
+- aid: etsi:nfv-sol005
+  name: ETSI NFV SOL005 Os-Ma-nfvo Network Service Management APIs
+  description: The RESTful protocols and data models of ETSI GS NFV-SOL 005 on the Os-Ma-nfvo reference
+    point, between an OSS/BSS and an NFV orchestrator. Covers network service descriptor management, network
+    service lifecycle management, NS fault and performance management, NFVI capacity information, VNF
+    package management and VNF snapshot package management.
+  humanURL: https://forge.etsi.org/rep/nfv/SOL005
+  tags:
+  - NFV
+  - Orchestration
+  - Network Service
+  - OSS
+  properties:
+  - type: Documentation
+    url: https://www.etsi.org/technologies/nfv
+  - type: APIReference
+    url: https://forge.etsi.org/rep/nfv/SOL005
+  - type: Repository
+    url: https://forge.etsi.org/rep/nfv/SOL005
+  - type: OpenAPI
+    url: openapi/nfv-sol005/SOL005/APIVersion/APIVersion.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol005/SOL005/NFVICapacityInformation/NFVICapacityInformation.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol005/SOL005/NFVICapacityInformationNotification/NFVICapacityInformationNotification.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol005/SOL005/NSDManagement/NSDManagement.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol005/SOL005/NSDManagementNotification/NSDManagementNotification.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol005/SOL005/NSFaultManagement/NSFaultManagement.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol005/SOL005/NSFaultManagementNotification/NSFaultManagementNotification.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol005/SOL005/NSLCMCoordination/NSLCMCoordination.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol005/SOL005/NSLifecycleManagement/NSLifecycleManagement.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol005/SOL005/NSLifecycleManagementNotification/NSLifecycleManagementNotification.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol005/SOL005/NSPerformanceManagement/NSPerformanceManagement.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol005/SOL005/NSPerformanceManagementNotification/NSPerformanceManagementNotification.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol005/SOL005/VNFPackageManagement/VNFPackageManagement.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol005/SOL005/VNFPackageManagementNotification/VNFPackageManagementNotification.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol005/SOL005/VNFSnapshotPackageManagement/VNFSnapshotPackageManagement.yaml
+- aid: etsi:nfv-sol009
+  name: ETSI NFV SOL009 NFV-MANO Management APIs
+  description: The RESTful protocols and data models of ETSI GS NFV-SOL 009 for managing the NFV management-and-orchestration
+    functions themselves, covering NFV-MANO configuration and information management, fault management,
+    performance management and log management together with their notification interfaces.
+  humanURL: https://forge.etsi.org/rep/nfv/SOL009
+  tags:
+  - NFV
+  - MANO
+  - Management
+  - Observability
+  properties:
+  - type: Documentation
+    url: https://www.etsi.org/technologies/nfv
+  - type: APIReference
+    url: https://forge.etsi.org/rep/nfv/SOL009
+  - type: Repository
+    url: https://forge.etsi.org/rep/nfv/SOL009
+  - type: OpenAPI
+    url: openapi/nfv-sol009/SOL009/APIVersion/APIVersion.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol009/SOL009/NFVManoConfigurationAndInformationManagement/NFVManoConfigurationAndInformationManagement.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol009/SOL009/NFVManoConfigurationAndInformationManagementNotification/NFVManoConfigurationAndInformationManagementNotification.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol009/SOL009/NFVManoFaultManagement/NFVManoFaultManagement.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol009/SOL009/NFVManoFaultManagementNotification/NFVManoFaultManagementNotification.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol009/SOL009/NFVManoLogManagement/NFVManoLogManagement.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol009/SOL009/NFVManoLogManagementNotification/NFVManoLogManagementNotification.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol009/SOL009/NFVManoPerformanceManagement/NFVManoPerformanceManagement.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol009/SOL009/NFVManoPerformanceManagementNotification/NFVManoPerformanceManagementNotification.yaml
+- aid: etsi:nfv-sol011
+  name: ETSI NFV SOL011 Or-Or Multi-Administrative-Domain APIs
+  description: The RESTful protocols and data models of ETSI GS NFV-SOL 011 on the Or-Or reference point,
+    used between NFV orchestrators in different administrative domains for nested network service descriptor
+    management, lifecycle management, granting, usage notification, fault and performance management.
+  humanURL: https://forge.etsi.org/rep/nfv/SOL011
+  tags:
+  - NFV
+  - Orchestration
+  - Federation
+  - Multi-Domain
+  properties:
+  - type: Documentation
+    url: https://www.etsi.org/technologies/nfv
+  - type: APIReference
+    url: https://forge.etsi.org/rep/nfv/SOL011
+  - type: Repository
+    url: https://forge.etsi.org/rep/nfv/SOL011
+  - type: OpenAPI
+    url: openapi/nfv-sol011/SOL011/APIVersion/APIVersion.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol011/SOL011/NSDManagement/NSDManagement.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol011/SOL011/NSFaultManagement/NSFaultManagement.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol011/SOL011/NSFaultManagementNotification/NSFaultManagementNotification.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol011/SOL011/NSInstanceUsageNotification/NSInstanceUsageNotification.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol011/SOL011/NSLifecycleManagement/NSLifecycleManagement.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol011/SOL011/NSLifecycleManagementNotification/NSLifecycleManagementNotification.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol011/SOL011/NSLifecycleOperationGranting/NSLifecycleOperationGranting.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol011/SOL011/NSPerformanceManagement/NSPerformanceManagement.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol011/SOL011/NSPerformanceManagementNotification/NSPerformanceManagementNotification.yaml
+- aid: etsi:nfv-sol012
+  name: ETSI NFV SOL012 Policy Management API
+  description: The RESTful protocol and data model of ETSI GS NFV-SOL 012 for policy management across
+    NFV management and orchestration, covering policy transfer, activation, deactivation, deletion and
+    the associated policy notification interface.
+  humanURL: https://forge.etsi.org/rep/nfv/SOL012
+  tags:
+  - NFV
+  - Policy
+  - Governance
+  properties:
+  - type: Documentation
+    url: https://www.etsi.org/technologies/nfv
+  - type: APIReference
+    url: https://forge.etsi.org/rep/nfv/SOL012
+  - type: Repository
+    url: https://forge.etsi.org/rep/nfv/SOL012
+  - type: OpenAPI
+    url: openapi/nfv-sol012/SOL012/APIVersion/APIVersion.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol012/SOL012/PolicyManagement/PolicyManagement.yaml
+  - type: OpenAPI
+    url: openapi/nfv-sol012/SOL012/PolicyManagementNotification/PolicyManagementNotification.yaml
+- aid: etsi:ngsi-ld
+  name: ETSI NGSI-LD API (ISG CIM)
+  description: The NGSI-LD API standardised by ETSI ISG CIM in GS CIM 009, a JSON-LD context information
+    management API for entities, attributes, relationships, subscriptions, temporal queries, entity types,
+    context source registration and distributed federation. It is the API layer beneath most European
+    smart-city and FIWARE deployments and is published as OpenAPI 3.0.3 and 3.1.0.
+  humanURL: https://forge.etsi.org/rep/cim/ngsi-ld-openapi
+  tags:
+  - Context Information
+  - NGSI-LD
+  - Smart Cities
+  - IoT
+  - JSON-LD
+  properties:
+  - type: Documentation
+    url: https://www.etsi.org/technologies/context-information-management
+  - type: APIReference
+    url: https://forge.etsi.org/rep/cim/ngsi-ld-openapi
+  - type: Repository
+    url: https://forge.etsi.org/rep/cim/ngsi-ld-openapi
+  - type: OpenAPI
+    url: openapi/ngsi-ld/ngsi-ld-api-3.0.3.yaml
+  - type: OpenAPI
+    url: openapi/ngsi-ld/ngsi-ld-api-3.1.0.yaml
+- aid: etsi:opencapif
+  name: ETSI OpenCAPIF (3GPP CAPIF TS 29.222) APIs
+  description: The ETSI Software Development Group implementation of the 3GPP Common API Framework, TS
+    29.222. Harvested here are the API Invoker Management, API Provider Management, Access Control Policy
+    and Auditing service APIs — the northbound framework a mobile operator uses to onboard API invokers,
+    register API providers, enforce per-invoker access policy and audit invocation logs. Authorisation
+    is OAuth 2.0 client credentials.
+  humanURL: https://ocf.etsi.org/documentation/latest/
+  tags:
+  - 3GPP
+  - CAPIF
+  - API Management
+  - Network Exposure
+  - 5G
+  properties:
+  - type: Documentation
+    url: https://ocf.etsi.org/documentation/latest/
+  - type: APIReference
+    url: https://ocf.etsi.org/documentation/latest/
+  - type: Repository
+    url: https://labs.etsi.org/rep/ocf/capif
+  - type: OpenAPI
+    url: openapi/capif/capif-access-control-policy.yaml
+  - type: OpenAPI
+    url: openapi/capif/capif-api-invoker-management.yaml
+  - type: OpenAPI
+    url: openapi/capif/capif-api-provider-management.yaml
+  - type: OpenAPI
+    url: openapi/capif/capif-auditing.yaml
+- aid: etsi:openslice-camara-qod-provisioning
+  name: ETSI OpenSlice CAMARA-as-a-Service QoD Provisioning API
+  description: 'A CAMARA Quality on Demand (QoD) Provisioning API implementation shipped as an add-on
+    to ETSI OpenSlice. It wraps a running TM Forum service inventory entry so an operator can expose an
+    existing 5G core or network slice through a standard CAMARA endpoint: set, retrieve and delete a device
+    QoS profile. Security is declared as OpenID Connect, matching the CAMARA authorisation model; no CIBA
+    grant is declared in this document.'
+  humanURL: https://labs.etsi.org/rep/osl/code/addons/org.etsi.osl.controllers.camara
+  tags:
+  - CAMARA
+  - Quality on Demand
+  - Network APIs
+  - 5G
+  - Network Slicing
+  properties:
+  - type: Documentation
+    url: https://osl.etsi.org/documentation/latest/
+  - type: APIReference
+    url: https://labs.etsi.org/rep/osl/code/addons/org.etsi.osl.controllers.camara
+  - type: Repository
+    url: https://labs.etsi.org/rep/osl/code/addons/org.etsi.osl.controllers.camara
+  - type: OpenAPI
+    url: openapi/camara/openslice-camara-qod-provisioning.yaml
+- aid: etsi:operator-platform-open-exposure-gateway
+  name: ETSI Operator Platform Open Exposure Gateway API
+  description: 'The Open Exposure Gateway of the ETSI Operator Platform SDG, implementing the Open Exposure
+    Gateway role defined by the GSMA Operator Platform Group. It exposes northbound CAMARA APIs to application
+    providers: Edge Cloud Management (application metadata and instance lifecycle, edge cloud zones),
+    Network Exposure (Quality on Demand sessions and device location retrieval) and Federation Management
+    across partner operator platforms.'
+  humanURL: https://labs.etsi.org/rep/oop/code/open-exposure-gateway
+  tags:
+  - CAMARA
+  - GSMA
+  - Operator Platform
+  - Edge Computing
+  - Federation
+  - Quality on Demand
+  properties:
+  - type: Documentation
+    url: https://labs.etsi.org/rep/oop/code/open-exposure-gateway
+  - type: APIReference
+    url: https://labs.etsi.org/rep/oop/code/open-exposure-gateway
+  - type: Repository
+    url: https://labs.etsi.org/rep/oop/code/open-exposure-gateway
+  - type: OpenAPI
+    url: openapi/camara/operator-platform-edge-cloud-management.yaml
+- aid: etsi:openslice-tmforum-open-apis
+  name: ETSI OpenSlice TM Forum Open APIs
+  description: ETSI SDG OpenSlice is an open-source service-based OSS delivering Network as a Service,
+    and it exposes its catalog, ordering and inventory surface as TM Forum Open APIs. The documentation
+    lists more than twenty exposed endpoints including TMF620 Product Catalog, TMF622 Product Ordering,
+    TMF629 Customer, TMF632 Party, TMF633 Service Catalog, TMF634 Resource Catalog, TMF638 Service Inventory,
+    TMF639 Resource Inventory, TMF640 Service Activation, TMF641 Service Ordering, TMF642 Alarm, TMF651
+    Agreement, TMF652 Resource Ordering, TMF653 Service Test, TMF657 Service Quality, TMF666 Account,
+    TMF669 Party Role, TMF685 Resource Pool and TMF691 Federated ID. The public OpenSlice demo answers
+    these paths anonymously; ETSI does not hold a TM Forum Open API conformance certification for them.
+  humanURL: https://osl.etsi.org/documentation/latest/naas/exposed_apis/
+  baseURL: https://portal.openslice.eu/tmf-api
+  tags:
+  - TM Forum
+  - Open APIs
+  - OSS
+  - BSS
+  - Service Ordering
+  - Network as a Service
+  properties:
+  - type: Documentation
+    url: https://osl.etsi.org/documentation/latest/naas/exposed_apis/
+  - type: APIReference
+    url: https://osl.etsi.org/documentation/latest/naas/exposed_apis/
+  - type: Repository
+    url: https://labs.etsi.org/rep/osl/code/org.etsi.osl.tmf.api
+  - type: Demo
+    url: https://portal.openslice.eu/
+  - type: Website
+    url: https://osl.etsi.org/
+- aid: etsi:mec-sandbox-edgenative-connector
+  name: ETSI MEC Sandbox / EdgeNative Connector
+  description: A hosted, free interactive environment where developers exercise live ETSI MEC service
+    APIs against emulated 4G, 5G and Wi-Fi network scenarios with moving user equipment. It serves MEC
+    011, MEC 012, MEC 013, MEC 021, MEC 028, MEC 030 and MEC 040 through a Swagger UI try-it console,
+    and version 1.10 added alignment with 3GPP CAPIF and initial 3GPP EDGEAPP support. The web front end
+    loads anonymously but the API paths themselves return HTTP 401 until you sign in, so it is free-but-account-gated
+    rather than open.
+  humanURL: https://try-mec.etsi.org/
+  baseURL: https://try-mec.etsi.org
+  tags:
+  - Edge Computing
+  - MEC
+  - Sandbox
+  - Developer Experience
+  - 5G
+  properties:
+  - type: Documentation
+    url: https://mecwiki.etsi.org/index.php?title=MEC_Sandbox_Help
+  - type: APIReference
+    url: https://mecwiki.etsi.org/index.php?title=MEC_Sandbox_Help
+  - type: Repository
+    url: https://labs.etsi.org/rep/mec/etsi-mec-sandbox
+common:
+- type: Website
+  url: https://www.etsi.org/
+- type: Documentation
+  url: https://www.etsi.org/standards/get-standards
+- type: Standards
+  url: https://www.etsi.org/deliver/
+- type: Portal
+  url: https://portal.etsi.org/
+- type: Repository
+  url: https://forge.etsi.org/rep/
+- type: Repository
+  url: https://labs.etsi.org/rep/
+- type: License
+  url: https://forge.etsi.org/legal-matters
+- type: Sandbox
+  url: https://try-mec.etsi.org/
+- type: Wiki
+  url: https://mecwiki.etsi.org/
+- type: OpenSource
+  url: https://osl.etsi.org/
+- type: OpenSource
+  url: https://ocf.etsi.org/
+- type: OpenSource
+  url: https://tfs.etsi.org/
+- type: OpenSource
+  url: https://osm.etsi.org/
+- type: BlogRSS
+  url: https://www.etsi.org/feed
+- type: LinkedIn
+  url: https://www.linkedin.com/company/etsi
+- type: GitHubOrganization
+  url: https://github.com/etsi-forge
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

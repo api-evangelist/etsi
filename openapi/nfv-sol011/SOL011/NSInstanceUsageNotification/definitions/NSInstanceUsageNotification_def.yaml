@@ -1,0 +1,155 @@
+definitions:
+  schemas:
+    NsInstanceUsageSubscriptionRequest:
+      description: >-
+        This type represents a subscription request related to notifications about NS
+        instance usage. It shall comply with the provisions defined in table 8.6.2.2-1.
+      type: object
+      required:
+        - callbackUri
+      properties:
+        filter:
+          description: >-
+            Filter settings for this subscription, to define the subset of all notifications
+            this subscription relates to. A particular notification is sent to the subscriber
+            if the filter matches, or if there is no filter.
+          $ref: "#/definitions/schemas/NsInstanceUsageNotificationsFilter"
+        callbackUri:
+          description: >-
+            The URI of the endpoint to send the notification to.
+          $ref: "../../components/SOL011_schemas.yaml#/components/schemas/Uri"
+        authentication:
+          description: >-
+            Authentication parameters to configure the use of Authorization when sending
+            notifications corresponding to this subscription, as defined in clause 8.3.4
+            of ETSI GS NFV-SOL 013.
+
+            This attribute shall only be present if the subscriber requires authorization
+            of notifications.
+          $ref: "../../components/SOL011_schemas.yaml#/components/schemas/SubscriptionAuthentication"
+
+    NsInstanceUsageSubscription:
+      description: >-
+        This type represents a subscription related to notifications about NS instance usage.
+        It shall comply with the provisions defined in table 8.6.2.3-1.
+      type: object
+      required:
+        - id
+        - callbackUri
+        - _links
+      properties:
+        id:
+          description: >-
+            Identifier that identifies the subscription.
+          $ref: "../../components/SOL011_schemas.yaml#/components/schemas/Identifier"
+        filter:
+          description: >-
+            Filter settings for this subscription, to define the subset of all notifications
+            this subscription relates to. A particular notification is sent to the subscriber
+            if the filter matches, or if there is no filter.
+          $ref: "#/definitions/schemas/NsInstanceUsageNotificationsFilter"
+        callbackUri:
+          description: >-
+            The URI of the endpoint to send the notification to.
+          $ref: "../../components/SOL011_schemas.yaml#/components/schemas/Uri"
+        _links:
+          description: >-
+            Links to resources related to this resource.
+          type: object
+          required:
+            - self
+          properties:
+            self:
+              description: >-
+                URI of this resource.
+              $ref: "../../components/SOL011_schemas.yaml#/components/schemas/Link"
+
+    NsInstanceUsageNotification:
+      description: >-
+        This type represents an NS instance usage notification, which indicates the start
+        or end of usage of an NS instance as a part of a composite NS managed by the NFVO-C.
+        It shall comply with the provisions defined in table 8.6.2.4-1.
+      type: object
+      required:
+        - id
+        - notificationType
+        - subscriptionId
+        - timeStamp
+        - nsInstanceId
+        - status
+        - _links
+      properties:
+        id:
+          description: >-
+            Identifier of this notification. If a notification is sent multiple times due
+            to multiple subscriptions, the "id" attribute of all these notifications shall
+            have the same value.
+          $ref: "../../components/SOL011_schemas.yaml#/components/schemas/Identifier"
+        notificationType:
+          description: >-
+            Discriminator for the different notification types. Shall be set to
+            "NsInstanceUsageNotification" for this notification type.
+          type: string
+        subscriptionId:
+          description: >-
+            Identifier of the subscription that this notification relates to.
+          $ref: "../../components/SOL011_schemas.yaml#/components/schemas/Identifier"
+        timeStamp:
+          description: >-
+            Date and time of the generation of the notification.
+          $ref: "../../components/SOL011_schemas.yaml#/components/schemas/DateTime"
+        nsInstanceId:
+          description: >-
+            Identifier of the NS instance affected.
+          $ref: "../../components/SOL011_schemas.yaml#/components/schemas/Identifier"
+        status:
+          description: >-
+            Indicates whether this notification reports about the start of the usage of
+            an NS instance or about the end of the usage of an NS instance.
+          $ref: "#/definitions/schemas/NsInstanceUsageStatusType"
+        _links:
+          description: >-
+            Links to resources related to this notification.
+          $ref: "../../components/SOL011_schemas.yaml#/components/schemas/NotificationLink"
+
+    NsInstanceUsageNotificationsFilter:
+      description: >-
+        This type represents a subscription filter related to notifications about NS
+        instance usage. It shall comply with the provisions defined in table 8.6.3.1-1.
+      type: object
+      properties:
+        notificationTypes:
+          description: >-
+            Match particular notification types.
+
+            Permitted values:
+            - NsInstanceUsageNotification
+
+            NOTE: The permitted values of the "notificationTypes" attribute are spelled
+            exactly as the names of the notification types to facilitate automated code
+            generation systems.
+          type: array
+          items:
+            type: string
+            enum:
+              - NsInstanceUsageNotification
+        nsInstanceId:
+          description: >-
+            If present, match NS instances with an instance identifier listed in this attribute.
+          type: array
+          items:
+            $ref: "../../components/SOL011_schemas.yaml#/components/schemas/Identifier"
+        status:
+          description: >-
+            If present, match a particular status of usage of an NS instance.
+          $ref: "#/definitions/schemas/NsInstanceUsageStatusType"
+
+    NsInstanceUsageStatusType:
+      description: >-
+        The enumeration NsInstanceUsageStatusType shall comply with the provisions defined
+        in table 8.6.4.3-1.
+      type: string
+      enum:
+        - START
+        - END
+

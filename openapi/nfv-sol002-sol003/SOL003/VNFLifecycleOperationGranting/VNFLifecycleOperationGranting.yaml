@@ -1,0 +1,330 @@
+openapi: 3.0.2
+
+info:
+  title: SOL003 - VNF Lifecycle Operation Granting interface
+  description: |
+    SOL003 - VNF Lifecycle Operation Granting interface
+
+    IMPORTANT: Please note that this file might be not aligned to the current
+    version of the ETSI Group Specification it refers to. In case of
+    discrepancies the published ETSI Group Specification takes precedence.
+
+    Please report bugs to https://forge.etsi.org/rep/nfv/SOL002-SOL003/issues
+
+  contact:
+    name: NFV-SOL WG
+  license:
+    name: ETSI Forge copyright notice
+    url: https://forge.etsi.org/etsi-forge-copyright-notice.txt
+  version: "1.7.0-impl:etsi.org:ETSI_NFV_OpenAPI:1"
+
+externalDocs:
+  description: ETSI GS NFV-SOL 003 V3.7.1
+  url: https://www.etsi.org/deliver/etsi_gs/NFV-SOL/001_099/003/03.07.01_60/gs_NFV-SOL003v030701p.pdf
+
+servers:
+  - url: http://127.0.0.1/grant/v1
+  - url: https://127.0.0.1/grant/v1
+
+paths:
+  ###############################################################################
+  # API Versions                                                                #
+  ###############################################################################
+  /api_versions:
+    $ref: '../../endpoints/SOL002SOL003_endpoints.yaml#/endpoints/api-versions'
+
+  ###############################################################################
+  # Resource: Grants                                                            #
+  ###############################################################################
+  /grants:
+    #SOL003 location: 9.4.2
+    post:
+      description: |
+        The POST method requests a grant for a particular VNF lifecycle operation. See clause 9.4.2.3.1.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      requestBody:
+        $ref: '#/components/requestBodies/GrantRequest'
+      responses:
+        201:
+          $ref: '#/components/responses/Grants.Post.201'
+        202:
+          $ref: '#/components/responses/Grants.Post.202'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: '#/components/responses/Grants.Post.403'
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        422:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/422"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+  ###############################################################################
+  # Resource: Individual grant                                                  #
+  ###############################################################################
+  /grants/{grantId}:
+    #SOL003 location: 9.4.3
+    parameters:
+      - $ref: '#/components/parameters/GrantId'
+    get:
+      description: |
+        The GET method reads a grant. See clause 9.4.3.3.2.
+      parameters:
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Accept
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Authorization
+        - $ref: ../../components/SOL003_params.yaml#/components/parameters/Version
+      responses:
+        200:
+          $ref: '#/components/responses/IndividualGrant.Get.200'
+        202:
+          $ref: '#/components/responses/IndividualGrant.Get.202'
+        400:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/400"
+        401:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/401"
+        403:
+          $ref: '#/components/responses/IndividualGrant.Get.403'
+        404:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/404"
+        405:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/405"
+        406:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/406"
+        422:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/422"
+        500:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/500"
+        503:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/503"
+        504:
+          $ref: "../../responses/SOL002SOL003_resp.yaml#/components/responses/504"
+
+
+components:
+  parameters:
+    GrantId:
+      name: grantId
+      in: path
+      description: |
+        Identifier of the grant.
+        This identifier can be retrieved from the resource referenced by the
+        "Location" HTTP header in the response to a POST request granting a
+        new VNF lifecycle operation. It can also be retrieved from the "id"
+        attribute in the message content of that response.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+  
+  requestBodies:
+    GrantRequest:
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL003VNFLifecycleOperationGranting_def.yaml#/definitions/GrantRequest"
+      required: true
+
+  responses:
+    Grants.Post.201:
+      description: |
+        201 CREATED
+
+        Shall be returned when the grant has been created successfully (synchronous mode).
+        A representation of the created "Individual grant" resource shall be returned in the response body.
+        The HTTP response shall include a "Location" HTTP header that indicates the URI of the "Individual grant"
+        resource just created.
+      headers:
+        Location:
+          description: |
+            The resource URI of the created subscription resource.
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL003VNFLifecycleOperationGranting_def.yaml#/definitions/Grant"
+
+    Grants.Post.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request has been accepted for processing
+        and it is expected to take some time to create the grant (asynchronous mode).
+        The response body shall be empty.
+        The HTTP response shall include a "Location" HTTP header that indicates the URI
+        of the "Individual grant" resource that will be created once the granting decision has been made.
+      headers:
+        Location:
+          description: |
+            The resource URI of the created subscription resource.
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    Grants.Post.403:
+      description: |
+        403 FORBIDDEN
+
+        Shall be returned upon the following error: The grant
+        has been rejected.
+        A ProblemDetails structure shall be included in the
+        response to provide more details about the rejection
+        in the "details" attribute.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"
+
+    IndividualGrant.Get.200:
+      description: |
+        200 OK
+
+        Shall be returned when the grant has been read successfully.
+        A representation of the "Individual grant" resource shall be returned in the response body.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "definitions/SOL003VNFLifecycleOperationGranting_def.yaml#/definitions/Grant"
+
+    IndividualGrant.Get.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the process of creating the grant is ongoing, no grant is available yet.
+        The response body shall be empty.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    IndividualGrant.Get.403:
+      description: |
+        403 FORBIDDEN
+
+        Shall be returned upon the following error: The grant
+        has been rejected.
+        A ProblemDetails structure shall be included in the
+        response to provide more details about the rejection in
+        the "details" attribute.
+      headers:
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Version:
+          description: The used API version.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. Reference: IETF RFC 7231
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../General_Definitions/SOL003_def.yaml#/definitions/ProblemDetails"

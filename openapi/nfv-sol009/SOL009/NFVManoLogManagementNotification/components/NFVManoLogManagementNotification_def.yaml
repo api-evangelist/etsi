@@ -1,0 +1,69 @@
+components:
+  schemas:
+    LogReportAvailableNotification:
+      description: >-
+        This notification informs the receiver that the log report of the NFV-MANO functional entity is available.
+        It shall comply with the provisions defined in table 8.6.2.4-1.
+        The notification shall be triggered by the NFV-MANO functional entity when log information has been collected
+        by the logging job and the log report is available.
+      type: object
+      required:
+        - id
+        - notificationType
+        - subscriptionId
+        - timeStamp
+        - objectInstanceId
+        - _links
+      properties:
+        id:
+          description: >-
+            Identifier of this notification. If a notification is sent multiple times due to multiple subscriptions,
+            the "id" attribute of all these notifications shall have the same value.
+          $ref: '../../components/SOL009_schemas.yaml#/components/schemas/Identifier'
+        notificationType:
+          description: >-
+            Discriminator for the different notification types.
+            Shall be set to "LogReportAvailableNotification" for this notification type.
+          type: string
+        subscriptionId:
+          description: >-
+            Identifier of the subscription that this notification relates to.
+          $ref: '../../components/SOL009_schemas.yaml#/components/schemas/Identifier'
+        timeStamp:
+          description: >-
+            Date and time of the generation of the notification.
+          $ref: '../../components/SOL009_schemas.yaml#/components/schemas/DateTime'
+        objectInstanceId:
+          description: >-
+            Identifier that identifies the object instance for which the log report is available.
+            This attribute shall contain the identifier of the logged object according to their type.
+          $ref: "../../components/SOL009_schemas.yaml#/components/schemas/ManoManagedObjectReference"
+        _links:
+          description: >-
+            Links to resources related to this notification.
+          type: object
+          required:
+            - subscription
+            - logReports
+          properties:
+            subscription:
+              description: >-
+                Link to the related subscription.
+              $ref: '../../components/SOL009_schemas.yaml#/components/schemas/NotificationLink'
+            objectInstance:
+              description: >-
+                Link to the resource representing the measured object instance to which the notified change applies.
+                Shall be present if the measured object instance information is accessible as a resource.
+              $ref: '../../components/SOL009_schemas.yaml#/components/schemas/NotificationLink'
+            LoggingJob:
+              description: >-
+                Link to the resource that represents the logging job for which the log report is available.
+              $ref: '../../components/SOL009_schemas.yaml#/components/schemas/NotificationLink'
+            logReports:
+              description: >-
+                Link from which the available log report can be obtained. Due to the relationship of the logging
+                job compilation and the logging information availability reporting, more than one logReport
+                notification link can be provided.
+              type: array
+              items:
+                $ref: '../../components/SOL009_schemas.yaml#/components/schemas/NotificationLink'

@@ -1,0 +1,92 @@
+# Copyright (c) ETSI 2017.
+# https://forge.etsi.org/etsi-forge-copyright-notice.txt
+endpoints:
+  api-versions:
+    parameters:
+      - $ref: ../components/SOL002_params.yaml#/components/parameters/Version
+    get:
+      description: >
+        The GET method reads API version information. This method shall follow the provisions specified in SOL013 table 9.3.3.3.2-1
+        for request and response data structures, and response codes. URI query parameters are not supported.
+      responses:
+        "200":
+          $ref: '#/components/responses/ApiVersions.Get.200'
+        "400":
+          $ref: ../responses/SOL002SOL003_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL002SOL003_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL002SOL003_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL002SOL003_resp.yaml#/components/responses/404
+        "406":
+          $ref: ../responses/SOL002SOL003_resp.yaml#/components/responses/406
+        "413":
+          $ref: ../responses/SOL002SOL003_resp.yaml#/components/responses/413
+        "414":
+          $ref: ../responses/SOL002SOL003_resp.yaml#/components/responses/414
+        "416":
+          $ref: ../responses/SOL002SOL003_resp.yaml#/components/responses/416
+        "422":
+          $ref: ../responses/SOL002SOL003_resp.yaml#/components/responses/422
+        "429":
+          $ref: ../responses/SOL002SOL003_resp.yaml#/components/responses/429
+        "500":
+          $ref: ../responses/SOL002SOL003_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL002SOL003_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL002SOL003_resp.yaml#/components/responses/504
+    post:
+      description: >
+        This method is not supported. When this method is requested on this resource, the API producer shall return a "405
+        Method Not Allowed" response as defined in SOL013 clause 6.4.
+      responses:
+        405:
+          $ref: ../responses/SOL002SOL003_resp.yaml#/components/responses/405
+    put:
+      description: >
+        This method is not supported. When this method is requested on this resource, the API producer shall return a "405
+        Method Not Allowed" response as defined in SOL013 clause 6.4.
+      responses:
+        405:
+          $ref: ../responses/SOL002SOL003_resp.yaml#/components/responses/405
+    patch:
+      description: >
+        This method is not supported. When this method is requested on this resource, the API producer shall return a "405
+        Method Not Allowed" response as defined in SOL013 clause 6.4.
+      responses:
+        405:
+          $ref: ../responses/SOL002SOL003_resp.yaml#/components/responses/405
+    delete:
+      description: >
+        This method is not supported. When this method is requested on this resource, the API producer shall return a "405
+        Method Not Allowed" response as defined in SOL013 clause 6.4.
+      responses:
+        405:
+          $ref: ../responses/SOL002SOL003_resp.yaml#/components/responses/405
+
+components:
+  responses:
+    ApiVersions.Get.200:
+      description: >
+        API version information was read successfully.
+        The response body shall contain API version
+        information, as defined in clause 7.1.6.
+      headers:
+        Content-Type:
+          description: The MIME type of the body of the response.
+          schema:
+            type: string
+            maximum: 1
+            minimum: 1
+        Version:
+          description: The used API version.
+          schema:
+            type: string
+            maximum: 1
+            minimum: 1
+      content:
+        application/json:
+          schema:
+            $ref: '../SOL002/General_Definitions/SOL002_def.yaml#/definitions/ApiVersionInformation'

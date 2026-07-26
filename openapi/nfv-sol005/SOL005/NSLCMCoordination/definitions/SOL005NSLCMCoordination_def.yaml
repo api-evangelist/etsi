@@ -1,0 +1,183 @@
+definitions:
+  LcmCoordRequest:
+    description: |
+      This type represents an LCM coordination request. 
+      It shall comply with the provisions defined in table 12.5.2.2-1.
+
+      NOTE: How to determine the supported coordination actions is outside 
+            the scope of the present version of this document.
+    type: object
+    required:
+      - nsInstanceId
+      - nsLcmOpOccId
+      - lcmOperationType
+      - coordinationActionName
+      - _links
+    properties:
+      nsInstanceId:
+        description: |
+          Identifier of the NS instance which this coordination request is related to.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      nsLcmOpOccId:
+        description: |
+          The identifier of the NS lifecycle management operation occurrence related 
+          to the coordination.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      lcmOperationType:
+        description: |
+          Indicates the type of the LCM operation with which coordination is requested. 
+          Shall be the same as the value of the "lcmOperationType" attribute in the 
+          NsLcmOpOcc structure that is referenced by the "nsLcmOpOccId".
+        $ref: "#/definitions/LcmOperationForCoordType"
+      coordinationActionName:
+        description: |
+          Indicates the LCM coordination action. 
+          
+          See note.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/IdentifierInNsd"
+      inputParams:
+        description: |
+          Additional input parameters passed as input to the coordination action.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/KeyValuePairs"
+      _links:
+        description: |
+          Links to resources related to this request.
+        type: object
+        required:
+          - nsLcmOpOcc
+          - nsInstance
+        properties:
+          nsLcmOpOcc:
+            description: |
+              Related lifecycle management operation occurrence.
+            $ref: "../../definitions/SOL005_def.yaml#/definitions/Link"
+          nsInstance:
+            description: |
+              Related NS instance.
+            $ref: "../../definitions/SOL005_def.yaml#/definitions/Link"       
+
+  LcmCoord:
+    description: |
+      This type represents an LCM coordination result. It shall comply with the provisions 
+      defined in table 12.5.2.3-1.
+
+      NOTE: How to determine the supported coordination actions is outside the scope of the 
+            present version of this document.
+    required:
+      - id
+      - coordinationResult
+      - nsInstanceId
+      - nsLcmOpOccId
+      - lcmOperationType
+      - coordinationActionName
+      - _links
+    properties:
+      id:
+        description: |
+          Identifier of this coordination result.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      coordinationResult:
+        description: |
+          The result of executing the coordination action which also implies the action to 
+          be performed by the NFVO as the result of this coordination.
+        $ref: "#/definitions/LcmCoordResultType"
+      nsInstanceId:
+        description: |
+          Identifier of the NS instance which this coordination request is related to.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      nsLcmOpOccId:
+        description: |
+          The identifier of the NS lifecycle management operation occurrence related 
+          to the coordination.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/Identifier"
+      lcmOperationType:
+        description: |
+          Indicates the type of the LCM operation with which coordination is requested. 
+          Shall be the same as the value of the "lcmOperationType" attribute in the 
+          NsLcmOpOcc structure that is referenced by the "nsLcmOpOccId".
+        $ref: "#/definitions/LcmOperationForCoordType"
+      coordinationActionName:
+        description: |
+          Indicates the actual LCM coordination action.
+          
+          See note.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/String"
+      outputParams:
+        description: |
+          Additional parameters returned by the coordination action, e.g. on the reason 
+          for the indicated coordinationResult.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/KeyValuePairs"
+      warnings:
+        description: |
+          Warning messages that were generated while the operation was executing.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/String"
+      error:
+        description: |
+          Error information related to the coordination.
+
+          This attribute shall be present if "coordinationResult" is "ABORT" and may be 
+          present if "coordinationResult" is "CANCELLED".
+          
+          If provided, the error information should be represented in the "error" attribute 
+          of the related NsLcmOpOcc data structure.
+        $ref: "../../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+      _links:
+        description: |
+          Links to resources related to this resource.
+        type: object
+        required:
+          - self
+          - nsLcmOpOcc
+          - nsInstance
+        properties:
+          self:
+            description: |
+              URI of this resource.
+            $ref: "../../definitions/SOL005_def.yaml#/definitions/Link"
+          nsLcmOpOcc:
+            description: |
+              Related lifecycle management operation occurrence.
+            $ref: "../../definitions/SOL005_def.yaml#/definitions/Link"
+          nsInstance:
+            description: |
+              Related NS instance.
+            $ref: "../../definitions/SOL005_def.yaml#/definitions/Link"
+
+  LcmOperationForCoordType:
+    description: |
+      The enumeration LcmOperationForCoordType defines the permitted values to represent 
+      NS lifecycle operation types in NS LCM operation coordination actions. 
+      It shall comply with the provisions defined in table 12.5.4.3-1.
+
+      - INSTANTIATE: Represents the "Instantiate NS" LCM operation.
+      - SCALE: Represents the "Scale NS" LCM operation.
+      - UPDATE: Represents the "Update NS" LCM operation.
+      - TERMINATE: Represents the "Terminate NS" LCM operation. 
+      - HEAL: Represents the "Heal NS" LCM operation.
+    type: string
+    enum:
+      - INSTANTIATE
+      - SCALE
+      - UPDATE
+      - TERMINATE
+      - HEAL
+
+  LcmCoordResultType:
+    description: |
+      The enumeration LcmCoordResultType defines the permitted values to represent the result 
+      of executing an LCM coordination action. The coordination result also implies the action 
+      to be performed by the NFVO as the follow-up to this coordination. The LcmCoordResultType 
+      shall comply with the provisions defined in table 12.5.4.3.-1.
+
+      - CONTINUE: The related LCM operation shall be continued, staying in the state "PROCESSING".
+      - ABORT: The related LCM operation shall be aborted by transitioning into the state "FAILED_TEMP".
+      - CANCELLED: The coordination action has been cancelled upon request of the API consumer, 
+                   i.e. the NFVO. The related LCM operation shall be aborted by transitioning into 
+                   the state "FAILED_TEMP".
+    type: string
+    enum:
+      - CONTINUE
+      - ABORT
+      - CACELLED
+
+

@@ -1,0 +1,2577 @@
+openapi: 3.0.2
+
+info:
+  title: SOL005 - NS Lifecycle Management Interface
+  description: |
+    SOL005 - NS Lifecycle Management Interface
+
+    IMPORTANT: Please note that this file might be not aligned to the current
+    version of the ETSI Group Specification it refers to. In case of
+    discrepancies the published ETSI Group Specification takes precedence.
+
+    Please report bugs to https://forge.etsi.org/rep/nfv/SOL005/issues
+
+  contact:
+    name: NFV-SOL WG
+  license:
+    name: ETSI Forge copyright notice
+    url: https://forge.etsi.org/etsi-forge-copyright-notice.txt
+  version: 2.3.0-impl:etsi.org:ETSI_NFV_OpenAPI:1
+
+externalDocs:
+  description: ETSI GS NFV-SOL 005 V3.7.1
+  url: https://www.etsi.org/deliver/etsi_gs/NFV-SOL/001_099/005/03.07.01_60/gs_NFV-SOL005v030701p.pdf
+
+servers:
+  - url: http://127.0.0.1/nslcm/v2
+  - url: https://127.0.0.1/nslcm/v2
+
+paths:
+  /api_versions:
+    $ref: ../endpoints/SOL005_endpoints.yaml#/endpoints/api-versions
+
+  /ns_instances:
+    parameters:
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The GET method queries information about multiple NS instances. See clause 6.4.2.3.2.
+      parameters:
+        - in: query
+          name: filter
+          description: >
+            Attribute-based filtering expression according to clause 5.2 of ETSI GS NFV SOL 013.
+            The NFVO shall support receiving this parameter as part of the URI query string. 
+            The OSS/BSS may supply this parameter.
+            All attribute names that appear in the NsInstance and in data types referenced from 
+            it shall be supported by the NFVO in the filter expression.
+          schema:
+            type: string
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/all_fields
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/fields
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/exclude_fields
+        - in: query
+          name: exclude_default
+          description: >
+            Indicates to exclude the following complex attributes from the response.
+            See clause 5.3 of ETSI GS NFV-SOL 013 for details. The NFVO shall support this parameter.
+            The following attributes shall be excluded from the NsInstance structure in the response 
+            body if this parameter is provided, or none of the parameters "all_fields", "fields", 
+            "exclude_fields", "exclude_default" are provided:
+            -	vnfInstances
+            -	pnfInfo
+            -	virtualLinkInfo
+            -	vnffgInfo
+            -	sapInfo
+            -	nsScaleStatus
+            -	additionalAffinityOrAntiAffinityRules
+            -	wanConnectionInfo
+          schema:
+            type: string
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/nextpage_opaque_marker
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+      responses:
+        "200":
+          $ref: '#/components/responses/NsInstances.Get.200'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "409":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/409
+        "416":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/416
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+    post:
+      description: |
+        The POST method creates a new NS instance resource. See clause 6.4.2.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/NsInstanceCreateRequest'
+      responses:
+        "201":
+          $ref: '#/components/responses/NsInstances.Post.201'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "409":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/409
+        "416":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/416
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+  /ns_instances/{nsInstanceId}:
+    parameters:
+      - $ref: '#/components/parameters/NsInstanceId'
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The GET method retrieves information about an NS instance by reading an "Individual NS instance" resource.
+        See clause 6.4.3.3.2.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      responses:
+        "200":
+          $ref: '#/components/responses/IndividualNsInstance.Get.200'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "416":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/416
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+    delete:
+      description: |
+        This method deletes an "Individual NS instance" resource. See clause 6.4.3.3.5.
+      responses:
+        "204":
+          $ref: '#/components/responses/IndividualNsInstance.Delete.204'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "409":
+          $ref: '#/components/responses/IndividualNsInstance.Delete.409'
+        "412":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/412
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+  /ns_instances/{nsInstanceId}/instantiate:
+    parameters:
+      - $ref: '#/components/parameters/NsInstanceId'
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    post:
+      description: |
+        The POST method instantiates an NS instance. See clause 6.4.4.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/NsInstanceInstantiateRequest'
+      responses:
+        "202":
+          $ref: '#/components/responses/InstantiateNsInstance.Post.202'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "409":
+          $ref: '#/components/responses/InstantiateNsInstance.Post.409'
+        "416":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/416
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+  /ns_instances/{nsInstanceId}/scale:
+    parameters:
+      - $ref: '#/components/parameters/NsInstanceId'
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    post:
+      description: |
+        The POST method requests to scale an NS instance resource. See clause 6.4.5.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/NsInstanceScaleRequest'
+      responses:
+        "202":
+          $ref: '#/components/responses/ScaleNsInstance.Post.202'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "409":
+          $ref: '#/components/responses/ScaleNsInstance.Post.409'
+        "416":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/416
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+  /ns_instances/{nsInstanceId}/update:
+    parameters:
+      - $ref: '#/components/parameters/NsInstanceId'
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    post:
+      description: |
+        The POST method updates an NS instance. See clause 6.4.6.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/NsInstanceUpdateRequest'
+      responses:
+        "202":
+          $ref: '#/components/responses/UpdateNsInstance.Post.202'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "409":
+          $ref: '#/components/responses/UpdateNsInstance.Post.409'
+        "416":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/416
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+  /ns_instances/{nsInstanceId}/heal:
+    parameters:
+      - $ref: '#/components/parameters/NsInstanceId'
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    post:
+      description: |
+        The POST method requests to heal an NS instance. See clause 6.4.7.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/NsInstanceHealRequest'
+      responses:
+        "202":
+          $ref: '#/components/responses/HealNsInstance.Post.202'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "409":
+          $ref: '#/components/responses/HealNsInstance.Post.409'
+        "416":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/416
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+  /ns_instances/{nsInstanceId}/terminate:
+    parameters:
+      - $ref: '#/components/parameters/NsInstanceId'
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    post:
+      description: |
+        The POST method terminates an NS instance. See clause 6.4.8.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/NsInstanceTerminateRequest'
+      responses:
+        "202":
+          $ref: '#/components/responses/TerminateNsInstance.Post.202'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "409":
+          $ref: '#/components/responses/TerminateNsInstance.Post.409'
+        "416":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/416
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+  /ns_lcm_op_occs:
+    parameters:
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The API consumer can use this method to query status information about multiple NS lifecycle management
+        operation occurrences. See clause 6.4.9.3.2.
+      parameters:
+        - in: query
+          name: filter
+          description: >
+            Attribute-based filtering expression according to clause 5.2 of ETSI GS NFV SOL 013.
+            The NFVO shall support receiving this parameter as part of the URI query string. 
+            The OSS/BSS may supply this parameter.
+            All attribute names that appear in the NsLcmOpOcc and in data types referenced from 
+            it shall be supported by the NFVO in the filter expression.
+          schema:
+            type: string
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/fields
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/exclude_fields
+        - in: query
+          name: exclude_default
+          description: >
+            Indicates to exclude the following complex attributes from the response. 
+            See clause 5.3 of ETSI GS NFV-SOL 013 for details. The NFVO shall support this parameter.
+            The following attributes shall be excluded from the NsLcmOpOcc structure in the response 
+            body if this parameter is provided:
+            -	operationParams
+            -	changedVnfInfo
+            -	error
+            -	resourceChanges
+            -	lcmCoordinations
+            - warnings
+          schema:
+            type: string
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/nextpage_opaque_marker
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+      responses:
+        "200":
+          $ref: '#/components/responses/NsLcmOpOccs.Get.200'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+  /ns_lcm_op_occs/{nsLcmOpOccId}:
+    parameters:
+      - $ref: '#/components/parameters/NsLcmOpOccId'
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The API consumer can use this method to retrieve status information about an NS lifecycle management operation
+        occurrence by reading an individual "NS LCM operation occurrence" resource. See clause 6.4.10.3.2.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      responses:
+        "200":
+          $ref: '#/components/responses/IndividualNsLcmOpOcc.Get.200'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "416":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/416
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+  /ns_lcm_op_occs/{nsLcmOpOccId}/retry:
+    parameters:
+      - $ref: '#/components/parameters/NsLcmOpOccId'
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    post:
+      description: |
+        The POST method initiates retrying an NS lifecycle management operation if that operation has experienced a
+        temporary failure, i.e. the related "NS LCM operation occurrence" is in "FAILED_TEMP" state. See clause 6.4.11.3.1.
+      responses:
+        "202":
+          $ref: '#/components/responses/NsLcmOpOccRetry.Post.202'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: '#/components/responses/NsLcmOpOccRetry.Post.404'
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "409":
+          $ref: '#/components/responses/NsLcmOpOccRetry.Post.409'
+        "416":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/416
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+  /ns_lcm_op_occs/{nsLcmOpOccId}/rollback:
+    parameters:
+      - $ref: '#/components/parameters/NsLcmOpOccId'
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    post:
+      description: |
+        The POST method initiates rolling back an NS lifecycle operation if that operation has experienced a
+        temporary failure, i.e. the related "NS LCM operation occurrence" is in "FAILED_TEMP" state. See clause 6.4.12.3.1.
+      responses:
+        "202":
+          $ref: '#/components/responses/NsLcmOpOccRollback.Post.202'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: '#/components/responses/NsLcmOpOccRollback.Post.404'
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "409":
+          $ref: '#/components/responses/NsLcmOpOccRollback.Post.409'
+        "416":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/416
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+  /ns_lcm_op_occs/{nsLcmOpOccId}/continue:
+    parameters:
+      - $ref: '#/components/parameters/NsLcmOpOccId'
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    post:
+      description: |
+        The POST method initiates continuing an NS lifecycle operation if that operation has experienced a
+        temporary failure, i.e. the related "NS LCM operation occurrence" is in "FAILED_TEMP" state. See clause 6.4.13.3.1.
+      responses:
+        "202":
+          $ref: '#/components/responses/NsLcmOpOccContinue.Post.202'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: '#/components/responses/NsLcmOpOccContinue.Post.404'
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "409":
+          $ref: '#/components/responses/NsLcmOpOccContinue.Post.409'
+        "416":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/416
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+  /nslcm/v1/ns_lcm_op_occs/{nsLcmOpOccId}/fail:
+    parameters:
+      - $ref: '#/components/parameters/NsLcmOpOccId'
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    post:
+      description: |
+        The POST method marks an NS lifecycle management operation occurrence as "finally failed" if that
+        operation occurrence is in "FAILED_TEMP" state. See clause 6.4.14.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+      responses:
+        "200":
+          $ref: '#/components/responses/NsLcmOpOccFail.Post.200'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: '#/components/responses/NsLcmOpOccFail.Post.404'
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "409":
+          $ref: '#/components/responses/NsLcmOpOccFail.Post.409'
+        "416":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/416
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+  /nslcm/v1/ns_lcm_op_occs/{nsLcmOpOccId}/cancel:
+    parameters:
+      - $ref: '#/components/parameters/NsLcmOpOccId'
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    post:
+      description: |
+        The POST method initiates cancelling an ongoing NS lifecycle management operation while it is being executed
+        or rolled back, i.e. the related "NS LCM operation occurrence" is either in "PROCESSING" or "ROLLING_BACK" state.
+        See clause 6.4.15.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/NsLcmOpOccCancelRequest'
+      responses:
+        "202":
+          $ref: '#/components/responses/NsLcmOpOccCancel.Post.202'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: '#/components/responses/NsLcmOpOccCancel.Post.404'
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "409":
+          $ref: '#/components/responses/NsLcmOpOccCancel.Post.409'
+        "416":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/416
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+  /subscriptions:
+    parameters:
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The GET method queries the list of active subscriptions of the functional block that invokes the method.
+        It can be used e.g. for resynchronization after error situations. See clause 6.4.16.3.2.
+      parameters:
+        - in: query
+          name: filter
+          description: >
+            Attribute-based filtering expression according to clause 5.2 of ETSI GS NFV SOL 013.
+            The NFVO shall support receiving this parameter as part of the URI query string. 
+            The OSS/BSS may supply this parameter.
+            All attribute names that appear in the LccnSubscription and in data types referenced 
+            from it shall be supported by the NFVO in the filter expression.
+          schema:
+            type: string
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/nextpage_opaque_marker
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+      responses:
+        "200":
+          $ref: '#/components/responses/NsLcmSubscriptions.Get.200'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+    post:
+      description: |
+        The POST method creates a new subscription. See clause 6.4.16.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/NsLcmSubscriptionRequest'
+      responses:
+        "201":
+          $ref: '#/components/responses/NsLcmSubscriptions.Post.201'
+        "303":
+          $ref: '#/components/responses/NsLcmSubscriptions.Post.303'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "422":
+          $ref: '#/components/responses/NsLcmSubscriptions.Post.422'
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+  /subscriptions/{subscriptionId}:
+    parameters:
+      - $ref: '#/components/parameters/SubscriptionId'
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The GET method retrieves information about a subscription by reading an "Individual subscription" resource.
+        See clause 6.4.17.3.2.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+      responses:
+        "200":
+          $ref: '#/components/responses/IndividualNsLcmSubscription.Get.200'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+    delete:
+      description: |
+        The DELETE method terminates an individual subscription. See clause 6.4.17.3.5.
+      responses:
+        "204":
+          $ref: '#/components/responses/IndividualNsLcmSubscription.Delete.204'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+  /vnf_snapshots:
+    parameters:
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The GET method queries information about multiple VNF snapshots. See clause 6.4.19.3.2.
+      parameters:
+        - in: query
+          name: filter
+          description: >
+            Attribute-based filtering expression according to clause 5.2 of ETSI GS NFV-SOL 013.
+            The NFVO shall support receiving this parameter as part of the URI query string. 
+            The OSS/BSS may supply this parameter.
+            All attribute names that appear in the VnfSnapshotInfo and in data types referenced 
+            from it shall be supported by the NFVO in the filter expression. 
+          schema:
+            type: string
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/all_fields
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/fields
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/exclude_fields
+        - in: query
+          name: exclude_default
+          description: >
+            Indicates to exclude the following complex attributes from the response. See clause 5.3 of 
+            ETSI GS NFV-SOL 013 for details. The NFVO shall support this parameter.
+            The following attributes shall be excluded from the VnfSnapshot structure in the response 
+            body if this parameter is provided, or none of the parameters "all_fields", "fields", 
+            "exclude_fields", "exclude_default" are provided:
+            -	vnfInstance
+            -	vnfcSnapshots
+          schema:
+            type: string
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/nextpage_opaque_marker
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+      responses:
+        "200":
+          $ref: '#/components/responses/VnfSnapshots.Get.200'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+  /vnf_snapshots/{vnfSnapshotInfoId}:
+    parameters:
+      - $ref: '#/components/parameters/VnfSnapshotInfoId'
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The GET method retrieves information about a VNF snapshot by reading an "Individual VNF snapshot" resource.
+        See clause 6.4.20.3.2.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+      responses:
+        "200":
+          $ref: '#/components/responses/IndividualVnfSnapshot.Get.200'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+    delete:
+      description: |
+        This method deletes an "Individual VNF snapshot" resource and the associated VNF snapshot information managed by
+        the NFVO and corresponding VNFM, and any resource associated to the VNF snapshot managed by the VIM.
+        See clause 6.4.20.3.5.
+      responses:
+        "204":
+          $ref: '#/components/responses/IndividualVnfSnapshot.Delete.204'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "404":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/404
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "409":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/409
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+        "504":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/504
+
+components:
+  parameters:
+    filter:
+      name: filter
+      description: >
+        Attribute-based filtering expression according to clause 5.2 of ETSI GS NFV SOL 013.
+        The NFVO shall support receiving this parameter as part of the URI query string. 
+        The OSS/BSS may supply this parameter.
+        All attribute names that appear in the NsInstance and in data types referenced from 
+        it shall be supported by the NFVO in the filter expression.
+      in: query
+      required: false
+      schema:
+        type: string
+
+    exclude_default:
+      name: exclude_default
+      in: query
+      description: >-
+        Indicates to exclude the following complex attributes from the response.
+        See clause 5.3 of ETSI GS NFV-SOL 013 for details. The NFVO shall support this parameter.
+        The following attributes shall be excluded from the NsInstance structure in the response 
+        body if this parameter is provided, or none of the parameters "all_fields", "fields", 
+        "exclude_fields", "exclude_default" are provided:
+        -	vnfInstances
+        -	pnfInfo
+        -	virtualLinkInfo
+        -	vnffgInfo
+        -	sapInfo
+        -	nsScaleStatus
+        -	additionalAffinityOrAntiAffinityRules
+        -	wanConnectionInfo
+      required: false
+      schema:
+        type: string
+
+    NsInstanceId:
+      name: nsInstanceId
+      in: path
+      description: |
+        Identifier of the NS instance.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    NsLcmOpOccId:
+      name: nsLcmOpOccId
+      in: path
+      description: |
+        Identifier of a NS lifecycle management operation occurrence.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    SubscriptionId:
+      name: subscriptionId
+      in: path
+      description: |
+        Identifier of this subscription.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    VnfSnapshotInfoId:
+      name: vnfSnapshotInfoId
+      in: path
+      description: |
+        Identifier of the "Individual VNF snapshot" resource.
+        This identifier can be retrieved from the "id" attribute in the message content of a response to a query to
+        "VNF snapshots" resource.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+  requestBodies:
+    NsInstanceCreateRequest:
+      description: |
+        The NS creation parameters, as defined in clause 6.5.2.7.
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/CreateNsRequest
+      required: true
+
+    NsInstanceInstantiateRequest:
+      description: |
+        Parameters for the instantiate NS operation, as defined in clause 6.5.2.11.
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/InstantiateNsRequest
+      required: true
+
+    NsInstanceScaleRequest:
+      description: |
+        Parameters for the scale NS operation, as defined in clause 6.5.2.14.
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/ScaleNsRequest
+      required: true
+
+    NsInstanceUpdateRequest:
+      description: |
+        Parameters for the update NS operation, as defined in clause 6.5.2.12.
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/UpdateNsRequest
+      required: true
+
+    NsInstanceHealRequest:
+      description: |
+        Parameters for the heal NS operation, as defined in clause 6.5.2.13.
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/HealNsRequest
+      required: true
+
+    NsInstanceTerminateRequest:
+      description: |
+        The terminate NS request parameters, as defined in  clause 6.5.2.15.
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/TerminateNsRequest
+      required: true
+
+    NsLcmOpOccCancelRequest:
+      description: |
+        The POST request to this resource shall include a CancelMode structure in the message content to choose between
+        "graceful" and "forceful" cancellation.
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/CancelMode
+      required: true
+
+    NsLcmSubscriptionRequest:
+      description: |
+        Details of the subscription to be created, as defined in clause 6.5.2.2.
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/LccnSubscriptionRequest
+      required: true
+
+  responses:
+    NsInstances.Get.200:
+      description: |
+        200 OK
+        Shall be returned when information about zero or more NS instances has been queried successfully. The response
+        body shall contain in an array the representations of zero or more NS instances, as defined in clause 6.5.2.8.
+        If the "filter" URI parameter or one of the "all_fields", "fields" (if supported), "exclude_fields" (if supported)
+        or "exclude_default" URI parameters was supplied in the request, the data in the response body shall have been
+        transformed according to the rules specified in clauses 5.2.2 and 5.3.2 of ETSI GS NFV-SOL 013 [16], respectively.
+        If the NFVO supports alternative 2 (paging) according to clause 5.4.2.1 of ETSI GS NFV-SOL 013 [16] for this resource,
+        inclusion of the Link HTTP header in this response shall follow the provisions in clause 5.4.2.3 of ETSI GS NFV-SOL 013 [16].
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Link:
+          description: |
+            Reference to other resources. Used for paging in the present document, see clause 4.7.2.1.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ./definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/NsInstance
+
+    NsInstances.Post.201:
+      description: |
+        201 Created
+        Shall be returned when a new "Individual NS instance" resource and the associated NS instance identifier has
+        been created successfully. The response body shall contain a representation of the created NS instance, as
+        defined in clause 6.5.2.10. The HTTP response shall include a "Location" HTTP header that contains the resource
+        URI of the created NS instance.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response. This header field shall be present if the response has a
+            non-empty message body.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/NsInstance
+
+    IndividualNsInstance.Get.200:
+      description: |
+        200 OK
+        Shall be returned when information about an individual NS instance has been read successfully. The response
+        body shall contain a representation of the NS instance, as defined in clause 6.5.2.10.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response.This header field shall be present if the response has a
+            non-empty message body.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/NsInstance
+
+    IndividualNsInstance.Delete.204:
+      description: |
+        204 No Content
+        Shall be returned when the "Individual NS instance" resource and the associated NS identifier have been deleted
+        successfully. The response body shall be empty.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content: {}
+
+    IndividualNsInstance.Delete.409:
+      description: |
+        409 CONFLICT
+        Shall be returned upon the following error: The operation cannot be executed currently, due to a conflict
+        with the state of the resource.
+        Typically, this is due to the fact that the NS instance resource is in INSTANTIATED state.
+        The response body shall contain a ProblemDetails structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+
+    InstantiateNsInstance.Post.202:
+      description: |
+        202 ACCEPTED
+
+        accepted for processing, but the processing has not been completed.
+        The response body shall be empty.
+        The HTTP response shall include a "Location" HTTP header that contains the URI of the newly-created
+        "Individual NS LCM operation occurrence" resource corresponding to the operation.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Location:
+          description: The resource URI of the created NS instance
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+      content: {}
+
+    InstantiateNsInstance.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The operation cannot be executed currently, due to a conflict
+        with the state of the resource.
+        Typically, this is due to the fact that the NS instance resource is in the INSTANTIATED state, or that
+        another lifecycle management operation is ongoing.
+        The response body shall contain a ProblemDetails structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+
+    ScaleNsInstance.Post.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request has been accepted for processing, but the processing has not been completed.
+        The response body shall be empty.
+        The HTTP response shall include a "Location" HTTP header that contains the URI of the newly-created
+        "Individual NS lifecycle operation occurrence" resource corresponding to the operation.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Location:
+          description: The resource URI of the created NS instance
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+      content: {}
+
+    ScaleNsInstance.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The operation cannot be executed currently, due to a conflict with
+        the state of the resource.
+        Typically, this is due to the fact that the NS instance resource is in NOT_INSTANTIATED state, or that another
+        lifecycle management operation is ongoing.
+        The response body shall contain a ProblemDetails structure, in which the "detail" attribute shall convey more
+        information about the error.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+
+    UpdateNsInstance.Post.202:
+      description: |
+        202 ACCEPTED
+
+        accepted for processing, but the processing has not been completed.
+        The response body shall be empty.
+        The HTTP response shall include a "Location" HTTP header that contains the URI of the newly-created
+        "Individual NS lifecycle operation occurrence" resource corresponding to the operation.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Location:
+          description: The resource URI of the created NS instance
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+      content: {}
+
+    UpdateNsInstance.Post.409:
+      description: |
+       409 CONFLICT
+
+       Shall be returned upon the following error: The operation cannot be executed currently, due to a conflict
+       with the state of the resource.
+       Typically, this is due to the fact that the NS instance resource is in NOT_INSTANTIATED state, or that
+       another lifecycle management operation is ongoing.
+       The response body shall contain a ProblemDetails structure, in which the "detail" attribute shall convey
+       more information about the error.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+
+    HealNsInstance.Post.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request has been accepted for processing, but the processing has not been completed.
+        The response body shall be empty.
+        The HTTP response shall include a "Location" HTTP header that contains the URI of the newly-created
+        "Individual NS lifecycle operation occurrence" resource corresponding to the operation.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Location:
+          description: The resource URI of the created NS instance
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+      content: {}
+
+    HealNsInstance.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The operation cannot be executed currently, due to a
+        conflict with the state of the resource.
+        Typically, this is due to the fact that the NS instance resource is in NOT_INSTANTIATED state, or that
+        another lifecycle management operation is ongoing.
+        The response body shall contain a ProblemDetails structure, in which the "detail" attribute shall convey more
+        information about the error
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+
+    TerminateNsInstance.Post.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request has been accepted for processing.
+        The response body shall be empty.
+        The HTTP response shall include a "Location" HTTP header that contains the URI of the newly-created
+        "Individual NS lifecycle operation occurrence" resource corresponding to the operation.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Location:
+          description: The resource URI of the created NS instance
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+      content: {}
+
+    TerminateNsInstance.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The operation cannot be executed currently, due to a conflict
+        with the state of the resource.
+        Typically, this is due to the fact that the NS instance resource is in NOT_INSTANTIATED state, or that another
+        lifecycle management operation is ongoing.
+        The response body shall contain a ProblemDetails structure, in which the "detail" attribute shall convey more
+        information about the error.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+
+    NsLcmOpOccs.Get.200:
+      description: |
+        200 OK
+        Shall be returned when status information for zero or more NS lifecycle management operation occurrences has
+        been queried successfully. The response body shall contain in an array the status information about zero or
+        more NS lifecycle operation occurrences, as defined in clause 6.5.2.3. If the "filter" URI parameter or one
+        of the "all_fields", "fields", "exclude_fields" or "exclude_default" URI parameters was supplied in the request
+        and is supported, the data in the response body shall have been transformed according to the rules specified
+        in clauses 5.2.2 and 5.3.2 of ETSI GS NFV-SOL 013 [16], respectively. If the NFVO supports alternative 2
+        (paging) according to clause 5.4.2.1 of ETSI GS NFV-SOL 013 [16] for this resource, inclusion of the Link HTTP
+        header in this response shall follow the provisions in clause 5.4.2.3 of ETSI GS NFV-SOL 013 [16].
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Link:
+          description: |
+            Reference to other resources. Used for paging in the present document, see clause 4.7.2.1.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ./definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/NsLcmOpOcc
+
+    IndividualNsLcmOpOcc.Get.200:
+      description: |
+        200 OK
+        Shall be returned when information about an NS LCM operation occurrence has been read successfully. The response
+        body shall contain status information about an NS lifecycle management operation occurrence (see clause 6.5.2.3).
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response.This header field shall be present if the response has a
+            non-empty message body.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/NsLcmOpOcc
+
+    NsLcmOpOccRetry.Post.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request has been accepted for processing, but processing has not been completed.
+        The response shall have an empty message content.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Location:
+          description: The resource URI of the created NS instance
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+      content: {}
+
+    NsLcmOpOccRetry.Post.404:
+      description: |
+        404 NOT FOUND
+
+        Shall be returned upon the following error: The API producer did not find a current representation for the
+        target resource or is not willing to disclose that one exists.
+        The general cause for this error and its handling is specified in clause 6.4 of ETSI GS NFV-SOL 013 [16],
+        including rules for the presence of the response body.
+        Specifically in case of this task resource, the response code 404 shall also be returned if the task is not
+        supported for the NS LCM operation occurrence represented by the parent resource, which means that the task resource consequently does not exist.
+        In this case, the response body shall be present, and shall contain a ProblemDetails structure, in which the
+        "detail" attribute shall convey more information about the error.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+
+    NsLcmOpOccRetry.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The operation cannot be executed currently, due to a conflict with
+        the state of the NS LCM operation occurrence resource.
+        Typically, this is due to the fact that the NS LCM operation occurrence is not in FAILED_TEMP state, or another
+        error handling action is starting, such as rollback or fail.
+        The response body shall contain a ProblemDetails structure, in which the "detail" attribute shall convey more
+        information about the error.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+
+    NsLcmOpOccRollback.Post.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request has been accepted for processing, but processing has not been completed.
+        The response shall have an empty message content.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Location:
+          description: The resource URI of the created NS instance
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+      content: {}
+
+    NsLcmOpOccRollback.Post.404:
+      description: |
+        404 NOT FOUND
+
+        Shall be returned upon the following error: The API producer did not find a current representation for the
+        target resource or is not willing to disclose that one exists.
+        The general cause for this error and its handling is specified in clause 6.4 of ETSI GS NFV-SOL 013 [16],
+        including rules for the presence of the response body.
+        Specifically, in case of this task resource, the response code 404 shall also be returned if the task is not
+        supported for the NS LCM operation occurrence represented by the parent resource, which means that the task resource consequently does not exist.
+        In this case, the response body shall be present, and shall contain a ProblemDetails structure, in which the
+        "detail" attribute shall convey more information about the error.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+
+    NsLcmOpOccRollback.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The operation cannot be executed currently, due to a conflict with
+        the state of the NS LCM operation occurrence resource.
+        Typically, this is due to the fact that the NS LCM operation occurrence is not in FAILED_TEMP state, or another
+        error handling action is starting, such as retry or fail.
+        The response body shall contain a ProblemDetails structure, in which the "detail" attribute shall convey more
+        information about the error.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+
+    NsLcmOpOccContinue.Post.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request has been accepted for processing, but processing has not been completed.
+        The response shall have an empty message content.
+
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Location:
+          description: The resource URI of the created NS instance
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+      content: {}
+
+    NsLcmOpOccContinue.Post.404:
+      description: |
+        404 NOT FOUND
+
+        Shall be returned upon the following error: The API producer did not find a current representation for the
+        target resource or is not willing to disclose that one exists.
+        The general cause for this error and its handling is specified in clause 6.4 of ETSI GS NFV-SOL 013 [16],
+        including rules for the presence of the response body.
+        Specifically, in case of this task resource, the response code 404 shall also be returned if the task is not
+        supported for the NS LCM operation occurrence represented by the parent resource, which means that the task resource consequently does not exist.
+        In this case, the response body shall be present, and shall contain a ProblemDetails structure, in which the
+        "detail" attribute shall convey more information about the error.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    NsLcmOpOccContinue.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The operation cannot be executed currently, due to a conflict
+        with the state of the NS LCM operation occurrence resource.
+        Typically, this is due to the fact that the NS LCM operation occurrence is not in FAILED_TEMP state, or
+        another error handling action is starting, such as retry or fail.
+        The response body shall contain a ProblemDetails structure, in which the "detail" attribute shall convey
+        more information about the error.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    NsLcmOpOccFail.Post.200:
+      description: |
+        200 OK
+        Shall be returned when the state of the NS lifecycle management operation occurrence has been changed
+        successfully. The response shall include a representation of the "Individual NS lifecycle management
+        operation occurrence" resource.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response.This header field shall be present if the response has a
+            non-empty message body.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/NsLcmOpOcc
+
+
+    NsLcmOpOccFail.Post.404:
+      description: |
+        404 NOT FOUND
+
+        Shall be returned upon the following error: The API producer did not find a current representation for the
+        target resource or is not willing to disclose that one exists.
+        The general cause for this error and its handling is specified in clause 6.4 of ETSI GS NFV-SOL 013 [16],
+        including rules for the presence of the response body.
+        Specifically in case of this task resource, the response code 404 shall also be returned if the task is not
+        supported for the NS LCM operation occurrence represented by the parent resource, which means that the task resource consequently does not exist.
+        In this case, the response body shall be present, and shall contain a ProblemDetails structure, in which the
+        "detail" attribute shall convey more information about the error.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response.This header field shall be present if the response has a
+            non-empty message body.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+
+    NsLcmOpOccFail.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The operation cannot be executed currently, due to a conflict with
+        the state of the NS LCM operation occurrence resource.
+        Typically, this is due to the fact that the NS LCM operation occurrence is not in FAILED_TEMP state, or another
+        error handling action is starting, such as retry or rollback.
+        The response body shall contain a ProblemDetails structure, in which the "detail" attribute shall convey more
+        information about the error.
+
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response.This header field shall be present if the response has a
+            non-empty message body.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+
+    NsLcmOpOccCancel.Post.202:
+      description: |
+        202 ACCEPTED
+
+        Shall be returned when the request has been accepted for processing, but processing has not been completed.
+        The response shall have an empty entity body.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Location:
+          description: The resource URI of the created NS instance
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: url
+      content: {}
+
+    NsLcmOpOccCancel.Post.404:
+      description: |
+        404 NOT FOUND
+
+        Shall be returned upon the following error: The API producer did not find a current representation for the
+        target resource or is not willing to disclose that one exists.
+        The general cause for this error and its handling is specified in clause 6.4 of ETSI GS NFV-SOL 013 [16],
+        including rules for the presence of the response body.
+        Specifically, in case of this task resource, the response code 404 shall also be returned if the task is not
+        supported for the NS LCM operation occurrence represented by the parent resource, which means that the task resource consequently does not exist.
+        In this case, the response body shall be present, and shall contain a ProblemDetails structure, in which the
+        "detail" attribute shall convey more information about the error.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+
+    NsLcmOpOccCancel.Post.409:
+      description: |
+        409 CONFLICT
+
+        Shall be returned upon the following error: The operation cannot be executed currently, due to a conflict
+        with the state of the NS LCM operation occurrence resource.
+        Typically, this is due to the fact that the operation occurrence is not in PROCESSING or ROLLING_BACK state.
+        The response body shall contain a ProblemDetails structure, in which the "detail" attribute shall convey more
+        information about the error.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: The MIME type of the body of the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+
+    NsLcmSubscriptions.Get.200:
+      description: |
+        200 OK
+        Shall be returned when the list of subscriptions has been queried successfully. The response body shall
+        contain in an array the representations of all active subscriptions of the functional block that invokes
+        the method, i.e. zero or more representations of lifecycle change notification subscriptions as defined in
+        clause 6.5.2.4. If the "filter" URI parameter was supplied in the request, the data in the response body
+        shall have been transformed according to the rules specified in clause 5.2.2 of ETSI GS NFV-SOL 013 [16].
+        If the NFVO supports alternative 2 (paging) according to clause 5.4.2.1 of ETSI GS NFV-SOL 013 [16] for this
+        resource, inclusion of the Link HTTP header in this response shall follow the provisions in clause 5.4.2.3
+        of ETSI GS NFV-SOL 013 [16].
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Link:
+          description: |
+            Reference to other resources. Used for paging in the present document, see clause 4.7.2.1.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response.This header field shall be present if the response has a non-empty message body.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ./definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/LccnSubscription
+
+    NsLcmSubscriptions.Post.201:
+      description: |
+        201 Created\nShall be returned when the subscription has been
+        created successfully. The response body shall contain a representation
+        of the created "Individual subscription" resource. The HTTP response
+        shall include a "Location:" HTTP header that points to the created
+        "Individual subscription" resource.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response.This header field shall be present if the response has a
+            non-empty message body.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/LccnSubscription
+
+    NsLcmSubscriptions.Post.303:
+      description: |
+        303 See Other
+
+        Shall be returned if a subscription with the same callback URI and the same filter already exits and the
+        policy of the NFVO is to not create redundant subscriptions.
+        The HTTP response shall include a "Location" HTTP header that contains the resource URI of the existing
+        "Individual subscription" resource.
+        The response body shall be empty.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+
+    NsLcmSubscriptions.Post.422:
+      description: |
+        422 Unprocessable Content
+
+        Shall be returned upon the following error: The content type of the message content is supported and the
+        message content of a request contains syntactically correct data but the data cannot be processed.
+        The general cause for this error and its handling is specified in clause 6.4 of ETSI GS NFV-SOL 013 [16],
+        including rules for the presence of the response body.
+        Specifically in case of this resource, the response code 422 shall also be returned if the NFVO has tested
+        the Notification endpoint as described in clause 6.4.18.3.2 and the test has failed.
+        In this case, the "detail" attribute in the "ProblemDetails" structure shall convey more information about the error.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response.This header field shall be present if the response has a
+            non-empty message body.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+
+    IndividualNsLcmSubscription.Get.200:
+      description: |
+        200 OK
+        Shall be returned when information about an individual
+        subscription has been read successfully. The response body shall contain
+        a representation of the "Individual subscription" resource.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response.This header field shall be present if the response has a
+            non-empty message body.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/LccnSubscription
+
+    IndividualNsLcmSubscription.Delete.204:
+      description: |
+        204 NO CONTENT
+        Shall be returned when the "Individual subscription" resource has been deleted successfully. The response
+        body shall be empty.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content: {}
+
+    VnfSnapshots.Get.200:
+      description: |
+        200 OK
+        Shall be returned when information about zero or more VNF snapshots was queried successfully.
+        The response body shall contain in an array the representations of zero or more "Individual VNF snapshot" resources,
+        as defined in clause 6.5.2.17.
+        If the NFVO supports alternative 2 (paging) according to clause 5.4.2.1 of ETSI GS NFV-SOL 013 for this resource,
+        inclusion of the Link HTTP header in this response shall follow the provisions in clause 5.4.2.3 of ETSI GS NFV-SOL 013.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response.This header field shall be present if the response has a
+            non-empty message body.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ./definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/VnfSnapshotInfo
+
+    IndividualVnfSnapshot.Get.200:
+      description: |
+        200 OK
+        Shall be returned when information about an individual VNF snapshot was read successfully.
+        The response body shall contain a representation of the "Individual VNF snapshot" resource, as defined in clause
+        6.5.2.17.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        Content-Type:
+          description: |
+            The MIME type of the body of the response.This header field shall be present if the response has a
+            non-empty message body.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/VnfSnapshotInfo
+
+    IndividualVnfSnapshot.Delete.204:
+      description: |
+        204 NO CONTENT
+        Shall be returned when the VNF snapshot resource and the associated VNF snapshot were deleted successfully.
+        The response body shall be empty.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content: {}

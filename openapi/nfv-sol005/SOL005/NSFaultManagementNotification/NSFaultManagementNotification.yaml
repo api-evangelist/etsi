@@ -1,0 +1,354 @@
+openapi: 3.0.2
+
+info:
+  title: SOL005 - NS Fault Management Notification Interface
+  description: |
+    SOL005 - NS Fault Management Notification Interface
+
+    IMPORTANT: Please note that this file might be not aligned to the current
+    version of the ETSI Group Specification it refers to. In case of
+    discrepancies the published ETSI Group Specification takes precedence.
+
+    Please report bugs to https://forge.etsi.org/rep/nfv/SOL005/issues
+
+  contact:
+    name: NFV-SOL WG
+  license:
+    name: ETSI Forge copyright notice
+    url: https://forge.etsi.org/etsi-forge-copyright-notice.txt
+  version: 1.3.0-impl:etsi.org:ETSI_NFV_OpenAPI:1
+
+externalDocs:
+  description: ETSI GS NFV-SOL 005 V3.7.1
+  url: https://www.etsi.org/deliver/etsi_gs/NFV-SOL/001_099/005/03.07.01_60/gs_NFV-SOL005v030701p.pdf
+
+servers:
+  - url: http://127.0.0.1/callback/v1
+  - url: https://127.0.0.1/callback/v1
+paths:
+  /URI_is_provided_by_the_client_when_creating_the_subscription-AlarmNotification:
+    parameters:
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The GET method allows the API producer to test the notification endpoint that is provided by the API consumer,
+        e.g. during subscription. See clause 8.4.6.3.2.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+      responses:
+        "204":
+          $ref: '#/components/responses/AlarmNotification.Get.204'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+
+    post:
+      description: |
+        The POST method notifies an alarm related to an NS or that the alarm list has been rebuilt. The API consumer
+        shall have previously created an "individual subscription resource" with a matching filter. See clause 8.4.6.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/AlarmNotificationRequest'
+      responses:
+        "204":
+          $ref: '#/components/responses/AlarmNotification.Post.204'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+
+  /URI_is_provided_by_the_client_when_creating_the_subscription-AlarmClearedNotification:
+    parameters:
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The GET method allows the API producer to test the notification endpoint that is provided by the API consumer,
+        e.g. during subscription. See clause 8.4.6.3.2.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+      responses:
+        "204":
+          $ref: '#/components/responses/AlarmClearedNotification.Get.204'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+
+    post:
+      description: |
+        The POST method notifies an alarm related to an NS or that the alarm list has been rebuilt. The API consumer
+        shall have previously created an "individual subscription resource" with a matching filter. See clause 8.4.6.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/AlarmClearedNotificationRequest'
+      responses:
+        "204":
+          $ref: '#/components/responses/AlarmClearedNotification.Post.204'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+
+  /URI_is_provided_by_the_client_when_creating_the_subscription-AlarmListRebuiltNotification:
+    parameters:
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Version
+      - $ref: ../components/SOL005_params.yaml#/components/parameters/Authorization
+    get:
+      description: |
+        The GET method allows the API producer to test the notification endpoint that is provided by the API consumer,
+        e.g. during subscription. See clause 8.4.6.3.2.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+      responses:
+        "204":
+          $ref: '#/components/responses/AlarmListRebuiltNotification.Get.204'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+
+    post:
+      description: |
+        The POST method notifies an alarm related to an NS or that the alarm list has been rebuilt. The API consumer
+        shall have previously created an "individual subscription resource" with a matching filter. See clause 8.4.6.3.1.
+      parameters:
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/Accept
+        - $ref: ../components/SOL005_params.yaml#/components/parameters/ContentType
+      requestBody:
+        $ref: '#/components/requestBodies/AlarmListRebuiltNotificationRequest'
+      responses:
+        "204":
+          $ref: '#/components/responses/AlarmListRebuiltNotification.Post.204'
+        "400":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/400
+        "401":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/401
+        "403":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/403
+        "405":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/405
+        "406":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/406
+        "500":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/500
+        "503":
+          $ref: ../responses/SOL005_resp.yaml#/components/responses/503
+
+components:
+  requestBodies:
+    AlarmNotificationRequest:
+      description: |
+        Information of an NS alarm.
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSFaultManagementNotification_def.yaml#/definitions/AlarmNotification
+      required: true
+
+    AlarmClearedNotificationRequest:
+      description: |
+        Information of the clearance of an NS alarm.
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSFaultManagementNotification_def.yaml#/definitions/AlarmClearedNotification
+      required: true
+
+    AlarmListRebuiltNotificationRequest:
+      description: |
+        Information that the alarm list has been rebuilt by the NFVO.
+      content:
+        application/json:
+          schema:
+            $ref: ./definitions/SOL005NSFaultManagementNotification_def.yaml#/definitions/AlarmListRebuiltNotification
+      required: true
+
+  responses:
+    AlarmNotification.Get.204:
+      description: |
+        204 No Content
+        Shall be returned when the notification endpoint has been tested successfully. The response body shall be empty.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content: {}
+
+    AlarmNotification.Post.204:
+      description: |
+        204 No Content
+        Shall be returned when the notification has been delivered successfully. The response body shall be empty.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content: {}
+
+    AlarmClearedNotification.Get.204:
+      description: |
+        204 No Content
+        Shall be returned when the notification endpoint has been tested successfully. The response body shall be empty.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content: {}
+
+    AlarmClearedNotification.Post.204:
+      description: |
+        204 No Content
+        The notification was delivered successfully. The response body shall be empty.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content: {}
+
+    AlarmListRebuiltNotification.Get.204:
+      description: |
+        204 No Content
+        Shall be returned when the notification endpoint has been tested successfully. The response body shall be empty.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content: {}
+
+    AlarmListRebuiltNotification.Post.204:
+      description: |
+        204 No Content
+        The notification was delivered successfully. The response body shall be empty.
+      headers:
+        Version:
+          description: |
+            Version of the API used in the response.
+          style: simple
+          explode: false
+          schema:
+            type: string
+        WWW-Authenticate:
+          description: |
+            Challenge if the corresponding HTTP request has not provided authorization, or error details if the
+            corresponding HTTP request has provided an invalid authorization token.
+          style: simple
+          explode: false
+          schema:
+            type: string
+      content: {}

@@ -1,0 +1,33 @@
+openapi: 3.0.2
+
+info:
+  title: SOL009 - API version interface
+  description: |
+    SOL009 - API version Interface
+
+    IMPORTANT: Please note that this file might be not aligned to the current
+    version of the ETSI Group Specification it refers to. In case of
+    discrepancies the published ETSI Group Specification takes precedence.
+
+    Please report bugs to https://forge.etsi.org/rep/nfv/SOL009/issues
+
+  contact:
+    name: NFV-SOL WG
+  license:
+    name: ETSI Forge copyright notice
+    url: https://forge.etsi.org/etsi-forge-copyright-notice.txt
+  version: 1.1.0-impl:etsi.org:ETSI_NFV_OpenAPI:1
+
+externalDocs:
+  description: ETSI GS NFV-SOL 009 V3.7.1
+  url: https://www.etsi.org/deliver/etsi_gs/NFV-SOL/001_099/009/03.07.01_60/gs_NFV-SOL009v030701p.pdf
+
+paths:
+  /nfvmanocim/api_versions:
+    $ref: ../endpoints/SOL009_endpoints.yaml#/endpoints/api_versions
+  /nfvmanofm/api_versions:
+    $ref: ../endpoints/SOL009_endpoints.yaml#/endpoints/api_versions
+  /nfvmanologm/api_versions:
+    $ref: ../endpoints/SOL009_endpoints.yaml#/endpoints/api_versions
+  /nfvmanolopm/api_versions:
+    $ref: ../endpoints/SOL009_endpoints.yaml#/endpoints/api_versions
