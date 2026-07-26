@@ -1,0 +1,160 @@
+generated: '2026-07-25'
+method: derived
+source: >-
+  schema components and $ref graph across the 112 OpenAPI documents in openapi/ — 1,826 distinct
+  schema names, 8,000+ internal references
+summary: >-
+  There is no single ETSI data model. The corpus holds four independent entity graphs that share
+  only a handful of primitive types. The most reused schema in the whole corpus is
+  EventSubscription (1,047 references) — a fair summary of what ETSI's API work actually is:
+  subscribe to a network resource and get told when it changes. ProblemDetails (559 references)
+  is the second most reused, which is why the RFC 7807/9457 error shape is the one convention
+  that does hold across families.
+schema_counts:
+  total_distinct: 1826
+  by_family:
+    openslice-tmf: 752
+    mec: 491
+    nfv-sol005: 254
+    nfv-sol002-sol003: 167
+    camara: 102
+    capif: 91
+    nfv-sol009: 94
+    ngsi-ld: 65
+    nfv-sol011: 18
+    nfv-sol012: 1
+most_reused_schemas:
+- {name: EventSubscription, refs: 1047, meaning: subscription to a notification stream, shared across NFV SOL and TM Forum}
+- {name: Identifier, refs: 589, meaning: NFV SOL identifier primitive}
+- {name: ProblemDetails, refs: 559, meaning: RFC 7807/9457 error body}
+- {name: Error, refs: 268, meaning: TM Forum error envelope}
+- {name: KeyValuePairs, refs: 202}
+- {name: TimePeriod, refs: 182}
+- {name: Link, refs: 161, meaning: HATEOAS self/related links}
+- {name: RelatedParty, refs: 89, meaning: TM Forum party linkage}
+- {name: ServiceSpecification, refs: 81}
+- {name: LdContext, refs: 84, meaning: NGSI-LD JSON-LD @context}
+domains:
+- id: nfv
+  label: ETSI NFV — virtualised network function and network service lifecycle
+  specs: openapi/nfv-sol002-sol003/, openapi/nfv-sol005/, openapi/nfv-sol009/, openapi/nfv-sol011/, openapi/nfv-sol012/
+  entities:
+  - {name: VnfInstance, id_field: id, description: an instantiated virtualised network function}
+  - {name: VnfPkgInfo, id_field: id, description: an onboarded VNF package}
+  - {name: VnfLcmOpOcc, id_field: id, description: a lifecycle-management operation occurrence}
+  - {name: NsInstance, id_field: id, description: an instantiated network service}
+  - {name: NsdInfo, id_field: id, description: an onboarded network service descriptor}
+  - {name: NsLcmOpOcc, id_field: id}
+  - {name: Alarm, id_field: id, description: a fault-management alarm}
+  - {name: PmJob, id_field: id, description: a performance-management job}
+  - {name: Threshold, id_field: id}
+  - {name: VnfSnapshotPkgInfo, id_field: id}
+  - {name: ManoEntity, id_field: id, description: an NFV-MANO functional entity (SOL009)}
+  - {name: Subscription, id_field: id}
+  relationships:
+  - {from: VnfInstance, to: VnfPkgInfo, kind: belongs_to, via: vnfPkgId}
+  - {from: VnfInstance, to: VnfLcmOpOcc, kind: has_many, via: vnfInstanceId}
+  - {from: NsInstance, to: NsdInfo, kind: belongs_to, via: nsdId}
+  - {from: NsInstance, to: VnfInstance, kind: has_many, via: vnfInstance}
+  - {from: NsInstance, to: NsLcmOpOcc, kind: has_many, via: nsInstanceId}
+  - {from: Alarm, to: VnfInstance, kind: belongs_to, via: managedObjectId}
+  - {from: PmJob, to: VnfInstance, kind: has_many, via: objectInstanceIds}
+  - {from: Threshold, to: PmJob, kind: belongs_to, via: objectInstanceId}
+  - {from: VnfSnapshotPkgInfo, to: VnfInstance, kind: belongs_to, via: vnfInstanceId}
+  - {from: Subscription, to: EventSubscription, kind: has_one, via: filter}
+- id: mec
+  label: ETSI ISG MEC — edge platform, services and applications
+  specs: openapi/mec/
+  entities:
+  - {name: ServiceInfo, id_field: serInstanceId, description: a MEC service registered on the platform (MEC 011)}
+  - {name: AppInfo, id_field: appInstanceId, description: a MEC application instance}
+  - {name: AppPkgInfo, id_field: id, description: an onboarded MEC application package (MEC 010-2)}
+  - {name: TrafficRule, id_field: trafficRuleId}
+  - {name: DnsRule, id_field: dnsRuleId}
+  - {name: BwInfo, id_field: appInsId, description: bandwidth allocation (MEC 015)}
+  - {name: UserInfo, id_field: address, description: UE location (MEC 013)}
+  - {name: ZoneInfo, id_field: zoneId}
+  - {name: AccessPointInfo, id_field: accessPointId}
+  - {name: RabInfoRab, id_field: erabId, description: radio access bearer (MEC 012)}
+  - {name: RegistrationInfo, id_field: appMobilityServiceId, description: application mobility (MEC 021)}
+  - {name: SystemInfo, id_field: systemId, description: a federated MEC system (MEC 040)}
+  relationships:
+  - {from: AppInfo, to: AppPkgInfo, kind: belongs_to, via: appPkgId}
+  - {from: AppInfo, to: ServiceInfo, kind: has_many, via: serInstanceId}
+  - {from: AppInfo, to: TrafficRule, kind: has_many, via: appInstanceId}
+  - {from: AppInfo, to: DnsRule, kind: has_many, via: appInstanceId}
+  - {from: UserInfo, to: ZoneInfo, kind: belongs_to, via: zoneId}
+  - {from: UserInfo, to: AccessPointInfo, kind: belongs_to, via: accessPointId}
+  - {from: ZoneInfo, to: AccessPointInfo, kind: has_many, via: zoneId}
+  - {from: BwInfo, to: AppInfo, kind: belongs_to, via: appInsId}
+- id: ngsi-ld
+  label: ETSI ISG CIM — NGSI-LD context information
+  specs: openapi/ngsi-ld/
+  entities:
+  - {name: Entity, id_field: id, description: a context entity identified by URI and typed by a JSON-LD term}
+  - {name: Property, description: an attribute of an entity carrying a value}
+  - {name: Relationship, description: an attribute of an entity pointing at another entity URI}
+  - {name: Subscription, id_field: id}
+  - {name: CsourceRegistration, id_field: id, description: a registered context source}
+  - {name: EntityTemporal, description: the temporal representation of an entity}
+  relationships:
+  - {from: Entity, to: Property, kind: has_many, via: attribute name}
+  - {from: Entity, to: Relationship, kind: has_many, via: attribute name}
+  - {from: Relationship, to: Entity, kind: belongs_to, via: object (entity URI)}
+  - {from: Subscription, to: Entity, kind: has_many, via: 'entities[].type/id/idPattern'}
+  - {from: CsourceRegistration, to: Entity, kind: has_many, via: 'information[].entities'}
+  - {from: EntityTemporal, to: Entity, kind: belongs_to, via: id}
+  note: >-
+    NGSI-LD is the one ETSI family whose data model is defined by a JSON-LD @context rather than
+    by closed schema components — LdContext is referenced 84 times
+- id: tmforum-openslice
+  label: ETSI OpenSlice — TM Forum Open API resource model
+  specs: openapi/openslice-tmf/
+  base_url: https://portal.openslice.eu/tmf-api
+  entities:
+  - {name: ServiceSpecification, id_field: id, tmf: TMF633}
+  - {name: ServiceCatalog, id_field: id, tmf: TMF633}
+  - {name: ServiceCategory, id_field: id, tmf: TMF633}
+  - {name: ServiceCandidate, id_field: id, tmf: TMF633}
+  - {name: Service, id_field: id, tmf: TMF638}
+  - {name: ServiceOrder, id_field: id, tmf: TMF641}
+  - {name: ProductSpecification, id_field: id, tmf: TMF620}
+  - {name: ProductOffering, id_field: id, tmf: TMF620}
+  - {name: ProductOrder, id_field: id, tmf: TMF622}
+  - {name: Product, id_field: id, tmf: TMF637}
+  - {name: ResourceSpecification, id_field: id, tmf: TMF634}
+  - {name: Resource, id_field: id, tmf: TMF639}
+  - {name: ResourcePool, id_field: id, tmf: TMF685}
+  - {name: Alarm, id_field: id, tmf: TMF642}
+  - {name: Customer, id_field: id, tmf: TMF629}
+  - {name: Organization, id_field: id, tmf: TMF632}
+  - {name: Individual, id_field: id, tmf: TMF632}
+  - {name: PartyRole, id_field: id, tmf: TMF669}
+  - {name: Agreement, id_field: id, tmf: TMF651}
+  - {name: BillingAccount, id_field: id, tmf: TMF666}
+  - {name: ServiceTest, id_field: id, tmf: TMF653}
+  - {name: GeographicSite, id_field: id, tmf: TMF674}
+  relationships:
+  - {from: ServiceCatalog, to: ServiceCategory, kind: has_many, via: category}
+  - {from: ServiceCategory, to: ServiceCandidate, kind: has_many, via: serviceCandidate}
+  - {from: ServiceCandidate, to: ServiceSpecification, kind: belongs_to, via: serviceSpecification}
+  - {from: Service, to: ServiceSpecification, kind: belongs_to, via: serviceSpecification}
+  - {from: ServiceOrder, to: Service, kind: has_many, via: 'serviceOrderItem[].service'}
+  - {from: ProductOffering, to: ProductSpecification, kind: belongs_to, via: productSpecification}
+  - {from: ProductOrder, to: ProductOffering, kind: has_many, via: 'productOrderItem[].productOffering'}
+  - {from: Product, to: ProductOffering, kind: belongs_to, via: productOffering}
+  - {from: Product, to: Service, kind: has_many, via: realizingService}
+  - {from: Resource, to: ResourceSpecification, kind: belongs_to, via: resourceSpecification}
+  - {from: Service, to: Resource, kind: has_many, via: supportingResource}
+  - {from: Alarm, to: Resource, kind: belongs_to, via: 'affectedService/alarmedObject'}
+  - {from: Customer, to: Organization, kind: belongs_to, via: engagedParty}
+  - {from: PartyRole, to: Organization, kind: belongs_to, via: engagedParty}
+  - {from: BillingAccount, to: PartyRole, kind: has_many, via: relatedParty}
+  - {from: Agreement, to: PartyRole, kind: has_many, via: engagedParty}
+  - {from: ResourcePool, to: Resource, kind: has_many, via: 'capacity.resourcePool'}
+shared_primitives:
+- {name: ProblemDetails, shared_by: [nfv, mec, capif], note: RFC 7807/9457 error body}
+- {name: EventSubscription, shared_by: [nfv, tmforum-openslice]}
+- {name: Link, shared_by: [nfv, mec], note: HATEOAS _links}
+- {name: TimePeriod, shared_by: [tmforum-openslice, nfv]}
+render: none (no subway/ diagram in this repo)

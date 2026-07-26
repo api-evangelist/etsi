@@ -1,0 +1,94 @@
+generated: '2026-07-25'
+method: searched
+source: >-
+  derived from the oauth2 securitySchemes in openapi/openslice-tmf/ and openapi/capif/, then
+  upgraded with scopes_supported from the live OIDC discovery documents in well-known/
+docs:
+- https://portal.openslice.eu/auth/realms/openslice/.well-known/openid-configuration
+- https://forge.etsi.org/rep/.well-known/openid-configuration
+schemes:
+- name: security_auth
+  source: openapi/openslice-tmf/
+  issuer: https://portal.openslice.eu/auth/realms/openslice
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://portal.openslice.eu/auth/realms/openslice/protocol/openid-connect/auth
+    tokenUrl: https://portal.openslice.eu/auth/realms/openslice/protocol/openid-connect/token
+- name: oAuth2ClientCredentials
+  source: openapi/capif/
+  flows:
+  - flow: clientCredentials
+    tokenUrl: '{tokenUrl}'
+    note: OpenCAPIF issues no static scope list; access is governed by per-invoker access control policy
+scopes:
+- scope: read
+  description: Read access to the ETSI OpenSlice TM Forum Open API resources
+  flows: [authorizationCode]
+  sources: [openapi/openslice-tmf/, well-known/etsi-openslice-openid-configuration.json]
+- scope: write
+  description: Write access to the ETSI OpenSlice TM Forum Open API resources
+  flows: [authorizationCode]
+  sources: [openapi/openslice-tmf/, well-known/etsi-openslice-openid-configuration.json]
+- scope: admin
+  description: Administrative access to the OpenSlice realm
+  flows: [authorizationCode]
+  sources: [well-known/etsi-openslice-openid-configuration.json]
+  note: advertised by the Keycloak realm, not declared in any published OpenAPI
+- scope: openapi
+  description: Realm client scope used by the OpenSlice Swagger UI to obtain a token for try-it calls
+  flows: [authorizationCode]
+  sources: [well-known/etsi-openslice-openid-configuration.json]
+- scope: openid
+  description: Standard OpenID Connect scope
+  flows: [authorizationCode]
+  sources: [well-known/etsi-openslice-openid-configuration.json, well-known/etsi-forge-openid-configuration.json]
+- scope: profile
+  description: Standard OIDC profile claims
+  flows: [authorizationCode]
+  sources: [well-known/etsi-openslice-openid-configuration.json, well-known/etsi-forge-openid-configuration.json]
+- scope: email
+  description: Standard OIDC email claim
+  flows: [authorizationCode]
+  sources: [well-known/etsi-openslice-openid-configuration.json, well-known/etsi-forge-openid-configuration.json]
+- scope: roles
+  description: Keycloak realm/client role claims
+  flows: [authorizationCode]
+  sources: [well-known/etsi-openslice-openid-configuration.json]
+- scope: address
+  description: Standard OIDC address claim
+  flows: [authorizationCode]
+  sources: [well-known/etsi-openslice-openid-configuration.json]
+- scope: phone
+  description: Standard OIDC phone claim
+  flows: [authorizationCode]
+  sources: [well-known/etsi-openslice-openid-configuration.json]
+- scope: microprofile-jwt
+  description: MicroProfile JWT claim mapper scope
+  flows: [authorizationCode]
+  sources: [well-known/etsi-openslice-openid-configuration.json]
+- scope: web-origins
+  description: Keycloak CORS web-origins scope
+  flows: [authorizationCode]
+  sources: [well-known/etsi-openslice-openid-configuration.json]
+- scope: offline_access
+  description: Issues a refresh token usable while the user is offline
+  flows: [authorizationCode]
+  sources: [well-known/etsi-openslice-openid-configuration.json]
+gitlab_platform_scopes:
+  note: >-
+    The two GitLab instances that host every machine-readable ETSI artefact are themselves OAuth
+    2.0 authorization servers. These are GitLab platform scopes, not ETSI-authored ones, but they
+    are the scopes any agent must request to write to forge.etsi.org or labs.etsi.org.
+  issuers: [https://forge.etsi.org/rep, https://labs.etsi.org/rep]
+  source: well-known/etsi-forge-openid-configuration.json
+  scopes: [api, read_api, read_user, create_runner, manage_runner, k8s_proxy, self_rotate,
+    mcp, mcp_orbit, read_repository, write_repository, read_registry, write_registry,
+    read_virtual_registry, write_virtual_registry, read_observability, write_observability,
+    ai_features, sudo, admin_mode, read_service_ping, openid, profile, email, ai_workflows, 'user:*']
+  mcp_scopes:
+  - scope: mcp
+    description: Access the GitLab MCP server at /api/v4/mcp
+    protected_resource: well-known/etsi-forge-oauth-protected-resource.json
+  - scope: mcp_orbit
+    description: Access the GitLab Orbit MCP server at /api/v4/orbit/mcp
+    protected_resource: well-known/etsi-forge-oauth-protected-resource.json

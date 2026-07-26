@@ -1,0 +1,33 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for ETSI OpenCAPIF (3GPP CAPIF TS 29.222)
+  version: 1.0.0
+extends: openapi/capif/capif-api-invoker-management.yaml
+x-apievangelist:
+  generated: '2026-07-25'
+  method: generated
+  provider: etsi
+  family: capif
+  family_documents: 4
+  family_operations: 10
+  note: This overlay records API Evangelist enrichment metadata for the whole capif family in this repo.
+    It never mutates the harvested ETSI specification, which is published BSD-3-Clause on ETSI Forge /
+    ETSI Labs.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: etsi
+    x-apievangelist-family: capif
+    x-apievangelist-documentation: https://ocf.etsi.org/documentation/latest/
+    x-apievangelist-license: BSD-3-Clause
+    x-apievangelist-license-url: https://forge.etsi.org/legal-matters
+    x-apievangelist-tags:
+    - 3GPP
+    - CAPIF
+    - Network Exposure
+    x-apievangelist-conventions: conventions/etsi-conventions.yml
+    x-apievangelist-errors: errors/etsi-problem-types.yml
+    x-apievangelist-authentication: authentication/etsi-authentication.yml
+    x-apievangelist-lifecycle: lifecycle/etsi-lifecycle.yml
+    x-apievangelist-events: asyncapi/etsi-webhooks.yml
+    x-apievangelist-idempotency-supported: false

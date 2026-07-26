@@ -1,0 +1,117 @@
+generated: '2026-07-25'
+method: derived
+source: >-
+  derived from the 112 OpenAPI documents in openapi/ (parameters, headers, response media types,
+  security schemes) and the ETSI drafting rules those documents follow
+note: >-
+  ETSI does not publish one house style across all of its API work. Three distinct convention
+  families sit in this repo and they disagree with each other on almost every cross-cutting
+  concern. They are recorded separately below rather than blended into a fictional single
+  standard.
+families:
+- id: nfv-sol
+  label: ETSI NFV SOL002/003/005/009/011/012
+  specs: openapi/nfv-sol002-sol003/, openapi/nfv-sol005/, openapi/nfv-sol009/, openapi/nfv-sol011/, openapi/nfv-sol012/
+  base_path: '{apiRoot}/<service>/v<major>'
+  authentication: >-
+    none declared in the specification — SOL 013 clause 8.3 leaves OAuth 2.0 / TLS client cert to
+    the deployment
+  versioning:
+    style: uri-path major version plus a `Version` request header
+    header: Version
+    header_description: version of the API requested to use when responding to this request
+  pagination:
+    style: opaque marker
+    request_param: nextpage_opaque_marker (query)
+    response: RFC 8288 Link header with rel="next"
+    total_count: not returned
+  filtering:
+    param: filter
+    syntax: ETSI GS NFV-SOL 013 attribute-based filtering expression
+  sparse_fields:
+    params: [fields, exclude_fields, all_fields, exclude_default]
+  conditional_requests:
+    etag: true
+    if_match: true
+    purpose: optimistic concurrency on resource modification
+  async_operations:
+    style: 202 Accepted plus a Location header pointing at an operation-occurrence resource
+    polling: GET the vnf_lcm_op_occs / ns_lcm_op_occs resource
+    retry_after: true
+  error_envelope:
+    media_type: application/problem+json
+    schema: ProblemDetails (RFC 7807 / RFC 9457 shape)
+    fields: [type, title, status, detail, instance]
+  notifications: HTTP callback (webhook) to a subscriber-supplied URI, with a subscription resource
+  idempotency: not supported — no Idempotency-Key header or equivalent anywhere in the family
+- id: isg-mec
+  label: ETSI ISG MEC service APIs (MEC 010-2, 011, 012, 013, 014, 015, 016, 021, 028, 029, 030, 033, 040)
+  specs: openapi/mec/
+  base_path: '{apiRoot}/<service>/v<major>'
+  authentication: >-
+    none declared in the specification — MEC 009 leaves OAuth 2.0 client credentials to the MEC
+    platform deployment
+  versioning: uri-path major version, deliverable versioned V<major>.<technical>.<editorial>
+  pagination: not defined at the API level
+  filtering:
+    param: filter
+    syntax: attribute-based filtering, aligned with the NFV SOL 013 grammar
+  conditional_requests:
+    etag: partial
+  error_envelope:
+    media_type: application/problem+json
+    schema: ProblemDetails
+  notifications: subscription resource plus HTTP callback to a callbackReference URI
+  idempotency: not supported
+- id: tmforum-openslice
+  label: ETSI OpenSlice TM Forum Open APIs
+  specs: openapi/openslice-tmf/
+  base_url: https://portal.openslice.eu/tmf-api
+  authentication:
+    style: OAuth 2.0 authorization code, bearer JWT
+    authorization_server: https://portal.openslice.eu/auth/realms/openslice
+    scopes: [read, write]
+    note: the public demo answers read paths anonymously despite the declared scheme
+  versioning: uri-path TM Forum API version (v4, v5, v3, v2 depending on the TMF number)
+  pagination:
+    style: offset/limit
+    request_params: [offset, limit]
+    total_count: not declared in the harvested documents
+  sparse_fields:
+    param: fields
+    syntax: comma-separated attribute list, TM Forum convention
+  partial_update:
+    media_types: [application/merge-patch+json, application/json-patch+json, application/json-patch-query+json]
+  error_envelope:
+    media_type: application/json;charset=utf-8
+    schema: TM Forum Error (code, reason, message, status, referenceError)
+  events:
+    style: TM Forum hub/listener — POST a listener callback to /hub, receive events at your listener endpoint
+    see: asyncapi/etsi-openslice-tmf-events.yml
+  idempotency: not supported
+cross_cutting:
+  idempotency:
+    supported: false
+    evidence: >-
+      zero occurrences of "idempoten" across all 112 documents. Neither the ETSI NFV SOL drafting
+      rules, the ISG MEC service API pattern nor the TM Forum Open API pattern define an
+      idempotency key. No `Idempotency` pointer is emitted for this provider.
+  rate_limiting:
+    declared: false
+    signalled_status: 429 appears in 193 responses but no RateLimit or Retry-After header contract is declared for it
+  request_tracing:
+    declared: false
+    note: no X-Request-Id / correlation-id header convention in any family
+  media_types:
+    primary: [application/json, 'application/json;charset=utf-8']
+    problem: application/problem+json (92 responses)
+    patch: [application/merge-patch+json, application/json-patch+json, application/json-patch-query+json]
+  http_status_use:
+    counts: {400: 1180, 403: 1102, 401: 1052, 404: 1038, 500: 938, 405: 903, 409: 588,
+      406: 505, 503: 463, 504: 310, 422: 218, 429: 193, 416: 129, 412: 46, 501: 27, 415: 15}
+cross_links:
+  errors: errors/etsi-problem-types.yml
+  lifecycle: lifecycle/etsi-lifecycle.yml
+  authentication: authentication/etsi-authentication.yml
+  scopes: scopes/etsi-scopes.yml
+  events: asyncapi/etsi-openslice-tmf-events.yml

@@ -1,0 +1,95 @@
+generated: '2026-07-25'
+method: searched
+source: >-
+  derived from every securityScheme across the 112 OpenAPI documents in openapi/, then
+  upgraded with the live OIDC/OAuth discovery documents harvested into well-known/
+docs:
+- https://ocf.etsi.org/documentation/latest/
+- https://osl.etsi.org/documentation/latest/
+summary:
+  types: [oauth2, openIdConnect, http]
+  api_key_in: []
+  oauth2_flows: [authorizationCode, clientCredentials]
+  http_schemes: [bearer]
+  posture: >-
+    ETSI is a standards body, so most of the harvested specs describe a protocol, not a hosted
+    service, and carry no security scheme at all — the deployer supplies one. Three surfaces do
+    declare real authentication: the ETSI OpenSlice TM Forum Open APIs (OAuth 2.0 authorization
+    code against a live Keycloak realm), OpenCAPIF (OAuth 2.0 client credentials, token URL
+    templated per deployment), and the OpenSlice CAMARA QoD Provisioning add-on (OpenID Connect
+    plus a bearer scheme for notification sinks, matching the CAMARA authorisation model).
+schemes:
+- name: security_auth
+  type: oauth2
+  scheme: bearer
+  bearer_format: JWT
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://portal.openslice.eu/auth/realms/openslice/protocol/openid-connect/auth
+    tokenUrl: https://portal.openslice.eu/auth/realms/openslice/protocol/openid-connect/token
+    scopes: [read, write]
+  applies_to: the 25 ETSI OpenSlice TM Forum Open API documents in openapi/openslice-tmf/
+  sources: [openapi/openslice-tmf/]
+- name: oAuth2ClientCredentials
+  type: oauth2
+  flows:
+  - flow: clientCredentials
+    tokenUrl: '{tokenUrl}'
+    scopes: []
+  note: >-
+    3GPP CAPIF TS 29.222 as implemented by ETSI OpenCAPIF. The token URL is a deployment
+    template — the CAPIF core function issues the token after an API invoker is onboarded.
+  sources:
+  - openapi/capif/capif-api-invoker-management.yaml
+  - openapi/capif/capif-api-provider-management.yaml
+  - openapi/capif/capif-access-control-policy.yaml
+  - openapi/capif/capif-auditing.yaml
+- name: openId
+  type: openIdConnect
+  openIdConnectUrl: https://example.com/.well-known/openid-configuration
+  note: >-
+    CAMARA authorisation model. The discovery URL in the published document is the CAMARA
+    template placeholder, to be replaced by the operator's own issuer at deployment. No CIBA
+    grant is declared in this document.
+  sources: [openapi/camara/openslice-camara-qod-provisioning.yaml]
+- name: notificationsBearerAuth
+  type: http
+  scheme: bearer
+  bearer_format: '{$request.body#/sinkCredential.credentialType}'
+  note: bearer credential the API presents back to a subscriber's notification sink
+  sources: [openapi/camara/openslice-camara-qod-provisioning.yaml]
+authorization_servers:
+- issuer: https://portal.openslice.eu/auth/realms/openslice
+  software: Keycloak
+  discovery: well-known/etsi-openslice-openid-configuration.json
+  grant_types: [authorization_code, implicit, refresh_token, password, client_credentials,
+    'urn:ietf:params:oauth:grant-type:device_code', 'urn:openid:params:grant-type:ciba']
+  pkce: [plain, S256]
+  protects: https://portal.openslice.eu/tmf-api
+- issuer: https://forge.etsi.org/rep
+  software: GitLab
+  discovery: well-known/etsi-forge-openid-configuration.json
+  grant_types: [authorization_code, password, client_credentials, device_code, refresh_token]
+  pkce: [plain, S256]
+  protects: https://forge.etsi.org/rep/api/v4 (anonymous read, token required for write)
+- issuer: https://labs.etsi.org/rep
+  software: GitLab
+  discovery: well-known/etsi-labs-openid-configuration.json
+  grant_types: [authorization_code, password, client_credentials, device_code, refresh_token]
+  pkce: [plain, S256]
+  protects: https://labs.etsi.org/rep/api/v4 (anonymous read, token required for write)
+anonymous_surfaces:
+- url: https://forge.etsi.org/rep/api/v4/projects
+  note: GitLab REST API answers project listing without a token
+- url: https://labs.etsi.org/rep/api/v4/projects
+  note: GitLab REST API answers project listing without a token
+- url: https://portal.openslice.eu/tmf-api
+  note: >-
+    the public OpenSlice demo answers TM Forum read paths anonymously even though the specs
+    declare OAuth 2.0
+gated_surfaces:
+- url: https://try-mec.etsi.org/api
+  status: 401
+  note: MEC Sandbox is free but account-gated; the web front end loads anonymously
+- url: https://portal.etsi.org/
+  note: ETSI member portal — participation, drafting and voting are membership-gated

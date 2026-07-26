@@ -69,6 +69,12 @@ apis:
     url: openapi/mec/MecServiceMgmtApi.yaml
   - type: OpenAPI
     url: openapi/mec/MecAppSupportApi.yaml
+  - type: Overlay
+    url: overlays/etsi-mec-overlay.yaml
+  - type: AgentSkill
+    url: skills/etsi-mec-register-and-discover-edge-services.md
+  - type: Sandbox
+    url: https://try-mec.etsi.org/
 - aid: etsi:mec-012-radio-network-information
   name: ETSI MEC 012 Radio Network Information API
   description: The Radio Network Information Service (RNIS) defined in ETSI GS MEC 012, exposing up-to-date
@@ -550,6 +556,10 @@ apis:
     url: openapi/ngsi-ld/ngsi-ld-api-3.0.3.yaml
   - type: OpenAPI
     url: openapi/ngsi-ld/ngsi-ld-api-3.1.0.yaml
+  - type: Overlay
+    url: overlays/etsi-ngsi-ld-overlay.yaml
+  - type: AgentSkill
+    url: skills/etsi-ngsi-ld-manage-context-entities.md
 - aid: etsi:opencapif
   name: ETSI OpenCAPIF (3GPP CAPIF TS 29.222) APIs
   description: The ETSI Software Development Group implementation of the 3GPP Common API Framework, TS
@@ -579,6 +589,14 @@ apis:
     url: openapi/capif/capif-api-provider-management.yaml
   - type: OpenAPI
     url: openapi/capif/capif-auditing.yaml
+  - type: Overlay
+    url: overlays/etsi-capif-overlay.yaml
+  - type: AgentSkill
+    url: skills/etsi-opencapif-onboard-an-api-invoker.md
+  - type: SDKs
+    url: https://pypi.org/project/opencapif-sdk/
+  - type: SourceCode
+    url: https://labs.etsi.org/rep/ocf/sdk
 - aid: etsi:openslice-camara-qod-provisioning
   name: ETSI OpenSlice CAMARA-as-a-Service QoD Provisioning API
   description: 'A CAMARA Quality on Demand (QoD) Provisioning API implementation shipped as an add-on
@@ -656,6 +674,62 @@ apis:
     url: https://portal.openslice.eu/
   - type: Website
     url: https://osl.etsi.org/
+  - type: Console
+    url: https://portal.openslice.eu/swagger-ui/index.html
+  - type: OpenAPI
+    url: openapi/openslice-tmf/OpenSliceLCMRulesspecificationAPI.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/OpenSliceMetricsAPI.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-620-ProductCatalogManagement-v4.0.0.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-622-ProductOrderingManagement-v4.0.0.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-628-PerformanceManagement-v5.0.0.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-629-Customer-Management-v4.0.0.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-632-PartyManagement-v4.0.0.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-633-ServiceCatalogManagement-v4.0.0.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-634-ResourceCatalogManagement-v4.0.0.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-637-ProductInventoryManagement-v4.0.0.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-638-ServiceInventoryManagement-v4.0.0.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-639-Resource-Inventory-Management-v4.0.0.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-640-Service-Activation-and-Configuration-v3.0.0.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-641-ServiceOrdering-v4.0.0.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-642-Alarm-Management-v4.0.0.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-651-Agreement-Management-v2.0.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-652-ResourceOrderManagement-v4.0.0.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-653-Service-Test-Management-v4.0.0.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-657-ServiceQualityManagement-v2.0.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-666-Account-Management-v4.0.0.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-669-Party-Role-Management-v4.0.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-674-Geographic-Site-Management-v4.0.0.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-685-ResourcePoolManagement.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-691-Federated-Identity-v1.0.json
+  - type: OpenAPI
+    url: openapi/openslice-tmf/tmf-api-702-Resource-Activation-and-Configuration-v4.0.0.json
+  - type: Overlay
+    url: overlays/etsi-openslice-tmf-overlay.yaml
+  - type: AgentSkill
+    url: skills/etsi-openslice-order-a-network-service.md
 - aid: etsi:mec-sandbox-edgenative-connector
   name: ETSI MEC Sandbox / EdgeNative Connector
   description: A hosted, free interactive environment where developers exercise live ETSI MEC service
@@ -680,6 +754,8 @@ apis:
   - type: Repository
     url: https://labs.etsi.org/rep/mec/etsi-mec-sandbox
 common:
+- type: DomainSecurity
+  url: security/etsi-domain-security.yml
 - type: Website
   url: https://www.etsi.org/
 - type: Documentation
@@ -712,6 +788,86 @@ common:
   url: https://www.linkedin.com/company/etsi
 - type: GitHubOrganization
   url: https://github.com/etsi-forge
+- type: DeveloperPortal
+  url: https://forge.etsi.org/rep/
+- type: APIReference
+  url: https://www.etsi.org/standards/get-standards
+- type: GettingStarted
+  url: https://www.etsi.org/standards/understanding-standards
+- type: Support
+  url: https://www.etsi.org/about/contact/
+- type: Blog
+  url: https://www.etsi.org/newsroom/
+- type: Roadmap
+  url: https://portal.etsi.org/webapp/WorkProgram/
+- type: Pricing
+  url: https://www.etsi.org/membership/contribution-classes
+- type: SignUp
+  url: https://www.etsi.org/membership/
+- type: TermsOfService
+  url: https://www.etsi.org/terms/
+- type: PrivacyPolicy
+  url: https://www.etsi.org/privacy/
+- type: Newsletter
+  url: https://www.etsi.org/subscribe-news/
+- type: YouTube
+  url: https://www.youtube.com/user/ETSIstandards
+- type: X
+  url: https://x.com/ETSI_STANDARDS
+- type: Security
+  url: https://www.etsi.org/standards/coordinated-vulnerability-disclosure/
+- type: VulnerabilityDisclosure
+  url: security/etsi-vulnerability-disclosure.yml
+- type: Authentication
+  url: authentication/etsi-authentication.yml
+- type: OAuthScopes
+  url: scopes/etsi-scopes.yml
+- type: WellKnown
+  url: well-known/etsi-well-known.yml
+- type: Packages
+  url: packages/etsi-packages.yml
+- type: SDKs
+  url: packages/etsi-packages.yml
+- type: MCPServer
+  url: mcp/etsi-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/etsi-tool-crosswalk.yml
+- type: LLMsTxt
+  url: llms/etsi-llms.txt
+- type: Conformance
+  url: conformance/etsi-conformance.yml
+- type: ErrorCatalog
+  url: errors/etsi-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/etsi-lifecycle.yml
+- type: ChangeLog
+  url: changelog/etsi-changelog.yml
+- type: Conventions
+  url: conventions/etsi-conventions.yml
+- type: DataModel
+  url: data-model/etsi-data-model.yml
+- type: Webhooks
+  url: asyncapi/etsi-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Sandbox
+  url: sandbox/etsi-sandbox.yml
+- type: Overlay
+  url: overlays/etsi-mec-overlay.yaml
+- type: Overlay
+  url: overlays/etsi-nfv-sol002-sol003-overlay.yaml
+- type: Overlay
+  url: overlays/etsi-nfv-sol005-overlay.yaml
+- type: Overlay
+  url: overlays/etsi-nfv-sol009-overlay.yaml
+- type: Overlay
+  url: overlays/etsi-nfv-sol011-overlay.yaml
+- type: Overlay
+  url: overlays/etsi-ngsi-ld-overlay.yaml
+- type: Overlay
+  url: overlays/etsi-capif-overlay.yaml
+- type: Overlay
+  url: overlays/etsi-camara-overlay.yaml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

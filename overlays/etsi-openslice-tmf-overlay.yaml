@@ -1,0 +1,33 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for ETSI OpenSlice TM Forum Open APIs
+  version: 1.0.0
+extends: openapi/openslice-tmf/tmf-api-633-ServiceCatalogManagement-v4.0.0.json
+x-apievangelist:
+  generated: '2026-07-25'
+  method: generated
+  provider: etsi
+  family: openslice-tmf
+  family_documents: 25
+  family_operations: 514
+  note: This overlay records API Evangelist enrichment metadata for the whole openslice-tmf family in
+    this repo. It never mutates the harvested ETSI specification, which is published BSD-3-Clause on ETSI
+    Forge / ETSI Labs.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: etsi
+    x-apievangelist-family: openslice-tmf
+    x-apievangelist-documentation: https://osl.etsi.org/documentation/latest/naas/exposed_apis/
+    x-apievangelist-license: BSD-3-Clause
+    x-apievangelist-license-url: https://forge.etsi.org/legal-matters
+    x-apievangelist-tags:
+    - TM Forum
+    - OSS
+    - Network as a Service
+    x-apievangelist-conventions: conventions/etsi-conventions.yml
+    x-apievangelist-errors: errors/etsi-problem-types.yml
+    x-apievangelist-authentication: authentication/etsi-authentication.yml
+    x-apievangelist-lifecycle: lifecycle/etsi-lifecycle.yml
+    x-apievangelist-events: asyncapi/etsi-webhooks.yml
+    x-apievangelist-idempotency-supported: false

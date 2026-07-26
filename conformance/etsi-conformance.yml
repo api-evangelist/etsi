@@ -1,0 +1,130 @@
+generated: '2026-07-25'
+method: derived
+source: >-
+  derived from the securitySchemes, response media types and path shapes across the 112 OpenAPI
+  documents in openapi/, plus the live OIDC discovery documents in well-known/
+note: >-
+  ETSI is the body that *writes* standards, so this artifact reads in both directions: which
+  cross-cutting industry standards ETSI's own published API artefacts conform to, and which
+  standards ETSI itself authors. The second list is the more meaningful one for a standards
+  development organisation.
+standards:
+- id: openapi-3.x
+  conforms: true
+  evidence: >-
+    all 112 harvested documents are OpenAPI 3.x — 3.0.1 for the OpenSlice TM Forum set, 3.0.3
+    and 3.1.0 for NGSI-LD, 3.1.0 for the ISG MEC set
+- id: oauth2
+  conforms: true
+  evidence: >-
+    oauth2 securitySchemes in openapi/openslice-tmf/ (authorizationCode against a live Keycloak
+    realm) and openapi/capif/ (clientCredentials)
+- id: oidc
+  conforms: true
+  evidence: >-
+    openIdConnect scheme in openapi/camara/openslice-camara-qod-provisioning.yaml, plus live
+    /.well-known/openid-configuration on forge.etsi.org/rep, labs.etsi.org/rep and the OpenSlice
+    Keycloak realm
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: true
+  evidence: well-known/etsi-forge-oauth-authorization-server.json and etsi-labs-oauth-authorization-server.json return 200
+- id: rfc9728-oauth-protected-resource-metadata
+  conforms: true
+  evidence: >-
+    well-known/etsi-forge-oauth-protected-resource.json advertises the MCP endpoints and their
+    required scopes
+- id: rfc7636-pkce
+  conforms: true
+  evidence: code_challenge_methods_supported [plain, S256] on all three authorization servers
+- id: uma2
+  conforms: true
+  evidence: well-known/etsi-openslice-uma2-configuration.json (Keycloak UMA 2.0 configuration)
+- id: rfc9457-problem-details
+  conforms: partial
+  evidence: >-
+    92 error responses across the corpus use application/problem+json — concentrated in the ISG
+    MEC and NFV SOL documents, which define a ProblemDetails schema. The OpenSlice TM Forum
+    documents use the TM Forum Error envelope on application/json;charset=utf-8 instead.
+- id: json-ld
+  conforms: true
+  evidence: NGSI-LD (ETSI GS CIM 009) is a JSON-LD API; openapi/ngsi-ld/ carries @context handling throughout
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: no /.well-known/security.txt on any ETSI host
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: no Sunset or Deprecation header declared in any harvested document
+- id: json-api
+  conforms: false
+- id: odata
+  conforms: false
+- id: fhir
+  conforms: false
+- id: fapi
+  conforms: false
+- id: scim
+  conforms: false
+- id: psd2
+  conforms: false
+implements_third_party_standards:
+- id: 3gpp-ts-29.222-capif
+  role: implementer
+  artifact: openapi/capif/
+  evidence: ETSI SDG OpenCAPIF is the reference implementation of the 3GPP Common API Framework
+- id: tmforum-open-api
+  role: implementer
+  artifact: openapi/openslice-tmf/
+  evidence: >-
+    ETSI OpenSlice exposes 23 TM Forum Open APIs (TMF620/622/628/629/632/633/634/637/638/639/640/
+    641/642/651/652/653/657/666/669/674/685/691/702). ETSI holds no TM Forum Open API conformance
+    certification for them — this is implementation, not certification.
+  certified: false
+- id: camara
+  role: implementer
+  artifact: openapi/camara/
+  evidence: >-
+    OpenSlice CAMARA QoD Provisioning add-on and the Operator Platform Open Exposure Gateway
+    expose northbound CAMARA APIs. ETSI is not a CAMARA member organisation and not a GSMA Open
+    Gateway operator; it reaches CAMARA through liaison and its own open-source code.
+  certified: false
+- id: gsma-operator-platform
+  role: implementer
+  artifact: openapi/camara/operator-platform-edge-cloud-management.yaml
+  evidence: implements the Open Exposure Gateway role defined by the GSMA Operator Platform Group
+authors_standards:
+- id: etsi-gs-mec
+  title: ETSI ISG MEC — Multi-access Edge Computing service APIs
+  artifact: openapi/mec/
+  url: https://www.etsi.org/technologies/multi-access-edge-computing
+- id: etsi-gs-nfv-sol
+  title: ETSI ISG NFV — SOL002/003/005/009/011/012 RESTful protocols and data models
+  artifact: openapi/nfv-sol002-sol003/, openapi/nfv-sol005/, openapi/nfv-sol009/, openapi/nfv-sol011/, openapi/nfv-sol012/
+  url: https://www.etsi.org/technologies/nfv
+- id: etsi-gs-cim-009-ngsi-ld
+  title: ETSI ISG CIM — NGSI-LD context information management API
+  artifact: openapi/ngsi-ld/
+  url: https://www.etsi.org/technologies/context-information-management
+- id: etsi-en-303-645
+  title: 'ETSI EN 303 645: Cyber Security for Consumer Internet of Things'
+  url: https://www.etsi.org/technologies/consumer-iot-security
+- id: etsi-tr-103-838
+  title: 'ETSI TR 103 838: Guide to Coordinated Vulnerability Disclosure'
+  url: https://www.etsi.org/deliver/etsi_tr/103800_103899/103838/01.01.01_60/tr_103838v010101p.pdf
+licensing:
+  openapi_license: BSD-3-Clause
+  source: https://forge.etsi.org/legal-matters
+  note: every ETSI OpenAPI artefact on forge.etsi.org is published BSD-3-Clause
+publication_posture:
+  standards_free: true
+  standards_login_required: false
+  evidence: >-
+    every ETSI deliverable is downloadable free of charge without login from
+    https://www.etsi.org/deliver/. Membership gates participation (drafting, voting, working
+    documents on portal.etsi.org), not publication.
+compliance_certifications:
+  published: false
+  note: >-
+    ETSI publishes no SOC 2 / ISO 27001 / PCI DSS / HIPAA / FedRAMP attestation for its own web
+    estate. It certifies nothing about itself and holds no third-party API conformance
+    certification — appropriate for a standards development organisation, but it means the
+    `Compliance` pointer is deliberately NOT emitted for this provider.

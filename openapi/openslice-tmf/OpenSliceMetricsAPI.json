@@ -1,0 +1,892 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenSlice Metrics API",
+    "description": "OpenAPI environment for OpenSlice Metrics",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://osl.etsi.org"
+    },
+    "version": "4.0.0"
+  },
+  "externalDocs": {
+    "description": "OpenSlice Metrics",
+    "url": "https://osl.etsi.org"
+  },
+  "servers": [
+    {
+      "url": "https://portal.openslice.eu/tmf-api",
+      "description": "Generated server url"
+    }
+  ],
+  "security": [
+    {
+      "security_auth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "ServiceOrderMetricsApi",
+      "description": "The Service Orders' Metrics API"
+    },
+    {
+      "name": "GeneralMetricsApi",
+      "description": "The General Metrics API"
+    },
+    {
+      "name": "ResourceMetricsApi",
+      "description": "The Resources' Metrics API"
+    },
+    {
+      "name": "ServiceMetricsApi",
+      "description": "The Services' Metrics API"
+    }
+  ],
+  "paths": {
+    "/metrics/totalServices": {
+      "get": {
+        "tags": [
+          "ServiceMetricsApi"
+        ],
+        "summary": "Get total number of services",
+        "operationId": "getTotalServices",
+        "parameters": [
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "feasibilityChecked",
+                "designed",
+                "reserved",
+                "inactive",
+                "active",
+                "terminated"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/TotalServices"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/TotalServices"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/TotalServices"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metrics/totalServiceOrders": {
+      "get": {
+        "tags": [
+          "ServiceOrderMetricsApi"
+        ],
+        "summary": "Get total number of service orders",
+        "operationId": "getTotalServiceOrders",
+        "parameters": [
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "INITIAL",
+                "ACKNOWLEDGED",
+                "REJECTED",
+                "PENDING",
+                "HELD",
+                "INPROGRESS",
+                "CANCELLED",
+                "COMPLETED",
+                "FAILED",
+                "PARTIAL"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/TotalServiceOrders"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/TotalServiceOrders"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/TotalServiceOrders"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metrics/totalResources": {
+      "get": {
+        "tags": [
+          "ResourceMetricsApi"
+        ],
+        "summary": "Get total number of resources",
+        "operationId": "getTotalResources",
+        "parameters": [
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "standby",
+                "alarm",
+                "available",
+                "reserved",
+                "unknown",
+                "suspended"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/TotalResources"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/TotalResources"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/TotalResources"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metrics/servicesGroupByState": {
+      "get": {
+        "tags": [
+          "ServiceMetricsApi"
+        ],
+        "summary": "Get services grouped by state",
+        "operationId": "getServicesGroupedByState",
+        "parameters": [
+          {
+            "name": "starttime",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endtime",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServicesGroupByState"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServicesGroupByState"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServicesGroupByState"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metrics/serviceOrdersGroupByState": {
+      "get": {
+        "tags": [
+          "ServiceOrderMetricsApi"
+        ],
+        "summary": "Get service orders grouped by state",
+        "operationId": "getServiceOrdersGroupedByState",
+        "parameters": [
+          {
+            "name": "starttime",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endtime",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrdersGroupByState"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrdersGroupByState"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrdersGroupByState"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metrics/serviceOrdersGroupByDay": {
+      "get": {
+        "tags": [
+          "ServiceOrderMetricsApi"
+        ],
+        "summary": "Get service orders grouped by day",
+        "operationId": "getServiceOrdersGroupedByDay",
+        "parameters": [
+          {
+            "name": "starttime",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endtime",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrdersGroupByDay"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrdersGroupByDay"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrdersGroupByDay"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metrics/resourcesGroupByState": {
+      "get": {
+        "tags": [
+          "ResourceMetricsApi"
+        ],
+        "summary": "Get resources grouped by state",
+        "operationId": "getResourcesGroupedByState",
+        "parameters": [
+          {
+            "name": "starttime",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endtime",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourcesGroupByState"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourcesGroupByState"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourcesGroupByState"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metrics/registeredResourceSpecifications": {
+      "get": {
+        "tags": [
+          "GeneralMetricsApi"
+        ],
+        "summary": "Get total number of registered resource specifications",
+        "operationId": "getRegisteredResourceSpecifications",
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisteredResourceSpecifications"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisteredResourceSpecifications"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisteredResourceSpecifications"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metrics/registeredIndividuals": {
+      "get": {
+        "tags": [
+          "GeneralMetricsApi"
+        ],
+        "summary": "Get total number of registered individuals",
+        "operationId": "getRegisteredIndividuals",
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisteredIndividuals"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisteredIndividuals"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisteredIndividuals"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metrics/publishedServiceSpecifications": {
+      "get": {
+        "tags": [
+          "GeneralMetricsApi"
+        ],
+        "summary": "Get total number of published service specifications",
+        "operationId": "getPublishedServiceSpecifications",
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublishedServiceSpecifications"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublishedServiceSpecifications"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublishedServiceSpecifications"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metrics/activeServiceOrders": {
+      "get": {
+        "tags": [
+          "ServiceOrderMetricsApi"
+        ],
+        "summary": "Get total number of active service orders",
+        "operationId": "getTotalActiveServiceOrders",
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActiveServiceOrders"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActiveServiceOrders"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActiveServiceOrders"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TotalServices": {
+        "type": "object",
+        "properties": {
+          "totalServices": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "TotalServiceOrders": {
+        "type": "object",
+        "properties": {
+          "totalServiceOrders": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "TotalResources": {
+        "type": "object",
+        "properties": {
+          "totalResources": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Services": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "aggregations": {
+            "$ref": "#/components/schemas/ServicesGroupByStateAggregations"
+          }
+        }
+      },
+      "ServicesGroupByState": {
+        "type": "object",
+        "properties": {
+          "services": {
+            "$ref": "#/components/schemas/Services"
+          }
+        }
+      },
+      "ServicesGroupByStateAggregations": {
+        "type": "object",
+        "properties": {
+          "groupByState": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServicesGroupByStateItem"
+            }
+          }
+        }
+      },
+      "ServicesGroupByStateItem": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ServiceOrdersGroupByState": {
+        "type": "object",
+        "properties": {
+          "serviceOrders": {
+            "$ref": "#/components/schemas/ServiceOrdersGroupByStateParent"
+          }
+        }
+      },
+      "ServiceOrdersGroupByStateAggregations": {
+        "type": "object",
+        "properties": {
+          "groupByState": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceOrdersGroupByStateItem"
+            }
+          }
+        }
+      },
+      "ServiceOrdersGroupByStateItem": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ServiceOrdersGroupByStateParent": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "aggregations": {
+            "$ref": "#/components/schemas/ServiceOrdersGroupByStateAggregations"
+          }
+        }
+      },
+      "ServiceOrdersGroupByDay": {
+        "type": "object",
+        "properties": {
+          "serviceOrders": {
+            "$ref": "#/components/schemas/ServiceOrdersGroupByDayParent"
+          }
+        }
+      },
+      "ServiceOrdersGroupByDayAggregations": {
+        "type": "object",
+        "properties": {
+          "groupByDay": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceOrdersGroupByDayItem"
+            }
+          }
+        }
+      },
+      "ServiceOrdersGroupByDayItem": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ServiceOrdersGroupByDayParent": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "aggregations": {
+            "$ref": "#/components/schemas/ServiceOrdersGroupByDayAggregations"
+          }
+        }
+      },
+      "Resources": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "aggregations": {
+            "$ref": "#/components/schemas/ResourcesGroupByStateAggregations"
+          }
+        }
+      },
+      "ResourcesGroupByState": {
+        "type": "object",
+        "properties": {
+          "resources": {
+            "$ref": "#/components/schemas/Resources"
+          }
+        }
+      },
+      "ResourcesGroupByStateAggregations": {
+        "type": "object",
+        "properties": {
+          "groupByState": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResourcesGroupByStateItem"
+            }
+          }
+        }
+      },
+      "ResourcesGroupByStateItem": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "RegisteredResourceSpecifications": {
+        "type": "object",
+        "properties": {
+          "registeredResourceSpecifications": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "RegisteredIndividuals": {
+        "type": "object",
+        "properties": {
+          "registeredIndividuals": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PublishedServiceSpecifications": {
+        "type": "object",
+        "properties": {
+          "publishedServiceSpecifications": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ActiveServiceOrders": {
+        "type": "object",
+        "properties": {
+          "activeServiceOrders": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "security_auth": {
+        "type": "oauth2",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://portal.openslice.eu/auth/realms/openslice/protocol/openid-connect/auth",
+            "tokenUrl": "https://portal.openslice.eu/auth/realms/openslice/protocol/openid-connect/token",
+            "scopes": {
+              "read": "read scope",
+              "write": "write scope"
+            }
+          }
+        }
+      }
+    }
+  }
+}

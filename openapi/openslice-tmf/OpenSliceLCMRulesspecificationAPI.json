@@ -1,0 +1,961 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Openslice LCMRules specification API",
+    "description": "This is Swagger UI environment for LCM Rules",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://osl.etsi.org"
+    },
+    "version": "4.0.0"
+  },
+  "externalDocs": {
+    "description": "Openslice",
+    "url": "https://osl.etsi.org"
+  },
+  "servers": [
+    {
+      "url": "https://portal.openslice.eu/tmf-api",
+      "description": "Generated server url"
+    }
+  ],
+  "security": [
+    {
+      "security_auth": []
+    }
+  ],
+  "paths": {
+    "/lcmrulesmanagement/v1/lcmRuleSpecification": {
+      "get": {
+        "tags": [
+          "lcmRuleSpecification"
+        ],
+        "summary": "List or find LCM RuleSpecification objects",
+        "description": "This operation list or find LCM RuleSpecification entities",
+        "operationId": "listLCMRuleSpecification",
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Comma-separated properties to be provided in response",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Requested index for start of resources to be provided in response",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Requested number of resources to be provided in response",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LCMRuleSpecification"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LCMRuleSpecification"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LCMRuleSpecification"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LCMRuleSpecification"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LCMRuleSpecification"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LCMRuleSpecification"
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LCMRuleSpecification"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LCMRuleSpecification"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "lcmRuleSpecification"
+        ],
+        "summary": "Creates a LCM RuleSpecification",
+        "description": "This operation creates a LCM RuleSpecification entity.",
+        "operationId": "createLCMRuleSpecification",
+        "requestBody": {
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/LCMRuleSpecificationCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/LCMRuleSpecification"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/LCMRuleSpecification"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/LCMRuleSpecification"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Created",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/LCMRuleSpecification"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/LCMRuleSpecification"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/LCMRuleSpecification"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lcmrulesmanagement/v1/lcmRuleSpecification/{id}": {
+      "get": {
+        "tags": [
+          "lcmRuleSpecification"
+        ],
+        "summary": "Retrieves a LCM RuleSpecification by ID",
+        "description": "This operation retrieves a LCM RuleSpecification entity. Attribute selection is enabled for all first level attributes.",
+        "operationId": "retrieveLCMRuleSpecification",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identifier of the LCM RuleSpecification",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Comma-separated properties to provide in response",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/LCMRuleSpecification"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/LCMRuleSpecification"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/LCMRuleSpecification"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/LCMRuleSpecification"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/LCMRuleSpecification"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/LCMRuleSpecification"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/LCMRuleSpecification"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/LCMRuleSpecification"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "lcmRuleSpecification"
+        ],
+        "summary": "Deletes a LCM RuleSpecification",
+        "description": "This operation deletes a LCM RuleSpecification entity.",
+        "operationId": "deleteLCMRuleSpecification",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identifier of the RuleSpecification",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "204": {
+            "description": "Deleted"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "405": {
+            "description": "Method Not allowed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "lcmRuleSpecification"
+        ],
+        "summary": "Updates partially a LCM RuleSpecification",
+        "description": "This operation updates partially a LCM RuleSpecification entity.",
+        "operationId": "patchLCMRuleSpecification",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identifier of the LCM RuleSpecification",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/LCMRuleSpecificationUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/LCMRuleSpecification"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/LCMRuleSpecification"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/LCMRuleSpecification"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/LCMRuleSpecification"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/LCMRuleSpecification"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/LCMRuleSpecification"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/LCMRuleSpecification"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/LCMRuleSpecification"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lcmrulesmanagement/v1/lcmRuleSpecification/serviceSpec/{id}": {
+      "get": {
+        "tags": [
+          "lcmRuleSpecification"
+        ],
+        "summary": "List or find LCM RuleSpecification objects by Service Specification ID",
+        "description": "This operation list or find LCM RuleSpecification entities by SpecID",
+        "operationId": "listLCMRuleSpecificationsByServiceSpecID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identifier of the ServiceSpecification Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Comma-separated properties to be provided in response",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Requested index for start of resources to be provided in response",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Requested number of resources to be provided in response",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LCMRuleSpecification"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LCMRuleSpecification"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LCMRuleSpecification"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LCMRuleSpecification"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LCMRuleSpecification"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LCMRuleSpecification"
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LCMRuleSpecification"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LCMRuleSpecification"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "LCMRuleSpecificationCreate": {
+        "type": "object",
+        "properties": {
+          "lcmrulephase": {
+            "type": "string"
+          },
+          "serviceSpecs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceSpecificationRef"
+            }
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "lifecycleStatus": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "validFor": {
+            "$ref": "#/components/schemas/TimePeriod"
+          },
+          "@baseType": {
+            "type": "string"
+          },
+          "@schemaLocation": {
+            "type": "string"
+          },
+          "@type": {
+            "type": "string"
+          }
+        },
+        "description": "The RuleSpecification to be created"
+      },
+      "ServiceSpecificationRef": {
+        "type": "object",
+        "properties": {
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the entity"
+          },
+          "version": {
+            "type": "string",
+            "description": "Service specification version"
+          },
+          "targetServiceSchema": {
+            "$ref": "#/components/schemas/TargetServiceSchema"
+          },
+          "@referredType": {
+            "type": "string",
+            "description": "The actual type of the target instance when needed for disambiguation."
+          },
+          "id": {
+            "type": "string"
+          }
+        },
+        "description": "Service specification reference: ServiceSpecification(s) required to realize a ProductSpecification."
+      },
+      "TargetServiceSchema": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          }
+        },
+        "description": "The reference object to the schema and type of target service which is described by service specification"
+      },
+      "TimePeriod": {
+        "type": "object",
+        "properties": {
+          "endDateTime": {
+            "type": "string",
+            "description": "End of the time period, using IETC-RFC-3339 format"
+          },
+          "startDateTime": {
+            "type": "string",
+            "description": "Start of the time period, using IETC-RFC-3339 format. If you define a start, you must also define an end"
+          }
+        },
+        "description": "A period of time, either as a deadline (endDateTime only) a startDateTime only, or both"
+      },
+      "LCMRuleSpecification": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "lastUpdate": {
+            "type": "string",
+            "description": "Date and time of the last update"
+          },
+          "lifecycleStatusEnum": {
+            "type": "string",
+            "writeOnly": true,
+            "enum": [
+              "In study",
+              "In design",
+              "In test",
+              "Active",
+              "Launched",
+              "Retired",
+              "Obsolete",
+              "Rejected"
+            ]
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the entity"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of this catalog"
+          },
+          "lifecycleStatus": {
+            "type": "string",
+            "description": "Used to indicate the current lifecycle status"
+          },
+          "version": {
+            "type": "string",
+            "description": "Entity version"
+          },
+          "validFor": {
+            "$ref": "#/components/schemas/TimePeriod"
+          },
+          "id": {
+            "type": "string"
+          },
+          "lcmrulephase": {
+            "type": "string"
+          },
+          "serviceSpecs": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "List of service specs associated with this rule",
+            "items": {
+              "$ref": "#/components/schemas/ServiceSpecificationRef"
+            }
+          },
+          "content": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "description": "A LCM RuleSpecification is an entity that describes a LCM rule to apply during the LCM of a service."
+      },
+      "LCMRuleSpecificationUpdate": {
+        "type": "object",
+        "properties": {
+          "lcmrulephase": {
+            "type": "string"
+          },
+          "serviceSpecs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceSpecificationRef"
+            }
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "lifecycleStatus": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "validFor": {
+            "$ref": "#/components/schemas/TimePeriod"
+          },
+          "@baseType": {
+            "type": "string"
+          },
+          "@schemaLocation": {
+            "type": "string"
+          },
+          "@type": {
+            "type": "string"
+          }
+        },
+        "description": "The LCM RuleSpecification to be updated"
+      }
+    },
+    "securitySchemes": {
+      "security_auth": {
+        "type": "oauth2",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://portal.openslice.eu/auth/realms/openslice/protocol/openid-connect/auth",
+            "tokenUrl": "https://portal.openslice.eu/auth/realms/openslice/protocol/openid-connect/token",
+            "scopes": {
+              "read": "read scope",
+              "write": "write scope"
+            }
+          }
+        }
+      }
+    }
+  }
+}

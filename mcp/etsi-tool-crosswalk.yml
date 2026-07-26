@@ -1,0 +1,82 @@
+generated: '2026-07-25'
+method: derived
+source: mcp/etsi-mcp.yml + the 112 OpenAPI documents in openapi/
+summary: >-
+  ETSI is the rare case where the MCP surface and the OpenAPI surface do not project the same
+  data core at all. The two live MCP servers are the GitLab-native ones on forge.etsi.org and
+  labs.etsi.org — they expose the *repositories that hold the specifications*, not the
+  specifications' own operations. Every one of the 1,244 REST operations harvested here is
+  therefore rest_only, and every MCP tool is mcp_only. That divergence is the finding, not a gap
+  to paper over: an agent can use MCP to find and read an ETSI standard, and must use the
+  OpenAPI to actually call an implementation of it.
+surfaces:
+  openapi:
+    location: openapi/
+    documents: 112
+    operations: 1244
+    operation_ids: 678
+    live_servers:
+    - url: https://portal.openslice.eu/tmf-api
+      note: the only production servers[] host in the corpus (25 OpenSlice TM Forum documents)
+    templated_or_loopback_servers: >-
+      the MEC and NFV SOL documents use 127.0.0.1/localhost callback URLs and {apiRoot}
+      templates by design — they are protocol specifications, not a hosted service
+  graphql:
+    present: false
+  mcp:
+    servers:
+    - https://forge.etsi.org/rep/api/v4/mcp
+    - https://labs.etsi.org/rep/api/v4/mcp
+    gated: true
+    note: tools/list returns HTTP 401; tool names and inputSchemas require the `mcp` scope
+mcp_only:
+- tool: '(GitLab MCP tool set — not enumerable anonymously)'
+  reason: >-
+    tools/list is auth-gated. The server is GitLab's built-in MCP surface over the ETSI Forge /
+    ETSI Labs repositories (project search, file read, issue and merge-request access). None of
+    these tools has a backing operation in any ETSI-published OpenAPI, because the ETSI OpenAPI
+    describe standardised network interfaces, not ETSI's own code hosting.
+  confidence: high
+crosswalk: []
+rest_only:
+- capability: ETSI OpenSlice TM Forum Open APIs
+  specs: openapi/openslice-tmf/ (25 documents)
+  operations: 514
+  base_url: https://portal.openslice.eu/tmf-api
+  note: >-
+    TMF620/622/628/629/632/633/634/637/638/639/640/641/642/651/652/653/657/666/669/674/685/691/702
+    plus two OpenSlice-native APIs (LCM rules specification, metrics). Live and anonymously
+    readable; no MCP tool fronts them.
+- capability: ETSI NFV SOL002 / SOL003 VNF lifecycle, fault, performance, package management
+  specs: openapi/nfv-sol002-sol003/ (25 documents)
+  operations: 187
+- capability: ETSI MEC service APIs (MEC 010-2, 011, 012, 013, 014, 015, 016, 021, 028, 029, 030, 033, 040)
+  specs: openapi/mec/ (17 documents)
+  operations: 179
+- capability: ETSI NFV SOL005 Os-Ma-nfvo network service management
+  specs: openapi/nfv-sol005/ (15 documents)
+  operations: 147
+- capability: ETSI NGSI-LD context information management (ISG CIM, GS CIM 009)
+  specs: openapi/ngsi-ld/ (2 documents, v3.0.3 and v3.1.0)
+  operations: 98
+- capability: ETSI NFV SOL009 NFV-MANO management
+  specs: openapi/nfv-sol009/ (9 documents)
+  operations: 58
+- capability: ETSI CAMARA surfaces (OpenSlice QoD provisioning, Operator Platform edge cloud management)
+  specs: openapi/camara/ (2 documents)
+  operations: 24
+- capability: ETSI NFV SOL012 policy management
+  specs: openapi/nfv-sol012/ (3 documents)
+  operations: 17
+- capability: ETSI OpenCAPIF (3GPP CAPIF TS 29.222)
+  specs: openapi/capif/ (4 documents)
+  operations: 10
+- capability: ETSI NFV SOL011 Or-Or multi-administrative-domain
+  specs: openapi/nfv-sol011/ (10 documents)
+  operations: 10
+coverage:
+  tools_named: 0
+  tools_bound: 0
+  mcp_only: 'unknown (gated)'
+  rest_operations_total: 1244
+  rest_operations_with_a_tool: 0

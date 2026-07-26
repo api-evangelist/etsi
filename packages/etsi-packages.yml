@@ -1,0 +1,93 @@
+generated: '2026-07-25'
+method: searched
+source: >-
+  probed npm, PyPI, Maven Central, NuGet, pkg.go.dev, RubyGems, Packagist and crates.io for
+  first-party ETSI client libraries, plus the ETSI Forge/Labs GitLab project trees
+summary: >-
+  ETSI is a standards development organisation, not an API operator, so there is no
+  "ETSI SDK" for the standards themselves — MEC, NFV SOL and NGSI-LD are protocols that
+  implementers generate their own clients from. Exactly one first-party client library is
+  published to a public registry: the OpenCAPIF Python SDK, developed inside the ETSI OCF
+  Software Development Group at labs.etsi.org/rep/ocf/sdk and shipped to PyPI. Everything
+  else that carries an ETSI standard name on npm or PyPI is third-party (FIWARE, Orange,
+  Itential, community Node-RED nodes) and is recorded below as such.
+packages:
+- language: python
+  registry: pypi
+  name: opencapif-sdk
+  url: https://pypi.org/project/opencapif-sdk/
+  install: pip install opencapif-sdk
+  version_seen: 0.1.24
+  repository: https://labs.etsi.org/rep/ocf/sdk
+  official: true
+  api: etsi:opencapif
+  description: >-
+    Python SDK for connecting to OpenCAPIF, the ETSI SDG implementation of the 3GPP Common API
+    Framework (TS 29.222). Handles invoker onboarding, provider registration, service discovery
+    and the security/token flow. Originally developed in the 6G-SANDBOX project and maintained
+    in the ETSI OCF GitLab group.
+third_party:
+- language: javascript
+  registry: npm
+  name: node-red-contrib-fiware_official
+  url: https://www.npmjs.com/package/node-red-contrib-fiware_official
+  official: false
+  vendor: FIWARE Foundation
+  description: Node-RED nodes for FIWARE NGSIv2 and ETSI NGSI-LD context brokers
+- language: python
+  registry: pypi
+  name: ngsildclient
+  url: https://pypi.org/project/ngsildclient/
+  official: false
+  vendor: Orange
+  description: Python client for ETSI NGSI-LD context brokers
+- language: javascript
+  registry: npm
+  name: '@itentialopensource/adapter-etsi_sol002'
+  url: https://www.npmjs.com/package/@itentialopensource/adapter-etsi_sol002
+  official: false
+  vendor: Itential
+  description: Itential automation adapter generated against ETSI NFV SOL002
+- language: javascript
+  registry: npm
+  name: '@itentialopensource/adapter-etsi_sol003'
+  url: https://www.npmjs.com/package/@itentialopensource/adapter-etsi_sol003
+  official: false
+  vendor: Itential
+- language: javascript
+  registry: npm
+  name: '@itentialopensource/adapter-etsi_sol005'
+  url: https://www.npmjs.com/package/@itentialopensource/adapter-etsi_sol005
+  official: false
+  vendor: Itential
+- language: javascript
+  registry: npm
+  name: '@n8n-dev/n8n-nodes-etsi-mec010-2-apppkgmgmt'
+  url: https://www.npmjs.com/package/@n8n-dev/n8n-nodes-etsi-mec010-2-apppkgmgmt
+  official: false
+  description: community n8n node generated from the ETSI GS MEC 010-2 OpenAPI
+distribution_channels:
+- name: ETSI OSM package repository
+  url: https://osm-download.etsi.org/repository/osm/debian/
+  formats: [debian]
+  official: true
+  description: >-
+    ETSI Open Source MANO ships its client and components as Debian packages from ETSI's own
+    download host rather than to PyPI/npm.
+- name: ETSI Forge GitLab
+  url: https://forge.etsi.org/rep/
+  official: true
+  description: source of truth for MEC, NFV SOL and CIM NGSI-LD OpenAPI, BSD-3-Clause
+- name: ETSI Labs GitLab
+  url: https://labs.etsi.org/rep/
+  official: true
+  description: source of truth for OpenCAPIF, OpenSlice, Operator Platform and TeraFlowSDN code
+registries_probed:
+  npm: searched
+  pypi: searched
+  maven_central: no first-party ETSI artifact found
+  nuget: no first-party ETSI artifact found
+  pkg_go_dev: no first-party ETSI artifact found
+  rubygems: no first-party ETSI artifact found
+  packagist: no first-party ETSI artifact found
+  crates_io: no first-party ETSI artifact found

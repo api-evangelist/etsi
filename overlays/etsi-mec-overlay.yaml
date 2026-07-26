@@ -1,0 +1,33 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for ETSI ISG MEC service APIs
+  version: 1.0.0
+extends: openapi/mec/MecServiceMgmtApi.yaml
+x-apievangelist:
+  generated: '2026-07-25'
+  method: generated
+  provider: etsi
+  family: mec
+  family_documents: 17
+  family_operations: 179
+  note: This overlay records API Evangelist enrichment metadata for the whole mec family in this repo.
+    It never mutates the harvested ETSI specification, which is published BSD-3-Clause on ETSI Forge /
+    ETSI Labs.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: etsi
+    x-apievangelist-family: mec
+    x-apievangelist-documentation: https://www.etsi.org/technologies/multi-access-edge-computing
+    x-apievangelist-license: BSD-3-Clause
+    x-apievangelist-license-url: https://forge.etsi.org/legal-matters
+    x-apievangelist-tags:
+    - Edge Computing
+    - MEC
+    - 5G
+    x-apievangelist-conventions: conventions/etsi-conventions.yml
+    x-apievangelist-errors: errors/etsi-problem-types.yml
+    x-apievangelist-authentication: authentication/etsi-authentication.yml
+    x-apievangelist-lifecycle: lifecycle/etsi-lifecycle.yml
+    x-apievangelist-events: asyncapi/etsi-webhooks.yml
+    x-apievangelist-idempotency-supported: false

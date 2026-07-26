@@ -1,0 +1,2295 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "TMF 641 - Service Ordering Management ",
+    "description": "## TMF API Reference : TMF 641 - Service Ordering Management  ## Release : 18.5 - Dec 2018  The Service Order API provides a standardized mechanism for managing Service Order, a type of order which can be used to place an order between a customer and a service provider or between a service provider and a partner and vice versa.  ### Service Order resource A service order will describe a list of service order items.  A service order item references an action on an existing  or  future  service.  By  service  we  designed  Customer Facing  Service  (CFS)  as  well  as  Resource Facing Service (RFS). From a component perspective, a service order should be available - from a Service Orchestration Component (and it could mix CFS and RFS) - from an Infrastructure Control & Management component (and it would have only RFS)  ### Service Order API performs the following operations on service order : - Retrieval of a service order or a collection of service orders depending on filter criteria - Partial update of a service order (including updating rules) - Creation of a service order (including default values and creation rules) - Deletion of service order (for administration purposes) - Notification of events on Service order  Copyright \u00a9 TM Forum 2018. All Rights Reserved",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://osl.etsi.org"
+    },
+    "version": "4.0.0"
+  },
+  "externalDocs": {
+    "description": "TMF API Tables",
+    "url": "https://www.tmforum.org/oda/open-apis/table"
+  },
+  "servers": [
+    {
+      "url": "https://portal.openslice.eu/tmf-api",
+      "description": "Generated server url"
+    }
+  ],
+  "security": [
+    {
+      "security_auth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "serviceOrder",
+      "description": "the serviceOrder API"
+    },
+    {
+      "name": "listener",
+      "description": "the listener API"
+    },
+    {
+      "name": "hub",
+      "description": "the hub API"
+    }
+  ],
+  "paths": {
+    "/serviceOrdering/v4/serviceOrder": {
+      "get": {
+        "tags": [
+          "serviceOrder"
+        ],
+        "summary": "List or find ServiceOrder objects",
+        "description": "This operation list or find ServiceOrder entities",
+        "operationId": "listServiceOrder",
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Comma-separated properties to be provided in response",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Requested index for start of resources to be provided in response",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Requested number of resources to be provided in response",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "starttime",
+            "in": "query",
+            "description": "Requested starttime for start of resources to be provided in response",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endtime",
+            "in": "query",
+            "description": "Requested endtime for start of resources to be provided in response",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ServiceOrder"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ServiceOrder"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ServiceOrder"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ServiceOrder"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ServiceOrder"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ServiceOrder"
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ServiceOrder"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ServiceOrder"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "serviceOrder"
+        ],
+        "summary": "Creates a ServiceOrder",
+        "description": "This operation creates a ServiceOrder entity.",
+        "operationId": "createServiceOrder",
+        "requestBody": {
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/ServiceOrderCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrder"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrder"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrder"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Created",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrder"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrder"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrder"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/serviceOrdering/v4/listener/serviceOrderStateChangeNotification": {
+      "post": {
+        "tags": [
+          "listener",
+          "notification listeners (client side)"
+        ],
+        "summary": "Client listener for entity ServiceOrderStateChangeNotification",
+        "description": "Example of a client listener for receiving the notification ServiceOrderStateChangeNotification",
+        "operationId": "listenToServiceOrderStateChangeNotification",
+        "requestBody": {
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/ServiceOrderStateChangeNotification"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/serviceOrdering/v4/listener/serviceOrderDeleteNotification": {
+      "post": {
+        "tags": [
+          "listener",
+          "notification listeners (client side)"
+        ],
+        "summary": "Client listener for entity ServiceOrderDeleteNotification",
+        "description": "Example of a client listener for receiving the notification ServiceOrderDeleteNotification",
+        "operationId": "listenToServiceOrderDeleteNotification",
+        "requestBody": {
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/ServiceOrderDeleteNotification"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/serviceOrdering/v4/listener/serviceOrderCreateNotification": {
+      "post": {
+        "tags": [
+          "listener",
+          "notification listeners (client side)"
+        ],
+        "summary": "Client listener for entity ServiceOrderCreateNotification",
+        "description": "Example of a client listener for receiving the notification ServiceOrderCreateNotification",
+        "operationId": "listenToServiceOrderCreateNotification",
+        "requestBody": {
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/ServiceOrderCreateNotification"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/serviceOrdering/v4/listener/serviceOrderAttributeValueChangeNotification": {
+      "post": {
+        "tags": [
+          "listener",
+          "notification listeners (client side)"
+        ],
+        "summary": "Client listener for entity ServiceOrderAttributeValueChangeNotification",
+        "description": "Example of a client listener for receiving the notification ServiceOrderAttributeValueChangeNotification",
+        "operationId": "listenToServiceOrderAttributeValueChangeNotification",
+        "requestBody": {
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/ServiceOrderAttributeValueChangeNotification"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/serviceOrdering/v4/hub": {
+      "post": {
+        "tags": [
+          "hub",
+          "events subscription"
+        ],
+        "summary": "Register a listener",
+        "description": "Sets the communication endpoint address the service instance must use to deliver information about its health state, execution state, failures and metrics.",
+        "operationId": "registerListener",
+        "requestBody": {
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/EventSubscriptionInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Subscribed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/serviceOrdering/v4/serviceOrder/{id}": {
+      "get": {
+        "tags": [
+          "serviceOrder"
+        ],
+        "summary": "Retrieves a ServiceOrder by ID",
+        "description": "This operation retrieves a ServiceOrder entity. Attribute selection is enabled for all first level attributes.",
+        "operationId": "retrieveServiceOrder",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identifier of the ServiceOrder",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Comma-separated properties to provide in response",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrder"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrder"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrder"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrder"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrder"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrder"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrder"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrder"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "serviceOrder"
+        ],
+        "summary": "Deletes a ServiceOrder",
+        "description": "This operation deletes a ServiceOrder entity.",
+        "operationId": "deleteServiceOrder",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identifier of the ServiceOrder",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "204": {
+            "description": "Deleted"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "405": {
+            "description": "Method Not allowed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "serviceOrder"
+        ],
+        "summary": "Updates partially a ServiceOrder",
+        "description": "This operation updates partially a ServiceOrder entity.",
+        "operationId": "patchServiceOrder",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identifier of the ServiceOrder",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/ServiceOrderUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrder"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrder"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrder"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrder"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrder"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrder"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrder"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrder"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/serviceOrdering/v4/serviceOrder/{id}/notes_graph": {
+      "get": {
+        "tags": [
+          "serviceOrder"
+        ],
+        "summary": "Get a SVG image with service order notes activity graph",
+        "description": "This operation returns a SVG image with service order notes activity  graph",
+        "operationId": "getImageServiceOrderNotesGraph",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identifier of the ServiceOrder",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "302": {
+            "description": "Success"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "405": {
+            "description": "Method Not allowed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/serviceOrdering/v4/serviceOrder/{id}/item/{itemid}/relationship_graph": {
+      "get": {
+        "tags": [
+          "serviceOrder"
+        ],
+        "summary": "Get a SVG image with service order item services relationship graph",
+        "description": "This operation returns a SVG image with service order item services relationship graph",
+        "operationId": "getImageServiceOrderItemRelationshipGraph",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identifier of the ServiceOrder",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "itemid",
+            "in": "path",
+            "description": "Identifier of the ServiceOrderItem",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "302": {
+            "description": "Success"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "405": {
+            "description": "Method Not allowed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/serviceOrdering/v4/hub/{id}": {
+      "delete": {
+        "tags": [
+          "hub",
+          "events subscription"
+        ],
+        "summary": "Unregister a listener",
+        "description": "Resets the communication endpoint address the service instance must use to deliver information about its health state, execution state, failures and metrics.",
+        "operationId": "unregisterListener",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the registered listener",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "204": {
+            "description": "Deleted"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AppointmentRef": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "id": {
+            "type": "string",
+            "description": "The identifier of the referred appointment"
+          },
+          "description": {
+            "type": "string",
+            "description": "An explanatory text regarding the appointment made with a party"
+          },
+          "@referredType": {
+            "type": "string",
+            "description": "The actual type of the target instance when needed for disambiguation"
+          }
+        },
+        "description": "Refers an appointment, such as a Customer presentation or internal meeting or site visit"
+      },
+      "Characteristic": {
+        "required": [
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "value": {
+            "type": "object",
+            "description": "The value of the characteristic"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the entity"
+          },
+          "valueType": {
+            "type": "string",
+            "description": "Data type of the value of the characteristic"
+          }
+        },
+        "description": "Describes a given characteristic of an object or entity through a name/value pair."
+      },
+      "Note": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "description": "Date of the note"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "author": {
+            "type": "string",
+            "description": "Author of the note"
+          },
+          "system": {
+            "type": "string",
+            "description": "Describes the system from which the action related to this note was done"
+          },
+          "text": {
+            "type": "string",
+            "description": "Text of the note"
+          }
+        },
+        "description": "Extra information about a given entity"
+      },
+      "Place": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the entity"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the place"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role of the place, such as: [home delivery], [shop retrieval])"
+          }
+        },
+        "description": "Place reference. Place defines the places where the products are sold or delivered."
+      },
+      "RelatedParty": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the entity"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role of the related party."
+          },
+          "@referredType": {
+            "type": "string",
+            "description": "The actual type of the target instance when needed for disambiguation."
+          },
+          "id": {
+            "type": "string"
+          },
+          "extendedInfo": {
+            "type": "string"
+          }
+        },
+        "description": "RelatedParty reference. A related party defines party or party role linked to a specific entity."
+      },
+      "ResourceRef": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the entity"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the supporting resource"
+          },
+          "@referredType": {
+            "type": "string",
+            "description": "The actual type of the target instance when needed for disambiguation."
+          }
+        },
+        "description": "A list of supporting resources (SupportingResource [*]).Note: only Service of type RFS can be associated with Resources"
+      },
+      "ServiceOrderCreate": {
+        "required": [
+          "orderItem"
+        ],
+        "type": "object",
+        "properties": {
+          "requestedCompletionDate": {
+            "type": "string",
+            "description": "Requested delivery date from the requestors perspective"
+          },
+          "requestedStartDate": {
+            "type": "string",
+            "description": "Order start date wished by the requestor"
+          },
+          "category": {
+            "type": "string",
+            "description": "Used to categorize the order, useful for the OM system, such as: Broadband, TVOption"
+          },
+          "description": {
+            "type": "string",
+            "description": "A free-text description of the service order"
+          },
+          "externalId": {
+            "type": "string",
+            "description": "ID given by the consumer to facilitate searches"
+          },
+          "notificationContact": {
+            "type": "string",
+            "description": "Contact attached to the order to send back information regarding this order"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Can be used by consumers to prioritize orders in a Service Order Management system"
+          },
+          "note": {
+            "type": "array",
+            "description": "Extra-information about the order; e.g. useful to add extra delivery information that could be useful for a human process",
+            "items": {
+              "$ref": "#/components/schemas/Note"
+            }
+          },
+          "orderItem": {
+            "maxItems": 2147483647,
+            "minItems": 1,
+            "type": "array",
+            "description": "A list of service order items to be processed by this order",
+            "items": {
+              "$ref": "#/components/schemas/ServiceOrderItem"
+            }
+          },
+          "orderRelationship": {
+            "type": "array",
+            "description": "A list of service orders related to this order (e.g. prerequisite, dependent on)",
+            "items": {
+              "$ref": "#/components/schemas/ServiceOrderRelationship"
+            }
+          },
+          "relatedParty": {
+            "type": "array",
+            "description": "A list of parties which are involved in this order and the role they are playing",
+            "items": {
+              "$ref": "#/components/schemas/RelatedParty"
+            }
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string",
+            "description": "When sub-classing, this defines the sub-class entity name"
+          }
+        },
+        "description": "The ServiceOrder to be created"
+      },
+      "ServiceOrderItem": {
+        "required": [
+          "action",
+          "service"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "id": {
+            "type": "string",
+            "description": "Identifier of the individual line item"
+          },
+          "action": {
+            "type": "string",
+            "description": "The action to be carried out on the Service. Can be: add, modify, delete, noChange",
+            "enum": [
+              "add",
+              "modify",
+              "delete",
+              "noChange"
+            ]
+          },
+          "orderItemRelationship": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "A list of order items related to this order item",
+            "items": {
+              "$ref": "#/components/schemas/ServiceOrderItemRelationship"
+            }
+          },
+          "state": {
+            "type": "string",
+            "description": "State of the order item: described in the state machine diagram. This is the requested state.",
+            "enum": [
+              "INITIAL",
+              "ACKNOWLEDGED",
+              "REJECTED",
+              "PENDING",
+              "HELD",
+              "INPROGRESS",
+              "CANCELLED",
+              "COMPLETED",
+              "FAILED",
+              "PARTIAL"
+            ]
+          },
+          "service": {
+            "$ref": "#/components/schemas/ServiceRestriction"
+          },
+          "appointment": {
+            "$ref": "#/components/schemas/AppointmentRef"
+          }
+        },
+        "description": "A list of service order items to be processed by this order"
+      },
+      "ServiceOrderItemRelationship": {
+        "required": [
+          "id",
+          "relationshipType"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of a service order item"
+          },
+          "relationshipType": {
+            "type": "string",
+            "description": "The type of related order item, can be: dependency if the order item needs to be not started until another order item is complete"
+          }
+        },
+        "description": "Linked service order item to the one containing this attribute"
+      },
+      "ServiceOrderRelationship": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "id": {
+            "type": "string",
+            "description": "The id of the related order"
+          },
+          "relationshipType": {
+            "type": "string",
+            "description": "The type of related order, such as: [dependency] if the order needs to be [not started] until another order item is complete (a service order in this case) or [cross-ref] to keep track of the source order (a productOrder)"
+          },
+          "@referredType": {
+            "type": "string",
+            "description": "The entity type of the related order"
+          }
+        },
+        "description": "Linked service order to the one containing this attribute"
+      },
+      "ServiceRef": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the entity"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the service"
+          },
+          "@referredType": {
+            "type": "string",
+            "description": "The actual type of the target instance when needed for disambiguation."
+          }
+        },
+        "description": "Service reference, for when Service is used by other entities"
+      },
+      "ServiceRelationship": {
+        "required": [
+          "relationshipType",
+          "service"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "relationshipType": {
+            "type": "string",
+            "description": "The type of relationship (e.g. depends on, enables)"
+          },
+          "service": {
+            "$ref": "#/components/schemas/ServiceRef"
+          }
+        },
+        "description": "Describes links with services of the same category (useful for bundled services)"
+      },
+      "ServiceRestriction": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "serviceSpecification": {
+            "$ref": "#/components/schemas/ServiceSpecificationRef"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the entity"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the service"
+          },
+          "category": {
+            "type": "string",
+            "description": "Is it a customer facing or resource facing service"
+          },
+          "serviceType": {
+            "type": "string",
+            "description": "Business type of the service"
+          },
+          "place": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "A list of places (Place [*]). Used to define a place useful for the service (for example a delivery geographical place)",
+            "items": {
+              "$ref": "#/components/schemas/Place"
+            }
+          },
+          "relatedParty": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "A list of related party references (RelatedParty [*]). A related party defines party or party role linked to a specific entity",
+            "items": {
+              "$ref": "#/components/schemas/RelatedParty"
+            }
+          },
+          "serviceCharacteristic": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "A list of characteristics that characterize this service (ServiceCharacteristic [*]) ",
+            "items": {
+              "$ref": "#/components/schemas/Characteristic"
+            }
+          },
+          "state": {
+            "type": "string",
+            "description": "The life cycle state of the service, such as: [feasibilityChecked], [designed]",
+            "enum": [
+              "feasibilityChecked",
+              "designed",
+              "reserved",
+              "inactive",
+              "active",
+              "terminated"
+            ]
+          },
+          "supportingResource": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "A list of supporting resources (SupportingResource [*]).Note: only Service of type RFS can be associated with Resources",
+            "items": {
+              "$ref": "#/components/schemas/ResourceRef"
+            }
+          },
+          "serviceRelationship": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "A list of service relationships (ServiceRelationship [*]). Describes links with other service(s) in the inventory (useful for describing relies-on, relies-from between CFS for example).",
+            "items": {
+              "$ref": "#/components/schemas/ServiceRelationship"
+            }
+          },
+          "supportingService": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "A list of supporting services (SupportingService [*]). A collection of services that support this service (bundling, link CFS to RFS)",
+            "items": {
+              "$ref": "#/components/schemas/ServiceRef"
+            }
+          }
+        },
+        "description": "In the context of a service order, and depending of the action requested (add/modify/delete/noChange) this data structure captures the configuration to apply to an existing subscribed service or to a new one"
+      },
+      "ServiceSpecificationRef": {
+        "type": "object",
+        "properties": {
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the entity"
+          },
+          "version": {
+            "type": "string",
+            "description": "Service specification version"
+          },
+          "targetServiceSchema": {
+            "$ref": "#/components/schemas/TargetServiceSchema"
+          },
+          "@referredType": {
+            "type": "string",
+            "description": "The actual type of the target instance when needed for disambiguation."
+          },
+          "id": {
+            "type": "string"
+          }
+        },
+        "description": "Service specification reference: ServiceSpecification(s) required to realize a ProductSpecification."
+      },
+      "TargetServiceSchema": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          }
+        },
+        "description": "The reference object to the schema and type of target service which is described by service specification"
+      },
+      "ServiceOrder": {
+        "required": [
+          "orderItem"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "orderDate": {
+            "type": "string"
+          },
+          "completionDate": {
+            "type": "string",
+            "description": "Effective delivery date amended by the provider"
+          },
+          "expectedCompletionDate": {
+            "type": "string",
+            "description": "Expected delivery date amended by the provider"
+          },
+          "requestedCompletionDate": {
+            "type": "string",
+            "description": "Requested delivery date from the requestors perspective"
+          },
+          "requestedStartDate": {
+            "type": "string",
+            "description": "Order start date wished by the requestor"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Date when the order was started for processing"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "id": {
+            "type": "string",
+            "description": "ID created on repository side"
+          },
+          "category": {
+            "type": "string",
+            "description": "Used to categorize the order, useful for the OM system, such as: Broadband, TVOption"
+          },
+          "description": {
+            "type": "string",
+            "description": "A free-text description of the service order"
+          },
+          "externalId": {
+            "type": "string",
+            "description": "ID given by the consumer to facilitate searches"
+          },
+          "notificationContact": {
+            "type": "string",
+            "description": "Contact attached to the order to send back information regarding this order"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Can be used by consumers to prioritize orders in a Service Order Management system"
+          },
+          "note": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "Extra-information about the order; e.g. useful to add extra delivery information that could be useful for a human process",
+            "items": {
+              "$ref": "#/components/schemas/Note"
+            }
+          },
+          "orderItem": {
+            "maxItems": 2147483647,
+            "minItems": 1,
+            "uniqueItems": true,
+            "type": "array",
+            "description": "A list of service order items to be processed by this order",
+            "items": {
+              "$ref": "#/components/schemas/ServiceOrderItem"
+            }
+          },
+          "orderRelationship": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "A list of service orders related to this order (e.g. prerequisite, dependent on)",
+            "items": {
+              "$ref": "#/components/schemas/ServiceOrderRelationship"
+            }
+          },
+          "relatedParty": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "A list of parties which are involved in this order and the role they are playing",
+            "items": {
+              "$ref": "#/components/schemas/RelatedParty"
+            }
+          },
+          "state": {
+            "type": "string",
+            "description": "State of the order: described in the state-machine diagram",
+            "enum": [
+              "INITIAL",
+              "ACKNOWLEDGED",
+              "REJECTED",
+              "PENDING",
+              "HELD",
+              "INPROGRESS",
+              "CANCELLED",
+              "COMPLETED",
+              "FAILED",
+              "PARTIAL"
+            ]
+          }
+        }
+      },
+      "ServiceOrderStateChangeEvent": {
+        "type": "object",
+        "properties": {
+          "serviceOrder": {
+            "$ref": "#/components/schemas/ServiceOrder"
+          }
+        },
+        "description": "The event data structure"
+      },
+      "ServiceOrderStateChangeNotification": {
+        "type": "object",
+        "properties": {
+          "eventTime": {
+            "type": "string",
+            "description": "Time of the event occurrence"
+          },
+          "eventId": {
+            "type": "string",
+            "description": "The identifier of the notification"
+          },
+          "eventType": {
+            "type": "string",
+            "description": "The type of the notification"
+          },
+          "fieldPath": {
+            "type": "string",
+            "description": "The path identifying the object field concerned by this notification"
+          },
+          "resourcePath": {
+            "type": "string",
+            "description": "The path identifying the resource object concerned by this notification"
+          },
+          "event": {
+            "$ref": "#/components/schemas/ServiceOrderStateChangeEvent"
+          }
+        },
+        "description": "The event data"
+      },
+      "EventSubscription": {
+        "required": [
+          "callback",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Id of the listener"
+          },
+          "callback": {
+            "type": "string",
+            "description": "The callback being registered."
+          },
+          "query": {
+            "type": "string",
+            "description": "additional data to be passed"
+          }
+        },
+        "description": "Sets the communication endpoint address the service instance must use to deliver notification information"
+      },
+      "ServiceOrderDeleteEvent": {
+        "type": "object",
+        "properties": {
+          "serviceOrder": {
+            "$ref": "#/components/schemas/ServiceOrder"
+          }
+        },
+        "description": "The event data structure"
+      },
+      "ServiceOrderDeleteNotification": {
+        "type": "object",
+        "properties": {
+          "eventTime": {
+            "type": "string",
+            "description": "Time of the event occurrence"
+          },
+          "eventId": {
+            "type": "string",
+            "description": "The identifier of the notification"
+          },
+          "eventType": {
+            "type": "string",
+            "description": "The type of the notification"
+          },
+          "fieldPath": {
+            "type": "string",
+            "description": "The path identifying the object field concerned by this notification"
+          },
+          "resourcePath": {
+            "type": "string",
+            "description": "The path identifying the resource object concerned by this notification"
+          },
+          "event": {
+            "$ref": "#/components/schemas/ServiceOrderDeleteEvent"
+          }
+        },
+        "description": "The event data"
+      },
+      "ServiceOrderCreateEvent": {
+        "type": "object",
+        "properties": {
+          "serviceOrder": {
+            "$ref": "#/components/schemas/ServiceOrder"
+          }
+        },
+        "description": "The event data structure"
+      },
+      "ServiceOrderCreateNotification": {
+        "type": "object",
+        "properties": {
+          "eventTime": {
+            "type": "string",
+            "description": "Time of the event occurrence"
+          },
+          "eventId": {
+            "type": "string",
+            "description": "The identifier of the notification"
+          },
+          "eventType": {
+            "type": "string",
+            "description": "The type of the notification"
+          },
+          "fieldPath": {
+            "type": "string",
+            "description": "The path identifying the object field concerned by this notification"
+          },
+          "resourcePath": {
+            "type": "string",
+            "description": "The path identifying the resource object concerned by this notification"
+          },
+          "event": {
+            "$ref": "#/components/schemas/ServiceOrderCreateEvent"
+          }
+        },
+        "description": "The event data"
+      },
+      "ServiceOrderAttributeValueChangeEvent": {
+        "type": "object",
+        "properties": {
+          "serviceOrder": {
+            "$ref": "#/components/schemas/ServiceOrder"
+          }
+        },
+        "description": "The event data structure"
+      },
+      "ServiceOrderAttributeValueChangeNotification": {
+        "type": "object",
+        "properties": {
+          "eventTime": {
+            "type": "string",
+            "description": "Time of the event occurrence"
+          },
+          "eventId": {
+            "type": "string",
+            "description": "The identifier of the notification"
+          },
+          "eventType": {
+            "type": "string",
+            "description": "The type of the notification"
+          },
+          "fieldPath": {
+            "type": "string",
+            "description": "The path identifying the object field concerned by this notification"
+          },
+          "resourcePath": {
+            "type": "string",
+            "description": "The path identifying the resource object concerned by this notification"
+          },
+          "event": {
+            "$ref": "#/components/schemas/ServiceOrderAttributeValueChangeEvent"
+          }
+        },
+        "description": "The event data"
+      },
+      "EventSubscriptionInput": {
+        "required": [
+          "callback"
+        ],
+        "type": "object",
+        "properties": {
+          "callback": {
+            "type": "string",
+            "description": "The callback being registered."
+          },
+          "query": {
+            "type": "string",
+            "description": "additional data to be passed"
+          }
+        },
+        "description": "Data containing the callback endpoint to deliver the information"
+      },
+      "ServiceOrderUpdate": {
+        "type": "object",
+        "properties": {
+          "expectedCompletionDate": {
+            "type": "string",
+            "description": "Expected delivery date amended by the provider"
+          },
+          "requestedCompletionDate": {
+            "type": "string",
+            "description": "Requested delivery date from the requestors perspective"
+          },
+          "requestedStartDate": {
+            "type": "string",
+            "description": "Order start date wished by the requestor"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Date when the order was started for processing"
+          },
+          "category": {
+            "type": "string",
+            "description": "Used to categorize the order, useful for the OM system, such as: Broadband, TVOption"
+          },
+          "description": {
+            "type": "string",
+            "description": "A free-text description of the service order"
+          },
+          "notificationContact": {
+            "type": "string",
+            "description": "Contact attached to the order to send back information regarding this order"
+          },
+          "note": {
+            "type": "array",
+            "description": "Extra-information about the order; e.g. useful to add extra delivery information that could be useful for a human process",
+            "items": {
+              "$ref": "#/components/schemas/Note"
+            }
+          },
+          "orderRelationship": {
+            "type": "array",
+            "description": "A list of service orders related to this order (e.g. prerequisite, dependent on)",
+            "items": {
+              "$ref": "#/components/schemas/ServiceOrderRelationship"
+            }
+          },
+          "relatedParty": {
+            "type": "array",
+            "description": "A list of parties which are involved in this order and the role they are playing",
+            "items": {
+              "$ref": "#/components/schemas/RelatedParty"
+            }
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "INITIAL",
+              "ACKNOWLEDGED",
+              "REJECTED",
+              "PENDING",
+              "HELD",
+              "INPROGRESS",
+              "CANCELLED",
+              "COMPLETED",
+              "FAILED",
+              "PARTIAL"
+            ]
+          },
+          "orderItem": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceOrderItem"
+            }
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string",
+            "description": "When sub-classing, this defines the sub-class entity name"
+          }
+        },
+        "description": "The ServiceOrder to be updated"
+      }
+    },
+    "securitySchemes": {
+      "security_auth": {
+        "type": "oauth2",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://portal.openslice.eu/auth/realms/openslice/protocol/openid-connect/auth",
+            "tokenUrl": "https://portal.openslice.eu/auth/realms/openslice/protocol/openid-connect/token",
+            "scopes": {
+              "read": "read scope",
+              "write": "write scope"
+            }
+          }
+        }
+      }
+    }
+  }
+}

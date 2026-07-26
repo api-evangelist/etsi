@@ -1,0 +1,65 @@
+generated: '2026-07-25'
+method: searched
+source: >-
+  ETSI deliverable versioning conventions plus the git tag history of the ETSI Forge GitLab
+  projects that hold each OpenAPI (queried anonymously through forge.etsi.org/rep/api/v4)
+versioning:
+  scheme: etsi-deliverable-version
+  format: V<major>.<technical>.<editorial>
+  explanation: >-
+    ETSI versions the *deliverable*, not the endpoint. The three digits are major version,
+    technical change and editorial change; the OpenAPI repository on ETSI Forge is tagged to
+    match, so the spec version and the published standard version are the same number. Inside a
+    spec the URI carries only the major API version (/mec_app_support/v2, /vnflcm/v2,
+    /ngsi-ld/v1), so a technical or editorial revision does not move the path.
+  uri_versioning: major version only, in the path (e.g. /v1, /v2)
+  examples:
+  - project: mec/gs011-app-enablement-api
+    latest_tag: v3.1.1
+    tagged: '2025-12-11'
+    history: [v1.1.1, v2.0.5, v2.0.8, v2.0.9, v2.0.10, v2.1.1, 'v2.1.1-OAS3.1', v2.2.1, v3.1.1]
+  - project: cim/ngsi-ld-openapi
+    latest_tag: v1.8.1
+    tagged: '2025-06-20'
+    history: [v1.6.1, v1.7.1, v1.8.1]
+    note: >-
+      the repo tags track the ISG CIM release train; the OpenAPI documents themselves are
+      versioned 3.0.3 and 3.1.0 in openapi/ngsi-ld/
+  parallel_versions_published: true
+  parallel_versions_note: >-
+    ETSI keeps superseded versions of a deliverable permanently downloadable from
+    https://www.etsi.org/deliver/ — nothing is withdrawn from the archive
+deprecation:
+  policy_url: https://www.etsi.org/standards/standards-making-process
+  formal_policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  deprecated_operations: []
+  note: >-
+    No operation in any of the 112 harvested documents is marked `deprecated: true`, and no
+    document declares RFC 8594 Sunset or Deprecation headers. ETSI's lifecycle mechanism is
+    editorial rather than protocol-level: a deliverable is superseded by a later version or
+    formally withdrawn through the ETSI standards-making process, and the superseded document
+    stays published. That is a real, documented lifecycle — but it is not an HTTP deprecation
+    contract, so no `Deprecation` pointer is emitted for this provider.
+sla:
+  published: false
+  note: >-
+    ETSI publishes no uptime target for its own hosts. The only production API surface in this
+    repo (portal.openslice.eu/tmf-api) is an explicitly-labelled demo deployment.
+status_page:
+  published: false
+  probes:
+  - url: https://status.etsi.org/
+    result: no DNS / no response
+  - url: https://etsi.statuspage.io/
+    result: 200 but resolves to the Atlassian Statuspage marketing site, not an ETSI status page
+support:
+  contact: https://www.etsi.org/about/contact/
+  cvd: https://www.etsi.org/standards/coordinated-vulnerability-disclosure/
+work_programme:
+  url: https://portal.etsi.org/webapp/WorkProgram/
+  note: >-
+    the ETSI Work Programme is the closest thing ETSI has to a public roadmap — every work item
+    with its stage, target date and responsible technical body, browsable without membership
+  role: roadmap

@@ -1,0 +1,92 @@
+generated: '2026-07-25'
+method: searched
+source: live probes of every ETSI-operated host in apis.yml plus the OpenAPI servers[] hosts
+notes: >-
+  ETSI's own web estate (www.etsi.org, portal.etsi.org, try-mec.etsi.org, osl.etsi.org,
+  ocf.etsi.org, mecwiki.etsi.org) publishes no /.well-known/ discovery surface at all.
+  The discovery documents that DO exist sit on the two GitLab instances that host every
+  machine-readable ETSI artefact (forge.etsi.org/rep and labs.etsi.org/rep, both anonymous
+  OIDC providers and OAuth 2.0 authorization servers) and on the Keycloak realm in front of
+  the public ETSI OpenSlice demo (portal.openslice.eu). No security.txt (RFC 9116) is published
+  anywhere on etsi.org; ETSI's disclosure route is the Coordinated Vulnerability Disclosure
+  page instead — see security/etsi-vulnerability-disclosure.yml.
+hosts:
+- host: https://forge.etsi.org/rep
+  role: ETSI Forge GitLab (MEC, NFV SOL, CIM NGSI-LD OpenAPI source of truth)
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: etsi-forge-openid-configuration.json
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: etsi-forge-oauth-authorization-server.json
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: etsi-forge-oauth-protected-resource.json
+    note: names https://forge.etsi.org/rep/api/v4/mcp as a protected MCP resource
+  - path: /.well-known/security.txt
+    status: 404
+    note: GitLab returns its HTML 404 page, not an RFC 9116 document
+- host: https://labs.etsi.org/rep
+  role: ETSI Labs GitLab (OpenCAPIF, OpenSlice, Operator Platform, TeraFlowSDN source)
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: etsi-labs-openid-configuration.json
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: etsi-labs-oauth-authorization-server.json
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: etsi-labs-oauth-protected-resource.json
+    note: names https://labs.etsi.org/rep/api/v4/mcp as a protected MCP resource
+  - path: /.well-known/security.txt
+    status: 404
+- host: https://portal.openslice.eu
+  role: public ETSI OpenSlice demo — TM Forum Open APIs + CAMARA QoD, Keycloak-fronted
+  documents:
+  - path: /auth/realms/openslice/.well-known/openid-configuration
+    status: 200
+    file: etsi-openslice-openid-configuration.json
+  - path: /auth/realms/openslice/.well-known/uma2-configuration
+    status: 200
+    file: etsi-openslice-uma2-configuration.json
+  - path: /.well-known/security.txt
+    status: 200
+    note: >-
+      false positive — the Angular single-page app returns index.html for every unmatched
+      path, so /.well-known/* on the portal root is an HTML shell, not a discovery document.
+      Only the /auth/realms/openslice/ Keycloak paths return real JSON.
+- host: https://www.etsi.org
+  role: ETSI corporate site and standards library
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /llms.txt
+    status: 404
+- host: https://try-mec.etsi.org
+  role: ETSI MEC Sandbox
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+- host: https://osl.etsi.org
+  role: ETSI SDG OpenSlice documentation
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+- host: https://ocf.etsi.org
+  role: ETSI SDG OpenCAPIF documentation
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+security_txt:
+  published: false
+  note: no RFC 9116 security.txt on any ETSI host as of this probe

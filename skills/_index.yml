@@ -1,0 +1,34 @@
+generated: '2026-07-25'
+method: generated
+source: openapi/ + the live ETSI surfaces probed in this enrichment round
+skills:
+- file: etsi-discover-standards-and-specs.md
+  name: Find an ETSI standard and its machine-readable OpenAPI
+  api: https://forge.etsi.org/rep/api/v4
+  operations: []
+  note: entry point — how an agent gets from "I need ETSI X" to the actual artefact
+- file: etsi-openslice-order-a-network-service.md
+  name: Order a network service from the ETSI OpenSlice catalog
+  api: openapi/openslice-tmf/
+  operations: [listServiceCatalog, listServiceCategory, listServiceCandidate, listServiceSpecification,
+    retrieveServiceSpecification, createServiceOrder, retrieveServiceOrder, listService,
+    retrieveService, registerListener]
+- file: etsi-mec-register-and-discover-edge-services.md
+  name: Register and discover services on an ETSI MEC platform
+  api: openapi/mec/MecServiceMgmtApi.yaml, openapi/mec/MecAppSupportApi.yaml
+  operations: [RegistrationsPOST, ApplicationsConfirmreadyPOSTAppinstanceid, ApplicationsServicesPOSTAppinstanceid,
+    ServicesGET, ServicesGETServiceid, TransportsGET, ApplicationsSubscriptionsPOSTAppinstanceid,
+    ApplicationsConfirmterminationPOSTAppinstanceid]
+- file: etsi-ngsi-ld-manage-context-entities.md
+  name: Manage context entities with the ETSI NGSI-LD API
+  api: openapi/ngsi-ld/ngsi-ld-api-3.1.0.yaml
+  operations: [createEntity, queryEntity, retrieveEntity, mergeEntity, replaceEntity, updateEntity,
+    appendAttrs, deleteEntity, createSubscription, createCSR]
+- file: etsi-opencapif-onboard-an-api-invoker.md
+  name: Onboard an API invoker with ETSI OpenCAPIF
+  api: openapi/capif/
+  operations: [create_onboarded_api_invoker, update_ind_onboarded_api_invoker, modify_ind_api_invoke_enrolment,
+    delete_ind_onboarded_api_invoker]
+provider_published_skills:
+  found: false
+  note: no AGENTS.md or provider-authored skill files on any ETSI host

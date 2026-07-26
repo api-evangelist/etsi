@@ -1,0 +1,101 @@
+generated: '2026-07-25'
+method: derived
+source: >-
+  derived from the notification/callback surface of the 112 OpenAPI documents in openapi/ — the
+  TM Forum hub/listener paths in openapi/openslice-tmf/ and the dedicated *Notification interface
+  documents in openapi/mec/ and openapi/nfv-sol*/
+spec_type: Webhooks
+asyncapi_published: false
+asyncapi_note: >-
+  ETSI publishes no AsyncAPI document for any of its API work. Every ETSI event surface is
+  modelled inside OpenAPI instead — as a subscription resource plus an HTTP callback to a
+  consumer-supplied URI. That is a real, large webhook estate (171 distinct notification types
+  across three convention families), it just is not expressed in AsyncAPI. Nothing is fabricated
+  here; this is a captured webhook catalog, not a synthesised AsyncAPI.
+summary:
+  notification_types: 171
+  webhook_families: 3
+  subscription_resources: 42 TM Forum hub endpoints plus per-service subscription resources in NFV SOL and ISG MEC
+  transport: HTTP POST to a consumer-supplied callback URI
+families:
+- id: tmforum-openslice
+  label: ETSI OpenSlice TM Forum Open API events
+  pattern: hub/listener
+  base_url: https://portal.openslice.eu/tmf-api
+  subscribe: POST /<service>/v<n>/hub with a callback URL, receive an id; DELETE /<service>/v<n>/hub/{id} to unsubscribe
+  deliver: HTTP POST to /listener/<eventName> on the subscriber's own server
+  notification_types: 146
+  hub_endpoints: 42
+  specs: openapi/openslice-tmf/
+  event_shape: >-
+    TM Forum event envelope — eventId, eventTime, eventType, correlationId, domain, title,
+    description, priority, timeOcurred, event payload
+  documents_with_events:
+  - {spec: tmf-api-634-ResourceCatalogManagement-v4.0.0.json, events: 16}
+  - {spec: tmf-api-642-Alarm-Management-v4.0.0.json, events: 16}
+  - {spec: tmf-api-620-ProductCatalogManagement-v4.0.0.json, events: 15}
+  - {spec: tmf-api-633-ServiceCatalogManagement-v4.0.0.json, events: 13}
+  - {spec: tmf-api-666-Account-Management-v4.0.0.json, events: 10}
+  - {spec: tmf-api-622-ProductOrderingManagement-v4.0.0.json, events: 8}
+  - {spec: tmf-api-628-PerformanceManagement-v5.0.0.json, events: 8}
+  - {spec: tmf-api-632-PartyManagement-v4.0.0.json, events: 8}
+  - {spec: tmf-api-640-Service-Activation-and-Configuration-v3.0.0.json, events: 8}
+  - {spec: tmf-api-652-ResourceOrderManagement-v4.0.0.json, events: 8}
+  - {spec: tmf-api-653-Service-Test-Management-v4.0.0.json, events: 6}
+  - {spec: tmf-api-637-ProductInventoryManagement-v4.0.0.json, events: 5}
+  - {spec: tmf-api-638-ServiceInventoryManagement-v4.0.0.json, events: 5}
+  - {spec: tmf-api-629-Customer-Management-v4.0.0.json, events: 4}
+  - {spec: tmf-api-639-Resource-Inventory-Management-v4.0.0.json, events: 4}
+  - {spec: tmf-api-641-ServiceOrdering-v4.0.0.json, events: 4}
+  - {spec: tmf-api-669-Party-Role-Management-v4.0.json, events: 4}
+  - {spec: tmf-api-674-Geographic-Site-Management-v4.0.0.json, events: 4}
+  event_name_pattern: <resource>CreateNotification | <resource>ChangeNotification | <resource>DeleteNotification | <resource>BatchNotification
+- id: nfv-sol
+  label: ETSI NFV SOL notification interfaces
+  pattern: subscription resource plus HTTP callback
+  subscribe: POST /<service>/v<n>/subscriptions with a callbackUri and an optional attribute filter
+  deliver: HTTP POST the notification document to the callbackUri; the producer first sends a GET test request to the same URI
+  authentication: >-
+    the subscriber supplies authentication parameters for its own sink in the subscription
+    request (SOL 013 clause 8.3.4)
+  notification_interface_documents: 20
+  specs:
+  - openapi/nfv-sol002-sol003/SOL002/VNFLifecycleManagementNotification/
+  - openapi/nfv-sol002-sol003/SOL002/VNFFaultManagementNotification/
+  - openapi/nfv-sol002-sol003/SOL002/VNFIndicatorNotification/
+  - openapi/nfv-sol002-sol003/SOL002/VNFPerformanceManagementNotification/
+  - openapi/nfv-sol002-sol003/SOL003/VNFLifecycleManagementNotification/
+  - openapi/nfv-sol002-sol003/SOL003/VNFFaultManagementNotification/
+  - openapi/nfv-sol002-sol003/SOL003/VNFIndicatorNotification/
+  - openapi/nfv-sol002-sol003/SOL003/VNFPackageManagementNotification/
+  - openapi/nfv-sol002-sol003/SOL003/VNFPerformanceManagementNotification/
+  - openapi/nfv-sol002-sol003/SOL003/VirtualisedResourcesQuotaAvailableNotification/
+  - openapi/nfv-sol005/SOL005/NSDManagementNotification/
+  - openapi/nfv-sol005/SOL005/NSFaultManagementNotification/
+  - openapi/nfv-sol005/SOL005/NSLifecycleManagementNotification/
+  - openapi/nfv-sol005/SOL005/NSPerformanceManagementNotification/
+  - openapi/nfv-sol005/SOL005/VNFPackageManagementNotification/
+  - openapi/nfv-sol005/SOL005/NFVICapacityInformationNotification/
+  - openapi/nfv-sol009/SOL009/NFVManoConfigurationAndInformationManagementNotification/
+  - openapi/nfv-sol009/SOL009/NFVManoFaultManagementNotification/
+  - openapi/nfv-sol009/SOL009/NFVManoLogManagementNotification/
+  - openapi/nfv-sol009/SOL009/NFVManoPerformanceManagementNotification/
+  - openapi/nfv-sol011/SOL011/NSFaultManagementNotification/
+  - openapi/nfv-sol011/SOL011/NSLifecycleManagementNotification/
+  - openapi/nfv-sol011/SOL011/NSInstanceUsageNotification/
+  - openapi/nfv-sol012/SOL012/PolicyManagementNotification/
+  event_classes: [lifecycle change, fault/alarm, performance threshold crossed, performance
+      report available, indicator value change, package onboarding state change, quota
+      availability, policy change]
+- id: isg-mec
+  label: ETSI ISG MEC service notifications
+  pattern: subscription resource plus callbackReference URI
+  subscribe: POST /<service>/v<n>/subscriptions with a callbackReference
+  deliver: HTTP POST to the callbackReference
+  specs: openapi/mec/
+  event_classes: [service availability change (MEC 011), application termination (MEC 011),
+    radio network information change (MEC 012), UE location and zone status (MEC 013),
+    application mobility (MEC 021), WLAN measurement (MEC 028), V2X predicted QoS (MEC 030)]
+cross_links:
+  conventions: conventions/etsi-conventions.yml
+  authentication: authentication/etsi-authentication.yml

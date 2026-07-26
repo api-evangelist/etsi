@@ -1,0 +1,1 @@
+{"resource":["https://labs.etsi.org/rep/api/v4/mcp","https://labs.etsi.org/rep/api/v4/orbit/mcp"],"authorization_servers":["https://labs.etsi.org/rep"],"scopes_supported":["mcp","mcp_orbit"]}

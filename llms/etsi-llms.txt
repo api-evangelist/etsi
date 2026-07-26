@@ -1,0 +1,99 @@
+# ETSI — European Telecommunications Standards Institute
+
+> ETSI is a not-for-profit standards development organisation in Sophia Antipolis, France, and one of only three bodies officially recognised by the EU as a European Standards Organisation. It writes the specifications that mobile, fixed, broadcast, IoT and security networks are built from, and it hosts the 3GPP Mobile Competence Centre. Its API posture is unusually open for a standards body: every deliverable is downloadable free without login, and the machine-readable API artefacts are published as BSD-3-Clause OpenAPI on two public GitLab instances that both serve an anonymous REST API. Membership gates participation — drafting, voting, working documents — not publication.
+
+Generated 2026-07-25 by the API Evangelist enrichment pipeline. Method: generated from apis.yml plus the artefacts in this repository and live probes of ETSI's public surfaces.
+
+## What ETSI actually publishes
+
+- [ETSI standards library](https://www.etsi.org/deliver/): every ETSI deliverable, free, no login, superseded versions retained permanently
+- [Get standards](https://www.etsi.org/standards/get-standards): browse by technology
+- [ETSI Forge GitLab](https://forge.etsi.org/rep/): OpenAPI for ISG MEC, NFV SOL and ISG CIM NGSI-LD — anonymous REST API at `https://forge.etsi.org/rep/api/v4`
+- [ETSI Labs GitLab](https://labs.etsi.org/rep/): OpenCAPIF, OpenSlice, Operator Platform, TeraFlowSDN, MEC Sandbox — anonymous REST API at `https://labs.etsi.org/rep/api/v4`
+- [Work Programme](https://portal.etsi.org/webapp/WorkProgram/): every work item, its stage and target date — ETSI's de-facto public roadmap
+- [Licensing](https://forge.etsi.org/legal-matters): the OpenAPI artefacts are BSD-3-Clause
+
+## APIs in this repository
+
+112 OpenAPI documents, 1,244 operations, in nine families.
+
+### ETSI ISG MEC — Multi-access Edge Computing (17 documents, 179 operations)
+- [MEC 011 Edge Platform Application Enablement](https://forge.etsi.org/rep/mec/gs011-app-enablement-api) — the Mp1 reference point: service registration, discovery, notification, app support
+- [MEC 012 Radio Network Information](https://forge.etsi.org/rep/mec/gs012-rnis-api)
+- [MEC 013 Location](https://forge.etsi.org/rep/mec/gs013-location-api)
+- [MEC 014 UE Identity](https://forge.etsi.org/rep/mec/gs014-ue-identity-api)
+- [MEC 015 Bandwidth Management and Traffic Steering](https://forge.etsi.org/rep/mec/gs015-bandwith-mgmt-api)
+- [MEC 016 UE Application Interface](https://forge.etsi.org/rep/mec/gs016-dev-app-api)
+- [MEC 010-2 Application Package and Lifecycle Management](https://forge.etsi.org/rep/mec/gs010-2-app-pkg-lcm-api)
+- [MEC 021 Application Mobility Service](https://forge.etsi.org/rep/mec/gs021-amsi-api)
+- [MEC 028 WLAN Information](https://forge.etsi.org/rep/mec/gs028-wai-api)
+- [MEC 029 Fixed Access Information](https://forge.etsi.org/rep/mec/gs029-fai-api)
+- [MEC 030 V2X Information Services](https://forge.etsi.org/rep/mec/gs030-vis-api)
+- [MEC 033 IoT](https://forge.etsi.org/rep/mec/gs033-iot-api)
+- [MEC 040 MEC Federation Enablement](https://forge.etsi.org/rep/mec/gs040-fed-enablement-api)
+
+### ETSI ISG NFV — SOL series (62 documents, 419 operations)
+- [SOL002 / SOL003](https://forge.etsi.org/rep/nfv/SOL002-SOL003) — Ve-Vnfm and Or-Vnfm: VNF lifecycle, granting, LCM coordination, fault, performance, indicators, packages, snapshots
+- [SOL005](https://forge.etsi.org/rep/nfv/SOL005) — Os-Ma-nfvo: NSD management, NS lifecycle, NS fault and performance, NFVI capacity
+- [SOL009](https://forge.etsi.org/rep/nfv/SOL009) — managing NFV-MANO itself
+- [SOL011](https://forge.etsi.org/rep/nfv/SOL011) — Or-Or, between orchestrators in different administrative domains
+- [SOL012](https://forge.etsi.org/rep/nfv/SOL012) — policy management
+
+### ETSI ISG CIM — NGSI-LD (2 documents, 98 operations)
+- [NGSI-LD API](https://forge.etsi.org/rep/cim/ngsi-ld-openapi) — GS CIM 009, JSON-LD context information management; the API layer beneath most European smart-city and FIWARE deployments. Published as OpenAPI 3.0.3 and 3.1.0.
+
+### ETSI OpenSlice — TM Forum Open APIs (25 documents, 514 operations) — LIVE
+- Base URL: `https://portal.openslice.eu/tmf-api` — reads answer anonymously
+- Spec index: `https://portal.openslice.eu/tmf-api/v3/api-docs/swagger-config`
+- Console: `https://portal.openslice.eu/swagger-ui/index.html`
+- Docs: [exposed APIs](https://osl.etsi.org/documentation/latest/naas/exposed_apis/)
+- 23 TM Forum Open APIs — TMF620 Product Catalog, TMF622 Product Ordering, TMF628 Performance, TMF629 Customer, TMF632 Party, TMF633 Service Catalog, TMF634 Resource Catalog, TMF637 Product Inventory, TMF638 Service Inventory, TMF639 Resource Inventory, TMF640 Service Activation, TMF641 Service Ordering, TMF642 Alarm, TMF651 Agreement, TMF652 Resource Ordering, TMF653 Service Test, TMF657 Service Quality, TMF666 Account, TMF669 Party Role, TMF674 Geographic Site, TMF685 Resource Pool, TMF691 Federated Identity, TMF702 Resource Activation — plus two OpenSlice-native APIs (LCM rules specification, metrics)
+- ETSI holds no TM Forum Open API conformance certification for these; this is implementation, not certification
+
+### ETSI OpenCAPIF — 3GPP CAPIF TS 29.222 (4 documents, 10 operations)
+- [Documentation](https://ocf.etsi.org/documentation/latest/) — [code](https://labs.etsi.org/rep/ocf/capif)
+- API Invoker Management, API Provider Management, Access Control Policy, Auditing
+- OAuth 2.0 client credentials
+- First-party Python SDK: `pip install opencapif-sdk` ([PyPI](https://pypi.org/project/opencapif-sdk/), [source](https://labs.etsi.org/rep/ocf/sdk))
+
+### ETSI CAMARA surfaces (2 documents, 24 operations)
+- [OpenSlice CAMARA QoD Provisioning add-on](https://labs.etsi.org/rep/osl/code/addons/org.etsi.osl.controllers.camara)
+- [Operator Platform Open Exposure Gateway](https://labs.etsi.org/rep/oop/code/open-exposure-gateway) — edge cloud management, network exposure, federation
+- ETSI is not a CAMARA member organisation and not a GSMA Open Gateway operator; it reaches CAMARA through liaison and its own open-source code
+
+## Try it live
+
+- [ETSI MEC Sandbox](https://try-mec.etsi.org/) — free, account required. Real MEC 011/012/013/021/028/030/040 APIs against emulated 4G, 5G and Wi-Fi networks with moving UEs. [Help](https://mecwiki.etsi.org/index.php?title=MEC_Sandbox_Help)
+- [ETSI OpenSlice demo portal](https://portal.openslice.eu/) — 25 live TM Forum Open APIs, anonymous reads
+
+## Conventions an agent needs to know
+
+- **Three convention families, and they disagree.** NFV SOL uses opaque-marker pagination plus RFC 8288 `Link` headers and `application/problem+json`; ISG MEC uses `ProblemDetails` with attribute-based filtering; the OpenSlice TM Forum set uses `offset`/`limit`, a `fields` parameter and the TM Forum `Error` envelope. Do not assume one house style.
+- **No idempotency.** Zero occurrences of an idempotency key across all 112 documents. Do not blind-retry writes.
+- **No rate-limit contract.** 429 is declared by 193 operations but no `RateLimit` or `Retry-After` header contract accompanies it.
+- **Loopback `servers[]` is by design.** Most ETSI documents describe a standardised interface, not a hosted service, so `{apiRoot}` and `127.0.0.1` appear in `servers[]`. The only production host in the corpus is `https://portal.openslice.eu/tmf-api`.
+- **Events are webhooks, not AsyncAPI.** 171 notification types across three families, all modelled inside OpenAPI as a subscription resource plus an HTTP callback. ETSI publishes no AsyncAPI.
+- **Versioning is the deliverable version.** `V<major>.<technical>.<editorial>`, mirrored as the git tag on ETSI Forge. Only the major version appears in the URI path.
+
+## For agents
+
+- MCP: `https://forge.etsi.org/rep/api/v4/mcp` and `https://labs.etsi.org/rep/api/v4/mcp` — GitLab-native MCP servers over the ETSI specification repositories, advertised in RFC 9728 protected-resource metadata. Require an OAuth token with the `mcp` scope; anonymous `tools/list` returns 401.
+- OIDC discovery: `https://forge.etsi.org/rep/.well-known/openid-configuration`, `https://labs.etsi.org/rep/.well-known/openid-configuration`, `https://portal.openslice.eu/auth/realms/openslice/.well-known/openid-configuration`
+
+## Security and trust
+
+- [Coordinated Vulnerability Disclosure](https://www.etsi.org/standards/coordinated-vulnerability-disclosure/) — report flaws in ETSI *standards* (not vendor implementations) to `ETSI_CVD@etsi.org` or the online form. Anonymous reporting supported, hall of fame available, no bounty (ETSI is not-for-profit).
+- No RFC 9116 `security.txt` on any ETSI host.
+- No SOC 2 / ISO 27001 / PCI DSS attestation published for ETSI's own web estate.
+- `etsi.org`: TLS 1.3, HSTS on www, SPF and DMARC at `p=reject`, CAA records set, DNSSEC not enabled.
+
+## Company
+
+- [ETSI](https://www.etsi.org/)
+- [Membership](https://www.etsi.org/membership/) — [contribution classes](https://www.etsi.org/membership/contribution-classes)
+- [Member Portal](https://portal.etsi.org/)
+- [Newsroom](https://www.etsi.org/newsroom/) — [feed](https://www.etsi.org/feed)
+- [Contact](https://www.etsi.org/about/contact/)
+- [Terms of Use](https://www.etsi.org/terms/) — [Privacy](https://www.etsi.org/privacy/) — [Legal Notice](https://www.etsi.org/legal-notice/)
+- [LinkedIn](https://www.linkedin.com/company/etsi) — [YouTube](https://www.youtube.com/user/ETSIstandards) — [X](https://x.com/ETSI_STANDARDS)
+- Open source: [OpenSlice](https://osl.etsi.org/) — [OpenCAPIF](https://ocf.etsi.org/) — [TeraFlowSDN](https://tfs.etsi.org/) — [Open Source MANO](https://osm.etsi.org/)

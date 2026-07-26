@@ -1,0 +1,71 @@
+generated: '2026-07-25'
+method: searched
+source: >-
+  git tag history of the ETSI Forge GitLab projects that hold each OpenAPI, queried anonymously
+  through https://forge.etsi.org/rep/api/v4/projects/<project>/repository/tags
+note: >-
+  ETSI publishes no dated changelog page for its API artefacts. The authoritative change record
+  is the tag history of each spec repository on ETSI Forge, where the tag name is the ETSI
+  deliverable version (V<major>.<technical>.<editorial>) and the tag date is when the approved
+  version was published to Forge. That history is captured here per specification family. ETSI
+  news and press releases at https://www.etsi.org/newsroom/ cover organisational and standards
+  announcements rather than API changes.
+scheme: etsi-deliverable-version
+scheme_format: V<major>.<technical>.<editorial>
+changelog_url: https://forge.etsi.org/rep/
+news_url: https://www.etsi.org/newsroom/
+work_programme_url: https://portal.etsi.org/webapp/WorkProgram/
+families:
+- id: nfv-sol
+  current: V5.3.1
+  released: '2025-09-10'
+  note: >-
+    the NFV SOL series moves as one release train — SOL002/003, SOL005, SOL009, SOL011 and
+    SOL012 were all tagged v5.3.1 within two weeks of each other in Aug/Sep 2025
+  entries:
+  - {version: v5.3.1, date: '2025-09-10', project: 'nfv/SOL002-SOL003', breaking: false}
+  - {version: v5.2.3, date: '2025-08-04', project: 'nfv/SOL002-SOL003', breaking: false}
+  - {version: v5.3.1, date: '2025-08-28', project: 'nfv/SOL005', breaking: false}
+  - {version: v5.2.1, date: '2024-12-09', project: 'nfv/SOL005', breaking: false}
+  - {version: v5.3.1, date: '2025-08-28', project: 'nfv/SOL009', breaking: false}
+  - {version: v5.2.1, date: '2024-12-09', project: 'nfv/SOL009', breaking: false}
+  - {version: v5.3.1, date: '2025-09-09', project: 'nfv/SOL011', breaking: true,
+     highlights: 'major jump from v3.3.1 (2024-07-15) — SOL011 realigned onto the v5 train'}
+  - {version: v5.3.1, date: '2025-08-28', project: 'nfv/SOL012', breaking: true,
+     highlights: 'major jump from v3.4.1 (2022-08-09)'}
+- id: isg-mec
+  current: V3.1.1 (per-deliverable)
+  released: '2026-05-20'
+  note: >-
+    ISG MEC versions each service API deliverable independently. Two were tagged V3.1.1 in
+    May 2026, and MEC 011 and MEC 012 moved in December 2025 after a three-year gap.
+  entries:
+  - {version: v3.1.1, date: '2026-05-20', project: 'mec/gs030-vis-api', breaking: true,
+     highlights: 'MEC 030 V2X Information Services v3 — first tag on the v3 line'}
+  - {version: v3.1.1, date: '2026-05-20', project: 'mec/gs040-fed-enablement-api', breaking: false,
+     highlights: 'MEC 040 Federation Enablement — the only tag this project carries'}
+  - {version: v3.1.1, date: '2025-12-11', project: 'mec/gs011-app-enablement-api', breaking: true,
+     highlights: 'MEC 011 Mp1 app enablement moves 2.2.1 to 3.1.1 after 3.5 years'}
+  - {version: v2.2.1, date: '2025-12-11', project: 'mec/gs012-rnis-api', breaking: false,
+     highlights: 'MEC 012 RNIS refresh'}
+  - {version: v2.2.1, date: '2022-04-01', project: 'mec/gs013-location-api', breaking: false}
+  - {version: 'v2.1.1-OAS3.1', date: '2021-12-13', project: 'mec/gs011-app-enablement-api',
+     breaking: false, highlights: 'the OpenAPI 3.1 migration tag across the MEC set'}
+- id: cim-ngsi-ld
+  current: v1.8.1
+  released: '2025-06-20'
+  note: >-
+    the ISG CIM OpenAPI repository was re-tagged in a single pass in June 2025; the documents
+    themselves carry OpenAPI versions 3.0.3 and 3.1.0 and NGSI-LD API versions to match
+  entries:
+  - {version: v1.8.1, date: '2025-06-20', project: 'cim/ngsi-ld-openapi', breaking: false}
+  - {version: v1.7.1, date: '2025-06-20', project: 'cim/ngsi-ld-openapi', breaking: false}
+  - {version: v1.6.1, date: '2025-06-20', project: 'cim/ngsi-ld-openapi', breaking: false}
+- id: openslice-tmf
+  note: >-
+    the ETSI OpenSlice deployment at portal.openslice.eu serves live springdoc-generated OpenAPI
+    that changes with the running build rather than with a tagged spec release. The TM Forum API
+    versions it exposes (TMF620 v4.0.0, TMF628 v5.0.0, TMF640 v3.0.0, TMF651 v2.0, TMF657 v2.0,
+    TMF691 v1.0 and the rest at v4) are the change signal.
+  source: https://portal.openslice.eu/tmf-api/v3/api-docs/swagger-config
+  release_notes: https://osl.etsi.org/documentation/latest/

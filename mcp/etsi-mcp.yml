@@ -1,0 +1,77 @@
+generated: '2026-07-25'
+method: searched
+status: published
+source: >-
+  https://forge.etsi.org/rep/.well-known/oauth-protected-resource and
+  https://labs.etsi.org/rep/.well-known/oauth-protected-resource, confirmed by a live
+  tools/list POST to each endpoint
+summary: >-
+  ETSI publishes no MCP server for the MEC / NFV SOL / NGSI-LD standards themselves. It does
+  operate two live MCP endpoints — the GitLab-native MCP servers on the two ETSI GitLab
+  instances that host every machine-readable ETSI artefact. Both are advertised in RFC 9728
+  protected-resource metadata and both answer, so an agent can be pointed at ETSI Forge or ETSI
+  Labs with an OAuth token and browse/search the ETSI specification repositories through MCP.
+  tools/list is auth-gated (HTTP 401 anonymously), so no tool inputSchemas are captured here;
+  they require an authenticated introspection with the `mcp` scope.
+servers:
+- name: etsi-forge-gitlab
+  transport: http
+  url: https://forge.etsi.org/rep/api/v4/mcp
+  status: published
+  provider: GitLab (self-hosted by ETSI)
+  authorization_server: https://forge.etsi.org/rep
+  required_scopes: [mcp]
+  protected_resource_metadata: well-known/etsi-forge-oauth-protected-resource.json
+  probe:
+    method: 'POST tools/list (jsonrpc 2.0)'
+    status: 401
+    body: '{"message":"401 Unauthorized"}'
+    note: endpoint exists and requires a token; a 404 would have meant no server
+  covers: >-
+    the ETSI Forge repositories — ISG MEC service APIs, NFV SOL002/003/005/009/011/012 and
+    ISG CIM NGSI-LD OpenAPI
+- name: etsi-forge-gitlab-orbit
+  transport: http
+  url: https://forge.etsi.org/rep/api/v4/orbit/mcp
+  status: published
+  provider: GitLab (self-hosted by ETSI)
+  authorization_server: https://forge.etsi.org/rep
+  required_scopes: [mcp_orbit]
+  protected_resource_metadata: well-known/etsi-forge-oauth-protected-resource.json
+- name: etsi-labs-gitlab
+  transport: http
+  url: https://labs.etsi.org/rep/api/v4/mcp
+  status: published
+  provider: GitLab (self-hosted by ETSI)
+  authorization_server: https://labs.etsi.org/rep
+  required_scopes: [mcp]
+  protected_resource_metadata: well-known/etsi-labs-oauth-protected-resource.json
+  probe:
+    method: 'POST tools/list (jsonrpc 2.0)'
+    status: 401
+  covers: >-
+    the ETSI Labs repositories — OpenCAPIF, OpenSlice, Operator Platform Open Exposure Gateway,
+    TeraFlowSDN and the MEC Sandbox
+- name: etsi-labs-gitlab-orbit
+  transport: http
+  url: https://labs.etsi.org/rep/api/v4/orbit/mcp
+  status: published
+  provider: GitLab (self-hosted by ETSI)
+  authorization_server: https://labs.etsi.org/rep
+  required_scopes: [mcp_orbit]
+  protected_resource_metadata: well-known/etsi-labs-oauth-protected-resource.json
+tools:
+  captured: false
+  reason: >-
+    tools/list returns HTTP 401 without a token. The tool set is GitLab's standard MCP surface,
+    not an ETSI-authored one; capturing real inputSchemas requires an authenticated
+    introspection with the `mcp` scope. Nothing is invented here.
+candidate_tool_surface:
+  note: >-
+    A candidate MCP surface derived from the OpenAPI in this repo — NOT published by ETSI.
+    See mcp/etsi-tool-crosswalk.yml for the REST operations that would back each tool.
+  strongest_source: openapi/openslice-tmf/ (25 live TM Forum Open API documents, 514 operations,
+    real servers[] at https://portal.openslice.eu/tmf-api)
+not_found:
+- an ETSI-authored MCP server for MEC / NFV SOL / NGSI-LD
+- an entry for ETSI in the official MCP registry

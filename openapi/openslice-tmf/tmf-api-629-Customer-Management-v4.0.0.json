@@ -1,0 +1,1997 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "TMF 629 Customer Management-v4.0.0",
+    "description": "This is Swagger UI environment generated for the TMF Customer Management specification",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://osl.etsi.org"
+    },
+    "version": "4.0.0"
+  },
+  "externalDocs": {
+    "description": "TMF API Tables",
+    "url": "https://www.tmforum.org/oda/open-apis/table"
+  },
+  "servers": [
+    {
+      "url": "https://portal.openslice.eu/tmf-api",
+      "description": "Generated server url"
+    }
+  ],
+  "security": [
+    {
+      "security_auth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "listener",
+      "description": "the listener API"
+    },
+    {
+      "name": "customer",
+      "description": "the customer API"
+    },
+    {
+      "name": "hub",
+      "description": "the hub API"
+    }
+  ],
+  "paths": {
+    "/listener/customerStateChangeEvent": {
+      "post": {
+        "tags": [
+          "listener",
+          "notification listeners (client side)"
+        ],
+        "summary": "Client listener for entity CustomerStateChangeEvent",
+        "description": "Example of a client listener for receiving the notification CustomerStateChangeEvent",
+        "operationId": "listenToCustomerStateChangeEvent",
+        "requestBody": {
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerStateChangeEvent"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/listener/customerDeleteEvent": {
+      "post": {
+        "tags": [
+          "listener",
+          "notification listeners (client side)"
+        ],
+        "summary": "Client listener for entity CustomerDeleteEvent",
+        "description": "Example of a client listener for receiving the notification CustomerDeleteEvent",
+        "operationId": "listenToCustomerDeleteEvent",
+        "requestBody": {
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerDeleteEvent"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/listener/customerCreateEvent": {
+      "post": {
+        "tags": [
+          "listener",
+          "notification listeners (client side)"
+        ],
+        "summary": "Client listener for entity CustomerCreateEvent",
+        "description": "Example of a client listener for receiving the notification CustomerCreateEvent",
+        "operationId": "listenToCustomerCreateEvent",
+        "requestBody": {
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerCreateEvent"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/listener/customerAttributeValueChangeEvent": {
+      "post": {
+        "tags": [
+          "listener",
+          "notification listeners (client side)"
+        ],
+        "summary": "Client listener for entity CustomerAttributeValueChangeEvent",
+        "description": "Example of a client listener for receiving the notification CustomerAttributeValueChangeEvent",
+        "operationId": "listenToCustomerAttributeValueChangeEvent",
+        "requestBody": {
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerAttributeValueChangeEvent"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customerManagement/v4/hub": {
+      "post": {
+        "tags": [
+          "hub",
+          "events subscription"
+        ],
+        "summary": "Register a listener",
+        "description": "Sets the communication endpoint address the service instance must use to deliver information about its health state, execution state, failures and metrics.",
+        "operationId": "registerListener629",
+        "requestBody": {
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/EventSubscriptionInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Subscribed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customerManagement/v4/customer": {
+      "get": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "List or find Customer objects",
+        "description": "This operation list or find Customer entities",
+        "operationId": "listCustomer",
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Comma-separated properties to be provided in response",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Requested index for start of resources to be provided in response",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Requested number of resources to be provided in response",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Customer"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Customer"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Customer"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Customer"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Customer"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Customer"
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Customer"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Customer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Creates a Customer",
+        "description": "This operation creates a Customer entity.",
+        "operationId": "createCustomer",
+        "requestBody": {
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Created",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customerManagement/v4/customer/{id}": {
+      "get": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Retrieves a Customer by ID",
+        "description": "This operation retrieves a Customer entity. Attribute selection is enabled for all first level attributes.",
+        "operationId": "retrieveCustomer",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identifier of the Customer",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Comma-separated properties to provide in response",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Deletes a Customer",
+        "description": "This operation deletes a Customer entity.",
+        "operationId": "deleteCustomer",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identifier of the Customer",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "204": {
+            "description": "Deleted"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "405": {
+            "description": "Method Not allowed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Updates partially a Customer",
+        "description": "This operation updates partially a Customer entity.",
+        "operationId": "patchCustomer",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identifier of the Customer",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customerManagement/v4/hub/{id}": {
+      "delete": {
+        "tags": [
+          "hub",
+          "events subscription"
+        ],
+        "summary": "Unregister a listener",
+        "description": "Resets the communication endpoint address the service instance must use to deliver information about its health state, execution state, failures and metrics.",
+        "operationId": "unregisterListener629",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the registered listener",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "204": {
+            "description": "Deleted"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccountRef": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the entity"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the account"
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed description of the account"
+          },
+          "@referredType": {
+            "type": "string",
+            "description": "The actual type of the target instance when needed for disambiguation."
+          }
+        },
+        "description": "Account reference. A account may be a party account or a financial account."
+      },
+      "AgreementRef": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the entity"
+          },
+          "id": {
+            "type": "string",
+            "description": "Identifier of the agreement"
+          },
+          "@referredType": {
+            "type": "string",
+            "description": "The actual type of the target instance when needed for disambiguation."
+          }
+        },
+        "description": "Agreement reference. An agreement represents a contract or arrangement, either written or verbal and sometimes enforceable by law, such as a service level agreement or a customer price agreement. An agreement involves a number of other business entities, such as products, services, and resources and/or their specifications."
+      },
+      "Any": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          },
+          "alias": {
+            "type": "string"
+          }
+        },
+        "description": "The value of the characteristic"
+      },
+      "Characteristic": {
+        "required": [
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the entity"
+          },
+          "valueType": {
+            "type": "string",
+            "description": "Data type of the value of the characteristic"
+          },
+          "value": {
+            "$ref": "#/components/schemas/Any"
+          }
+        },
+        "description": "Describes a given characteristic of an object or entity through a name/value pair."
+      },
+      "ContactMedium": {
+        "required": [
+          "characteristic",
+          "mediumType"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "mediumType": {
+            "type": "string",
+            "description": "Type of the contact medium, such as: email address, telephone number, postal address"
+          },
+          "preferred": {
+            "type": "boolean",
+            "description": "If true, indicates that is the preferred contact medium"
+          },
+          "characteristic": {
+            "$ref": "#/components/schemas/MediumCharacteristic"
+          },
+          "validFor": {
+            "$ref": "#/components/schemas/TimePeriod"
+          }
+        },
+        "description": "Indicates the contact medium that could be used to contact the party."
+      },
+      "CreditProfile": {
+        "required": [
+          "creditProfileDate",
+          "validFor"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "creditProfileDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "creditRiskRating": {
+            "type": "integer",
+            "description": "This is an integer whose value is used to rate the risk",
+            "format": "int32"
+          },
+          "creditScore": {
+            "type": "integer",
+            "description": "A measure of a person or organizations creditworthiness calculated on the basis of a combination of factors such as their income and credit history",
+            "format": "int32"
+          },
+          "validFor": {
+            "$ref": "#/components/schemas/TimePeriod"
+          }
+        },
+        "description": "Credit profile for the party (containing credit scoring, ...). By default only the current credit profile  is retrieved. It can be used as a list to give the party credit profiles history, the first one in the list will be the current one."
+      },
+      "Customer": {
+        "required": [
+          "engagedParty"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the entity"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for Customers"
+          },
+          "status": {
+            "type": "string",
+            "description": "Used to track the lifecycle status of the customer."
+          },
+          "statusReason": {
+            "type": "string",
+            "description": "A string providing an explanation on the value of the status lifecycle. For instance if the status is Rejected, statusReason will provide the reason for rejection."
+          },
+          "account": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccountRef"
+            }
+          },
+          "agreement": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AgreementRef"
+            }
+          },
+          "characteristic": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "Describes the characteristic of a customer.",
+            "items": {
+              "$ref": "#/components/schemas/Characteristic"
+            }
+          },
+          "contactMedium": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContactMedium"
+            }
+          },
+          "creditProfile": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreditProfile"
+            }
+          },
+          "engagedParty": {
+            "$ref": "#/components/schemas/RelatedParty"
+          },
+          "paymentMethod": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaymentMethodRef"
+            }
+          },
+          "relatedParty": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedParty"
+            }
+          },
+          "validFor": {
+            "$ref": "#/components/schemas/TimePeriod"
+          }
+        },
+        "description": "The involved resource data for the event"
+      },
+      "CustomerStateChangeEvent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of the resource involved in the event"
+          },
+          "href": {
+            "type": "string",
+            "description": "Reference of the resource involved in the event"
+          },
+          "eventId": {
+            "type": "string",
+            "description": "The identifier of the notification."
+          },
+          "eventTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "eventType": {
+            "type": "string",
+            "description": "The type of the notification."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "The correlation id for this event."
+          },
+          "domain": {
+            "type": "string",
+            "description": "The domain of the event."
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the event."
+          },
+          "description": {
+            "type": "string",
+            "description": "An explanatory of the event."
+          },
+          "priority": {
+            "type": "string",
+            "description": "A priority."
+          },
+          "timeOcurred": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "event": {
+            "$ref": "#/components/schemas/CustomerStateChangeEventPayload"
+          }
+        },
+        "description": "The event data"
+      },
+      "CustomerStateChangeEventPayload": {
+        "type": "object",
+        "properties": {
+          "customer": {
+            "$ref": "#/components/schemas/Customer"
+          }
+        },
+        "description": "The event data structure"
+      },
+      "MediumCharacteristic": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "city": {
+            "type": "string",
+            "description": "The city"
+          },
+          "contactType": {
+            "type": "string",
+            "description": "The type of contact, for example: phone number such as mobile, fixed home, fixed office. postal address such as shipping instalation\u2026"
+          },
+          "country": {
+            "type": "string",
+            "description": "The country"
+          },
+          "emailAddress": {
+            "type": "string",
+            "description": "Full email address in standard format"
+          },
+          "faxNumber": {
+            "type": "string",
+            "description": "The fax number of the contact"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "The primary phone number of the contact"
+          },
+          "postCode": {
+            "type": "string",
+            "description": "Postcode"
+          },
+          "socialNetworkId": {
+            "type": "string",
+            "description": "Identifier as a member of a social network"
+          },
+          "stateOrProvince": {
+            "type": "string",
+            "description": "State or province"
+          },
+          "street1": {
+            "type": "string",
+            "description": "Describes the street"
+          },
+          "street2": {
+            "type": "string",
+            "description": "Complementary street description"
+          }
+        },
+        "description": "Describes the contact medium characteristics that could be used to contact a party (an individual or an organization)"
+      },
+      "PaymentMethodRef": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the entity"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the payment mean"
+          },
+          "@referredType": {
+            "type": "string",
+            "description": "The actual type of the target instance when needed for disambiguation."
+          }
+        },
+        "description": "PaymentMethod reference. A payment method defines a specific mean of payment (e.g direct debit)."
+      },
+      "RelatedParty": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the entity"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role of the related party."
+          },
+          "@referredType": {
+            "type": "string",
+            "description": "The actual type of the target instance when needed for disambiguation."
+          },
+          "id": {
+            "type": "string"
+          },
+          "extendedInfo": {
+            "type": "string"
+          }
+        },
+        "description": "RelatedParty reference. A related party defines party or party role linked to a specific entity."
+      },
+      "TimePeriod": {
+        "type": "object",
+        "properties": {
+          "endDateTime": {
+            "type": "string",
+            "description": "End of the time period, using IETC-RFC-3339 format"
+          },
+          "startDateTime": {
+            "type": "string",
+            "description": "Start of the time period, using IETC-RFC-3339 format. If you define a start, you must also define an end"
+          }
+        },
+        "description": "A period of time, either as a deadline (endDateTime only) a startDateTime only, or both"
+      },
+      "EventSubscription": {
+        "required": [
+          "callback",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Id of the listener"
+          },
+          "callback": {
+            "type": "string",
+            "description": "The callback being registered."
+          },
+          "query": {
+            "type": "string",
+            "description": "additional data to be passed"
+          }
+        },
+        "description": "Sets the communication endpoint address the service instance must use to deliver notification information"
+      },
+      "CustomerDeleteEvent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of the resource involved in the event"
+          },
+          "href": {
+            "type": "string",
+            "description": "Reference of the resource involved in the event"
+          },
+          "eventId": {
+            "type": "string",
+            "description": "The identifier of the notification."
+          },
+          "eventTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "eventType": {
+            "type": "string",
+            "description": "The type of the notification."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "The correlation id for this event."
+          },
+          "domain": {
+            "type": "string",
+            "description": "The domain of the event."
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the event."
+          },
+          "description": {
+            "type": "string",
+            "description": "An explanatory of the event."
+          },
+          "priority": {
+            "type": "string",
+            "description": "A priority."
+          },
+          "timeOcurred": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "event": {
+            "$ref": "#/components/schemas/CustomerDeleteEventPayload"
+          }
+        },
+        "description": "The event data"
+      },
+      "CustomerDeleteEventPayload": {
+        "type": "object",
+        "properties": {
+          "customer": {
+            "$ref": "#/components/schemas/Customer"
+          }
+        },
+        "description": "The event data structure"
+      },
+      "CustomerCreateEvent": {
+        "type": "object",
+        "properties": {
+          "eventTime": {
+            "type": "string",
+            "description": "Time of the event occurrence."
+          },
+          "id": {
+            "type": "string",
+            "description": "Identifier of the resource involved in the event"
+          },
+          "href": {
+            "type": "string",
+            "description": "Reference of the resource involved in the event"
+          },
+          "eventId": {
+            "type": "string",
+            "description": "The identifier of the notification."
+          },
+          "eventType": {
+            "type": "string",
+            "description": "The type of the notification."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "The correlation id for this event."
+          },
+          "domain": {
+            "type": "string",
+            "description": "The domain of the event."
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the event."
+          },
+          "description": {
+            "type": "string",
+            "description": "An explanatory of the event."
+          },
+          "priority": {
+            "type": "string",
+            "description": "A priority."
+          },
+          "timeOcurred": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "event": {
+            "$ref": "#/components/schemas/CustomerCreateEventPayload"
+          }
+        },
+        "description": "The event data"
+      },
+      "CustomerCreateEventPayload": {
+        "type": "object",
+        "properties": {
+          "customer": {
+            "$ref": "#/components/schemas/Customer"
+          }
+        },
+        "description": "The event data structure"
+      },
+      "CustomerAttributeValueChangeEvent": {
+        "type": "object",
+        "properties": {
+          "eventTime": {
+            "type": "string",
+            "description": "Time of the event occurrence."
+          },
+          "eventId": {
+            "type": "string",
+            "description": "The identifier of the notification."
+          },
+          "eventType": {
+            "type": "string",
+            "description": "The type of the notification."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "The correlation id for this event."
+          },
+          "domain": {
+            "type": "string",
+            "description": "The domain of the event."
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the event."
+          },
+          "description": {
+            "type": "string",
+            "description": "An explanatory of the event."
+          },
+          "priority": {
+            "type": "string",
+            "description": "A priority."
+          },
+          "timeOcurred": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fieldPath": {
+            "type": "string",
+            "description": "The path identifying the object field concerned by this notification."
+          },
+          "event": {
+            "$ref": "#/components/schemas/CustomerAttributeValueChangeEventPayload"
+          }
+        },
+        "description": "The event data"
+      },
+      "CustomerAttributeValueChangeEventPayload": {
+        "type": "object",
+        "properties": {
+          "customer": {
+            "$ref": "#/components/schemas/Customer"
+          }
+        },
+        "description": "The event data structure"
+      },
+      "EventSubscriptionInput": {
+        "required": [
+          "callback"
+        ],
+        "type": "object",
+        "properties": {
+          "callback": {
+            "type": "string",
+            "description": "The callback being registered."
+          },
+          "query": {
+            "type": "string",
+            "description": "additional data to be passed"
+          }
+        },
+        "description": "Data containing the callback endpoint to deliver the information"
+      },
+      "CustomerCreate": {
+        "required": [
+          "engagedParty"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "A word, term, or phrase by which the Customer is known and distinguished from other Customers."
+          },
+          "status": {
+            "type": "string",
+            "description": "Used to track the lifecycle status of the customer."
+          },
+          "statusReason": {
+            "type": "string",
+            "description": "A string providing an explanation on the value of the status lifecycle. For instance if the status is Rejected, statusReason will provide the reason for rejection."
+          },
+          "account": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccountRef"
+            }
+          },
+          "agreement": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AgreementRef"
+            }
+          },
+          "characteristic": {
+            "type": "array",
+            "description": "Describes the characteristic of a customer.",
+            "items": {
+              "$ref": "#/components/schemas/Characteristic"
+            }
+          },
+          "contactMedium": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContactMedium"
+            }
+          },
+          "creditProfile": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreditProfile"
+            }
+          },
+          "engagedParty": {
+            "$ref": "#/components/schemas/RelatedParty"
+          },
+          "paymentMethod": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaymentMethodRef"
+            }
+          },
+          "relatedParty": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedParty"
+            }
+          },
+          "validFor": {
+            "$ref": "#/components/schemas/TimePeriod"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string",
+            "description": "When sub-classing, this defines the sub-class entity name"
+          }
+        },
+        "description": "The Customer to be created"
+      },
+      "CustomerUpdate": {
+        "required": [
+          "engagedParty"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "A word, term, or phrase by which the Customer is known and distinguished from other Customers."
+          },
+          "status": {
+            "type": "string",
+            "description": "Used to track the lifecycle status of the customer."
+          },
+          "statusReason": {
+            "type": "string",
+            "description": "A string providing an explanation on the value of the status lifecycle. For instance if the status is Rejected, statusReason will provide the reason for rejection."
+          },
+          "account": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccountRef"
+            }
+          },
+          "agreement": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AgreementRef"
+            }
+          },
+          "characteristic": {
+            "type": "array",
+            "description": "Describes the characteristic of a customer.",
+            "items": {
+              "$ref": "#/components/schemas/Characteristic"
+            }
+          },
+          "contactMedium": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContactMedium"
+            }
+          },
+          "creditProfile": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreditProfile"
+            }
+          },
+          "engagedParty": {
+            "$ref": "#/components/schemas/RelatedParty"
+          },
+          "paymentMethod": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaymentMethodRef"
+            }
+          },
+          "relatedParty": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedParty"
+            }
+          },
+          "validFor": {
+            "$ref": "#/components/schemas/TimePeriod"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string",
+            "description": "When sub-classing, this defines the sub-class entity name"
+          }
+        },
+        "description": "The Customer to be updated"
+      }
+    },
+    "securitySchemes": {
+      "security_auth": {
+        "type": "oauth2",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://portal.openslice.eu/auth/realms/openslice/protocol/openid-connect/auth",
+            "tokenUrl": "https://portal.openslice.eu/auth/realms/openslice/protocol/openid-connect/token",
+            "scopes": {
+              "read": "read scope",
+              "write": "write scope"
+            }
+          }
+        }
+      }
+    }
+  }
+}

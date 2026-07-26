@@ -1,0 +1,33 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for ETSI NFV SOL005 Os-Ma-nfvo network service management
+  version: 1.0.0
+extends: openapi/nfv-sol005/SOL005/NSLifecycleManagement/NSLifecycleManagement.yaml
+x-apievangelist:
+  generated: '2026-07-25'
+  method: generated
+  provider: etsi
+  family: nfv-sol005
+  family_documents: 15
+  family_operations: 147
+  note: This overlay records API Evangelist enrichment metadata for the whole nfv-sol005 family in this
+    repo. It never mutates the harvested ETSI specification, which is published BSD-3-Clause on ETSI Forge
+    / ETSI Labs.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: etsi
+    x-apievangelist-family: nfv-sol005
+    x-apievangelist-documentation: https://www.etsi.org/technologies/nfv
+    x-apievangelist-license: BSD-3-Clause
+    x-apievangelist-license-url: https://forge.etsi.org/legal-matters
+    x-apievangelist-tags:
+    - NFV
+    - Orchestration
+    - OSS
+    x-apievangelist-conventions: conventions/etsi-conventions.yml
+    x-apievangelist-errors: errors/etsi-problem-types.yml
+    x-apievangelist-authentication: authentication/etsi-authentication.yml
+    x-apievangelist-lifecycle: lifecycle/etsi-lifecycle.yml
+    x-apievangelist-events: asyncapi/etsi-webhooks.yml
+    x-apievangelist-idempotency-supported: false

@@ -1,0 +1,1576 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "TMF 674 Geographic Site Management",
+    "description": "## TMF API Reference: TMF674 - Geographic Site Management  ",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://osl.etsi.org"
+    },
+    "version": "4.0.0"
+  },
+  "externalDocs": {
+    "description": "TMF API Tables",
+    "url": "https://www.tmforum.org/oda/open-apis/table"
+  },
+  "servers": [
+    {
+      "url": "https://portal.openslice.eu/tmf-api",
+      "description": "Generated server url"
+    }
+  ],
+  "security": [
+    {
+      "security_auth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "events subscription",
+      "description": "Endpoints to register and terminate an Event Listener"
+    },
+    {
+      "name": "notification listener",
+      "description": "Notifications for Resource Lifecycle and event notifications"
+    }
+  ],
+  "paths": {
+    "/geographicSiteManagement/v5/listener/geographicSiteStateChangeEvent": {
+      "post": {
+        "tags": [
+          "notification listener"
+        ],
+        "summary": "Client listener for entity GeographicSiteCreateEvent",
+        "description": "Example of a client listener for receiving the notification GeographicSiteStateChangeEvent",
+        "operationId": "geographicSiteStateChangeEvent",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GeographicSiteStateChangeEvent"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Notified"
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/geographicSiteManagement/v5/listener/geographicSiteDeleteEvent": {
+      "post": {
+        "tags": [
+          "notification listener"
+        ],
+        "summary": "Client listener for entity GeographicSiteCreateEvent",
+        "description": "Example of a client listener for receiving the notification GeographicSiteDeleteEvent",
+        "operationId": "geographicSiteDeleteEvent",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GeographicSiteDeleteEvent"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Notified"
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/geographicSiteManagement/v5/listener/geographicSiteCreateEvent": {
+      "post": {
+        "tags": [
+          "notification listener"
+        ],
+        "summary": "Client listener for entity GeographicSiteCreateEvent",
+        "description": "Example of a client listener for receiving the notification GeographicSiteCreateEvent",
+        "operationId": "geographicSiteCreateEvent",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GeographicSiteCreateEvent"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Notified"
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/geographicSiteManagement/v5/listener/geographicSiteAttributeValueChangeEvent": {
+      "post": {
+        "tags": [
+          "notification listener"
+        ],
+        "summary": "Client listener for entity GeographicSiteCreateEvent",
+        "description": "Example of a client listener for receiving the notification GeographicSiteAttributeValueChangeEvent",
+        "operationId": "geographicSiteAttributeValueChangeEvent",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GeographicSiteAttributeValueChangeEvent"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Notified"
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/geographicSiteManagement/v5/hub": {
+      "post": {
+        "tags": [
+          "events subscription"
+        ],
+        "summary": "Register a listener",
+        "description": "Sets the communication endpoint address the service instance must use to deliver information about its health state, execution state, failures and metrics.",
+        "operationId": "registerListener",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventSubscriptionInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Notified",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventSubscription"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/geographicSiteManagement/v5/geographicSite": {
+      "get": {
+        "tags": [
+          "GeographicSite"
+        ],
+        "summary": "List or find 'GeographicSite' objects",
+        "operationId": "listGeographicSite",
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GeographicSite"
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GeographicSite"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GeographicSite"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GeographicSite"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GeographicSite"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GeographicSite"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GeographicSite"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GeographicSite"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "geographicSite"
+        ],
+        "summary": "Creates a 'GeographicSite'",
+        "operationId": "createGeographicSite",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GeographicSite"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/geographicSiteManagement/v5/geographicSite/{id}": {
+      "get": {
+        "tags": [
+          "GeographicSite"
+        ],
+        "summary": "Retrieves a 'GeographicSite' by Id",
+        "operationId": "retrieveGeographicSite",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identifier of the Geographic site",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "GeographicSite"
+        ],
+        "summary": "Deletes a 'GeographicSite' by Id",
+        "operationId": "deleteGeographicSite",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identifier of the geographic site",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "204": {
+            "description": "Deleted"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "405": {
+            "description": "Method Not allowed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "GeographicSite"
+        ],
+        "summary": "Updates partially a 'GeographicSite' by Id",
+        "operationId": "patchGeographicSite",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identifier of the ServiceOrder",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GeographicSite"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not allowed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeographicSite"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/geographicSiteManagement/v5/hub/{id}": {
+      "delete": {
+        "tags": [
+          "events subscription"
+        ],
+        "summary": "Unregister a listener",
+        "description": "Resets the communication endpoint address the service instance must use to deliver information about its health state, execution state, failures and metrics.",
+        "operationId": "unregisterListener",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identifier of the Service",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CalendarPeriod": {
+        "required": [
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "day": {
+            "type": "string",
+            "description": "Day where the calendar status applies (e.g.: monday, mon-to-fri, weekdays, weekend, all week, ...)"
+          },
+          "status": {
+            "type": "string",
+            "description": "Indication of the availability of the caledar period (e.g.: available, booked, etc.)"
+          },
+          "timeZone": {
+            "type": "string",
+            "description": "Indication of the timezone applicable to the calendar information (e.g.: Paris, GMT+1)"
+          },
+          "id": {
+            "type": "string",
+            "description": "unique identifier of the calendar period"
+          },
+          "hourPeriod": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HourPeriod"
+            }
+          }
+        }
+      },
+      "ExternalIdentifier": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Name of the external system that owns the entity.",
+            "example": "MagentoCommerce"
+          },
+          "externalIdentifierType": {
+            "type": "string",
+            "description": "Type of the identification, typically would be the type of the entity within the external system",
+            "example": "ProductOrder"
+          },
+          "id": {
+            "type": "string",
+            "description": "identification of the entity within the external system."
+          }
+        }
+      },
+      "GeographicAddressValue": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PlaceRefOrValue"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "locality": {
+                "type": "string",
+                "description": "An area of defined or undefined boundaries within a local authority or other legislatively defined area, usually rural or semi rural in nature. [ANZLIC-STREET], or a suburb, a bounded locality within a city, town or shire principally of urban character [ANZLICSTREET]"
+              },
+              "postcode": {
+                "type": "string",
+                "description": "descriptor for a postal delivery area, used to speed and simplify the delivery of mail (also know as zipcode)"
+              },
+              "stateOrProvince": {
+                "type": "string",
+                "description": "the State or Province that the address is in"
+              },
+              "streetNr": {
+                "type": "string",
+                "description": "Number identifying a specific property on a public street. It may be combined with streetNrLast for ranged addresses"
+              },
+              "streetNrLast": {
+                "type": "string",
+                "description": "Last number in a range of street numbers allocated to a property"
+              },
+              "streetNrLastSuffix": {
+                "type": "string",
+                "description": "Last street number suffix for a ranged address"
+              },
+              "streetNrSuffix": {
+                "type": "string",
+                "description": "the first street number suffix"
+              },
+              "streetSuffix": {
+                "type": "string",
+                "description": "A modifier denoting a relative direction"
+              },
+              "streetType": {
+                "type": "string",
+                "description": "alley, avenue, boulevard, brae, crescent, drive, highway, lane, terrace, parade, place, tarn, way, wharf "
+              },
+              "geographicSubAddress": {
+                "$ref": "#/components/schemas/GeographicSubAddressValue"
+              },
+              "city": {
+                "type": "string",
+                "description": "City that the address is in"
+              },
+              "country": {
+                "type": "string",
+                "description": "Country that the address is in"
+              },
+              "streetName": {
+                "type": "string",
+                "description": "Name of the street or other street type"
+              }
+            }
+          }
+        ]
+      },
+      "GeographicSite": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "code": {
+            "type": "string",
+            "description": "A code that may be used for some addressing schemes eg: [ANSI T1.253-1999]"
+          },
+          "description": {
+            "type": "string",
+            "description": "Text describing additional information regarding the site"
+          },
+          "status": {
+            "type": "string",
+            "description": "The condition of the GeographicSite, such as planned, underConstruction, cancelled, active, inactive, former"
+          },
+          "externalIdentifier": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExternalIdentifier"
+            }
+          },
+          "calendar": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CalendarPeriod"
+            }
+          },
+          "place": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/PlaceRefOrValue"
+                },
+                {
+                  "$ref": "#/components/schemas/GeographicAddressValue"
+                },
+                {
+                  "$ref": "#/components/schemas/PlaceRef"
+                }
+              ]
+            }
+          },
+          "siteRelationship": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GeographicSiteRelationship"
+            }
+          },
+          "relatedParty": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedParty"
+            }
+          }
+        },
+        "description": "The ServiceOrder to be updated"
+      },
+      "GeographicSiteEventPayload": {
+        "type": "object",
+        "properties": {
+          "geographicSite": {
+            "$ref": "#/components/schemas/GeographicSite"
+          }
+        },
+        "description": "The event data structure"
+      },
+      "GeographicSiteRelationship": {
+        "required": [
+          "id",
+          "relationshipType"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "relationshipType": {
+            "type": "string",
+            "description": "Type of relationship"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role of the related site in the relationship"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the related site entity within the server"
+          },
+          "validFor": {
+            "$ref": "#/components/schemas/TimePeriod"
+          }
+        }
+      },
+      "GeographicSiteStateChangeEvent": {
+        "required": [
+          "href",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "Hyperlink reference"
+          },
+          "id": {
+            "type": "string",
+            "description": "unique identifier"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "event": {
+            "$ref": "#/components/schemas/GeographicSiteEventPayload"
+          },
+          "eventId": {
+            "type": "string",
+            "description": "The identifier of the notification."
+          },
+          "eventTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "eventType": {
+            "type": "string",
+            "description": "The type of the notification."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "The correlation id for this event."
+          },
+          "domain": {
+            "type": "string",
+            "description": "The domain of the event."
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the event."
+          },
+          "description": {
+            "type": "string",
+            "description": "An explanatory of the event."
+          },
+          "priority": {
+            "type": "string",
+            "description": "A priority."
+          },
+          "timeOcurred": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "The event data"
+      },
+      "GeographicSubAddressUnit": {
+        "required": [
+          "subUnitNumber",
+          "subUnitType"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "subUnitNumber": {
+            "type": "string",
+            "description": "The discriminator used for the subunit, often just a simple number but may also be a range."
+          },
+          "subUnitType": {
+            "type": "string",
+            "description": "The type of subunit e.g.BERTH, FLAT, PIER, SUITE, SHOP, TOWER, UNIT, WHARF, RACK"
+          }
+        },
+        "description": "Representation of a SubUnit. It is used for describing subunit within a subAddress e.g. BERTH, FLAT, PIER, SUITE, SHOP, TOWER, UNIT, WHARF."
+      },
+      "GeographicSubAddressValue": {
+        "required": [
+          "@type"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "buildingName": {
+            "type": "string",
+            "description": "allows for buildings that have well-known names"
+          },
+          "levelNumber": {
+            "type": "string",
+            "description": "used where a level type may be repeated e.g. BASEMENT 1, BASEMENT 2"
+          },
+          "levelType": {
+            "type": "string",
+            "description": "describes level types within a building"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the subAddress to identify it with a meaningful identification"
+          },
+          "privateStreetName": {
+            "type": "string",
+            "description": "private streets internal to a property (e.g. a university) may have internal names that are not recorded by the land title office."
+          },
+          "privateStreetNumber": {
+            "type": "string",
+            "description": "private streets numbers internal to a private street"
+          },
+          "subUnit": {
+            "type": "array",
+            "description": "Representation of a SubUnit. It is used for describing subunit within a subAddress e.g. BERTH, FLAT, PIER, SUITE, SHOP, TOWER, UNIT, WHARF.",
+            "items": {
+              "$ref": "#/components/schemas/GeographicSubAddressUnit"
+            }
+          },
+          "subAddressType": {
+            "type": "string",
+            "description": "Type of subAddress : it can be a subunit or a private street"
+          }
+        }
+      },
+      "HourPeriod": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "endHour": {
+            "type": "string"
+          },
+          "startHour": {
+            "type": "string"
+          }
+        }
+      },
+      "PlaceRef": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PlaceRefOrValue"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "href": {
+                "type": "string",
+                "description": "Hyperlink reference"
+              },
+              "id": {
+                "type": "string",
+                "description": "Identifier of the referred entity."
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the referred entity."
+              },
+              "@referredType": {
+                "type": "string",
+                "description": "The actual type of the target instance when needed for disambiguation."
+              }
+            }
+          }
+        ]
+      },
+      "PlaceRefOrValue": {
+        "required": [
+          "@type"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "geographicAddress": {
+            "$ref": "#/components/schemas/GeographicAddressValue"
+          },
+          "@type": {
+            "type": "string"
+          }
+        },
+        "discriminator": {
+          "propertyName": "@type"
+        }
+      },
+      "RelatedParty": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "description": "Unique reference of the entity"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the entity"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role of the related party."
+          },
+          "@referredType": {
+            "type": "string",
+            "description": "The actual type of the target instance when needed for disambiguation."
+          },
+          "id": {
+            "type": "string"
+          },
+          "extendedInfo": {
+            "type": "string"
+          }
+        },
+        "description": "RelatedParty reference. A related party defines party or party role linked to a specific entity."
+      },
+      "TimePeriod": {
+        "type": "object",
+        "properties": {
+          "endDateTime": {
+            "type": "string",
+            "description": "End of the time period, using IETC-RFC-3339 format"
+          },
+          "startDateTime": {
+            "type": "string",
+            "description": "Start of the time period, using IETC-RFC-3339 format. If you define a start, you must also define an end"
+          }
+        },
+        "description": "A period of time, either as a deadline (endDateTime only) a startDateTime only, or both"
+      },
+      "GeographicSiteDeleteEvent": {
+        "required": [
+          "href",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "Hyperlink reference"
+          },
+          "id": {
+            "type": "string",
+            "description": "unique identifier"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "event": {
+            "$ref": "#/components/schemas/GeographicSiteEventPayload"
+          },
+          "eventId": {
+            "type": "string",
+            "description": "The identifier of the notification."
+          },
+          "eventTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "eventType": {
+            "type": "string",
+            "description": "The type of the notification."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "The correlation id for this event."
+          },
+          "domain": {
+            "type": "string",
+            "description": "The domain of the event."
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the event."
+          },
+          "description": {
+            "type": "string",
+            "description": "An explanatory of the event."
+          },
+          "priority": {
+            "type": "string",
+            "description": "A priority."
+          },
+          "timeOcurred": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "The event data"
+      },
+      "GeographicSiteCreateEvent": {
+        "required": [
+          "href",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "Hyperlink reference"
+          },
+          "id": {
+            "type": "string",
+            "description": "unique identifier"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "event": {
+            "$ref": "#/components/schemas/GeographicSiteEventPayload"
+          },
+          "eventId": {
+            "type": "string",
+            "description": "The identifier of the notification."
+          },
+          "eventTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "eventType": {
+            "type": "string",
+            "description": "The type of the notification."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "The correlation id for this event."
+          },
+          "domain": {
+            "type": "string",
+            "description": "The domain of the event."
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the event."
+          },
+          "description": {
+            "type": "string",
+            "description": "An explanatory of the event."
+          },
+          "priority": {
+            "type": "string",
+            "description": "A priority."
+          },
+          "timeOcurred": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "The event data"
+      },
+      "GeographicSiteAttributeValueChangeEvent": {
+        "required": [
+          "href",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "Hyperlink reference"
+          },
+          "id": {
+            "type": "string",
+            "description": "unique identifier"
+          },
+          "@baseType": {
+            "type": "string",
+            "description": "When sub-classing, this defines the super-class"
+          },
+          "@schemaLocation": {
+            "type": "string",
+            "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+          },
+          "event": {
+            "$ref": "#/components/schemas/GeographicSiteEventPayload"
+          },
+          "eventId": {
+            "type": "string",
+            "description": "The identifier of the notification."
+          },
+          "eventTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "eventType": {
+            "type": "string",
+            "description": "The type of the notification."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "The correlation id for this event."
+          },
+          "domain": {
+            "type": "string",
+            "description": "The domain of the event."
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the event."
+          },
+          "description": {
+            "type": "string",
+            "description": "An explanatory of the event."
+          },
+          "priority": {
+            "type": "string",
+            "description": "A priority."
+          },
+          "timeOcurred": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "The event data"
+      },
+      "EventSubscription": {
+        "required": [
+          "callback",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Id of the listener"
+          },
+          "callback": {
+            "type": "string",
+            "description": "The callback being registered."
+          },
+          "query": {
+            "type": "string",
+            "description": "additional data to be passed"
+          }
+        },
+        "description": "Sets the communication endpoint address the service instance must use to deliver notification information"
+      },
+      "EventSubscriptionInput": {
+        "required": [
+          "callback"
+        ],
+        "type": "object",
+        "properties": {
+          "callback": {
+            "type": "string",
+            "description": "The callback being registered."
+          },
+          "query": {
+            "type": "string",
+            "description": "additional data to be passed"
+          }
+        },
+        "description": "Data containing the callback endpoint to deliver the information"
+      }
+    },
+    "securitySchemes": {
+      "security_auth": {
+        "type": "oauth2",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://portal.openslice.eu/auth/realms/openslice/protocol/openid-connect/auth",
+            "tokenUrl": "https://portal.openslice.eu/auth/realms/openslice/protocol/openid-connect/token",
+            "scopes": {
+              "read": "read scope",
+              "write": "write scope"
+            }
+          }
+        }
+      }
+    }
+  }
+}

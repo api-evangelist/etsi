@@ -1,0 +1,159 @@
+generated: '2026-07-25'
+method: derived
+source: >-
+  every 4xx/5xx response across the 112 OpenAPI documents in openapi/ (8,682 error responses in
+  total), grouped by status code and by convention family
+format: mixed
+formats:
+- id: rfc9457-problem-details
+  media_type: application/problem+json
+  used_by: [nfv-sol, isg-mec, capif]
+  schema: ProblemDetails
+  fields:
+  - {name: type, type: 'string(uri)', description: URI reference identifying the problem type}
+  - {name: title, type: string, description: short human-readable summary of the problem type}
+  - {name: status, type: integer, description: HTTP status code}
+  - {name: detail, type: string, description: human-readable explanation specific to this occurrence}
+  - {name: instance, type: 'string(uri)', description: URI reference identifying this occurrence}
+  note: >-
+    ETSI GS NFV-SOL 013 mandates the RFC 7807 ProblemDetails structure for every NFV SOL error;
+    the ISG MEC service APIs adopt the same shape. 92 responses declare the media type
+    explicitly, and the ProblemDetails schema is referenced far more widely through shared
+    component files (SOL002SOL003_resp.yaml, SOL009_resp.yaml, SOL011_resp.yaml).
+- id: tmforum-error
+  media_type: application/json;charset=utf-8
+  used_by: [tmforum-openslice]
+  schema: Error
+  fields:
+  - {name: code, type: string, description: application-relevant error code}
+  - {name: reason, type: string, description: short explanation of the error}
+  - {name: message, type: string, description: more detail on the error}
+  - {name: status, type: string, description: HTTP error code extension}
+  - {name: referenceError, type: 'string(uri)', description: URI of documentation describing the error}
+  note: TM Forum Open API error envelope, used by all 25 ETSI OpenSlice TM Forum documents
+problems:
+- status: 400
+  occurrences: 1180
+  title: Bad Request
+  meaning: >-
+    malformed request syntax, an invalid attribute-based filter expression, or a body that
+    fails schema validation
+  remediation: validate the request against the operation schema; check the filter grammar in ETSI GS NFV-SOL 013
+  families: [openslice-tmf, nfv-sol002-sol003, mec, nfv-sol005, ngsi-ld]
+- status: 403
+  occurrences: 1102
+  title: Forbidden
+  meaning: the operation is not allowed for this consumer on this resource
+  remediation: check the granted OAuth scope (read vs write) or, for OpenCAPIF, the invoker's access control policy
+  families: [openslice-tmf, nfv-sol002-sol003, mec, nfv-sol005, nfv-sol009]
+- status: 401
+  occurrences: 1052
+  title: Unauthorized
+  meaning: missing, expired or invalid access token
+  remediation: obtain a bearer token from the deployment's authorization server; see authentication/etsi-authentication.yml
+  families: [openslice-tmf, nfv-sol002-sol003, nfv-sol005, mec, nfv-sol009]
+- status: 404
+  occurrences: 1038
+  title: Not Found
+  meaning: the resource identifier does not exist, or the API version in the URI is not supported
+  remediation: confirm the resource id and the /v<major> path segment
+  families: [openslice-tmf, mec, nfv-sol002-sol003, nfv-sol005, ngsi-ld]
+- status: 500
+  occurrences: 938
+  title: Internal Server Error
+  meaning: unexpected failure inside the implementation
+  remediation: retry with backoff; report against the implementation, not the ETSI specification
+  families: [openslice-tmf, nfv-sol002-sol003, nfv-sol005, nfv-sol009, nfv-sol012]
+- status: 405
+  occurrences: 903
+  title: Method Not Allowed
+  meaning: the HTTP method is not defined for this resource by the standard
+  remediation: consult the resource's method table in the deliverable
+  families: [openslice-tmf, nfv-sol002-sol003, nfv-sol005, nfv-sol009, nfv-sol012]
+- status: 409
+  occurrences: 588
+  title: Conflict
+  meaning: >-
+    the resource is in a state that forbids the operation — for NFV SOL typically a VNF/NS
+    instance in the wrong instantiation state, or a concurrent LCM operation already running
+  remediation: poll the operation-occurrence resource until the in-flight LCM operation completes
+  families: [openslice-tmf, nfv-sol002-sol003, nfv-sol005, nfv-sol009, ngsi-ld]
+- status: 406
+  occurrences: 505
+  title: Not Acceptable
+  meaning: the Accept header does not include a media type the operation can produce
+  remediation: send Accept application/json (or application/problem+json for errors)
+  families: [nfv-sol002-sol003, nfv-sol005, mec, nfv-sol009, nfv-sol012]
+- status: 503
+  occurrences: 463
+  title: Service Unavailable
+  meaning: the implementation is temporarily unable to serve the request
+  remediation: honour Retry-After where present and retry with backoff
+  families: [nfv-sol002-sol003, nfv-sol005, nfv-sol009, openslice-tmf, nfv-sol012]
+- status: 504
+  occurrences: 310
+  title: Gateway Timeout
+  meaning: an upstream component (VNFM, NFVO, MEC platform) did not respond in time
+  remediation: retry with backoff
+  families: [nfv-sol002-sol003, nfv-sol005, nfv-sol009, nfv-sol012, nfv-sol011]
+- status: 422
+  occurrences: 218
+  title: Unprocessable Entity
+  meaning: >-
+    the request is syntactically valid but semantically wrong for the target resource — used
+    across NFV SOL when a content type is indicated that the resource cannot process
+  remediation: check the resource-specific constraints in the deliverable
+  families: [nfv-sol002-sol003, nfv-sol009, nfv-sol005, mec, nfv-sol012]
+- status: 429
+  occurrences: 193
+  title: Too Many Requests
+  meaning: the implementation is rate limiting the consumer
+  remediation: back off and retry
+  note: >-
+    declared as a possible response by 193 operations, but no ETSI family defines a RateLimit or
+    Retry-After header contract to go with it — see conventions/etsi-conventions.yml
+  families: [mec, nfv-sol002-sol003, capif, nfv-sol005, camara]
+- status: 416
+  occurrences: 129
+  title: Range Not Satisfiable
+  meaning: an invalid byte Range was requested, typically on VNF/NS package artifact download
+  remediation: request a range inside the artifact's length
+  families: [nfv-sol002-sol003, nfv-sol005, mec]
+- status: 412
+  occurrences: 46
+  title: Precondition Failed
+  meaning: the If-Match ETag did not match — the resource changed since it was read
+  remediation: re-read the resource, take the new ETag and retry
+  families: [mec, nfv-sol002-sol003, nfv-sol009, nfv-sol005]
+- status: 501
+  occurrences: 27
+  title: Not Implemented
+  meaning: an optional operation the standard defines is not implemented by this deployment
+  remediation: >-
+    treat as a capability signal — the standard is a superset of what any single implementation
+    ships
+  families: [openslice-tmf, ngsi-ld, camara]
+- status: 415
+  occurrences: 15
+  title: Unsupported Media Type
+  meaning: the request Content-Type is not supported by the operation
+  remediation: send application/json (or the declared patch media type)
+  families: [mec, capif]
+- status: 413
+  occurrences: 7
+  title: Content Too Large
+  meaning: the request body exceeds the size the implementation accepts
+  families: [capif, openslice-tmf]
+- status: 411
+  occurrences: 6
+  title: Length Required
+  meaning: Content-Length was omitted where the implementation requires it
+  families: [capif]
+- status: 414
+  occurrences: 5
+  title: URI Too Long
+  families: [mec, capif]
+docs:
+- https://www.etsi.org/technologies/nfv
+- https://www.etsi.org/technologies/multi-access-edge-computing
+- https://osl.etsi.org/documentation/latest/

@@ -1,0 +1,33 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for ETSI NFV SOL009 NFV-MANO management
+  version: 1.0.0
+extends: openapi/nfv-sol009/SOL009/NFVManoConfigurationAndInformationManagement/NFVManoConfigurationAndInformationManagement.yaml
+x-apievangelist:
+  generated: '2026-07-25'
+  method: generated
+  provider: etsi
+  family: nfv-sol009
+  family_documents: 9
+  family_operations: 58
+  note: This overlay records API Evangelist enrichment metadata for the whole nfv-sol009 family in this
+    repo. It never mutates the harvested ETSI specification, which is published BSD-3-Clause on ETSI Forge
+    / ETSI Labs.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: etsi
+    x-apievangelist-family: nfv-sol009
+    x-apievangelist-documentation: https://www.etsi.org/technologies/nfv
+    x-apievangelist-license: BSD-3-Clause
+    x-apievangelist-license-url: https://forge.etsi.org/legal-matters
+    x-apievangelist-tags:
+    - NFV
+    - MANO
+    - Observability
+    x-apievangelist-conventions: conventions/etsi-conventions.yml
+    x-apievangelist-errors: errors/etsi-problem-types.yml
+    x-apievangelist-authentication: authentication/etsi-authentication.yml
+    x-apievangelist-lifecycle: lifecycle/etsi-lifecycle.yml
+    x-apievangelist-events: asyncapi/etsi-webhooks.yml
+    x-apievangelist-idempotency-supported: false

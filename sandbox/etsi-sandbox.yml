@@ -1,0 +1,75 @@
+generated: '2026-07-25'
+method: searched
+source: >-
+  https://try-mec.etsi.org/, https://mecwiki.etsi.org/index.php?title=MEC_Sandbox_Help and
+  https://portal.openslice.eu/ — probed live
+summary: >-
+  ETSI runs two genuinely public try-it environments: the ETSI MEC Sandbox, a hosted emulation of
+  4G/5G/Wi-Fi networks that answers the real ISG MEC service APIs, and the ETSI OpenSlice demo
+  portal, which answers the TM Forum Open APIs anonymously. There are no test keys, test cards or
+  magic identifiers to publish — neither environment issues credentials of that kind.
+environments:
+- id: mec-sandbox
+  name: ETSI MEC Sandbox
+  url: https://try-mec.etsi.org/
+  help: https://mecwiki.etsi.org/index.php?title=MEC_Sandbox_Help
+  repository: https://labs.etsi.org/rep/mec/etsi-mec-sandbox
+  cost: free
+  access: account required
+  probe:
+    web_front_end: 200 anonymously
+    api_paths: 401 until signed in
+    note: free-but-account-gated rather than open
+  console: Swagger UI try-it, per service API
+  apis_served: [MEC 011, MEC 012, MEC 013, MEC 021, MEC 028, MEC 030, MEC 040]
+  scenarios: >-
+    emulated 4G, 5G and Wi-Fi network scenarios with moving user equipment, so location, radio
+    network information and mobility events actually change while you call the API
+  version_note: >-
+    version 1.10 added alignment with 3GPP CAPIF and initial 3GPP EDGEAPP support
+  test_values:
+    published: false
+    note: >-
+      the sandbox generates its own emulated UEs, zones and access points per session; ETSI
+      publishes no fixed magic identifiers, so none are recorded here
+- id: openslice-demo
+  name: ETSI OpenSlice public demo portal
+  url: https://portal.openslice.eu/
+  docs: https://osl.etsi.org/documentation/latest/naas/exposed_apis/
+  api_base: https://portal.openslice.eu/tmf-api
+  cost: free
+  access: anonymous for reads
+  probe:
+    example: GET https://portal.openslice.eu/tmf-api/serviceCatalogManagement/v4/serviceSpecification
+    status: 200 without a token
+  console:
+    swagger_ui: https://portal.openslice.eu/swagger-ui/index.html
+    spec_index: https://portal.openslice.eu/tmf-api/v3/api-docs/swagger-config
+    note: 25 live OpenAPI documents, harvested verbatim into openapi/openslice-tmf/
+  authorization:
+    issuer: https://portal.openslice.eu/auth/realms/openslice
+    software: Keycloak
+    scopes: [read, write]
+    note: >-
+      the specs declare OAuth 2.0 authorization code, and the Swagger UI uses the `openapi`
+      realm scope, but the demo answers read paths without a token
+  test_values:
+    published: false
+    note: >-
+      the demo carries real example service specifications (for instance the "4NEST" GST
+      example) rather than a published fixture set
+- id: forge-labs-gitlab
+  name: ETSI Forge and ETSI Labs GitLab REST APIs
+  urls: [https://forge.etsi.org/rep/api/v4, https://labs.etsi.org/rep/api/v4]
+  cost: free
+  access: anonymous read
+  probe:
+    example: GET https://forge.etsi.org/rep/api/v4/projects
+    status: 200 without a token
+  note: >-
+    not a sandbox in the usual sense, but it is the anonymous machine-readable entry point to
+    every ETSI specification repository — the practical way an agent discovers ETSI artefacts
+not_applicable:
+  test_keys: ETSI issues no test/live key pairs
+  test_cards: not a payments provider
+  test_clocks: not offered
