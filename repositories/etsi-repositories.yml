@@ -1,0 +1,292 @@
+generated: '2026-07-30'
+method: searched
+source: https://github.com/etsi-forge
+type: Repositories
+organization: etsi-forge
+summary:
+  total: 22
+  archived: 0
+  by_maturity:
+    unclassified: 22
+repositories:
+- name: cyber.103457_TCDI
+  url: https://github.com/etsi-forge/cyber.103457_TCDI
+  description: 'ETSI TS103457 "Trusted Cross-Domain Interface: Interface to offload sensitive functions
+    to a trusted domain" Example implementation and demonstrator - READ ONLY - Contribute at https://forge.etsi.org/rep/cyber/103457_TCDI'
+  maturity: unclassified
+  stars: 0
+  forks: 0
+  open_issues: 0
+  archived: false
+  created: '2023-03-29'
+  updated: '2023-03-29'
+  license: BSD-3-Clause
+  topics: []
+- name: cyber.103744_QHKEX
+  url: https://github.com/etsi-forge/cyber.103744_QHKEX
+  description: Informative reference implementation as reported in Annex C of ETSI TS 103 744, "CYBER;
+    Quantum-safe Hybrid Key Exchanges. The code is not intended for production use. It is intended to
+    be a reference implementation for test. - READ ONLY - Contribute at https://forge.etsi.org/rep/cyber/103744_QHKEX
+  maturity: unclassified
+  stars: 1
+  forks: 0
+  open_issues: 1
+  archived: false
+  created: '2020-12-15'
+  updated: '2026-03-25'
+  license: BSD-3-Clause
+  topics: []
+- name: int.sccas-con
+  url: https://github.com/etsi-forge/int.sccas-con
+  description: Conformance Test Specifications for the SCC-AS Services
+  maturity: unclassified
+  stars: 0
+  forks: 0
+  open_issues: 0
+  archived: false
+  created: '2022-03-10'
+  updated: '2022-11-25'
+  license: BSD-3-Clause
+  topics: []
+- name: mec.gs010-2-app-pkg-lcm-api
+  url: https://github.com/etsi-forge/mec.gs010-2-app-pkg-lcm-api
+  description: Application package, lifecycle and granting management API – ETSI MEC 010-2 - READ ONLY
+    - Contribute at  https://forge.etsi.org/rep/mec/gs010-2-app-pkg-lcm-api
+  maturity: unclassified
+  stars: 1
+  forks: 0
+  open_issues: 0
+  archived: false
+  created: '2020-12-08'
+  updated: '2021-02-02'
+  license: BSD-3-Clause
+  topics: []
+- name: mec.gs011-app-enablement-api
+  url: https://github.com/etsi-forge/mec.gs011-app-enablement-api
+  description: Mobile Edge Platform Application Enablement, ETSI MEC GS 011 mirror – READ ONLY – Contribute
+    at https://forge.etsi.org.
+  maturity: unclassified
+  stars: 2
+  forks: 0
+  open_issues: 0
+  archived: false
+  created: '2018-03-20'
+  updated: '2021-12-16'
+  license: BSD-3-Clause
+  topics: []
+- name: mec.gs012-rnis-api
+  url: https://github.com/etsi-forge/mec.gs012-rnis-api
+  description: Radio Network Information API, ETSI MEC GS 012 mirror - READ ONLY - Contribute at https://forge.etsi.org
+  maturity: unclassified
+  stars: 1
+  forks: 1
+  open_issues: 0
+  archived: false
+  created: '2018-03-22'
+  updated: '2021-12-16'
+  license: BSD-3-Clause
+  topics: []
+- name: mec.gs013-location-api
+  url: https://github.com/etsi-forge/mec.gs013-location-api
+  description: Location API, ETSI MEC GS 013 mirror - READ ONLY - Contribute at https://forge.etsi.org
+  maturity: unclassified
+  stars: 0
+  forks: 0
+  open_issues: 1
+  archived: false
+  created: '2018-03-22'
+  updated: '2022-09-23'
+  license: BSD-3-Clause
+  topics: []
+- name: mec.gs014-ue-identity-api
+  url: https://github.com/etsi-forge/mec.gs014-ue-identity-api
+  description: UE Identity API, ETSI MEC GS 014 mirror - READ ONLY - Contribute at https://forge.etsi.org.
+  maturity: unclassified
+  stars: 0
+  forks: 0
+  open_issues: 0
+  archived: false
+  created: '2018-03-22'
+  updated: '2021-12-16'
+  license: BSD-3-Clause
+  topics: []
+- name: mec.gs015-bandwith-mgmt-api
+  url: https://github.com/etsi-forge/mec.gs015-bandwith-mgmt-api
+  description: Band Management API, ETSI MEC GS 015 mirror - READ ONLY - Contribute at https://forge.etsi.org.
+  maturity: unclassified
+  stars: 0
+  forks: 0
+  open_issues: 0
+  archived: false
+  created: '2018-03-22'
+  updated: '2021-12-16'
+  license: BSD-3-Clause
+  topics: []
+- name: mec.gs016-ue-app-api
+  url: https://github.com/etsi-forge/mec.gs016-ue-app-api
+  description: UE Application Interface API, ETSI MEC GS 016 mirror - READ ONLY - Contribute at https://forge.etsi.org.
+  maturity: unclassified
+  stars: 0
+  forks: 0
+  open_issues: 0
+  archived: false
+  created: '2018-03-22'
+  updated: '2022-04-28'
+  license: BSD-3-Clause
+  topics: []
+- name: mec.gs021-amsi-api
+  url: https://github.com/etsi-forge/mec.gs021-amsi-api
+  description: Application Mobility Service API – ETSI MEC 021 - READ ONLY - Contribute at https://forge.etsi.org/rep/mec/gs021-amsi-api
+  maturity: unclassified
+  stars: 0
+  forks: 0
+  open_issues: 0
+  archived: false
+  created: '2020-12-08'
+  updated: '2021-02-02'
+  license: BSD-3-Clause
+  topics: []
+- name: mec.gs028-wai-api
+  url: https://github.com/etsi-forge/mec.gs028-wai-api
+  description: MEC WLAN Information API - ETSI MEC GS 028 - mirror - READ ONLY - Contribute at https://forge.etsi.org/rep/mec/gs028-wai-api
+  maturity: unclassified
+  stars: 0
+  forks: 0
+  open_issues: 0
+  archived: false
+  created: '2020-03-25'
+  updated: '2022-09-23'
+  license: BSD-3-Clause
+  topics: []
+- name: mec.gs030-vis-api
+  url: https://github.com/etsi-forge/mec.gs030-vis-api
+  description: V2X Information Service API – ETSI MEC 030 - Contribute at https://forge.etsi.org/rep/mec/gs030-vis-api
+  maturity: unclassified
+  stars: 0
+  forks: 0
+  open_issues: 0
+  archived: false
+  created: '2020-12-08'
+  updated: '2021-02-02'
+  license: BSD-3-Clause
+  topics: []
+- name: mwt.plugtests-3
+  url: https://github.com/etsi-forge/mwt.plugtests-3
+  description: Tools and test suites developed for the 2nd and 3rd ETSI mWT SDN Plugtests - READ ONLY
+    - Contribute at https://forge.etsi.org/rep/sdn/mwt/plugtests-3
+  maturity: unclassified
+  stars: 0
+  forks: 0
+  open_issues: 0
+  archived: false
+  created: '2020-12-17'
+  updated: '2020-12-17'
+  license: BSD-3-Clause
+  topics:
+  - eth
+  - lldp
+  - mwt
+  - newman
+  - restconf
+  - sdn
+- name: NFV-SOL006
+  url: https://github.com/etsi-forge/NFV-SOL006
+  description: GS NFV SOL 006 - NFV Descriptors based on YANG Specification - READ ONLY - Contribute at
+    https://forge.etsi.org/rep/nfv/SOL006
+  maturity: unclassified
+  stars: 1
+  forks: 1
+  open_issues: 7
+  archived: false
+  created: '2019-09-24'
+  updated: '2023-02-16'
+  license: BSD-3-Clause
+  topics: []
+- name: NFV-SOL009
+  url: https://github.com/etsi-forge/NFV-SOL009
+  description: OpenAPIs for ETSI GS NFV-SOL 009, RESTful protocols specification for the management of
+    NFV-MANO - READ ONLY - Contribute at https://forge.etsi.org/rep/nfv/SOL009
+  maturity: unclassified
+  stars: 0
+  forks: 0
+  open_issues: 0
+  archived: false
+  created: '2019-10-08'
+  updated: '2026-06-04'
+  license: BSD-3-Clause
+  topics: []
+- name: NFV-SOL011
+  url: https://github.com/etsi-forge/NFV-SOL011
+  description: OpenAPIs for ETSI GS NFV-SOL 011, RESTful protocols specification for the Or-Or Reference
+    Point - READ ONLY - Contribute at https://forge.etsi.org/rep/nfv/SOL011
+  maturity: unclassified
+  stars: 0
+  forks: 1
+  open_issues: 0
+  archived: false
+  created: '2019-10-08'
+  updated: '2023-02-14'
+  license: BSD-3-Clause
+  topics: []
+- name: NFV-SOL012
+  url: https://github.com/etsi-forge/NFV-SOL012
+  description: OpenAPIs for ETSI GS NFV-SOL 012, RESTful protocols specification for the Policy Management
+    Interface - READ ONLY - Contribute at https://forge.etsi.org/rep/nfv/SOL012
+  maturity: unclassified
+  stars: 0
+  forks: 0
+  open_issues: 0
+  archived: false
+  created: '2019-10-08'
+  updated: '2023-02-14'
+  license: BSD-3-Clause
+  topics: []
+- name: playground
+  url: https://github.com/etsi-forge/playground
+  description: 'READ ONLY - This repository is a replicate of Playground project "Test and experiments
+    with Forge tools" - No pull requests or issues will be accepted here. '
+  maturity: unclassified
+  stars: 0
+  forks: 0
+  open_issues: 0
+  archived: false
+  created: '2018-03-08'
+  updated: '2018-07-13'
+  license: NOASSERTION
+  topics: []
+- name: set.ts-102-241-UICC-API
+  url: https://github.com/etsi-forge/set.ts-102-241-UICC-API
+  description: 'TS 102 241 UICC API for Java Card mirror - READ ONLY - Contribute at https://forge.etsi.org. '
+  maturity: unclassified
+  stars: 0
+  forks: 0
+  open_issues: 0
+  archived: false
+  created: '2022-02-28'
+  updated: '2022-11-27'
+  license: BSD-3-Clause
+  topics: []
+- name: set.ts-102-268-uicc-api-testspec
+  url: https://github.com/etsi-forge/set.ts-102-268-uicc-api-testspec
+  description: Testspecs for ETSI TS 102 268 UICC API - READ ONLY - Contribute at https://forge.etsi.org/rep/scp/ts-102-268-uicc-api-testspec
+  maturity: unclassified
+  stars: 0
+  forks: 0
+  open_issues: 0
+  archived: false
+  created: '2021-06-11'
+  updated: '2023-02-21'
+  license: BSD-3-Clause
+  topics: []
+- name: set.ts-103-115-hci-api-testspec
+  url: https://github.com/etsi-forge/set.ts-103-115-hci-api-testspec
+  description: Testspecs for ETSI TS 103 115 HCI API - READ ONLY - Contribute at https://forge.etsi.org/rep/scp/ts-103-115-hci-api-testspec
+  maturity: unclassified
+  stars: 0
+  forks: 0
+  open_issues: 0
+  archived: false
+  created: '2021-06-28'
+  updated: '2021-06-28'
+  license: BSD-3-Clause
+  topics: []

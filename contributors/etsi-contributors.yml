@@ -1,0 +1,155 @@
+generated: '2026-07-30'
+method: searched
+source: https://github.com/etsi-forge
+type: Contributors
+organization: etsi-forge
+summary:
+  contributors: 18
+  repositories_checked: 22
+  total_contributions: 619
+contributors:
+- github_id: mjethanandani
+  contributions: 137
+  repositories:
+  - NFV-SOL006
+  - playground
+  repository_count: 2
+- github_id: gbernini
+  contributions: 127
+  repositories:
+  - NFV-SOL009
+  - NFV-SOL011
+  - NFV-SOL012
+  repository_count: 3
+- github_id: michele-carignani
+  contributions: 100
+  repositories:
+  - NFV-SOL006
+  - NFV-SOL009
+  - NFV-SOL011
+  - NFV-SOL012
+  - mec.gs010-2-app-pkg-lcm-api
+  - mec.gs011-app-enablement-api
+  - mec.gs012-rnis-api
+  - mec.gs013-location-api
+  - mec.gs014-ue-identity-api
+  - mec.gs015-bandwith-mgmt-api
+  - mec.gs016-ue-app-api
+  - mec.gs021-amsi-api
+  - mec.gs028-wai-api
+  - mec.gs030-vis-api
+  - mwt.plugtests-3
+  - playground
+  repository_count: 16
+- github_id: elikraja
+  contributions: 58
+  repositories:
+  - mec.gs010-2-app-pkg-lcm-api
+  - mec.gs011-app-enablement-api
+  - mec.gs012-rnis-api
+  - mec.gs013-location-api
+  - mec.gs014-ue-identity-api
+  - mec.gs015-bandwith-mgmt-api
+  - mec.gs016-ue-app-api
+  - mec.gs021-amsi-api
+  - mec.gs028-wai-api
+  - mec.gs030-vis-api
+  repository_count: 10
+- github_id: etsi-cti-admin
+  contributions: 50
+  repositories:
+  - NFV-SOL006
+  - NFV-SOL009
+  - NFV-SOL011
+  - NFV-SOL012
+  - cyber.103744_QHKEX
+  - mec.gs010-2-app-pkg-lcm-api
+  - mec.gs011-app-enablement-api
+  - mec.gs012-rnis-api
+  - mec.gs013-location-api
+  - mec.gs014-ue-identity-api
+  - mec.gs015-bandwith-mgmt-api
+  - mec.gs016-ue-app-api
+  - mec.gs021-amsi-api
+  - mec.gs028-wai-api
+  - mec.gs030-vis-api
+  - set.ts-103-115-hci-api-testspec
+  repository_count: 16
+- github_id: roymx
+  contributions: 32
+  repositories:
+  - mec.gs012-rnis-api
+  - mec.gs013-location-api
+  - mec.gs015-bandwith-mgmt-api
+  - mec.gs016-ue-app-api
+  - mec.gs028-wai-api
+  repository_count: 5
+- github_id: ramerama
+  contributions: 30
+  repositories:
+  - NFV-SOL006
+  repository_count: 1
+- github_id: PreethikaP
+  contributions: 28
+  repositories:
+  - NFV-SOL006
+  repository_count: 1
+- github_id: lovele0107
+  contributions: 16
+  repositories:
+  - mec.gs013-location-api
+  - mec.gs016-ue-app-api
+  - mec.gs028-wai-api
+  repository_count: 3
+- github_id: manastasova
+  contributions: 10
+  repositories:
+  - cyber.103744_QHKEX
+  repository_count: 1
+- github_id: reinaortega
+  contributions: 8
+  repositories:
+  - NFV-SOL006
+  - cyber.103457_TCDI
+  - int.sccas-con
+  - set.ts-102-241-UICC-API
+  - set.ts-102-268-uicc-api-testspec
+  repository_count: 5
+- github_id: mattcampagna
+  contributions: 5
+  repositories:
+  - cyber.103744_QHKEX
+  repository_count: 1
+- github_id: hammadzaf
+  contributions: 4
+  repositories:
+  - mec.gs013-location-api
+  - mec.gs016-ue-app-api
+  repository_count: 2
+- github_id: mrehanabbasi
+  contributions: 4
+  repositories:
+  - mec.gs015-bandwith-mgmt-api
+  - mec.gs016-ue-app-api
+  repository_count: 2
+- github_id: shlomihadadsaguna
+  contributions: 3
+  repositories:
+  - mec.gs011-app-enablement-api
+  repository_count: 1
+- github_id: wol190
+  contributions: 3
+  repositories:
+  - mec.gs011-app-enablement-api
+  repository_count: 1
+- github_id: zakkirkharim
+  contributions: 2
+  repositories:
+  - mec.gs011-app-enablement-api
+  repository_count: 1
+- github_id: smnice
+  contributions: 2
+  repositories:
+  - mec.gs013-location-api
+  - playground
+  repository_count: 2
