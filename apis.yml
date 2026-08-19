@@ -43,7 +43,7 @@ tags:
 - Broadband
 created: '2026-07-25'
 modified: '2026-07-25'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: etsi:mec-011-edge-platform-application-enablement
   name: ETSI MEC 011 Edge Platform Application Enablement API
