@@ -19,6 +19,18 @@ description: 'ETSI, the European Telecommunications Standards Institute, is a no
   while the finished standards and their OpenAPI are open to anyone. ETSI itself is not a GSMA Open Gateway
   operator and not a CAMARA member organisation; it reaches CAMARA through liaison and through its own
   open-source code.'
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
 - Telecommunications
