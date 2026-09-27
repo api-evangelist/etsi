@@ -63,7 +63,7 @@ tags:
 - CAPIF
 - NGSI-LD
 - IoT
-- Open-Source
+- Open Source
 - Europe
 - OpenAPI
 - Network Slicing
@@ -89,6 +89,7 @@ tags_raw:
 - OpenAPI
 - Network Slicing
 - Broadband
+- Open-Source
 created: '2026-07-25'
 modified: '2026-07-25'
 specificationVersion: '0.23'
